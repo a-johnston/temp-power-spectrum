@@ -1,19 +1,28 @@
 # Analytical CMB temperature power spectrum through fourth order (radiation-only universe)
 
 - `problem_statement.tex`: the task.
-- `approach/approach.tex`: the proposed approach. It covers the exact "temperature-frame" reformulation, the primordial state and initial data, the construction of the observable, the second- and third-order plan, the validation matrix, open items and risks. Build it with `latexmk -pdf` or `tectonic`.
-- `approach/VALIDATION.md`: findings from three independent subagents (a blind re-derivation, a physics referee and a mutation-testing code audit), and how each was resolved.
-- `verification/`: exact SymPy checks. Run them all with `verification/run_all.sh` (about 10 minutes; the closed-form step is the slow one).
+- **`PLAN.md`**: the unified plan, merging the orange and purple branches. It is authoritative
+  where they differ.
+- **`derivations/UNIFIED_DERIVATION.md`**: the execution of the plan, through third order in the
+  map and fourth order in `C_ℓ`, with a status ledger. Each result is marked as evaluated, an
+  exact integral representation, or open.
+- `solution/`: exact SymPy checks for the unified derivation. Run them with `solution/run_all.sh`.
+  The exact sources are in `solution/results/`.
 
-| Script | What it establishes |
+Earlier material, kept for provenance (the unified documents supersede it):
+
+- orange: `APPROACH.md`, `derivations/{QUADRATIC,CUBIC}_INITIAL_DATA.md`, `OFFSHELL_VALIDATION.md`,
+  `reviews/`, and `validation/` (run with `python -B -m unittest discover -s validation -p 'check_*.py'`);
+- purple: `approach/approach.tex`, `approach/VALIDATION.md`, and `verification/` (run with
+  `verification/run_all.sh`).
+
+| `solution/` script | What it establishes |
 |---|---|
-| `check_exact_lemmas.py` | L1 (continuity ⇔ expansion-free; Euler is automatic), L2 (exact ray and redshift equations), L3 (conformal map, T_obs = T_fluid(o) Ẽ_o/Ẽ_e), L4 (Hamiltonian constraint) |
-| `check_fw_conformal.py` | L5: Fermi–Walker transport in g ⇔ parallel transport in the temperature frame |
-| `check_field_equations_generic.py` | exact field equations for generic γ with t-independent det (proof via symbolic 2-jets) |
-| `check_exact_field_equations.py` | the same identities, fully symbolic, on a restricted det-1 family |
-| `check_first_order.py` | first-order solution in two gauges (all 10 Einstein equations); exact equivalence of the transfer functions for all l |
-| `check_initial_data_gradient.py` | nonlinear initial data at O(t²), exact in ζ, with the momentum constraint satisfied |
-| `normalization_expansion.py` | Θ⁽¹⁾, Θ⁽²⁾, Θ⁽³⁾ in terms of the line-of-sight exponent, checked on exact discrete skies with negative controls |
-| `transfer_closed_form.py L...` | closed-form T_l in Si/Ci, verified by exact differentiation; output in `results/` |
-
-**Status:** Stages 0–1 are done and verified: the exact framework, the full first order and C_l⁽¹¹⁾. Stages 2–5 are specified but not yet executed: the second- and third-order kernels, Θ⁽²⁾ and Θ⁽³⁾, C_l⁽²²⁾ and C_l⁽¹³⁾, and the monochromatic specialisation. See §8–9 of `approach.tex`.
+| `check_evolution_form.py` | mixed trace-free evolution form (the σσ terms cancel), on generic 2-jets |
+| `first_order_engine_check.py` | the multilinear engine reproduces the first-order solution for a generic direction |
+| `second_order.py` | exact second-order sources and linear operators (written to `results/`) |
+| `second_order_consistency.py N` | all ten equations at second order, as exact Taylor series through `O(t^{N−2})`, for general `K` and `K = 0` |
+| `check_green.py` | lapse and tensor Green functions, `K → 0` limits, the regular homogeneous mode |
+| `check_ward_dilation.py` | dilation Ward identity for second-order fields, in closed form, with negative controls |
+| `third_order.py` | exact third-order sources at `(k, q, −q)` (written to `results/`); operators identical to second order |
+| `check_observable_expansion.py` | ray, emission root, moving endpoint, clock and composition formulas through third order, for arbitrary fields |
