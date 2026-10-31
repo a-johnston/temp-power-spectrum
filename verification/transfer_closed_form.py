@@ -124,7 +124,6 @@ if __name__ == "__main__":
     import mpmath as mp
     for l in ls:
         T = transfer(l)
-        assert sp.simplify(sp.im(T)) == 0 or True
         print(f"[ok] l={l}: antiderivative verified by exact differentiation; observer-endpoint log/poles cancel")
         print(f"T_{l} =", T)
         # supplementary (NOT part of the derivation): high-precision spot check vs quadrature

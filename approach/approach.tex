@@ -1,0 +1,592 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs,longtable,array}
+\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue]{hyperref}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\Tref}{\mathcal{T}}
+\newcommand{\eps}{\epsilon}
+\newcommand{\nhat}{\hat n}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\sky}[1]{\langle #1\rangle_{\Omega}}
+\newcommand{\ens}[1]{\langle #1\rangle}
+\newcommand{\status}[1]{\textsf{[#1]}}
+
+\title{Proposed approach: analytical temperature power spectrum\\
+through fourth order in a radiation-only universe}
+\author{Draft for review}
+\date{2026-10-31}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We propose an exact reformulation of the problem that removes most of the
+bookkeeping that usually makes higher-order CMB calculations error-prone.
+The reformulation uses the fluid's own velocity potential and temperature as
+coordinates and conformal factor. For an irrotational radiation fluid, the
+observed temperature then becomes an \emph{exact} single line integral of
+the shear of a conformally rescaled synchronous metric:
+\[
+T_{\rm obs}(\nhat)=T_{\rm fluid}(o)\,
+\exp\Big[-\!\int_{t_e}^{t_o}\!\sigma_{ij}e^ie^j\,\dd t\Big].
+\]
+The observer's local temperature cancels exactly in the normalised map, so
+endpoint, observer, Doppler, Sachs--Wolfe and integrated Sachs--Wolfe effects
+are no longer separate pieces that must be combined consistently. They come
+out automatically from one expression, evaluated at events fixed by physical
+labels. The plan has five stages: exact lemmas; the perturbative solution
+through $O(\eps^3)$ with nonlinear Gaussian $\zeta$ initial data; expansion
+of the observable; angular and ensemble reduction to $C_\ell^{(11)}$,
+$C_\ell^{(22)}$ and $C_\ell^{(13)}$; and monochromatic specialisation. It
+comes with a validation matrix in which every check is exact symbolic
+algebra.
+Stage~0 (exact lemmas) and Stage~1 (complete first order, including the
+closed-form transfer function) are \emph{implemented and verified} in
+\texttt{verification/}. The remaining stages are specified here in enough
+detail to execute. The open items are listed explicitly in
+\S\ref{sec:open}.
+\end{abstract}
+
+\tableofcontents
+
+%======================================================================
+\section{Reading of the problem and scope}
+%======================================================================
+
+The problem asks for an end-to-end calculation that has, to our knowledge,
+not been completed in the literature for any cosmology. The full
+third-order map $\Theta^{(3)}$ including all photon, endpoint, observer and
+normalisation terms, and hence the one-loop $C_\ell$, is new. Second-order
+CMB results exist (Bartolo--Matarrese--Riotto; Pitrou--Uzan--Bernardeau;
+Huang--Vernizzi; Fidler et al.; the SONG code). They are, however, built on
+Thomson-scattering Boltzmann hierarchies and numerics, which are irrelevant
+or forbidden here. The problem as posed is simpler in two decisive ways that
+we exploit:
+\begin{enumerate}
+\item the test photons are collisionless from emission onward, so ``Boltzmann''
+reduces to the null-geodesic equation;
+\item the matter is a single barotropic, conformally invariant perfect fluid
+($P=\rho/3$, $\rho=\alpha T^4$), which admits an exact velocity-potential
+description.
+\end{enumerate}
+It is harder in another: all three orders must be analytic, with finite
+times and every boundary term kept.
+
+\paragraph{Deliverable structure.} The final answer is
+\[
+C_\ell=\eps^2C_\ell^{(11)}+\eps^4\Big[\tfrac14 C_\ell^{(22)}+\tfrac13\operatorname{Re}C_\ell^{(13)}\Big],
+\]
+for $\ell\ge2$. The definitions of $C_\ell$ for $\ell=0,1$ are discussed in
+\S\ref{sec:dipole}. Each $C^{(rs)}_\ell$ is to be given as an explicit
+functional of the primordial spectrum. It is a finite-dimensional definite
+integral with closed-form (elementary, $\operatorname{Si}$/$\operatorname{Ci}$)
+integrands where possible and explicitly nested integral representations
+where not. After that, the monochromatic case is specialised.
+
+%======================================================================
+\section{Exact reformulation (Stage 0)}\label{sec:exact}
+%======================================================================
+
+Units $c=1$. The background is $a(t)=a_1 t$ in conformal time $t$ and
+$\bar T(t)=\Tref/(a_1t)$, with $\Tref$ an arbitrary constant. The Friedmann
+equation $\mathcal H^2=\tfrac{8\pi G}{3}a^2\rho$ fixes
+$8\pi G\alpha\Tref^4=3a_1^2$.
+
+\subsection{Velocity potential and temperature frame}
+
+\begin{lemma}[Irrotational radiation fluid]\label{lem:kelvin}
+For $P=\rho/3$, $\rho=\alpha T^4$ (zero chemical potential), the relativistic
+Euler equation is
+$a_\mu\equiv u^\nu\nabla_\nu u_\mu=-h_\mu{}^\nu\partial_\nu\ln T$.
+For $w_\mu\equiv Tu_\mu$ this is equivalent to $u^\mu(\dd w)_{\mu\nu}=0$.
+Then $\mathcal L_u\dd w=\dd(i_u\dd w)=0$, so the vorticity 2-form $\dd w$ is
+Lie-dragged. If $\dd w=0$ on the initial data, then $\dd w=0$ everywhere at
+every order, and $Tu_\mu=-\Tref\,\partial_\mu t$ for a scalar $t$, the
+velocity-potential time.
+\end{lemma}
+\noindent
+(This is a one-line identity: $u^\mu(\partial_\mu w_\nu-\partial_\nu w_\mu)
+=Ta_\nu+h_\nu{}^\mu\partial_\mu T$.) Irrotationality of the initial data is
+part of our definition of ``no independent higher-order modes''
+(Definition~\ref{def:ic}). It is \emph{not} automatic: the constant-vorticity
+mode of radiation is regular as $t\to0$ and must be excluded explicitly.
+
+Take coordinates $(t,X^i)$, where $X^i$ are fluid labels ($u^\mu\partial_\mu
+X^i=0$). Because $u_\mu\propto\partial_\mu t$, the shift vanishes and
+\begin{equation}\label{eq:metric}
+g=N^2\big(-\dd t^2+\gamma_{ij}(t,X)\,\dd X^i\dd X^j\big),\qquad
+N=\frac{\Tref}{T_{\rm phys}},\qquad u=N^{-1}\partial_t .
+\end{equation}
+This is \emph{exact}. We call $\tilde g\equiv g/N^2$ the \emph{temperature
+frame}. In it, the fluid worldlines are synchronous and comoving. The
+background is $N=a_1t$, $\gamma_{ij}=\delta_{ij}$. Every coordinate here is a
+physical label: $t$ is the fluid's velocity potential (normalised by
+$t\to0$ as $T\to\infty$), and $X^i$ labels fluid elements. The only residual
+freedom is a time-independent relabelling $X\mapsto X'(X)$, which we fix
+through the initial data (\S\ref{sec:ic}).
+
+\begin{lemma}[Continuity $\Leftrightarrow$ expansion-free temperature frame]\label{lem:L1}
+For the metric \eqref{eq:metric} with arbitrary $N,\gamma_{ij}$ and the fluid
+at rest with $\rho\propto N^{-4}$, the spatial components of
+$\nabla_\mu T^{\mu\nu}$ vanish identically, i.e.\ Euler holds automatically.
+Moreover
+$\nabla_\mu T^{\mu}{}_t=-\tfrac23\rho\,\partial_t\ln\det\gamma$.
+Hence $\det\gamma_{ij}(t,X)=\det\gamma_{ij}(0,X)$, and
+$\sigma_{ij}\equiv\tfrac12\partial_t\gamma_{ij}$ is exactly traceless.
+\end{lemma}
+\status{verified: \texttt{check\_exact\_lemmas.py}, L1, arbitrary $N$ and six arbitrary $\gamma_{ij}$}
+
+\begin{lemma}[Exact redshift]\label{lem:redshift}
+(a) Under $g=N^2\tilde g$, null geodesics are preserved, with
+$\tilde p^\mu=N^2p^\mu$, $\tilde u^\mu=Nu^\mu$, and so $E=-g(u,p)=\tilde
+E/N$. (b) In the synchronous metric $\tilde g$,
+$\tilde\Gamma^t{}_{t\mu}=0$ and $\tilde\Gamma^t{}_{ij}=\sigma_{ij}$, so
+$\dd\ln\tilde E/\dd t=-\sigma_{ij}e^ie^j$ with $e^i=\tilde p^i/\tilde p^t$
+and $\gamma_{ij}e^ie^j=1$. The ray direction obeys
+\begin{equation}\label{eq:ray}
+\frac{\dd e^i}{\dd t}=-2\sigma^i{}_je^j-{}^{(\gamma)}\Gamma^i{}_{jk}e^je^k+e^i\sigma_{jk}e^je^k,
+\qquad \frac{\dd X^i}{\dd t}=e^i.
+\end{equation}
+(c) Consequently, with $N_e=\Tref/T_\star$ at emission:
+\begin{equation}\label{eq:Tobs}
+T_{\rm obs}(\nhat)=T_\star\frac{E_o}{E_e}=T_{\rm fluid}(o)\,
+\exp\Big[-\int_{t_e(\nhat)}^{t_o}\sigma_{ij}\big(t,X(t)\big)e^ie^j\,\dd t\Big].
+\end{equation}
+\end{lemma}
+\status{verified: L2, L3}. Isotropic Planck emission in the fluid frame
+together with Liouville's theorem makes $T_{\rm obs}$ frequency-independent,
+so \eqref{eq:Tobs} is the complete observable.
+
+\begin{remark}[What \eqref{eq:Tobs} buys]
+$T_{\rm fluid}(o)$ is direction-independent, so it cancels \emph{exactly} in
+$\Theta=T_{\rm obs}/\sky{T_{\rm obs}}-1$, at every order. All
+emission-surface, observer and normalisation effects reduce to:
+(i) the endpoint $t_e(\nhat)$ fixed by $N(t_e,X(t_e))=\Tref/T_\star$;
+(ii) the observation event $t_o$ fixed by proper time;
+(iii) the initial direction $e^i(t_o)$ fixed by the tetrad;
+(iv) the ray path from \eqref{eq:ray}; and
+(v) the sky average.
+There is no separate SW, ISW or Doppler term to keep consistent. At first
+order we prove the equivalence with the Newtonian-gauge SW+Doppler+ISW
+expression for all $\ell$ (\S\ref{sec:first}).
+\end{remark}
+
+\subsection{Field equations in temperature-frame variables}
+With $n\equiv\ln N$, $D$ and $\Delta$ the $\gamma$-covariant derivative and
+Laplacian, a prime for $\partial_t$, and $\sigma^2=\sigma_{ij}\sigma^{ij}$,
+Einstein's equations $R_{\mu\nu}=8\pi G\,T_{\mu\nu}$ (the source is
+traceless) read \emph{exactly}:
+\begin{align}
+&-\sigma^2-3n''+\Delta n+2|Dn|^2=\frac{3a_1^2}{N^2},\label{eq:E00}\\
+&D_j\sigma^j{}_i-2\partial_in'+2\sigma^j{}_i\partial_jn+2n'\partial_in=0,\label{eq:E0i}\\
+&R_{ij}[\gamma]+\sigma_{ij}'-2\sigma_{ik}\sigma^k{}_j-2(D_iD_jn-\sigma_{ij}n')
++\gamma_{ij}(n''-\Delta n)+2D_inD_jn+2\gamma_{ij}(n'^2-|Dn|^2)=\frac{a_1^2}{N^2}\gamma_{ij},\label{eq:Eij}
+\end{align}
+with the Hamiltonian constraint
+$N^2(R[\gamma]-4\Delta n-2|Dn|^2-\sigma^2)+6N'^2=6a_1^2$.
+\status{verified as identities: \texttt{check\_exact\_field\_equations.py}
+(arbitrary $N$ and a det-1 family with off-diagonal shear) and L4.}
+
+\paragraph{Parametrisation that solves continuity exactly.} Write
+\[
+N=a_1t\,e^{\nu(t,X)},\qquad
+\gamma_{ij}=e^{2\zeta(X)}\big[\exp H(t,X)\big]_{ij},\qquad H_{ii}=0,\qquad H(0,X)=0.
+\]
+Lemma~\ref{lem:L1} is then satisfied identically, and the unknowns are
+$(\nu,H_{ij})$: six functions. At each order $H^{(r)}$ is split into SVT
+parts, $H^{(r)}_{ij}=2(\partial_i\partial_j-\tfrac13\delta_{ij}\nabla^2)E^{(r)}
++2\partial_{(i}F^{(r)}_{j)}+h^{(r)}_{ij}$, with $\partial_iF_i=0$ and $h$
+transverse-traceless. The induced vector and tensor pieces enter through
+$F^{(2,3)}$ and $h^{(2,3)}$.
+
+%======================================================================
+\section{Primordial state and initial data}\label{sec:ic}
+%======================================================================
+
+\begin{definition}[Gaussian variable and absence of independent higher-order modes]\label{def:ic}
+The primordial state is the unique solution of
+\eqref{eq:E00}--\eqref{eq:Eij} such that, as $t\to0$:
+\begin{enumerate}
+\item[(G)] $\gamma_{ij}(t,X)\to e^{2\zeta(X)}\delta_{ij}$, i.e.\ $H\to0$, and
+$\nu\to0$, with $\zeta=\eps\,\zeta_1$ \emph{exactly}, where $\zeta_1$ is a
+statistically homogeneous and isotropic Gaussian field with power spectrum
+$P_\zeta(k)$;
+\item[(T)] no primordial tensor modes: the limiting 3-metric is conformally
+flat (its Cotton--York tensor vanishes). The labels $X$ are chosen
+conformally Cartesian for it, which is what makes (G) possible;
+\item[(V)] no vorticity: $\dd(Tu)=0$ (Lemma~\ref{lem:kelvin});
+\item[(R)] regularity: $\nu$ and $H$ are analytic in $t^2$ with
+$X$-dependent coefficients. This excludes every decaying mode.
+\end{enumerate}
+``No independent higher-order primordial modes'' means
+$\zeta^{(r\ge2)}\equiv0$ in $\zeta=\sum_r\eps^r\zeta^{(r)}/r!$, together with
+(T), (V) and (R) at every order.
+\end{definition}
+
+\paragraph{Identification of $\zeta$.} At leading order in gradients,
+$\nu=O(k^2t^2)$, so uniform-density slices ($N=$const) and $t=$const slices
+differ by $\delta t=O(k^2t^3)$. The spatial metric on uniform-density slices
+therefore tends to $a^2e^{2\zeta}\delta_{ij}$ with the \emph{same} $\zeta$.
+Our $\zeta$ is thus the nonlinear $\delta N$ / uniform-density curvature
+perturbation (Lyth--Malik--Sasaki; Langlois--Vernizzi), which is conserved on
+super-horizon scales for adiabatic perturbations. The Gaussian variable is
+$\zeta$. Consequently $\Phi$, $\delta$ and $v$ in any gauge are non-Gaussian
+at second order with specific, derived coefficients.
+
+\paragraph{Residual label freedom.} (G)+(T) fix $X$ up to the conformal group
+of $\mathbb R^3$ (translations, rotations, dilations, special conformal
+transformations), acting together with the corresponding transformation of
+$\zeta$. Translations and rotations are statistical symmetries. Dilations and
+SCTs are Weinberg's adiabatic modes, and they supply nontrivial checks (V9,
+V10).
+
+\begin{proposition}[Existence and uniqueness order by order]\label{prop:unique}
+At order $r$, \eqref{eq:E00}--\eqref{eq:Eij} take the form
+$\mathcal L[\nu^{(r)},H^{(r)}]=S^{(r)}[\text{lower orders}]$, where
+$\mathcal L$ is the first-order operator. The regular homogeneous solutions
+of $\mathcal L$ are: the scalar growing mode (equivalent to adding
+$\zeta^{(r)}$), the regular tensor mode $h\propto j_0(kt)$, and
+$\partial_tF=0$ (a relabelling). (G), (T) and the label choice set all three
+to zero. The particular solution is given by retarded Green's functions with
+lower limit $t=0$; the integrals converge because $S^{(r)}$ is regular by
+induction. So the solution exists and is unique.
+\end{proposition}
+\status{Stage 2: the regular-homogeneous-solution classification is to be
+proved from the explicit linear operator. The scalar part is already
+confirmed at first order.}
+
+\paragraph{Linear operator and Green's functions.} With the
+comoving-curvature master variable $\mathcal R=\nu+\zeta-\tfrac13\nabla^2E$:
+\[
+\Big(\partial_t^2+\tfrac2t\partial_t-\tfrac13\nabla^2\Big)\mathcal R=S_{\mathcal R},\qquad
+\Big(\partial_t^2+\tfrac2t\partial_t-\nabla^2\Big)h_{ij}=S^{TT}_{ij},\qquad
+\partial_tF_i=S^{V}_i .
+\]
+The regular retarded Green's functions are
+$G_{\mathcal R}(t,t')=\frac{t'}{t}\frac{\sqrt3}{k}\sin\frac{k(t-t')}{\sqrt3}$
+and $G_h(t,t')=\frac{t'}{t}\frac{\sin k(t-t')}{k}$. The remaining scalar
+fields follow algebraically or by one time integral from the constraints.
+\status{the operator is confirmed at first order; the extraction of the
+$S^{(2,3)}$ sources is Stage 2, verified by substituting back into the
+complete Einstein tensor (V3).}
+
+\paragraph{Initial data at finite $t_i$.} The problem asks for initial data
+that satisfies the constraints. It is obtained by evaluating the regular
+solution at $t_i$; equivalently, it is the gradient-expansion series in
+$t_i^2$. The Hamiltonian and momentum constraints hold identically at every
+order (V4). The higher-order metric and fluid perturbations are \emph{not}
+zero at $t_i$. For example, $\gamma^{(2)}_{ij}(t\to0)=4\zeta_1^2\delta_{ij}$,
+which is the $\eps^2/2$ coefficient of $e^{2\eps\zeta_1}$, and $\nu^{(2)}$
+and $H^{(2)}$ start at $O(t^2)$ with coefficients fixed by \eqref{eq:E0i} and
+the Hamiltonian constraint. The limit $t_i\to0$ is shown to commute with the
+observable because all kernels are continuous at $t_i=0$.
+
+%======================================================================
+\section{The observable, exactly, then order by order}\label{sec:obs}
+%======================================================================
+
+\paragraph{Physical measurement labels.} Every one of these is a scalar or a
+physically defined frame:
+\begin{itemize}
+\item Observer: the fluid line $X=X_o$.
+\item Initial event $\mathcal I$: the point on that line where
+$T_{\rm phys}=T_I$, so $N(t_I,X_o)=\Tref/T_I$. The limit $T_I\to\infty$,
+which measures from the singularity, exists by (R).
+\item Observation event: $\tau_o=\int_{t_I}^{t_o}N(t,X_o)\,\dd t$ at fixed
+$\tau_o$. This defines a \emph{stochastic} $t_o=\bar t_o+\eps\,\delta t_o+\dots$,
+with $\bar t_o^2=\bar t_I^2+2\tau_o/a_1$.
+\item Emission event: the first intersection of the past-directed ray with
+$N=\Tref/T_\star$, giving $t_e(\nhat)=\bar t_\star+\dots$ with
+$\bar t_\star=\Tref/(a_1T_\star)$.
+\item Tetrad: Fermi--Walker transported along $u$ in $g$. This is equivalent
+to parallel transport along the geodesic $\tilde u$ in $\tilde g$ (FW
+transport of vectors orthogonal to $u$ is conformally covariant, a Stage 0
+item to be written up). Then $\dd E_a{}^i/\dd t=-\sigma^i{}_jE_a{}^j$, with
+initial orientation $E_a{}^i(t_I)=[\gamma(t_I,X_o)^{-1/2}]_{ia}$ (symmetric
+square root, aligned with the conformally Cartesian labels). The ray then
+starts from $e^i(t_o)=-E_a{}^i(t_o)\nhat^a$.
+\end{itemize}
+
+\begin{proposition}[Orientation independence of $C_\ell$]
+Two admissible tetrads at the observation event differ by an $SO(3)$
+rotation, possibly realisation-dependent. $\sum_m|a_{\ell m}|^2$ is invariant
+under rotations of the map \emph{realisation by realisation}. So $C_\ell$ is
+independent of the initial orientation and of the transport law. Only the
+non-rotational (symmetric) part of $E_a{}^i$, which orthonormality fixes,
+affects $C_\ell$.
+\end{proposition}
+\noindent
+We nevertheless carry the specified tetrad. The independence then serves as
+check V12.
+
+\paragraph{Normalisation (exact through third order).} Write
+$T_{\rm obs}=T_{\rm fluid}(o)e^{-I(\nhat)}$ with
+$I=\eps I_1+\tfrac{\eps^2}2I_2+\tfrac{\eps^3}6I_3$, and let $\sky{\cdot}$ be
+the sky average. This is a realisation-dependent \emph{random} number, not an
+ensemble average. Then (\texttt{normalization\_expansion.py}):
+\begin{align*}
+\Theta^{(1)}&=\sky{I_1}-I_1,\\
+\Theta^{(2)}&=I_1^2-I_2-2\sky{I_1}I_1+2\sky{I_1}^2-\sky{I_1^2}+\sky{I_2},\\
+\Theta^{(3)}&=-I_3+3I_1I_2-I_1^3+3\sky{I_1}I_1^2-3\sky{I_1}I_2-3\sky{I_2}I_1+3\sky{I_1^2}I_1
+-6\sky{I_1}^2I_1\\&\quad+\sky{I_3}-3\sky{I_1I_2}+\sky{I_1^3}+6\sky{I_1}^3-6\sky{I_1}\sky{I_1^2}+6\sky{I_1}\sky{I_2},
+\end{align*}
+with $\sky{\Theta^{(r)}}=0$ identically (verified). Products such as
+$\sky{I_1}I_1$ survive in $a_{\ell\ge1,m}$ and contribute to both
+$C^{(22)}$ and $C^{(13)}$. They are the ``normalisation interference''
+terms.
+
+\paragraph{Content of $I_1,I_2,I_3$.} Expand \eqref{eq:Tobs} about the
+background ray $\bar X(t)=X_o+\nhat(\bar t_o-t)$. Every term is kept:
+\begin{itemize}
+\item $I_1=\int_{\bar t_\star}^{\bar t_o}\sigma^{(1)}_{ij}\nhat^i\nhat^j\,\dd t$.
+\item $I_2$: $\sigma^{(2)}$ on the background ray; the deflection term
+$2\sigma^{(1)}_{ij}\nhat^i\delta e^j$ with $\delta e$ from \eqref{eq:ray}; the
+Born correction $\delta X\cdot\partial\sigma^{(1)}$; the endpoint terms
+$\delta t_e\,\sigma^{(1)}|_e$ and $\delta t_o\,\sigma^{(1)}|_o$ (plus the
+$\delta t_o$ shift of the whole ray); and the tetrad term from
+$E^{(1)}=-\tfrac12\gamma^{(1)}$ at the observer, which acts as aberration by
+the shear.
+\item $I_3$: all of the above one order higher, including post-Born
+(second-order deflection, mixed $\delta X^{(1)}\delta e^{(1)}$, and
+$\tfrac12\delta X\delta X\partial\partial\sigma^{(1)}$), $\delta t_e^{(2)}$
+and $\delta t_o^{(2)}$ from the nonlinear endpoint conditions, products of
+endpoint and deflection shifts, and the second-order tetrad.
+\end{itemize}
+The endpoint conditions are solved perturbatively and exactly. For example,
+$\nu(t_e,X(t_e))+\ln(t_e/\bar t_\star)=0$ gives
+$\delta t_e^{(1)}=-\bar t_\star\nu^{(1)}(\bar t_\star,\bar X_\star)$, and
+higher orders follow by Lagrange inversion. The null condition
+$\gamma_{ij}e^ie^j=1$ is preserved by \eqref{eq:ray}; it is checked at each
+order (V6).
+
+\paragraph{Dipole.}\label{sec:dipole} The measured dipole is subtracted
+after $\Theta$ has been constructed and normalised, as required. This only
+removes $a_{1m}$. All couplings of the kinematic, observer-induced and
+intrinsic dipole to other multipoles are already inside $\Theta^{(2,3)}$:
+they come from the tetrad, the observer endpoint and the normalisation
+products above. So $C_{\ell\ge2}$ is unaffected by the subtraction, while
+$C_0\equiv0$ and $C_1\equiv0$ by construction.
+
+%======================================================================
+\section{First order: complete and verified (Stage 1)}\label{sec:first}
+%======================================================================
+
+With $x\equiv kt/\sqrt3$ and one mode $\zeta_k e^{ik\cdot X}$, the regular
+solution is
+\[
+\nu=-\zeta\Big(\frac{\sin x}x-\cos x\Big),\qquad
+\gamma^{(1)}_{ij}=2\Big[\zeta-\tfrac{1}{3}\nabla^2E\Big]\delta_{ij}+2\partial_i\partial_jE,\qquad
+k^2E=3\zeta\,s(x)-3\zeta,\quad s(x)\equiv\frac{2\sin x}x-\cos x,
+\]
+and $\mathcal R=\zeta\sin x/x$.
+\status{verified: all ten Einstein equations, regularity, the $t\to0$ limits
+and expansion-freeness (\texttt{check\_first\_order.py}).} The
+Newtonian-gauge solution $\Phi=\Psi=-2\zeta(\sin x-x\cos x)/x^3$, with
+$\delta_N$ and $v_N$, is verified independently in the same script.
+
+With the Fourier convention
+$\zeta(X)=\int\!\frac{\dd^3k}{(2\pi)^3}e^{ik\cdot X}\zeta_k$ and
+$\ens{\zeta_k\zeta_{k'}}=(2\pi)^3\delta^3(k+k')P_\zeta(k)$,
+\[
+\Theta^{(1)}(\nhat)=\int\!\frac{\dd^3k}{(2\pi)^3}\zeta_ke^{ik\cdot X_o}\sum_{\ell\ge1}(2\ell+1)i^\ell\,\mathcal T_\ell(k)P_\ell(\hat k\cdot\nhat),\qquad
+\mathcal T_\ell=-3\!\int_{x_\star}^{x_o}\!\dd x\;s'(x)\,w_\ell\big(\sqrt3(x_o-x)\big),
+\]
+where $w_\ell(y)=\tfrac13j_\ell(y)+j_\ell''(y)$, $x_\star=k\bar t_\star/\sqrt3$
+and $x_o=k\bar t_o/\sqrt3$. Invariantly,
+$x=k/(\sqrt3\,aH)$ at the corresponding event, and $x_o/x_\star=T_\star/\bar
+T_o$. The factor $w_\ell$ is the Legendre image of the traceless projector
+$\tfrac13-(\hat k\cdot\nhat)^2$; the redshift is pure shear.
+
+\paragraph{Gauge-invariance proof at first order (all $\ell$).} The
+Newtonian-gauge expression is
+$\mathcal T^N_\ell=[\tfrac14\delta_N+\Phi]_\star j_\ell-kv_N(t_\star)j_\ell'
++\int2\Phi'j_\ell+kv_N(t_o)j_\ell'(0)$: emission-surface temperature shift,
+SW, emitter and observer Doppler, and ISW. We show
+$\partial_{t_\star}(\mathcal T_\ell-\mathcal T^N_\ell)=0$ \emph{for symbolic
+$\ell$}, using only the Bessel ODE, and that both vanish at $t_\star=t_o$ for
+$\ell\ge1$. Hence $\mathcal T_\ell\equiv\mathcal T^N_\ell$.
+\status{verified}
+
+\paragraph{Closed form.} Rayleigh's formula makes the integrand a finite sum
+of $e^{i\beta u}\times$(rational in $u=x_o-x$), with
+$\beta\in\{\pm1,\pm\sqrt3,\pm1\pm\sqrt3\}$. Term-by-term integration gives
+$\mathcal T_\ell$ as an elementary combination of $\sin$, $\cos$, powers,
+and $\operatorname{Si}$, $\operatorname{Ci}$ at arguments
+$(\sqrt3\pm1)(x_o-x_\star)$, $(\sqrt3\pm1)x_o$, $(\sqrt3\pm1)x_\star$, with
+cancelling logarithms at the observer endpoint
+(\texttt{transfer\_closed\_form.py}). Each antiderivative is verified by exact
+differentiation, and the cancellation of the observer-endpoint
+singularities is asserted.
+
+\paragraph{Spectrum.} The angular normalisation is fixed by
+$\ens{a^{(1)}_{\ell m}a^{(1)*}_{\ell m}}=(4\pi)^2\!\int\!\frac{\dd^3k}{(2\pi)^3}P_\zeta|\mathcal T_\ell|^2|Y_{\ell m}(\hat k)|^2$, which gives
+\[
+C^{(11)}_\ell=4\pi\int\frac{\dd k}{k}\Delta^2_\zeta(k)\,\mathcal T_\ell(k)^2,\qquad
+\Delta^2_\zeta=\frac{k^3P_\zeta}{2\pi^2}.
+\]
+For $\Delta^2_\zeta(k)=A_\zeta\,\delta_D(\ln(k/k_0))$ this is
+$C^{(11)}_\ell=4\pi A_\zeta\,\mathcal T_\ell(k_0)^2$. Here
+$A_\zeta=\ens{\zeta_1^2}$ is the quantity held fixed as $k_0$ varies.
+
+%======================================================================
+\section{Second and third order (Stages 2--3)}\label{sec:higher}
+%======================================================================
+
+\paragraph{Kernels.} For each order-$r$ field $Y$,
+\[
+Y^{(r)}(t,X)=\int\prod_{a=1}^r\frac{\dd^3k_a}{(2\pi)^3}\zeta_{k_a}\;e^{i(\sum k_a)\cdot X}\;\mathcal K^Y_r(k_1,\dots,k_r;t),
+\]
+with symmetrised kernels. At $r=2$ the sources are products of
+trigonometric functions of $k_at/\sqrt3$ and rational functions of $t$, and
+$G_{\mathcal R}$ and $G_h$ are elementary. So $\mathcal K_2$ is elementary
+plus $\operatorname{Si}/\operatorname{Ci}$ of $(\pm k_1\pm k_2\pm\sqrt3k)t/\sqrt3$
+and $(\pm k_1\pm k_2\pm k)t/\sqrt3$, the same structure as the induced-GW
+kernel in radiation domination (Kohri--Terada) but at finite time and for
+all sectors. The vector part $F^{(2)}$ is nonzero even though the vorticity
+is zero; it is a metric frame-dragging term fixed by \eqref{eq:E0i}. At
+$r=3$ the sources contain $\mathcal K_2$, so $\mathcal K_3$ is elementary
+plus one-dimensional definite integrals of
+$\operatorname{Si}/\operatorname{Ci}\times$(elementary). These are given as
+explicit nested integrals over $t'\in[0,t]$ with complete integrands. We do
+not expect general closed forms, and parts that do close (e.g.\
+$\int\operatorname{Si}(\alpha s)\sin(\beta s)s^{-m}\dd s$ in terms of
+$\operatorname{Si}/\operatorname{Ci}$ and ${}_2F_3$) will be evaluated where
+they appear.
+
+\paragraph{Sky projection.} Every term in $I_r$ is a product of
+$e^{ik_a\cdot\nhat\,r_a}$ (different line-of-sight distances $r_a$ for
+nested integrals), polynomials in $\hat k_a\cdot\nhat$, and sky averages.
+Polynomials are generated by $\partial_{r_a}$. The identity
+$\int\dd\Omega\,Y^*_{\ell m}(\nhat)e^{iK\cdot\nhat}=4\pi i^\ell
+j_\ell(|K|)Y^*_{\ell m}(\hat K)$ with $K=\sum_ak_ar_a$, together with
+$\sum_mY_{\ell m}(\hat K)Y^*_{\ell m}(\hat K')=\frac{2\ell+1}{4\pi}P_\ell(\hat
+K\cdot\hat K')$, makes every $C^{(rs)}_\ell$ an explicit integral. No
+flat-sky, Limber or Born approximation is used.
+
+\paragraph{Wick contractions (Gaussian $\zeta_1$).}
+\begin{align*}
+C^{(22)}_\ell&=\frac{2}{2\ell+1}\sum_m\int\!\frac{\dd^3k_1\dd^3k_2}{(2\pi)^6}P(k_1)P(k_2)\,\big|\mathcal A^{(2)}_{\ell m}(k_1,k_2)\big|^2\quad(\text{connected}),\\
+C^{(13)}_\ell&=\frac{3}{2\ell+1}\sum_m\int\!\frac{\dd^3k}{(2\pi)^3}P(k)\,\mathcal A^{(1)}_{\ell m}(k)\int\!\frac{\dd^3q}{(2\pi)^3}P(q)\,\mathcal A^{(3)*}_{\ell m}(k,q,-q),
+\end{align*}
+where $\mathcal A^{(r)}_{\ell m}$ is the $a_{\ell m}$ kernel; the factors 2
+and 3 count the pairings of symmetrised kernels. For $\ell\ge1$ the
+disconnected part $\ens{a^{(2)}}\ens{a^{(2)*}}$ vanishes by isotropy, and
+$a_{00}\equiv0$ by normalisation. The sky-average terms
+($\sky{I_1}I_1$, etc.) are included in $\mathcal A^{(2,3)}$ as
+$\ell'=0$ projections inside the same Fourier integrals.
+
+\paragraph{Monochromatic specialisation (Stage 5).} Insert
+$P(k)=\frac{2\pi^2A_\zeta}{k_0^3}\delta_D(k-k_0)$, i.e.\
+$\Delta^2_\zeta=A_\zeta\delta_D(\ln k/k_0)$, \emph{after} the complete
+observable is built. In $C^{(22)}$, rotational invariance leaves the single
+angle $\mu=\hat k_1\cdot\hat k_2\in[-1,1]$ plus the internal line-of-sight
+times; $|k_1+k_2|=k_0\sqrt{2+2\mu}$ covers $[0,2k_0]$. In $C^{(13)}$ only
+$\mu=\hat k\cdot\hat q$ survives. Held fixed: $A_\zeta=\ens{\zeta_1^2}$.
+Results depend on $k_0$ only through $x_\star(k_0)$, $x_o(k_0)$ and $x_I(k_0)$.
+
+\paragraph{Exchange of limits.} At finite $t_\star,t_o$ every kernel is a
+continuous, bounded function of the momenta on the compact sets selected by
+the $\delta$-function spectrum. Pairing the distribution with it is
+therefore legitimate, and Fubini applies to the finite nested time
+integrals. The $t_I\to0$ and $t_i\to0$ limits commute with all integrals by
+dominated convergence, since the kernels are analytic in $t^2$. The
+\emph{late-time} limit $x_o\to\infty$ is \emph{not} uniform near the
+sound-speed resonance $|k_1|+|k_2|=\sqrt3|k_1+k_2|$, i.e.\
+$\mu=-1/3$ for the monochromatic case (tensor sector). There, logarithms like those of the
+radiation-era induced-GW kernel appear. This limit is taken only at the end,
+with the $\mu$-integral done first, and is flagged in \S\ref{sec:open}.
+
+%======================================================================
+\section{Validation matrix}\label{sec:val}
+%======================================================================
+
+All checks are exact symbolic identities. Numerical spot checks at 30
+digits appear only as \emph{supplementary} sanity output and are never used
+as evidence.
+
+\begin{longtable}{@{}p{0.6cm}p{6.4cm}p{6.0cm}p{1.7cm}@{}}
+\toprule
+& Check & Method & Status\\\midrule\endhead
+V1 & Exact lemmas L1--L4, field equations \eqref{eq:E00}--\eqref{eq:Eij} & identities for arbitrary metric functions & done\\
+V2 & Background & substitution & done\\
+V3 & Order-$r$ solution satisfies all 10 Einstein equations & substitute kernels into the \emph{full} $G_{\mu\nu}$ of \eqref{eq:metric}, expanded to $O(\eps^r)$; Si/Ci derivatives are elementary; nested integrals via Leibniz and Green's identity & $r{=}1$ done; $r{=}2,3$ planned\\
+V4 & Constraints on initial data at finite $t_i$; regularity; $t\to0$ limits (G),(T) & series in $t$ & $r{=}1$ done\\
+V5 & Fluid normalisation, continuity and Euler & exact by Lemma~\ref{lem:L1}; re-checked per order & done/each order\\
+V6 & Photon null condition and geodesic equation for perturbed rays & residual of \eqref{eq:ray} and of $\tilde g(\tilde p,\tilde p)$ per order & planned\\
+V7 & Gauge invariance: temperature frame vs Newtonian/Poisson gauge & full independent recomputation in Poisson gauge, compared multipole by multipole & $r{=}1$ done (all $\ell$); $r{=}2$ planned\\
+V8 & Gauge transformation of the solution & transform $\mathcal K_2$ to Poisson gauge; check Einstein equations there and match the radiation-era second-order initial conditions in the literature & planned\\
+V9 & Constant-$\zeta$ (dilation) Ward identity & $\Theta[\zeta_s+c](\nhat)=\Theta[\zeta_s(e^{-c}\cdot)](\nhat)$ $\Rightarrow$ squeezed limits of $\mathcal K_2,\mathcal K_3$ & $r{=}1$ done; planned\\
+V10 & Gradient-$\zeta$ (SCT) Ward identity & $O(q)$ squeezed terms cancel in $\Theta$ & planned\\
+V11 & Normalisation: $\sky{\Theta^{(r)}}=0$ & algebraic & done\\
+V12 & Tetrad-orientation independence of $C_\ell$ & add an arbitrary $\eps$-dependent rotation & planned\\
+V13 & Coincidence limit $t_\star\to t_o$: $\Theta^{(r)}\to0$ & series in $t_o-t_\star$ & $r{=}1$ done\\
+V14 & Super-horizon limit $k\to0$: no $\ell\ge2$ anisotropy at $O(k^0)$ & series & $r{=}1$ done\\
+V15 & Antiderivatives of closed forms & exact differentiation & done ($\mathcal T_\ell$)\\
+V16 & Wick and angular normalisation & two routes: Fourier and configuration-space correlation $\ens{\Theta(\nhat)\Theta(\nhat')}$ & planned\\
+V17 & Independent CAS & re-derive key identities in Maxima (installed by the Containerfile) & planned\\
+V18 & Independent agents & blind re-derivation and audit & see \S\ref{sec:indep}\\
+\bottomrule
+\end{longtable}
+
+%======================================================================
+\section{Plan, stages and cost}\label{sec:plan}
+%======================================================================
+\begin{enumerate}
+\item[S0] Exact framework. \emph{Done} apart from the write-up of the
+FW-conformal lemma.
+\item[S1] First order. \emph{Done}: solution, gauge equivalence, closed-form
+$\mathcal T_\ell$, $C^{(11)}_\ell$.
+\item[S2] Second-order kernels $(\nu,E,F,h)^{(2)}$: extract the sources from
+\eqref{eq:E00}--\eqref{eq:Eij} by exact expansion, solve with
+$G_{\mathcal R}$ and $G_h$, and run V3, V4, V8, V9. This also yields the
+Poisson-gauge $\Phi^{(2)},\Psi^{(2)},\omega^{(2)},h^{(2)}$ as a
+by-product.
+\item[S3] Third-order kernels as nested integrals, with V3 by
+differentiation under the integral sign. This is the costliest symbolic
+step; use SymEngine or FORM for the tensor expansion.
+\item[S4] Observable: $I_2$ and $I_3$ with all endpoint, observer, tetrad
+and normalisation terms (V6, V11--V14), $C^{(22)}$ and $C^{(13)}$ (V16), and
+the dilation/SCT checks on the full $C_\ell$ (V9, V10).
+\item[S5] Monochromatic specialisation and asymptotics ($x_o\to\infty$,
+$x_\star\ll1$, $x_\star\gg1$), with a justification for each exchange of
+limits.
+\end{enumerate}
+
+%======================================================================
+\section{Open items and risks}\label{sec:open}
+%======================================================================
+\begin{enumerate}
+\item No closed form is expected for the generic third-order kernel. It
+will be given as explicit nested integrals, and parts that close will be
+marked as \emph{evaluated}.
+\item The late-time limit is non-uniform at the sound-speed resonance
+$\mu=-1/3$. The order of limits must be stated, and only the $\mu$-first
+order is justified.
+\item IR behaviour for non-monochromatic spectra: $C^{(13)}$ and $C^{(22)}$
+are separately sensitive to $q\to0$. The dilation and SCT identities
+(V9, V10) predict cancellation up to a physical rescaling of the short-mode
+spectrum. This must be shown, not assumed. It does not arise for the
+monochromatic spectrum.
+\item The perturbative uniqueness of the emission intersection and the
+absence of caustics hold order by order, but this is a statement about the
+asymptotic series and not about convergence in $\eps$.
+\item Proposition~\ref{prop:unique} still requires the explicit
+classification of regular homogeneous solutions in the vector and tensor
+sectors.
+\end{enumerate}
+
+\section{Independent validation by subagents}\label{sec:indep}
+Two separately prompted agents reviewed this proposal and the scripts. One
+was a physics referee; the other did a blind first-order re-derivation and
+an audit of the scripts. Their findings, and how they were resolved, are
+recorded in \texttt{approach/VALIDATION.md}.
+
+\end{document}
