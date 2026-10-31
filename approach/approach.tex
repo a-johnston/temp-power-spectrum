@@ -161,9 +161,12 @@ T_{\rm obs}(\nhat)=T_\star\frac{E_o}{E_e}=T_{\rm fluid}(o)\,
 \exp\Big[-\int_{t_e(\nhat)}^{t_o}\sigma_{ij}\big(t,X(t)\big)e^ie^j\,\dd t\Big].
 \end{equation}
 \end{lemma}
-\status{verified: L2, L3}. Isotropic Planck emission in the fluid frame
-together with Liouville's theorem makes $T_{\rm obs}$ frequency-independent,
-so \eqref{eq:Tobs} is the complete observable.
+\status{verified: L2, L3}. \emph{Declared interpretation:} ``emitted
+isotropically with a Planck spectrum'' means isotropic in the rest frame of
+the radiation fluid at the emission event, with $E_e$ measured by $u_e$. This
+is the only physically labelled frame there. Liouville's theorem then makes
+$T_{\rm obs}$ frequency-independent, so \eqref{eq:Tobs} is the complete
+observable.
 
 \begin{remark}[What \eqref{eq:Tobs} buys]
 $T_{\rm fluid}(o)$ is direction-independent, so it cancels \emph{exactly} in
@@ -192,8 +195,15 @@ traceless) read \emph{exactly}:
 \end{align}
 with the Hamiltonian constraint
 $N^2(R[\gamma]-4\Delta n-2|Dn|^2-\sigma^2)+6N'^2=6a_1^2$.
-\status{verified as identities: \texttt{check\_exact\_field\_equations.py}
-(arbitrary $N$ and a det-1 family with off-diagonal shear) and L4.}
+\status{derived covariantly from the conformal transformation of
+$R_{\mu\nu}$ and the synchronous-gauge Ricci tensor with $\tilde\theta=0$.
+Machine-checked as identities only on restricted families: arbitrary $N$
+with a $\det\gamma=1$ family with off-diagonal shear depending on $(t,x,z)$
+(\texttt{check\_exact\_field\_equations.py}), diagonal $\det\gamma=1$ for the
+Hamiltonian constraint (L4), and, by the independent auditor, further
+families (\texttt{VALIDATION.md}). Every perturbative solution is in any
+case checked against the full 4D Einstein tensor (V3), not against these
+reduced forms.}
 
 \paragraph{Parametrisation that solves continuity exactly.} Write
 \[
@@ -212,8 +222,10 @@ $F^{(2,3)}$ and $h^{(2,3)}$.
 %======================================================================
 
 \begin{definition}[Gaussian variable and absence of independent higher-order modes]\label{def:ic}
-The primordial state is the unique solution of
-\eqref{eq:E00}--\eqref{eq:Eij} such that, as $t\to0$:
+The primordial state is the solution of
+\eqref{eq:E00}--\eqref{eq:Eij} (unique by Proposition~\ref{prop:unique},
+whose vector/tensor part is still to be proved in Stage 2) such that, as
+$t\to0$:
 \begin{enumerate}
 \item[(G)] $\gamma_{ij}(t,X)\to e^{2\zeta(X)}\delta_{ij}$, i.e.\ $H\to0$, and
 $\nu\to0$, with $\zeta=\eps\,\zeta_1$ \emph{exactly}, where $\zeta_1$ is a
@@ -231,6 +243,16 @@ $\zeta^{(r\ge2)}\equiv0$ in $\zeta=\sum_r\eps^r\zeta^{(r)}/r!$, together with
 (T), (V) and (R) at every order.
 \end{definition}
 
+\paragraph{The Gaussian variable is exactly conserved.} By
+Lemma~\ref{lem:L1}, $\det\gamma$ is independent of $t$. So
+\[
+\zeta(X)=\tfrac16\ln\det\gamma_{ij}(t,X)\qquad\text{for every }t,
+\]
+in the conformally Cartesian fluid labels, \emph{exactly} and at all orders,
+on and off super-horizon scales. The Gaussianity statement (G) therefore
+refers to a quantity that can be read off at any time, including any finite
+initial time $t_i$, and not only as $t\to0$.
+
 \paragraph{Identification of $\zeta$.} At leading order in gradients,
 $\nu=O(k^2t^2)$, so uniform-density slices ($N=$const) and $t=$const slices
 differ by $\delta t=O(k^2t^3)$. The spatial metric on uniform-density slices
@@ -244,18 +266,27 @@ at second order with specific, derived coefficients.
 \paragraph{Residual label freedom.} (G)+(T) fix $X$ up to the conformal group
 of $\mathbb R^3$ (translations, rotations, dilations, special conformal
 transformations), acting together with the corresponding transformation of
-$\zeta$. Translations and rotations are statistical symmetries. Dilations and
-SCTs are Weinberg's adiabatic modes, and they supply nontrivial checks (V9,
-V10).
+$\zeta$. This freedom is \emph{fixed}, not left open:
+\begin{itemize}
+\item a dilation shifts $\zeta$ by a constant, and is fixed by requiring
+$\zeta$ to be the specified zero-mean Gaussian field;
+\item an SCT adds an explicitly $X$-dependent piece to $\zeta$, and is
+excluded by statistical homogeneity;
+\item translations and rotations are statistical symmetries and drop out of
+$C_\ell$.
+\end{itemize}
+The \emph{response} of $\Theta$ to dilations and SCTs (Weinberg's adiabatic
+modes) remains available as a nontrivial check (V9, V10).
 
 \begin{proposition}[Existence and uniqueness order by order]\label{prop:unique}
 At order $r$, \eqref{eq:E00}--\eqref{eq:Eij} take the form
 $\mathcal L[\nu^{(r)},H^{(r)}]=S^{(r)}[\text{lower orders}]$, where
 $\mathcal L$ is the first-order operator. The regular homogeneous solutions
 of $\mathcal L$ are: the scalar growing mode (equivalent to adding
-$\zeta^{(r)}$), the regular tensor mode $h\propto j_0(kt)$, and
-$\partial_tF=0$ (a relabelling). (G), (T) and the label choice set all three
-to zero. The particular solution is given by retarded Green's functions with
+$\zeta^{(r)}$), the regular tensor mode $h\propto j_0(kt)$, and the
+time-independent relabellings ($E\to E+E_0(X)$ in the scalar sector,
+$F\to F+F_0(X)$ in the vector sector). $\zeta^{(r)}=0$, (T) and $H(0,X)=0$
+set all of them to zero. The particular solution is given by retarded Green's functions with
 lower limit $t=0$; the integrals converge because $S^{(r)}$ is regular by
 induction. So the solution exists and is unique.
 \end{proposition}
@@ -285,9 +316,29 @@ $t_i^2$. The Hamiltonian and momentum constraints hold identically at every
 order (V4). The higher-order metric and fluid perturbations are \emph{not}
 zero at $t_i$. For example, $\gamma^{(2)}_{ij}(t\to0)=4\zeta_1^2\delta_{ij}$,
 which is the $\eps^2/2$ coefficient of $e^{2\eps\zeta_1}$, and $\nu^{(2)}$
-and $H^{(2)}$ start at $O(t^2)$ with coefficients fixed by \eqref{eq:E0i} and
-the Hamiltonian constraint. The limit $t_i\to0$ is shown to commute with the
-observable because all kernels are continuous at $t_i=0$.
+and $H^{(2)}$ start at $O(t^2)$ with coefficients fixed by the field
+equations. \emph{Logical status of $t_i$:} the state is defined by its
+$t\to0$ behaviour, so data posed at any $t_i<\bar t_\star$ from the regular
+solution evolve back into the same solution. $t_i$ therefore drops out of
+the observable \emph{identically}; no limit $t_i\to0$ needs to be exchanged
+with anything. This is consistent because $\zeta=\tfrac16\ln\det\gamma$ is
+exactly conserved. The constraints at finite $t_i$ are machine-checked at
+$r=1$ (all orders in $t$) and nonlinearly in $\zeta$ at $O(t^2)$ (below);
+$r=2,3$ is part of V3/V4 in Stage 2--3.
+
+\paragraph{Nonlinear initial data (all orders in $\eps$ at once).} At
+leading order in $t$, the field equations fix, \emph{exactly in $\zeta$}:
+\[
+\nu=-\frac{t^2}{36}\,R[q]+O(t^4),\qquad
+H_{ij}=-\frac{t^2}{3}\,e^{-2\zeta}\Big(R_{ij}[q]-\tfrac13q_{ij}R[q]\Big)+O(t^4),\qquad
+q_{ij}=e^{2\zeta}\delta_{ij}.
+\]
+For example,
+$\nu=\tfrac{t^2}{18}e^{-2\zeta}\big(2\nabla^2\zeta+(\nabla\zeta)^2\big)+O(t^4)$.
+The momentum constraint is then satisfied identically, and the linear part
+reproduces the first-order solution. This makes explicit that the
+higher-order initial data are nonzero and determined by $\zeta$.
+\status{verified: \texttt{check\_initial\_data\_gradient.py}, arbitrary $\zeta(X)$}
 
 %======================================================================
 \section{The observable, exactly, then order by order}\label{sec:obs}
@@ -326,8 +377,12 @@ non-rotational (symmetric) part of $E_a{}^i$, which orthonormality fixes,
 affects $C_\ell$.
 \end{proposition}
 \noindent
-We nevertheless carry the specified tetrad. The independence then serves as
-check V12.
+Caveat: a realisation-dependent rotation $R=R(\eps)$ mixes perturbative
+orders. Hence only the full combination
+$\eps^2C^{(11)}_\ell+\eps^4[\tfrac14C^{(22)}_\ell+\tfrac13\operatorname{Re}C^{(13)}_\ell]$
+is orientation-independent, not $C^{(22)}$ and $C^{(13)}$ separately (the
+polar decomposition is $E=\gamma^{-1/2}R$). We carry the specified tetrad
+throughout, and V12 tests the \emph{combination}.
 
 \paragraph{Normalisation (exact through third order).} Write
 $T_{\rm obs}=T_{\rm fluid}(o)e^{-I(\nhat)}$ with
@@ -354,8 +409,8 @@ $2\sigma^{(1)}_{ij}\nhat^i\delta e^j$ with $\delta e$ from \eqref{eq:ray}; the
 Born correction $\delta X\cdot\partial\sigma^{(1)}$; the endpoint terms
 $\delta t_e\,\sigma^{(1)}|_e$ and $\delta t_o\,\sigma^{(1)}|_o$ (plus the
 $\delta t_o$ shift of the whole ray); and the tetrad term from
-$E^{(1)}=-\tfrac12\gamma^{(1)}$ at the observer, which acts as aberration by
-the shear.
+$E^{(1)}=-\tfrac12\gamma^{(1)}$ at the observer. This is a shear remapping of
+directions; its isotropic part has no effect.
 \item $I_3$: all of the above one order higher, including post-Born
 (second-order deflection, mixed $\delta X^{(1)}\delta e^{(1)}$, and
 $\tfrac12\delta X\delta X\partial\partial\sigma^{(1)}$), $\delta t_e^{(2)}$
@@ -375,7 +430,11 @@ removes $a_{1m}$. All couplings of the kinematic, observer-induced and
 intrinsic dipole to other multipoles are already inside $\Theta^{(2,3)}$:
 they come from the tetrad, the observer endpoint and the normalisation
 products above. So $C_{\ell\ge2}$ is unaffected by the subtraction, while
-$C_0\equiv0$ and $C_1\equiv0$ by construction.
+$C_0\equiv0$ and $C_1\equiv0$ by construction. \emph{Excluded reading:}
+``subtracting the dipole'' is \emph{not} taken to mean boosting to the frame
+in which the dipole vanishes. That would change the observer's 4-velocity,
+contradicting the requirement that the observer follows the fluid, and it
+would aberrate all $a_{\ell m}$ at $O(\eps^2)$.
 
 %======================================================================
 \section{First order: complete and verified (Stage 1)}\label{sec:first}
@@ -419,14 +478,19 @@ $\ell\ge1$. Hence $\mathcal T_\ell\equiv\mathcal T^N_\ell$.
 
 \paragraph{Closed form.} Rayleigh's formula makes the integrand a finite sum
 of $e^{i\beta u}\times$(rational in $u=x_o-x$), with
-$\beta\in\{\pm1,\pm\sqrt3,\pm1\pm\sqrt3\}$. Term-by-term integration gives
+$\beta\in\{\pm1\pm\sqrt3\}$. Term-by-term integration gives
 $\mathcal T_\ell$ as an elementary combination of $\sin$, $\cos$, powers,
 and $\operatorname{Si}$, $\operatorname{Ci}$ at arguments
 $(\sqrt3\pm1)(x_o-x_\star)$, $(\sqrt3\pm1)x_o$, $(\sqrt3\pm1)x_\star$, with
 cancelling logarithms at the observer endpoint
 (\texttt{transfer\_closed\_form.py}). Each antiderivative is verified by exact
-differentiation, and the cancellation of the observer-endpoint
-singularities is asserted.
+differentiation. The cancellation of the observer-endpoint singularities is
+asserted, and realness is proved by an exact conjugation map.
+\emph{Scope:} the closed form is generated per fixed $\ell$. $\ell=2,3$ are
+done (\texttt{verification/results/T\{2,3\}\_closed\_form.txt}). A
+symbolic-$\ell$ closed form is a finite double sum from Rayleigh's formula,
+not yet generated. The symbolic-$\ell$ statement proved here is the
+definite-integral form together with its gauge equivalence.
 
 \paragraph{Spectrum.} The angular normalisation is fixed by
 $\ens{a^{(1)}_{\ell m}a^{(1)*}_{\ell m}}=(4\pi)^2\!\int\!\frac{\dd^3k}{(2\pi)^3}P_\zeta|\mathcal T_\ell|^2|Y_{\ell m}(\hat k)|^2$, which gives
@@ -446,7 +510,10 @@ $A_\zeta=\ens{\zeta_1^2}$ is the quantity held fixed as $k_0$ varies.
 \[
 Y^{(r)}(t,X)=\int\prod_{a=1}^r\frac{\dd^3k_a}{(2\pi)^3}\zeta_{k_a}\;e^{i(\sum k_a)\cdot X}\;\mathcal K^Y_r(k_1,\dots,k_r;t),
 \]
-with symmetrised kernels. At $r=2$ the sources are products of
+with symmetrised kernels, normalised so that
+$Y=\sum_r\frac{\eps^r}{r!}Y^{(r)}$ matches the convention of the problem
+statement. The $r!$ is therefore \emph{outside} $\mathcal K_r$, and the Wick
+factors below refer to these kernels. At $r=2$ the sources are products of
 trigonometric functions of $k_at/\sqrt3$ and rational functions of $t$, and
 $G_{\mathcal R}$ and $G_h$ are elementary. So $\mathcal K_2$ is elementary
 plus $\operatorname{Si}/\operatorname{Ci}$ of $(\pm k_1\pm k_2\pm\sqrt3k)t/\sqrt3$
@@ -494,17 +561,43 @@ times; $|k_1+k_2|=k_0\sqrt{2+2\mu}$ covers $[0,2k_0]$. In $C^{(13)}$ only
 $\mu=\hat k\cdot\hat q$ survives. Held fixed: $A_\zeta=\ens{\zeta_1^2}$.
 Results depend on $k_0$ only through $x_\star(k_0)$, $x_o(k_0)$ and $x_I(k_0)$.
 
-\paragraph{Exchange of limits.} At finite $t_\star,t_o$ every kernel is a
-continuous, bounded function of the momenta on the compact sets selected by
-the $\delta$-function spectrum. Pairing the distribution with it is
-therefore legitimate, and Fubini applies to the finite nested time
-integrals. The $t_I\to0$ and $t_i\to0$ limits commute with all integrals by
-dominated convergence, since the kernels are analytic in $t^2$. The
-\emph{late-time} limit $x_o\to\infty$ is \emph{not} uniform near the
-sound-speed resonance $|k_1|+|k_2|=\sqrt3|k_1+k_2|$, i.e.\
-$\mu=-1/3$ for the monochromatic case (tensor sector). There, logarithms like those of the
-radiation-era induced-GW kernel appear. This limit is taken only at the end,
-with the $\mu$-integral done first, and is flagged in \S\ref{sec:open}.
+\paragraph{Exchange of limits: what is claimed and what must be proved.}
+\begin{enumerate}
+\item[(a)] \emph{$\delta$-function spectrum.} The $\delta$ acts only on the
+moduli $|k_a|$. Pairing it with a kernel needs \emph{continuity in the
+moduli at $k_0$ for almost every angle}, plus a bound that is uniform in the
+angles, so that the remaining angular integral exists. This is to be proved
+for each kernel (Stage 4), not assumed. Inverse Laplacians produce
+direction-dependent limits $\hat K_i\hat K_j$ as $K=|k_1+k_2|\to0$, i.e.\
+$\mu\to-1$. These are bounded but discontinuous, on a set of angular measure
+zero, which is compatible with the requirement.
+\item[(b)] \emph{Finite-time boundedness.} Individual
+$\operatorname{Si}/\operatorname{Ci}$ terms carry removable $\ln|\alpha|$
+singularities wherever a frequency combination $\alpha$ vanishes. They must
+be recombined analytically \emph{before} any angular integration, as was
+done for the observer endpoint of $\mathcal T_\ell$. The vanishing
+combinations to enumerate in every sector are:
+\begin{itemize}
+\item scalar $(\pm k_1\pm k_2\pm K)/\sqrt3$: collinear configurations,
+$\mu=\pm1$, i.e.\ $K=2k_0$ and $K\to0$;
+\item tensor and vector, sourced at $c_s$, propagating at $c=1$:
+$k_1+k_2=\sqrt3K$, i.e.\ $\mu=-1/3$;
+\item at third order, the corresponding triple combinations.
+\end{itemize}
+\item[(c)] \emph{Secular terms.} In the temperature frame the first-order
+fields do not decay (e.g.\ $\nu\to\zeta\cos x$). Second-order sources are
+therefore $O(k^2\zeta^2)$ and persist, so resonant responses can grow like
+$t$, not merely like $\ln t$. Fluid labels can also drift secularly (a
+Stokes-drift analogue). Whether such secular pieces cancel in $\Theta$ is
+part of the calculation and must be shown.
+\item[(d)] \emph{Late-time limit} $x_o\to\infty$: this is non-uniform at
+$\mu=\pm1$ and $\mu=-1/3$. It is taken only after the angular integral, and
+each of these points is treated by an explicit local analysis.
+\item[(e)] $t_I\to0$ (measuring proper time from the singularity): $N$ is
+analytic in $t^2$, so $\tau_o=\int_0^{t_o}N\,\dd t$ converges at every order.
+Uniformity in the momenta on the compact angular domain follows from (b).
+The finite-$t_i$ question does not arise (\S\ref{sec:ic}).
+\end{enumerate}
 
 %======================================================================
 \section{Validation matrix}\label{sec:val}
@@ -517,24 +610,26 @@ as evidence.
 \begin{longtable}{@{}p{0.6cm}p{6.4cm}p{6.0cm}p{1.7cm}@{}}
 \toprule
 & Check & Method & Status\\\midrule\endhead
-V1 & Exact lemmas L1--L5, field equations \eqref{eq:E00}--\eqref{eq:Eij} & identities for arbitrary metric functions & done\\
+V1 & Exact lemmas L1--L5; field equations \eqref{eq:E00}--\eqref{eq:Eij} & L1--L3, L5: arbitrary functions; field equations and L4: restricted $\det\gamma=1$ families (see \S\ref{sec:exact}) & done (scope as stated)\\
 V2 & Background & substitution & done\\
 V3 & Order-$r$ solution satisfies all 10 Einstein equations & substitute kernels into the \emph{full} $G_{\mu\nu}$ of \eqref{eq:metric}, expanded to $O(\eps^r)$; Si/Ci derivatives are elementary; nested integrals via Leibniz and Green's identity & $r{=}1$ done; $r{=}2,3$ planned\\
-V4 & Constraints on initial data at finite $t_i$; regularity; $t\to0$ limits (G),(T) & series in $t$ & $r{=}1$ done\\
+V4 & Constraints on initial data at finite $t_i$; regularity; $t\to0$ limits (G),(T) & series in $t$ & $r{=}1$ done; nonlinear $O(t^2)$ done\\
 V5 & Fluid normalisation, continuity and Euler & exact by Lemma~\ref{lem:L1}; re-checked per order & done/each order\\
-V6 & Photon null condition and geodesic equation for perturbed rays & residual of \eqref{eq:ray} and of $\tilde g(\tilde p,\tilde p)$ per order & planned\\
+V6 & Photon null condition and geodesic equation for perturbed rays & residual of \eqref{eq:ray} and of $\tilde g(\tilde p,\tilde p)$ per order; \eqref{eq:ray} itself so far derived by hand (twice, independently) from machine-checked Christoffels & planned\\
 V7 & Gauge invariance: temperature frame vs Newtonian/Poisson gauge & full independent recomputation in Poisson gauge, compared multipole by multipole & $r{=}1$ done (all $\ell$); $r{=}2$ planned\\
 V8 & Gauge transformation of the solution & transform $\mathcal K_2$ to Poisson gauge; check Einstein equations there and match the radiation-era second-order initial conditions in the literature & planned\\
-V9 & Constant-$\zeta$ (dilation) Ward identity & $\Theta[\zeta_s+c](\nhat)=\Theta[\zeta_s(e^{-c}\cdot)](\nhat)$ $\Rightarrow$ squeezed limits of $\mathcal K_2,\mathcal K_3$ & $r{=}1$ done; planned\\
+V9 & Constant-$\zeta$ (dilation) Ward identity & $\Theta[\zeta_s+c](\nhat)=\Theta[\zeta_s(e^{-c}\cdot)](\nhat)$ $\Rightarrow$ squeezed limits of $\mathcal K_2,\mathcal K_3$ & planned (only the $r{=}1$ analogue, V14, exists)\\
 V10 & Gradient-$\zeta$ (SCT) Ward identity & $O(q)$ squeezed terms cancel in $\Theta$ & planned\\
 V11 & Normalisation: $\sky{\Theta^{(r)}}=0$ & algebraic & done\\
-V12 & Tetrad-orientation independence of $C_\ell$ & add an arbitrary $\eps$-dependent rotation & planned\\
+V12 & Tetrad-orientation independence of the \emph{combined} $C_\ell$ & add an arbitrary $\eps$-dependent rotation; test $\tfrac14C^{(22)}+\tfrac13\operatorname{Re}C^{(13)}$ together & planned\\
 V13 & Coincidence limit $t_\star\to t_o$: $\Theta^{(r)}\to0$ & series in $t_o-t_\star$ & $r{=}1$ done\\
 V14 & Super-horizon limit $k\to0$: no $\ell\ge2$ anisotropy at $O(k^0)$ & series & $r{=}1$ done\\
 V15 & Antiderivatives of closed forms & exact differentiation & done ($\mathcal T_\ell$)\\
 V16 & Wick and angular normalisation & two routes: Fourier and configuration-space correlation $\ens{\Theta(\nhat)\Theta(\nhat')}$ & planned\\
 V17 & Independent CAS & re-derive key identities in Maxima (installed by the Containerfile) & planned\\
-V18 & Independent agents & blind re-derivation and audit & see \S\ref{sec:indep}\\
+V18 & Independent agents & blind re-derivation, referee, audit & done, see \S\ref{sec:indep}\\
+V19 & Late-time observer-local cancellation & at $r{=}1$ the observer-local acoustic term vanishes for $\ell\ge2$ because $\int(\tfrac1{\sqrt3}-\mu)P_\ell\,\dd\mu=0$; test the analogous tetrad$\times$dipole and normalisation$\times$dipole terms at $r{=}2,3$ & planned\\
+V20 & Resonance recombination & removable $\ln|\alpha|$ in Si/Ci closed forms cancel analytically at every vanishing frequency combination & done for $\mathcal T_\ell$ endpoint; planned for $\mathcal K_{2,3}$\\
 \bottomrule
 \end{longtable}
 
@@ -561,6 +656,29 @@ $x_\star\ll1$, $x_\star\gg1$), with a justification for each exchange of
 limits.
 \end{enumerate}
 
+\paragraph{Cost and an independent anchor.}
+\begin{itemize}
+\item \emph{Final size.} For the monochromatic spectrum,
+$C^{(22)}_\ell$ and $C^{(13)}_\ell$ become roughly 4--6-dimensional nested
+definite integrals: one angle, two to four line-of-sight times, plus the
+internal time of $\mathcal K_3$. Closed forms beyond $C^{(11)}$ are
+unlikely.
+\item \emph{Dominant risk.} Expression swell at third order. Mitigation:
+\begin{itemize}
+\item generate kernels per sector, in the Laurent-monomial representation
+already used for $\mathcal T_\ell$, which makes every identity a
+rational-function cancellation;
+\item use FORM or SymEngine for the tensor expansion;
+\item check each kernel by substitution before composing.
+\end{itemize}
+\item \emph{Independent anchor at second order} (cheaper than a full
+Poisson-gauge recomputation): the late-time tensor kernel must reproduce
+the known radiation-era induced-GW kernel (Kohri--Terada), after
+transformation to Poisson gauge. The super-horizon Poisson-gauge
+second-order potentials must match the known radiation-era nonlinear
+initial conditions (V8).
+\end{itemize}
+
 %======================================================================
 \section{Open items and risks}\label{sec:open}
 %======================================================================
@@ -582,12 +700,30 @@ asymptotic series and not about convergence in $\eps$.
 \item Proposition~\ref{prop:unique} still requires the explicit
 classification of regular homogeneous solutions in the vector and tensor
 sectors.
+\item Scalar collinear resonances ($\mu=\pm1$) and tensor/vector sound-cone
+resonances ($\mu=-1/3$): the removable singularities must be recombined, and
+possible secular ($\propto t$) growth must be shown to cancel in $\Theta$ or
+be kept (\S\ref{sec:higher}(b)--(d)).
+\item Late-time observer-local terms: at first order the $O(1)$ oscillating
+local acoustic term cancels for $\ell\ge2$ only through the sound-cone
+identity $\int(\tfrac1{\sqrt3}-\mu)P_\ell\,\dd\mu=0$. At second order its
+couplings to the local dipole (tetrad and normalisation products) are not
+guaranteed to cancel (V19).
+\item The main deliverable ($\Theta^{(2)}$, $\Theta^{(3)}$, $C^{(22)}$,
+$C^{(13)}$, monochromatic results) is \emph{not yet executed}. This document
+is the approach plus completed Stages 0--1.
 \end{enumerate}
 
 \section{Independent validation by subagents}\label{sec:indep}
-Two separately prompted agents reviewed this proposal and the scripts. One
-was a physics referee; the other did a blind first-order re-derivation and
-an audit of the scripts. Their findings, and how they were resolved, are
-recorded in \texttt{approach/VALIDATION.md}.
+Three separately prompted agents validated this work:
+\begin{itemize}
+\item a blind first-order re-derivation, done before reading this document:
+exact agreement for all $\ell\ge1$, including signs and normalisation;
+\item a physics referee: requirement-by-requirement compliance, independent
+re-derivation of L1--L5, the normalisation expansion and the first-order
+results; its major comments are incorporated above;
+\item an adversarial code audit with mutation testing.
+\end{itemize}
+Findings and resolutions are recorded in \texttt{approach/VALIDATION.md}.
 
 \end{document}
