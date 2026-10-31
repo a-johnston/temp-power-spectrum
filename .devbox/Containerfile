@@ -2,14 +2,21 @@
 # Those layers use apt and glibc, so keep a Debian or Ubuntu base.
 FROM ubuntu:24.04
 
-# Exact symbolic validation only; no numerical evolution/quadrature stack.
+# Exact computer algebra for the analytical derivation and its symbolic checks:
+#   - Python + pinned SymPy/mpmath (primary CAS; validation/ and verification/)
+#   - Maxima (independent second CAS for cross-checking key identities)
+#   - LaTeX toolchain to build the derivation documents
+# No numerical evolution or quadrature stack is installed or used as evidence.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-        ca-certificates python3 python3-venv \
-    && rm -rf /var/lib/apt/lists/*
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      ca-certificates curl git make \
+      python3 python3-venv python3-pip \
+      maxima \
+      texlive-latex-base texlive-latex-recommended texlive-latex-extra \
+      texlive-fonts-recommended texlive-science latexmk \
+ && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /opt/analysis-requirements.txt
-RUN python3 -m venv /opt/analysis-venv \
-    && /opt/analysis-venv/bin/pip install --no-cache-dir \
-        -r /opt/analysis-requirements.txt
-ENV PATH="/opt/analysis-venv/bin:${PATH}"
+RUN python3 -m venv /opt/venv \
+ && /opt/venv/bin/pip install --no-cache-dir -r /opt/analysis-requirements.txt
+ENV PATH="/opt/venv/bin:${PATH}"
