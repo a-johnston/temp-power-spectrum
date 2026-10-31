@@ -1,0 +1,4 @@
+# Pin both the exact-algebra package and its transitive dependency.
+# Validation does not call numerical quadrature, numerical solvers, or evalf.
+sympy==1.14.0
+mpmath==1.3.0
