@@ -4,7 +4,7 @@
 
 The statement in `problem_statement.tex` calls for a nonlinear relativistic observable, not just a fluid density spectrum or a lensing correction to a linear temperature map. The appropriate route is to expand an **exact, physically labelled measurement** through cubic order, then perform Gaussian contractions. Deriving only second-order evolution cannot give the requested fourth-order power: the linear–cubic interference is equally necessary.
 
-This document is a proposal with some exactly verified algebraic components, **not a completed derivation of the spectrum**. The subsequent [quadratic initial-data derivation](derivations/QUADRATIC_INITIAL_DATA.md) supplies explicit quadratic metric sources and a convergent finite-time retarded representation in a fixed gauge. Cubic dynamics and the resulting temperature kernels remain absent. Section 10 makes the completion gates explicit. A formal inverse differential operator, an unnamed “source”, or a numerical evolution is not an acceptable final substitute for those kernels.
+This document is a proposal with some exactly verified algebraic components, **not a completed derivation of the spectrum**. The [quadratic initial-data derivation](derivations/QUADRATIC_INITIAL_DATA.md) supplies independently accepted modewise quadratic metric sources and a convergent finite-time retarded representation in a fixed gauge. The new [cubic extension](derivations/CUBIC_INITIAL_DATA.md) supplies an explicit cubic source and nested retarded construction, pending independent review. The resulting observed-temperature kernels remain absent. Section 10 makes the completion gates explicit. A formal inverse differential operator, an unnamed “source”, or a numerical evolution is not an acceptable final substitute for those kernels.
 
 The model can be specified consistently, but several choices must be made explicit before there is a unique conditional answer:
 
@@ -361,7 +361,7 @@ Exact symbolic algebra is appropriate for coefficient extraction, tensor contrac
 5. **Finish measurement kernels.** Solve observer, clock, triad, ray and surface recursions, assemble the scalar redshift, divide by the measured sky mean, then project the dipole.
 6. **Perform a genuinely independent check.** A second derivation should use a different gauge or a general-gauge transformation and a separate implementation of endpoint/observer composition. Mere re-use of the same generated kernels is not independent validation.
 7. **Contract and reduce.** Use the verified Wick formulas; preserve every interference term. Reduce angular/time integrals only with proofs. Then specialize the primordial spectrum.
-8. **Publish a proof ledger.** For each kernel and integral list the defining expression, domain, boundary prescription, evaluated/unevaluated status, symbolic residual test, independent review result and remaining caveats. Native subagent attempts failed, but the user subsequently supplied an independent review of the original plan and algebra: **sound approach with stated gaps**. See `reviews/INDEPENDENT_REVIEW_01.md` for attribution and disposition. This review does not cover the newly derived quadratic construction.
+8. **Publish a proof ledger.** For each kernel and integral list the defining expression, domain, boundary prescription, evaluated/unevaluated status, symbolic residual test, independent review result and remaining caveats. Native subagent attempts failed, but the user subsequently supplied an independent review of the original plan and algebra: **sound approach with stated gaps**. See `reviews/INDEPENDENT_REVIEW_01.md` for attribution and disposition. A second user-supplied review accepts the quadratic construction at `ea6b053` within the declared modewise class; see `reviews/INDEPENDENT_REVIEW_02.md`. Neither review covers the new cubic extension.
 
 Suggested initial tooling is Python with SymPy for exact identities and a literate mathematical derivation. If expression size warrants a tensor CAS, select and validate one before porting the generator. No large software stack or numerical simulator is necessary for the current planning and algebra-validation stage.
 
@@ -369,12 +369,11 @@ Suggested initial tooling is Python with SymPy for exact identities and a litera
 
 `validation/check_algebra.py` checks normalization, log-redshift/endpoint composition, actual angular averages, Gaussian moments and pairings, scalar/tensor Green functions, and Fourier/shell measures. `validation/check_initial_data.py` adds checks of the exact fluid reduction, seed geometry, linear equations/constraints, quadratic source expansion, boundary coefficients, zero-total-momentum response, retarded matrix kernel and constraint-propagation energy identity. Neither constructs the observable temperature kernels `K^(2)` or `K^(3)`.
 
-`derivations/QUADRATIC_INITIAL_DATA.md` gives the new modewise quadratic construction and its analytical constraint and convergence arguments. Its unevaluated finite-time integrals are explicit. Independent acceptance of this new work is pending.
+`derivations/QUADRATIC_INITIAL_DATA.md` is independently accepted within its declared local, fixed-momentum, regular class. `derivations/OFFSHELL_VALIDATION.md` and `validation/check_offshell.py` preserve the upstream ADM/Bianchi evidence. The new `derivations/CUBIC_INITIAL_DATA.md` gives an explicit modewise cubic source, seed subtraction, nested finite-time representation and constraint induction. `validation/check_cubic.py` checks selected cubic algebra and boundary/finite-time identities; independent acceptance of the cubic construction is pending. None of these results alone establishes unbounded spectral convergence.
 
 Unresolved before a full solution can be claimed:
 
-- independent review of the new quadratic boundary construction and its exact reduction;
-- extension to cubic dynamical sources, constrained initial kernels and explicit finite-time representations;
+- independent review of the new cubic source, nesting bounds and constraint induction;
 - the complete cubic observer/clock/tetrad/ray/endpoint kernels;
 - the independent component-level gauge check;
 - explicit final finite-time kernels inside the spectrum integrals;

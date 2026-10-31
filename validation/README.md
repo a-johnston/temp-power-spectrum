@@ -2,17 +2,18 @@
 
 ## Scope
 
-The repository now contains two analytical layers:
+The repository now contains three analytical layers:
 
 1. `../APPROACH.md`: the full-spectrum plan and verified composition/statistical algebra.
-2. `../derivations/QUADRATIC_INITIAL_DATA.md`: a new fixed-gauge, modewise quadratic
-   initial-data construction with explicit component sources and convergent
-   finite-time retarded integrals.
+2. `../derivations/QUADRATIC_INITIAL_DATA.md`: independently accepted quadratic
+   data within the stated local, fixed-momentum regular perturbative class.
+3. `../derivations/CUBIC_INITIAL_DATA.md`: a new explicit cubic source and nested
+   retarded construction, **not yet independently reviewed**.
 
-The second layer has parent-authored symbolic checks and an analytical
-constraint-propagation argument. It has **not yet been independently reviewed**.
-Neither layer supplies cubic dynamics, the complete observed temperature map,
-or the requested fourth-order spectrum. No full-spectrum validation is claimed.
+`../derivations/OFFSHELL_VALIDATION.md` preserves the upstream ADM/Bianchi
+argument recommended by the quadratic reviewer. None of these layers supplies
+the complete observed temperature map or requested spectrum, or proves
+unrestricted spectral convergence. No full-spectrum validation is claimed.
 
 ## Reproduce
 
@@ -40,9 +41,10 @@ not numerical quadrature.
 
 ## Current local results
 
-Python 3.12.3, SymPy 1.14.0: **30 tests passed**, exit code 0.
-The original proposal contained 11 tests. Five review-inspired composition tests
-and fourteen initial-data tests have been added.
+Python 3.12.3, SymPy 1.14.0: **40 tests passed**, exit code 0.
+The suite contains 16 composition/statistics tests, 16 quadratic initial-data
+tests, 3 offshell checks, and 5 new cubic checks. The full suite currently takes
+about 90–100 seconds in this environment; the cubic expressions dominate runtime.
 
 ### Composition, statistics and elementary functions: 16 tests
 
@@ -69,7 +71,7 @@ The angular-factor test uses the harmonic addition theorem rather than proving
 it. The Green-function tests do not establish convergence against arbitrary
 nonlinear sources. The surface-root test assumes a transverse intersection.
 
-### Quadratic initial data: 14 tests
+### Quadratic initial data: 16 tests
 
 `initial_data.py` implements the component source and elementary matrix
 operators. `check_initial_data.py` supplies these checks:
@@ -90,20 +92,50 @@ operators. `check_initial_data.py` supplies these checks:
 | `test_indicial_inverse_and_exact_monomial_integral` | Indicial inverse and exact time integration of constant, quadratic and quartic sources |
 | `test_quadratic_constraints_through_next_time_coefficient` | Independently assembled Hamiltonian residual through time power η² and all momentum residuals through η³, using the metric through η⁴ and general planar momentum pair |
 | `test_constraint_propagation_energy_identity` | Hermitian constraint-energy identity used in the analytic all-time uniqueness argument |
+| `test_quadratic_source_fully_symbolic_matrices` | Source comparison with independent symbolic symmetric matrix functions and first derivatives, with all six momentum components free |
+| `test_constant_dilation_identity` | Exact finite-time mixed kernel with one zero-input-momentum dilation |
 
-The direct source test is a regression on explicit noncommuting matrix probes,
-not an exhaustive abstract tensor-identity proof. The quadratic constraint test
+The original direct source test uses explicit noncommuting probes. The added
+fully symbolic test removes that probe restriction, but both start from the
+exact metric equation. Its upstream ADM reduction is checked separately below. The quadratic constraint test
 uses `(a,0,0)` and `(b,c,0)` with symbolic independent `a,b,c`, which covers general
 pairs modulo rotations; no collinear or equal-magnitude assumption is made.
 It verifies a finite number of time coefficients, **not** all-time constraints
 by brute-force substitution. The all-time constraint argument is the separate
-ADM/Bianchi proof in the derivation. Its propagation identities and exact metric
-reduction remain important independent-review targets.
+ADM/Bianchi proof in the derivation. The second user-supplied review accepts
+that proof and the exact reduction; reproducible upstream checks are now retained.
 
 The retarded series bound proves finite-time convergence at fixed input
 momenta. No numerical evaluation of that series is used. No test here certifies
-unbounded spectral integration, the eventual cubic contraction restriction, or
-gauge invariance of a temperature kernel that has not yet been constructed.
+unbounded spectral integration, the eventual temperature-kernel contraction
+restriction, or gauge invariance of a temperature kernel not yet constructed.
+
+### Offshell reduction: 3 tests
+
+`check_offshell.py` checks the mixed ADM-to-metric matrix identity, the offshell
+trace-reversed spatial relation `E_ij=γ_ij H_c/2`, and all four coordinate Bianchi
+divergences at a spatial normal point with arbitrary lapse derivatives,
+extrinsic curvature and constraint residuals. It does not assume the constraints
+vanish. These checks are upstream of the constraint-energy identity.
+
+### Cubic dynamics: 5 tests
+
+| Test | What it establishes |
+|---|---|
+| `test_cubic_determinant_and_fluid_composition` | Generic symbolic matrix log-determinant coefficient and density/lapse composition |
+| `test_cubic_source_against_exact_metric_rhs` | The explicit source matches a separately organized full inverse-metric/connection/Ricci expansion on noncommuting time profiles with all nine momentum components symbolic |
+| `test_cubic_regular_boundary_general_momenta` | Singular and constant terms cancel after seed subtraction for arbitrary input vectors |
+| `test_cubic_lapse_boundary_and_internal_zero_pair` | Leading cubic lapse coefficient, including the exact `(k,q,−q)` restriction |
+| `test_two_constant_dilations_exact_finite_time` | Full finite-time cubic source and lapse identity with two zero-input-momentum dilation legs |
+
+The cubic comparison uses the same finite amplitude ring and elementary
+connection/Ricci contraction helpers in its two constructions, but not the same
+cubic source formula. It is a noncommuting-probe regression, not a fully symbolic
+arbitrary-matrix cubic proof or an independent tensor implementation. The new
+cubic derivation's weighted time-nesting bounds and constraint induction require
+independent review. Boundary jets are used only in explicitly labelled tests,
+not as finite-time field solutions. No cubic all-time temperature observable is
+implemented or validated.
 
 ## Independent review history
 
@@ -128,10 +160,15 @@ construction, explicit kernels, exact restrictions, and gauge verification as
 blocking obligations. Attribution and disposition are recorded in
 `../reviews/INDEPENDENT_REVIEW_01.md`.
 
-The review recommended the general-momentum quadratic boundary problem as the
-next milestone. The new derivation responds to that recommendation; it is not
-covered by the favorable verdict on the old plan. Its independent review is
-still pending.
+The first review recommended the general-momentum quadratic boundary problem.
+The user then supplied a second independent review of `ea6b053`, with verdict
+**“Quadratic milestone established—within the explicitly declared,
+fixed-momentum perturbative class.”** See `../reviews/INDEPENDENT_REVIEW_02.md`.
+It found no blocker or major defect within that scope and recommended retaining
+the stronger offshell and fully symbolic regressions now added here.
+
+The new cubic derivation is not covered by either favorable review; its
+independent acceptance is pending.
 
 ## Container validation
 
@@ -144,9 +181,8 @@ dependencies were needed for this milestone.
 
 ## Remaining acceptance gates
 
-- Independent review of the new quadratic reduction, source, constraints and
-  retarded representation.
-- Cubic constrained initial data and dynamics.
+- Independent review of the new cubic source, polarization, nested retarded
+  representation, regular endpoint, and constraint induction.
 - Observer/clock/tetrad/ray/endpoint construction and residuals through cubic.
 - Component-level observable gauge verification at fixed physical labels.
 - Final harmonic kernels and analytical spectral convergence/restriction proofs.

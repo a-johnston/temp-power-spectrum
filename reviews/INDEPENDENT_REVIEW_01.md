@@ -56,6 +56,10 @@ Neither threshold is asserted to describe the actual final observable.
 
 ## Next review
 
+**Subsequent status:** the requested quadratic review has now been supplied and
+accepts that milestone within its declared scope; see `INDEPENDENT_REVIEW_02.md`.
+The following list preserves the review targets proposed at this earlier stage.
+
 The reviewer recommended the general-momentum quadratic boundary problem as
 the next milestone. Review the new derivation independently, especially:
 

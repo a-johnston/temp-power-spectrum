@@ -234,6 +234,31 @@ class InitialDataTests(unittest.TestCase):
         actual = quadratic_source(eta, k, p, h, f, c, d)
         self.matrix_zero(expected - actual)
 
+    def test_quadratic_source_fully_symbolic_matrices(self):
+        eta = s.Symbol('eta', positive=True)
+        k, p = s.Matrix(s.symbols('k0:3')), s.Matrix(s.symbols('p0:3'))
+        # Six independent functions in each matrix: their values and first
+        # derivatives are algebraically independent; no fixed probes are used.
+        def matrix(prefix):
+            return s.Matrix(3, 3, lambda i, j:
+                            s.Function(f'{prefix}{min(i,j)}{max(i,j)}')(eta))
+        h, f = matrix('h'), matrix('f')
+        c, d = s.trace(h) / 6 - 1, s.trace(f) / 6 - 1
+        self.matrix_zero(direct_metric_rhs_cross(eta, k, p, h, f)
+                         - quadratic_source(eta, k, p, h, f, c, d))
+
+    def test_constant_dilation_identity(self):
+        eta, p = s.symbols('eta p', positive=True)
+        zero, momentum = s.zeros(3, 1), s.Matrix([0, 0, p])
+        h, c = linear_mode(eta, momentum)
+        h0, c0 = linear_mode(eta, zero)
+        j = 2 * h - p * h.diff(p)
+        self.matrix_zero(time_operator(eta, j) + spatial_operator(momentum, j)
+                         - quadratic_source(eta, zero, momentum, h0, h, c0, c))
+        chi2 = s.trace(j) / 6 - s.trace(h0 * h) / 6
+        self.zero(chi2 + p * s.diff(c, p))
+        self.matrix_zero(j.applyfunc(lambda x: s.limit(x, eta, 0, dir='+')) - 4 * I3)
+
     def test_regular_source_boundary_general_momenta(self):
         eta = s.Symbol('eta', positive=True)
         k, p = s.Matrix(s.symbols('k0:3')), s.Matrix(s.symbols('p0:3'))
