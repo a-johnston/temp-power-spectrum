@@ -176,9 +176,13 @@ def transfer(l):
     ser = sp.series(Gs, u, 0, 1).removeO()
     ser = sp.expand(ser)
     assert sp.simplify(ser.coeff(lu)) == 0, "log(u) does not cancel"
-    lim0 = sp.limit(sp.expand(ser.subs(lu, 0)), u, 0)
-    assert lim0.is_finite is not False
-    lim0 = lim0 + G_far.subs(u, 0)
+    ser0 = sp.expand(ser.subs(lu, 0))
+    # every negative power of u must cancel exactly (the integrand is regular at the observer)
+    for p_ in range(1, 4 * l + 12):
+        c_ = laurentize(sp.expand(ser0.coeff(u, -p_)), [xo])
+        assert sp.cancel(sp.together(c_)) == 0, f"u^-{p_} does not cancel at the observer endpoint"
+    assert not sp.expand(ser0 - ser0.coeff(u, 0)).has(sp.log(u)), "residual log(u) at observer endpoint"
+    lim0 = ser0.coeff(u, 0) + G_far.subs(u, 0)
     # Evaluate at u = U and parametrise xo = x* + U with x*, U > 0 so every Si/Ci argument is
     # manifestly positive (Si, Ci are then real); prove realness exactly via conjugation.
     T = (G.subs(u, U) - lim0).rewrite(sp.cos).subs(xo, xs + U)

@@ -197,13 +197,15 @@ with the Hamiltonian constraint
 $N^2(R[\gamma]-4\Delta n-2|Dn|^2-\sigma^2)+6N'^2=6a_1^2$.
 \status{derived covariantly from the conformal transformation of
 $R_{\mu\nu}$ and the synchronous-gauge Ricci tensor with $\tilde\theta=0$.
-Machine-checked as identities only on restricted families: arbitrary $N$
-with a $\det\gamma=1$ family with off-diagonal shear depending on $(t,x,z)$
-(\texttt{check\_exact\_field\_equations.py}), diagonal $\det\gamma=1$ for the
-Hamiltonian constraint (L4), and, by the independent auditor, further
-families (\texttt{VALIDATION.md}). Every perturbative solution is in any
-case checked against the full 4D Einstein tensor (V3), not against these
-reduced forms.}
+\emph{Proved} for generic $\gamma_{ij}$ with $t$-independent but spatially
+varying $\det\gamma$ and arbitrary $N$ (\texttt{check\_field\_equations\_generic.py}).
+The construction is $\gamma=w\,L\,\mathrm{diag}(a,b,1/ab)\,L^{T}$ with six
+free functions. Curvature at a point depends only on the 2-jet, and every
+jet component is an independent symbol, so exact cancellation is a proof.
+The method was adapted from the independent auditor's test. Restricted-family
+checks are in \texttt{check\_exact\_field\_equations.py} and L4. Perturbative
+solutions are in any case checked against the full 4D Einstein tensor
+(V3).}
 
 \paragraph{Parametrisation that solves continuity exactly.} Write
 \[
@@ -472,8 +474,12 @@ $\mathcal T^N_\ell=[\tfrac14\delta_N+\Phi]_\star j_\ell-kv_N(t_\star)j_\ell'
 +\int2\Phi'j_\ell+kv_N(t_o)j_\ell'(0)$: emission-surface temperature shift,
 SW, emitter and observer Doppler, and ISW. We show
 $\partial_{t_\star}(\mathcal T_\ell-\mathcal T^N_\ell)=0$ \emph{for symbolic
-$\ell$}, using only the Bessel ODE, and that both vanish at $t_\star=t_o$ for
-$\ell\ge1$. Hence $\mathcal T_\ell\equiv\mathcal T^N_\ell$.
+$\ell$}, and that both vanish at $t_\star=t_o$ for $\ell\ge1$. Hence
+$\mathcal T_\ell\equiv\mathcal T^N_\ell$. The structural reason is the
+identity $(k^2E)'=k^2v_N$: the temperature-frame shear rate \emph{is} the
+Newtonian-gauge fluid velocity gradient. The $j_\ell''$ terms therefore cancel
+before the Bessel ODE is used, and the derivative identity holds for any
+radial kernel. (The independent auditor pointed this out.)
 \status{verified}
 
 \paragraph{Closed form.} Rayleigh's formula makes the integrand a finite sum
@@ -610,17 +616,17 @@ as evidence.
 \begin{longtable}{@{}p{0.6cm}p{6.4cm}p{6.0cm}p{1.7cm}@{}}
 \toprule
 & Check & Method & Status\\\midrule\endhead
-V1 & Exact lemmas L1--L5; field equations \eqref{eq:E00}--\eqref{eq:Eij} & L1--L3, L5: arbitrary functions; field equations and L4: restricted $\det\gamma=1$ families (see \S\ref{sec:exact}) & done (scope as stated)\\
+V1 & Exact lemmas L1--L5 (incl.\ ray equation, redshift chain); field equations \eqref{eq:E00}--\eqref{eq:Eij} & arbitrary functions; field equations via independent symbolic 2-jets for generic $\gamma$ with $\partial_t\det\gamma=0$ & done\\
 V2 & Background & substitution & done\\
 V3 & Order-$r$ solution satisfies all 10 Einstein equations & substitute kernels into the \emph{full} $G_{\mu\nu}$ of \eqref{eq:metric}, expanded to $O(\eps^r)$; Si/Ci derivatives are elementary; nested integrals via Leibniz and Green's identity & $r{=}1$ done; $r{=}2,3$ planned\\
 V4 & Constraints on initial data at finite $t_i$; regularity; $t\to0$ limits (G),(T) & series in $t$ & $r{=}1$ done; nonlinear $O(t^2)$ done\\
 V5 & Fluid normalisation, continuity and Euler & exact by Lemma~\ref{lem:L1}; re-checked per order & done/each order\\
-V6 & Photon null condition and geodesic equation for perturbed rays & residual of \eqref{eq:ray} and of $\tilde g(\tilde p,\tilde p)$ per order; \eqref{eq:ray} itself so far derived by hand (twice, independently) from machine-checked Christoffels & planned\\
+V6 & Photon null condition and geodesic equation for perturbed rays & residual of \eqref{eq:ray} and of $\tilde g(\tilde p,\tilde p)$ per order; \eqref{eq:ray} itself is machine-checked exactly from the geodesic equation (L2) & exact form done; per-order planned\\
 V7 & Gauge invariance: temperature frame vs Newtonian/Poisson gauge & full independent recomputation in Poisson gauge, compared multipole by multipole & $r{=}1$ done (all $\ell$); $r{=}2$ planned\\
 V8 & Gauge transformation of the solution & transform $\mathcal K_2$ to Poisson gauge; check Einstein equations there and match the radiation-era second-order initial conditions in the literature & planned\\
 V9 & Constant-$\zeta$ (dilation) Ward identity & $\Theta[\zeta_s+c](\nhat)=\Theta[\zeta_s(e^{-c}\cdot)](\nhat)$ $\Rightarrow$ squeezed limits of $\mathcal K_2,\mathcal K_3$ & planned (only the $r{=}1$ analogue, V14, exists)\\
 V10 & Gradient-$\zeta$ (SCT) Ward identity & $O(q)$ squeezed terms cancel in $\Theta$ & planned\\
-V11 & Normalisation: $\sky{\Theta^{(r)}}=0$ & algebraic & done\\
+V11 & Normalisation formulas $\Theta^{(1,2,3)}$ & exact Taylor coefficients of $T/\sky{T}-1$ on random exact discrete skies, with negative controls; $\sky{\Theta^{(r)}}=0$ is only a consistency check & done\\
 V12 & Tetrad-orientation independence of the \emph{combined} $C_\ell$ & add an arbitrary $\eps$-dependent rotation; test $\tfrac14C^{(22)}+\tfrac13\operatorname{Re}C^{(13)}$ together & planned\\
 V13 & Coincidence limit $t_\star\to t_o$: $\Theta^{(r)}\to0$ & series in $t_o-t_\star$ & $r{=}1$ done\\
 V14 & Super-horizon limit $k\to0$: no $\ell\ge2$ anisotropy at $O(k^0)$ & series & $r{=}1$ done\\

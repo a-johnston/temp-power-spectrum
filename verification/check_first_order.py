@@ -60,9 +60,11 @@ Tdn = sp.Matrix(4, 4, lambda m, n: (rho + p) * udn[m] * udn[n] + p * g[m, n])
 einstein_residual(g, Tdn, "(A) temperature-frame linear solution")
 assert_zero(3 * C - k2E - 3 * zeta, "(A) expansion-free: 3C - k^2E = 3 zeta for all t")
 for f, lim, nm in [(nu, 0, 'nu'), (C, zeta, 'C'), (k2E, 0, 'k^2 E')]:
-    ser = sp.series(f, t, 0, 4).removeO()
-    assert sp.simplify(ser.subs(t, 0) - lim) == 0 and sp.simplify(sp.diff(ser, t).subs(t, 0)) == 0
-    print(f"[ok] (A) {nm} regular (series in t^2) with limit {lim} as t->0")
+    ser = sp.expand(sp.series(f, t, 0, 10).removeO())
+    assert sp.simplify(ser.subs(t, 0) - lim) == 0
+    assert all(sp.simplify(ser.coeff(t, p_)) == 0 for p_ in (1, 3, 5, 7, 9)), nm
+    assert not any(sp.simplify(ser.coeff(t, -p_)) != 0 for p_ in range(1, 6)), nm
+    print(f"[ok] (A) {nm} regular: no negative and no odd powers of t through t^9, limit {lim} as t->0")
 
 # ------------------------------------------------------------- (B) Newtonian gauge
 a = a1 * t
@@ -94,23 +96,49 @@ dTA = (sp.diff(k2E, t) * (J0 / 3 + J2)).subs(t, ts)
 Fb = (dN / 4 + Phi)
 dTB = (sp.diff(Fb, t) * J0 - k * Fb * J1 - k * sp.diff(vN, t) * J1 + k**2 * vN * J2
        - 2 * sp.diff(Phi, t) * J0).subs(t, ts)
-D = sp.expand((dTA - dTB).subs(J2, bessel_J2))
+# structural identity (found by the independent auditor): the temperature-frame shear rate
+# equals the Newtonian-gauge velocity gradient, (k^2 E)' = k^2 v_N
+assert sp.simplify(sp.diff(k2E, t) - k**2 * vN) == 0
+print("[ok] (k^2 E)' = k^2 v_N  (temperature-frame shear rate = Newtonian fluid velocity gradient)")
+Draw = sp.expand(dTA - dTB)
+# The j'' (J2) terms cancel identically by the identity above, so the result holds for ANY
+# kernel j (stronger than needed); we still substitute the Bessel ODE to be explicit.
+assert sp.simplify(Draw.coeff(J2)) == 0
+D = sp.expand(Draw.subs(J2, bessel_J2))
 cJ0 = sp.simplify(D.coeff(J0))
 cJ1 = sp.simplify(D.coeff(J1))
 assert cJ0 == 0 and cJ1 == 0, (cJ0, cJ1)
-print("[ok] d/dt*(T^A_l - T^B_l) = 0 identically for symbolic l (Bessel ODE only)")
+print("[ok] d/dt*(T^A_l - T^B_l) = 0 identically, for symbolic l (indeed for any radial kernel j)")
 # coincidence limit t* -> to (y -> 0): j_l(0)=delta_l0, j_l'(0)=delta_l1/3. T^A -> 0.
 # T^B(t*=to) = [dN/4+Phi](to) delta_l0 - k vN(to) delta_l1/3 + k vN(to) delta_l1/3
 yy0 = sp.Symbol('y', positive=True)
-for l in range(0, 5):
-    j = sp.expand_func(sp.jn(l, yy0))
-    j0 = sp.limit(j, yy0, 0)
-    j1 = sp.limit(sp.diff(j, yy0), yy0, 0)
-    TB_coinc = (Fb.subs(t, to) * j0 - k * vN.subs(t, to) * j1 + k * vN.subs(t, to) * j1)
-    if l >= 1:
-        assert sp.simplify(TB_coinc) == 0
-    # T^A at t* = to is an empty integral = 0
-print("[ok] coincidence t*->to (explicit l=1..4): T^B -> 0 = T^A (emitter/observer Doppler cancel)")
+tt_ = sp.Symbol('tt', positive=True)
+
+
+def TB_full(l, tstar):
+    """Complete Newtonian-gauge transfer function as ONE expression (no retyping)."""
+    j = lambda arg: sp.expand_func(sp.jn(l, arg))
+    jp = lambda arg: sp.diff(sp.expand_func(sp.jn(l, yy0)), yy0).subs(yy0, arg)
+    jp0 = sp.limit(sp.diff(sp.expand_func(sp.jn(l, yy0)), yy0), yy0, 0)
+    em = (Fb * j(k * (to - t)) - k * vN * jp(k * (to - t))).subs(t, tstar)
+    isw = sp.Integral((2 * sp.diff(Phi, t)).subs(t, tt_) * j(k * (to - tt_)), (tt_, tstar, to))
+    obs = k * vN.subs(t, to) * jp0
+    return em, isw, obs
+
+
+def TA_full(l, tstar):
+    w = sp.expand_func(sp.jn(l, yy0)) / 3 + sp.diff(sp.expand_func(sp.jn(l, yy0)), yy0, 2)
+    return -sp.Integral((sp.diff(k2E, t) / zeta).subs(t, tt_) * zeta * w.subs(yy0, k * (to - tt_)), (tt_, tstar, to))
+
+
+for l in range(1, 5):
+    em, isw, obs = TB_full(l, ts)
+    lim_em = sp.limit(em, ts, to)            # emission-endpoint terms as t* -> to
+    tb = sp.simplify(lim_em + isw.subs(ts, to).doit() + obs)
+    ta = TA_full(l, ts).subs(ts, to).doit()
+    assert tb == 0 and ta == 0, (l, tb, ta)
+print("[ok] coincidence t*->to (l=1..4, from the complete expressions): T^B -> 0 = T^A")
+print("     (l=1: emitter and observer Doppler cancel; l>=2 trivial since j_l(0)=j_l'(0)=0)")
 print("     => T^A_l == T^B_l for all l >= 1, all k, t*, to: first-order gauge invariance verified")
 
 # superhorizon behaviour of the source: k^2 E' = O(k^2) -> T_l = O(k^2 t^2) (no anisotropy from constant zeta)

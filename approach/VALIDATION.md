@@ -75,4 +75,26 @@ Gaps noted by the referee — the main deliverable not yet executed, no cheap se
 
 ## 3. Adversarial code audit (mutation testing)
 
-*(pending — filled in below when received)*
+**Method.** The auditor ran every script, classified each printed `[ok]`, and mutation-tested copies by planting plausible physics errors. It also re-implemented the closed-form method independently.
+
+**High-trust results, with mutation outcomes:**
+
+- **L1:** 2/2 mutants killed (ρ ∝ N⁻³; the 2/3 coefficient).
+- **L2/L3 Christoffel parts:** killed.
+- **First-order solutions:** all mutants killed — sound speed, ρ law, ν sign, Φ normalisation.
+- **First-order gauge identity:** all mutants killed — ISW 2→1, emitter Doppler sign, δ/4→δ/3, dropping j_l/3, chain-rule sign, and flipping or dropping the observer Doppler term.
+- **Closed-form method, re-implemented independently for l = 2:** the antiderivatives are exact for all β = ±1±√3 and m = 0..5, so the Ci/Si conventions for negative β are right. The negative powers and log u at the observer cancel exactly. The result agrees with 30-digit quadrature to the size of the quadrature cutoff, and its imaginary part is about 1e-30.
+
+### Findings and resolution
+
+| # | Finding | Resolution |
+|---|---|---|
+| B1–B3 | `transfer_closed_form.py` cannot finish: `apart` hangs, a dead line crashes, and `split_exp` rejects constant phases. | **Stale.** The auditor had copied the script before it was rewritten. The current version has explicit principal parts (`partial_fractions`, with an exact recombination check), no dead line, and `laurentize` for constant phases. It completes for l = 2 and l = 3; output is in `verification/results/`. |
+| W1 | `lim0.is_finite is not False` is a weak assertion. | Replaced: the script now asserts that every coefficient of u^(−p) cancels exactly (via `laurentize` + `cancel`) and that no log u remains. Re-run for l = 2, 3. |
+| W2 | Dead β = 0 branches; the β list in approach.tex was wrong. | The β list is corrected to {±1±√3}. The dead branches are harmless and kept for generality. |
+| W3 | The normalisation check ⟨Θ⁽ʳ⁾⟩ = 0 is tautological: 0/4 mutants killed. | Added an exact random discrete-sky test. It compares the Taylor coefficients of T/⟨T⟩ − 1 with the printed Θ⁽¹⁻³⁾, and two negative controls (mutated Θ⁽²⁾ and Θ⁽³⁾) are rejected. |
+| W4 | The field-equation family is too narrow: 3 mutants survive. One survivor drops a term that vanishes when det γ = 1, which matters because the parametrisation uses det γ = e^{6ζ(X)}. | Adopted the auditor's generic LDLᵀ family and strengthened it from random rational 2-jets to **independent symbolic 2-jets**, which turns it into a proof. All 11 identities, including L4, cancel exactly (`check_field_equations_generic.py`). The auditor's random-jet run of the same family killed all three survivors. |
+| W5 | The Bessel ODE is never actually used, because (k²E)′ = k² v_N. The coincidence check was retyped by hand. The Legendre images are a shared input to both routes. | (k²E)′ = k²v_N is now asserted, the j″ cancellation is asserted, and the wording in approach.tex is corrected. The coincidence limit is evaluated from single complete T^A and T^B expressions. The Legendre images were verified independently by the referee (l = 0–5) and by the blind re-derivation. |
+| W6 | The ray equation, E = Ẽ/N and the T_obs chain were printed, not asserted. | Now asserted in `check_exact_lemmas.py`: Γ̃^i_jk = Γ[γ]^i_jk; the exact ray equation from the geodesic equation; the redshift law; null geodesics of g → affine geodesics of g̃ with p̃ = N²p; E = Ẽ/N; and T_obs = T_fluid(o) Ẽ_o/Ẽ_e. Three planted mutants of the new assertions are all killed. |
+| — | The regularity check looked only at the value and first derivative at t = 0. | Now asserts no negative and no odd powers of t through t⁹. |
+

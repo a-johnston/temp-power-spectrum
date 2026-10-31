@@ -82,7 +82,30 @@ for i in range(3):
         rhs = sum(gaminv[i, k] * sp.diff(gam[k, j], t) for k in range(3)) / 2
         assert_zero(Gam[i + 1][0][j + 1] - rhs, f"L2 Gamma^X{i+1}_{{t X{j+1}}} = (1/2) gamma^ik d_t gamma_kj",
                     simp=lambda e: sp.simplify(sp.together(e)))
-print("    => de^i/dt = -2 sigma^i_j e^j - Gamma3^i_jk e^j e^k + e^i sigma_jk e^j e^k,  sigma = d_t gamma/2")
+# spatial Christoffels of gtilde coincide with those of gamma (synchronous, g_tt = -1)
+G3l, _ = christoffel(gam, list(X[1:]))
+for i in range(3):
+    for j in range(3):
+        for k_ in range(3):
+            assert sp.simplify(sp.together(Gam[i + 1][j + 1][k_ + 1] - G3l[i][j][k_])) == 0
+print("[ok] L2 Gammat^i_jk = Gamma[gamma]^i_jk")
+# exact ray equation from the geodesic equation, p = p^t (1, e^i):
+#   de^i/dt = [ -Gamma^i_ab + e^i Gamma^t_ab ] (1,e)^a (1,e)^b
+ev_ = [1] + list(sp.symbols('e1 e2 e3'))
+sig_m = sp.Matrix(3, 3, lambda i, j: sp.diff(gam[i, j], t) / 2)
+sig_up = gaminv * sig_m
+for i in range(3):
+    geo = (-sum(Gam[i + 1][a_][b_] * ev_[a_] * ev_[b_] for a_ in range(4) for b_ in range(4))
+           + ev_[i + 1] * sum(Gam[0][a_][b_] * ev_[a_] * ev_[b_] for a_ in range(4) for b_ in range(4)))
+    claim = (-2 * sum(sig_up[i, j] * ev_[j + 1] for j in range(3))
+             - sum(G3l[i][j][k_] * ev_[j + 1] * ev_[k_ + 1] for j in range(3) for k_ in range(3))
+             + ev_[i + 1] * sum(sig_m[j, k_] * ev_[j + 1] * ev_[k_ + 1] for j in range(3) for k_ in range(3)))
+    assert sp.simplify(sp.together(sp.expand(geo - claim))) == 0, i
+print("[ok] L2 exact ray equation de^i/dt = -2 sigma^i_j e^j - Gamma3^i_jk e^j e^k + e^i sigma_jk e^j e^k")
+# redshift law: d ln p^t / dt = -Gamma^t_ab (1,e)(1,e) = -sigma_ij e^i e^j
+red = -sum(Gam[0][a_][b_] * ev_[a_] * ev_[b_] for a_ in range(4) for b_ in range(4))
+assert sp.simplify(red + sum(sig_m[j, k_] * ev_[j + 1] * ev_[k_ + 1] for j in range(3) for k_ in range(3))) == 0
+print("[ok] L2 exact redshift law d ln Etilde/dt = -sigma_ij e^i e^j")
 
 # ---------------------------------------------------------------- L3
 # Conformal rescaling g = N^2 gt: null geodesics coincide as point sets; with affine
@@ -109,8 +132,29 @@ for a in range(4):
             if sp.simplify(sp.together(Gg[a][b][cc] - rhs)) != 0:
                 ok = False
 assert ok
-print("[ok] L3 conformal Christoffel identity (=> for null p: p~ = N^2 p is affinely parallel in gt,")
-print("    E = Etilde/N, hence T_obs = T_* E_o/E_e = (N_e/N_o) T_* Etilde_o/Etilde_e = T_fluid(o) Etilde_o/Etilde_e)")
+print("[ok] L3 conformal Christoffel identity Gamma[g] = Gamma[gt] + C(w)")
+# (i) if p is an affinely parametrised null geodesic of g, then pt = N^2 p (dlambda~ = dlambda/N^2)
+#     is an affinely parametrised geodesic of gt.  Pointwise identity at an arbitrary point with
+#     arbitrary components p^a, using dp^a/dlambda = -Gamma[g]^a_bc p^b p^c and g(p,p) = 0.
+pv = list(sp.symbols('p0 p1 p2 p3'))
+null_p0 = sp.sqrt(sum(gt[i, j] * pv[i] * pv[j] for i in range(1, 4) for j in range(1, 4)))
+psub = {pv[0]: null_p0}  # gt(p,p)=0 <=> g(p,p)=0 (future-directed)
+for A_ in range(4):
+    dp = -sum(Gg[A_][b_][c_] * pv[b_] * pv[c_] for b_ in range(4) for c_ in range(4))
+    dlnN = sum(pv[b_] * w[b_] for b_ in range(4))
+    # d pt^a / d lambda~ = N^2 d(N^2 p^a)/d lambda = N^4 (2 (p.w) p^a + dp^a/dlambda)
+    acc = N**4 * (2 * dlnN * pv[A_] + dp) + sum(GamT[A_][b_][c_] * N**4 * pv[b_] * pv[c_] for b_ in range(4) for c_ in range(4))
+    assert sp.simplify(sp.together(sp.expand(acc.subs(psub)))) == 0, A_
+print("[ok] L3 null geodesics of g map to affinely parametrised geodesics of gt with pt = N^2 p")
+# (ii) E = -g(u,p) with u = ut/N, p = pt/N^2  =>  E = Etilde / N
+Et = -sum(gt[a_, b_] * [1, 0, 0, 0][a_] * pv[b_] for a_ in range(4) for b_ in range(4))  # Etilde for ut=d_t, pt=pv
+E_ = -sum(g[a_, b_] * ([1, 0, 0, 0][a_] / N) * (pv[b_] / N**2) for a_ in range(4) for b_ in range(4))
+assert sp.simplify(E_ - Et / N) == 0
+print("[ok] L3 E = Etilde/N; with N_e = Tref/T_*, N_o = Tref/T_fluid(o):")
+Ts, To_, Eo_t, Ee_t, Tref = sp.symbols('T_star T_o Etilde_o Etilde_e T_ref', positive=True)
+Tobs = Ts * (Eo_t / (Tref / To_)) / (Ee_t / (Tref / Ts))
+assert sp.simplify(Tobs - To_ * Eo_t / Ee_t) == 0
+print("[ok] L3 T_obs = T_* E_o/E_e = T_fluid(o) Etilde_o/Etilde_e  (T_* and Tref cancel exactly)")
 
 # ---------------------------------------------------------------- L4
 a1 = sp.Symbol('a1', positive=True)
