@@ -1,0 +1,127 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\section*{Analytical Temperature Power Spectrum Through Fourth Order}
+
+Compute the observed temperature angular power spectrum through fourth
+order in the primordial perturbation amplitude in a spatially flat,
+radiation-only universe governed by general relativity, with
+$\Lambda=0$.
+
+Assume a perfect radiation fluid with
+\[
+P=\frac{\rho}{3},
+\qquad
+\rho=\alpha T_{\rm phys}^{4},
+\]
+where $\alpha$ is constant. At first order, take regular adiabatic scalar
+perturbations. Specify precisely which nonlinear primordial variable is
+Gaussian, define the absence of independent higher-order primordial
+modes in that variable, and construct initial data satisfying the
+Einstein constraints at every required order. Do not indiscriminately
+set higher-order metric and fluid perturbations to zero.
+
+Test photons are emitted isotropically with a Planck spectrum on the
+physical hypersurface $T_{\rm phys}=T_\star$. They subsequently propagate
+collisionlessly with negligible backreaction. The observer follows a
+tagged radiation-fluid worldline and measures at fixed elapsed proper
+time from a specified physical initial event. Define sky directions
+using an orthonormal tetrad with specified initial orientation and
+Fermi--Walker transport.
+
+Start from the exact measurement
+\[
+T_{\rm obs}(\hat n)
+=
+T_\star\frac{E_o}{E_e},
+\qquad
+E=-u_\mu p^\mu,
+\]
+where the emission event is the intersection of the perturbed null ray
+with $T_{\rm phys}=T_\star$. Construct
+\[
+\Theta(\hat n)
+=
+\frac{T_{\rm obs}(\hat n)}
+{\displaystyle \frac{1}{4\pi}
+ \int d\Omega_{\hat n'}\,T_{\rm obs}(\hat n')}
+-1.
+\]
+Subtract the measured dipole only after constructing and normalizing
+the complete map. Retain all observer and endpoint terms throughout
+the preceding nonlinear operations.
+
+Derive the complete temperature anisotropy through third order:
+\[
+\Theta
+=
+\epsilon\Theta^{(1)}
++\frac{\epsilon^2}{2}\Theta^{(2)}
++\frac{\epsilon^3}{6}\Theta^{(3)}
++O(\epsilon^4).
+\]
+Retain every contributing metric, fluid, photon-propagation,
+emission-surface, observer, and normalization term, including induced
+vector and tensor perturbations and all required products of
+lower-order quantities.
+
+Define
+\[
+a_{\ell m}^{(r)}
+=
+\int d\Omega_{\hat n}\,
+Y_{\ell m}^{*}(\hat n)\Theta^{(r)}(\hat n),
+\qquad
+C_\ell^{(rs)}
+=
+\frac{1}{2\ell+1}
+\sum_{m=-\ell}^{\ell}
+\left\langle
+a_{\ell m}^{(r)}a_{\ell m}^{(s)*}
+\right\rangle_{\!c}.
+\]
+For Gaussian primordial initial conditions, compute
+\[
+C_\ell
+=
+\epsilon^2 C_\ell^{(11)}
++
+\epsilon^4
+\left[
+\frac14 C_\ell^{(22)}
++
+\frac13\operatorname{Re}C_\ell^{(13)}
+\right]
++
+O(\epsilon^6).
+\]
+Retain all interference terms and fix every perturbative, Fourier,
+convolution, and angular normalization explicitly.
+
+\paragraph{Analytical requirement.}
+Keep the entire calculation analytical. Use exact symbolic expressions
+and derive closed forms wherever possible. Where necessary, use
+explicitly defined special functions or exact definite-integral
+representations, with complete integrands, limits, nesting, and boundary
+prescriptions. Clearly distinguish evaluated results from remaining
+unevaluated integrals. Numerical evolution, numerical quadrature,
+fitting, or numerical evidence must not replace the analytical
+derivation or its consistency checks.
+
+Beyond the stated physical model and perturbative truncation, introduce
+no undeclared approximations. Retain general momenta, angles, and finite
+times. Distinguish the initial time, emission time, and observation time,
+and preserve all boundary contributions. Verify the dynamical
+constraints, fluid normalization, photon null and geodesic equations,
+and gauge invariance at fixed physical measurement labels.
+
+Specialize to a monochromatic primordial spectrum at $k_0$, or take
+asymptotic limits, only after constructing the complete observable.
+State which amplitude or variance is held fixed as $k_0$ varies.
+Justify any exchange of limits and integrations analytically, and
+identify all unresolved steps explicitly.
+
+\end{document}
