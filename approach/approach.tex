@@ -307,9 +307,11 @@ with $\bar t_o^2=\bar t_I^2+2\tau_o/a_1$.
 $N=\Tref/T_\star$, giving $t_e(\nhat)=\bar t_\star+\dots$ with
 $\bar t_\star=\Tref/(a_1T_\star)$.
 \item Tetrad: Fermi--Walker transported along $u$ in $g$. This is equivalent
-to parallel transport along the geodesic $\tilde u$ in $\tilde g$ (FW
-transport of vectors orthogonal to $u$ is conformally covariant, a Stage 0
-item to be written up). Then $\dd E_a{}^i/\dd t=-\sigma^i{}_jE_a{}^j$, with
+to parallel transport along the geodesic $\tilde u$ in $\tilde g$.
+Lemma L5: for $e=N^{-1}\tilde e\perp u$,
+$u^b\nabla_be^a-u^a(a_be^b)=N^{-2}\,\tilde u^b\tilde\nabla_b\tilde e^a$
+identically, using $a_b=h_b{}^c\partial_c\ln N$ (\texttt{check\_fw\_conformal.py},
+arbitrary $N,\gamma_{ij},\tilde e$). Then $\dd E_a{}^i/\dd t=-\sigma^i{}_jE_a{}^j$, with
 initial orientation $E_a{}^i(t_I)=[\gamma(t_I,X_o)^{-1/2}]_{ia}$ (symmetric
 square root, aligned with the conformally Cartesian labels). The ray then
 starts from $e^i(t_o)=-E_a{}^i(t_o)\nhat^a$.
@@ -515,7 +517,7 @@ as evidence.
 \begin{longtable}{@{}p{0.6cm}p{6.4cm}p{6.0cm}p{1.7cm}@{}}
 \toprule
 & Check & Method & Status\\\midrule\endhead
-V1 & Exact lemmas L1--L4, field equations \eqref{eq:E00}--\eqref{eq:Eij} & identities for arbitrary metric functions & done\\
+V1 & Exact lemmas L1--L5, field equations \eqref{eq:E00}--\eqref{eq:Eij} & identities for arbitrary metric functions & done\\
 V2 & Background & substitution & done\\
 V3 & Order-$r$ solution satisfies all 10 Einstein equations & substitute kernels into the \emph{full} $G_{\mu\nu}$ of \eqref{eq:metric}, expanded to $O(\eps^r)$; Si/Ci derivatives are elementary; nested integrals via Leibniz and Green's identity & $r{=}1$ done; $r{=}2,3$ planned\\
 V4 & Constraints on initial data at finite $t_i$; regularity; $t\to0$ limits (G),(T) & series in $t$ & $r{=}1$ done\\
@@ -540,8 +542,7 @@ V18 & Independent agents & blind re-derivation and audit & see \S\ref{sec:indep}
 \section{Plan, stages and cost}\label{sec:plan}
 %======================================================================
 \begin{enumerate}
-\item[S0] Exact framework. \emph{Done} apart from the write-up of the
-FW-conformal lemma.
+\item[S0] Exact framework (L1--L5). \emph{Done}.
 \item[S1] First order. \emph{Done}: solution, gauge equivalence, closed-form
 $\mathcal T_\ell$, $C^{(11)}_\ell$.
 \item[S2] Second-order kernels $(\nu,E,F,h)^{(2)}$: extract the sources from
