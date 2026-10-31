@@ -4,7 +4,7 @@
 
 The statement in `problem_statement.tex` calls for a nonlinear relativistic observable, not just a fluid density spectrum or a lensing correction to a linear temperature map. The appropriate route is to expand an **exact, physically labelled measurement** through cubic order, then perform Gaussian contractions. Deriving only second-order evolution cannot give the requested fourth-order power: the linear–cubic interference is equally necessary.
 
-This document is a proposal with some exactly verified algebraic components, **not a completed derivation of the spectrum**. In particular, it does not supply the full quadratic/cubic Einstein–fluid sources or the resulting temperature kernels. Section 10 makes the completion gates explicit. A formal inverse differential operator, an unnamed “source”, or a numerical evolution is not an acceptable final substitute for those kernels.
+This document is a proposal with some exactly verified algebraic components, **not a completed derivation of the spectrum**. The subsequent [quadratic initial-data derivation](derivations/QUADRATIC_INITIAL_DATA.md) supplies explicit quadratic metric sources and a convergent finite-time retarded representation in a fixed gauge. Cubic dynamics and the resulting temperature kernels remain absent. Section 10 makes the completion gates explicit. A formal inverse differential operator, an unnamed “source”, or a numerical evolution is not an acceptable final substitute for those kernels.
 
 The model can be specified consistently, but several choices must be made explicit before there is a unique conditional answer:
 
@@ -34,7 +34,7 @@ Fix the background normalization `A` and the coordinate length convention once. 
 4. the background emission time `η_e`, defined by `T̄(η_e)=T_star`;
 5. the background observation time `η_o`, defined by the physical clock prescription.
 
-For example, define the initial event to be the crossing of `T_phys=T_i`, with `T_i>T_star`, on a fixed material fluid tag, and observe after a specified proper time `Δτ`. Choose the initial triad as additional marked physical data. Transport it by the rule below. The background clock condition is
+Define the initial event to be the crossing of `T_phys=T_i`, with `T_i>T_star`, on a fixed material fluid tag, and observe after a specified proper time `Δτ`. Require `η_o>η_e>η(T_i)` in the background. Choose the initial triad as additional marked physical data. Transport it by the rule below. The background clock condition is
 
 \[
 \Delta\tau=\int_{\eta(T_i)}^{\eta_o}a(\eta)\,d\eta
@@ -56,7 +56,7 @@ A candidate precise convention is the regular primordial limit of the logarithmi
 \gamma_{ij}/a^2=e^{2\zeta}\,[e^h]_{ij},\quad \mathrm{tr}\,h=0.
 \]
 
-The determinant is coordinate-dependent unless this spatial gauge has been fixed. In implementing the boundary construction, specify the material labels so the limiting seed spatial metric is `exp(2 ζ_p) δ_ij`, up to the fixed rigid Euclidean frame. Uniform density is a slicing condition; material threading is a separate spatial condition. This is a definition at the regular primordial boundary, **not a claim that finite-time ζ is exactly conserved at finite momentum**.
+The determinant is coordinate-dependent unless this spatial gauge has been fixed. The boundary construction now uses a marked Cartesian material chart and declares its limiting seed spatial metric to be `exp(2 ζ_p) δ_ij`. Conformal flatness is a physical restriction on primordial tensor data, not merely a gauge choice; see `derivations/QUADRATIC_INITIAL_DATA.md` §1. Uniform density is a slicing condition; material threading is a separate spatial condition. This is a definition at the regular primordial boundary, **not a claim that finite-time ζ is exactly conserved at finite momentum**.
 
 Set
 
@@ -113,7 +113,7 @@ In an ADM decomposition let `n` be the future unit normal, `γ` the spatial metr
 
 **Construction task:** derive the regular scalar seed solution and its forced order-two/order-three corrections near the primordial boundary, solve both constraints coefficient by coefficient, and propagate that solution to finite `η_i`. No gradient expansion is allowed as the finite-time answer. A near-boundary expansion may select the exact solution branch only if convergence or a well-defined asymptotic boundary prescription is established. If that boundary construction fails, the primordial convention must be revised explicitly; arbitrary finite-time constraint data are not automatically the same model.
 
-For finite-time calculation use a fully fixed gauge, for example Poisson gauge including transverse shift and transverse-traceless spatial metric. Retain lapse, scalar curvature, velocity and density, transverse metric/fluid components, and tensor components. Tensor and vector constraints and propagation equations must be derived in that same convention. Barotropic flow with initially vanishing vorticity provides a useful conservation check; it does not imply vanishing vector metric perturbations or vanishing transverse parts of every coordinate velocity variable.
+For finite-time calculation use the comoving-orthogonal, zero-shift gauge fixed in `derivations/QUADRATIC_INITIAL_DATA.md`, retaining a general six-component spatial metric. Poisson gauge, including transverse shift and transverse-traceless spatial metric, remains an option for an independent comparison, not a scalar-only replacement. Retain lapse, scalar curvature, velocity and density, transverse metric/fluid components, and tensor components. Tensor and vector constraints and propagation equations must be derived in that same convention. Barotropic flow with initially vanishing vorticity provides a useful conservation check; it does not imply vanishing vector metric perturbations or vanishing transverse parts of every coordinate velocity variable.
 
 Let `F[X]=0` collect the exact equations and gauge conditions, expanded around the radiation background. At each order the same linearized operator acts on the new unknowns:
 
@@ -321,13 +321,13 @@ The physical seed variance is `ε²σ_g²`. Hold `σ_g²`, the background and th
 =\frac{\sigma_g^2}{4\pi}\int d\Omega_{\hat k}\,f(k_0\hat k).
 \]
 
-Thus `11` is a two-angle integral and `22`/`13` are four-angle integrals before symmetry reductions. Do not replace the generated quadratic/cubic output momentum spectrum by another shell at `k_0`; sums of shell wavevectors are not confined to that shell. In particular the `13` contraction samples `K^(3)(k,q,−q)` exactly.
+Thus `11` is a two-angle integral and `22`/`13` are four-angle integrals before symmetry reductions. Do not replace the generated quadratic/cubic output momentum spectrum by another shell at `k_0`; sums of shell wavevectors are not confined to that shell. In particular the `13` contraction samples `K^(3)(k,q,−q)` exactly. An almost-everywhere-defined generic kernel does not suffice: this exact contraction restriction must itself be proved to exist, separately from integrability near zero partial sums.
 
 For the general spectrum, first formulate exact results for explicitly declared smooth spectra supported on `0<k_min≤k≤k_max<∞`. This defines a controlled class of inputs, not an approximation to every spectrum. Even compact input support does **not** remove singularities at zero *sum* momentum. Show that the full gauge-invariant integrand has an integrable extension there, or retain an explicit regulator and demonstrate a regulator-independent limit. Prove ultraviolet/infrared convergence separately before extending the input class.
 
 Use dominated convergence (or an appropriate proved distributional convergence result) for every interchange of primordial boundary limits, angular integrals, time integrals and shell/soft/high-frequency limits. Supply the majorant or other precise theorem hypotheses. Expanding individual gauge-dependent terms and then integrating is not sufficient. A delta-shell substitution also requires existence of the restricted full integrand on the shell; products of singular distributions must not be assumed defined.
 
-No large- or small-`k_0` scaling is established in this proposal.
+Smooth-spectrum convergence also does not imply shell convergence. For illustration only, a full integrand behaving like `|k+q|^(−p)` has generic three-dimensional local threshold `p<3`, but the equal-radius antipodal shell has measure `θ dθ` and threshold `p<2`. Neither singularity is asserted for the actual observable. No large- or small-`k_0` scaling is established in this proposal.
 
 ## 8. Full analytical validation matrix
 
@@ -361,18 +361,20 @@ Exact symbolic algebra is appropriate for coefficient extraction, tensor contrac
 5. **Finish measurement kernels.** Solve observer, clock, triad, ray and surface recursions, assemble the scalar redshift, divide by the measured sky mean, then project the dipole.
 6. **Perform a genuinely independent check.** A second derivation should use a different gauge or a general-gauge transformation and a separate implementation of endpoint/observer composition. Mere re-use of the same generated kernels is not independent validation.
 7. **Contract and reduce.** Use the verified Wick formulas; preserve every interference term. Reduce angular/time integrals only with proofs. Then specialize the primordial spectrum.
-8. **Publish a proof ledger.** For each kernel and integral list the defining expression, domain, boundary prescription, evaluated/unevaluated status, symbolic residual test, independent review result and remaining caveats. The attempted independent reviews in this session were blocked by provider failures; see `validation/README.md`. No subagent approval is claimed.
+8. **Publish a proof ledger.** For each kernel and integral list the defining expression, domain, boundary prescription, evaluated/unevaluated status, symbolic residual test, independent review result and remaining caveats. Native subagent attempts failed, but the user subsequently supplied an independent review of the original plan and algebra: **sound approach with stated gaps**. See `reviews/INDEPENDENT_REVIEW_01.md` for attribution and disposition. This review does not cover the newly derived quadratic construction.
 
 Suggested initial tooling is Python with SymPy for exact identities and a literate mathematical derivation. If expression size warrants a tensor CAS, select and validate one before porting the generator. No large software stack or numerical simulator is necessary for the current planning and algebra-validation stage.
 
 ## 10. Delivered evidence versus unresolved work
 
-`validation/check_algebra.py` supplies exact, executable checks for the normalization/log-redshift identities, their vanishing sky means, the cubic implicit-surface composition, perturbative power coefficients, Gaussian pairing counts, scalar/tensor homogeneous solutions, scalar retarded boundary conditions, and Fourier/shell measure factors. It does **not** validate a nonlinear spacetime or compute `K^(2)` or `K^(3)`.
+`validation/check_algebra.py` checks normalization, log-redshift/endpoint composition, actual angular averages, Gaussian moments and pairings, scalar/tensor Green functions, and Fourier/shell measures. `validation/check_initial_data.py` adds checks of the exact fluid reduction, seed geometry, linear equations/constraints, quadratic source expansion, boundary coefficients, zero-total-momentum response, retarded matrix kernel and constraint-propagation energy identity. Neither constructs the observable temperature kernels `K^(2)` or `K^(3)`.
+
+`derivations/QUADRATIC_INITIAL_DATA.md` gives the new modewise quadratic construction and its analytical constraint and convergence arguments. Its unevaluated finite-time integrals are explicit. Independent acceptance of this new work is pending.
 
 Unresolved before a full solution can be claimed:
 
-- a complete and proved regular nonlinear primordial boundary construction and its zero-mode convention;
-- all second/third-order dynamical sources, constrained initial kernels and explicit propagators;
+- independent review of the new quadratic boundary construction and its exact reduction;
+- extension to cubic dynamical sources, constrained initial kernels and explicit finite-time representations;
 - the complete cubic observer/clock/tetrad/ray/endpoint kernels;
 - the independent component-level gauge check;
 - explicit final finite-time kernels inside the spectrum integrals;

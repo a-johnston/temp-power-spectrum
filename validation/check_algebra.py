@@ -174,6 +174,85 @@ class ExactAlgebraTests(unittest.TestCase):
         for solution in (s.S.One, 1 / eta):
             self.zero(s.diff(solution, eta, 2) + 2 * s.diff(solution, eta) / eta)
 
+    def test_endpoint_energy_inverse_and_log(self):
+        e = s.Symbol('epsilon')
+        e1, e2, e3 = s.symbols('e1 e2 e3')
+        energy = 1 + e * e1 + e**2 * e2 / 2 + e**3 * e3 / 6
+        logarithm = s.series(-s.log(energy), e, 0, 4).removeO().expand()
+        temperature = s.series(1 / energy, e, 0, 4).removeO().expand()
+        for order, expected in enumerate(
+            (-e1, -e2 + e1**2, -e3 + 3 * e1 * e2 - 2 * e1**3), 1
+        ):
+            self.zero(factorial(order) * logarithm.coeff(e, order) - expected)
+        for order, expected in enumerate(
+            (-e1, 2 * e1**2 - e2, -e3 + 6 * e1 * e2 - 6 * e1**3), 1
+        ):
+            self.zero(factorial(order) * temperature.coeff(e, order) - expected)
+
+    def test_actual_angular_normalization_and_dipole_projection(self):
+        e, amplitude, mu = s.symbols('epsilon amplitude mu', real=True)
+        raw = s.series(s.exp(e * amplitude * mu), e, 0, 4).removeO()
+        mean = s.integrate(raw, (mu, -1, 1)) / 2
+        sky = s.series(raw / mean - 1, e, 0, 4).removeO().expand()
+        expected = (amplitude * mu, amplitude**2 * (mu**2 - s.Rational(1, 3)),
+                    amplitude**3 * (mu**3 - mu))
+        for order, value in enumerate(expected, 1):
+            self.zero(factorial(order) * sky.coeff(e, order) - value)
+            self.zero(s.integrate(value, (mu, -1, 1)))
+        # For an axisymmetric sky, the dipole is (3/2) mu int_{-1}^1 mu' sky(mu').
+        clean = s.expand(sky - s.Rational(3, 2) * mu
+                         * s.integrate(mu * sky, (mu, -1, 1)))
+        self.zero(s.integrate(mu * clean, (mu, -1, 1)))
+        self.zero(clean.coeff(e, 2) - expected[1] / 2)
+        self.zero(clean.coeff(e, 3)
+                  - amplitude**3 * (mu**3 - s.Rational(3, 5) * mu) / 6)
+
+    def test_tensor_retarded_green(self):
+        eta, time, k = s.symbols('eta time k', positive=True)
+        green = time / eta * s.sin(k * (eta - time)) / k
+        self.zero(green.subs(eta, time))
+        self.zero(s.diff(green, eta).subs(eta, time) - 1)
+        self.zero(s.diff(green, eta, 2) + 2 * s.diff(green, eta) / eta + k**2 * green)
+        self.zero(s.limit(green, k, 0, dir='+') - time * (1 - time / eta))
+
+    def test_shifted_scalar_endpoint_cubic(self):
+        e, delta = s.symbols('epsilon delta')
+        a1, a2, a3 = s.symbols('lambda1 lambda2 lambda3')
+        H = {(r, j): s.Symbol(f'H{r}{j}')
+             for r in range(4) for j in range(4 - r)}
+        taylor = sum(value * e**r * delta**j / (factorial(r) * factorial(j))
+                     for (r, j), value in H.items())
+        composed = s.Poly(s.expand(taylor.subs(
+            delta, e * a1 + e**2 * a2 / 2 + e**3 * a3 / 6)), e)
+        expected = (H[3, 0] + 3 * a1 * H[2, 1] + 3 * a2 * H[1, 1]
+                    + 3 * a1**2 * H[1, 2] + a3 * H[0, 1]
+                    + 3 * a1 * a2 * H[0, 2] + a1**3 * H[0, 3])
+        self.zero(6 * composed.nth(3) - expected)
+
+    def test_gaussian_moments_without_pair_enumeration(self):
+        x, y = s.symbols('x y', real=True)
+        a, b, c, d, e, f, h, j, k = s.symbols('a b c d e f h j k')
+
+        def moment(degree):
+            if degree % 2:
+                return 0
+            return s.factorial2(degree - 1) if degree else 1
+
+        def expectation(poly):
+            return sum(coefficient * moment(i) * moment(jj)
+                       for (i, jj), coefficient in s.Poly(s.expand(poly), x, y).terms())
+
+        linear = a * x + b * y
+        quadratic = c * x**2 + 2 * d * x * y + e * y**2
+        cubic = f * x**3 + 3 * h * x**2 * y + 3 * j * x * y**2 + k * y**3
+        covariance = (expectation(quadratic * s.conjugate(quadratic))
+                      - expectation(quadratic) * expectation(s.conjugate(quadratic)))
+        self.zero(covariance - 2 * (c * s.conjugate(c) + 2 * d * s.conjugate(d)
+                                   + e * s.conjugate(e)))
+        self.zero(expectation(linear * s.conjugate(cubic))
+                  - 3 * (a * (s.conjugate(f) + s.conjugate(j))
+                         + b * (s.conjugate(h) + s.conjugate(k))))
+
     def test_shell_measure_and_linear_angular_factor(self):
         k0, sigma2 = s.symbols('k0 sigma2', positive=True)
         # delta(log(k/k0)) = k0 delta(k-k0), for k>0 and k0>0.
