@@ -2,7 +2,7 @@
 # Run every exact check of the unified derivation and the final report. Exits non-zero on failure.
 # PYTHON defaults to python3 (provided by the devbox image). Slow steps (minutes to ~1 h):
 # closed_second_order.py --fresh (rebuild ~20 min), observable_generator.py SH (~5 min),
-# check_logmap_decomposition.py (~6 min).
+# check_logmap_decomposition.py (~2 min).
 # Optional slow cross-checks (hours, not completed): closed_second_order.py --check all,
 # third_order_consistency.py 4, observable_generator.py SH3 2.
 # DEPTH sets the second-order Taylor depth (6 -> O(t^4); 10 -> O(t^8)).
@@ -12,7 +12,7 @@ PY="${PYTHON:-python3}"
 for s in check_evolution_form.py first_order_engine_check.py check_green.py second_order.py \
          check_ward_dilation.py check_ward_dilation3.py check_observable_expansion.py \
          check_report_identities.py check_gradient_modes.py check_dilation_factorisation.py \
-         "transfer_entire.py 1 2 3" check_shell_locality.py check_logmap_decomposition.py third_order.py \
+         "transfer_entire.py 1 2 3" check_shell_locality.py check_logmap_decomposition.py check_gradient_octupole.py third_order.py \
          "second_order_consistency.py ${DEPTH:-6}" "fast_series.py 8" \
          closed_second_order.py "observable_generator.py W2 4" "observable_generator.py W3 4" \
          "observable_generator.py SH 2" superhorizon.py; do

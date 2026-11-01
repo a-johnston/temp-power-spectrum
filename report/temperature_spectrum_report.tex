@@ -77,10 +77,15 @@ cancels exactly in the normalised map. Further results:
   \Xi\equiv x_o^2-x_\star^2 .
   \]
   Through fourth order this gives the factor $1+\frac{29}{3}\eps^2\sigma^2$, with
-  $\frac{29}{3}=8+\frac53$. The $8$ is the chart dilation by the observer's own $\zeta$ and
-  depends on the convention fixing the mean of $\zeta$. The invariant $\frac53$ is the
-  gradient-squared curvature. These statements concern the leading-gradient expression, not
-  the finite-wavelength solution.
+  $\frac{29}{3}=8+\frac53$. The $8$ is the Gaussian average of the observer's own random
+  local dilation; it is part of the answer for the specified ensemble. The $\frac53$ is the
+  gradient-squared curvature.
+\item The leading octupole is a local curvature-gradient octupole,
+  $\Theta_{3,\rm lead}=\beta_3\nabla_{\langle a}R_{bc\rangle}n^an^bn^c$. Its spectrum also
+  resums. Through fourth order it gives $C_{3}=\eps^2C_3^{(11)}(1+46\eps^2\sigma^2)$ at
+  $O(k_0^6)$.
+\item These statements concern the leading-gradient expressions, not the finite-wavelength
+  solution.
 \end{itemize}
 Analytical proofs and exact computer-algebra checks (no numerical evidence) are distinguished
 in the verification ledger. We state explicitly which integrals remain unevaluated and which
@@ -114,9 +119,9 @@ Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\r
 Observer, clock, tetrad, emission surface & \S\ref{sec:obs}; explicit Fermi--Walker rotation, irrelevant to the spectrum at this order (Prop.~\ref{prop:frame}) \\
 Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks \\
 $C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}), proved for $\ell=2,\dots,6$ \\
-$C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, sky integrals evaluated (\S\ref{sec:spec}); existence proved; log-map decomposition with the lognormal part \st{closed form} (Thm.~\ref{thm:logmap}) \\
+$C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, sky integrals evaluated (\S\ref{sec:spec}); existence proved; log-map decomposition with the lognormal part \st{explicit} (convergent $3j$ series, or one Legendre integral of $\xi^2$; Thm.~\ref{thm:logmap}) \\
 Monochromatic, held-fixed quantity & $\ens{g^2}=\sigma^2$ fixed (\S\ref{sec:mono}) \\
-Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into observer dilation $\times$ invariant curvature norm (\eqref{eq:sh-dilation-factorised}, \eqref{eq:sh-invariant-ratio}); late time: \st{first order}; general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
+Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into the random observer dilation $\times$ a curvature norm (\eqref{eq:sh-dilation-factorised}); leading octupole \st{closed form} (\S\ref{sec:sh-octupole}); late time: \st{first order}; general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
 Convergence for general spectra & compact support: \st{proved}; IR: leading cancellation \st{derived} from the Ward identities; UV: \st{power counting only} \\
 Verification & \S\ref{sec:ledger} (exact symbolic, generic-jet proofs) \\
 \bottomrule
@@ -905,8 +910,14 @@ and from the fact that $\xi\star\xi$ has Legendre coefficients $C_\ell^2$.
 
 Three features make \eqref{eq:logmap-decomposition} the natural organisation of the answer.
 \begin{enumerate}
-\item \emph{The lognormal term is closed form.} $\mathcal N_\ell$ depends on $C^{(11)}$
-  alone. By Prop.~\ref{prop:Tl} it is explicit for every $\ell$. The map variance
+\item \emph{The lognormal term is explicit.} $\mathcal N_\ell$ depends on $C^{(11)}$
+  alone. By Prop.~\ref{prop:Tl} it is an explicit convergent harmonic series for every
+  $\ell$; it is not a finite closed expression. Equivalently, it is a single angular integral
+  that we do not evaluate:
+  \begin{equation}\label{eq:lognormal-legendre}
+  \mathcal N_\ell=\pi\int_{-1}^{1}P_\ell(u)\,\xi(u)^2\,\dd u-\frac{C_\ell^2}{2\pi},\qquad\ell\ge1 .
+  \end{equation}
+  The map variance
   $\xi(1)$ cancels identically. The dipole ($\ell_1=1$ or $\ell_2=1$) enters explicitly,
   because it is removed only after the nonlinear normalisation, as the problem requires. The
   term $-C_\ell^2/2\pi$ is the effect of normalising by the \emph{random} sky monopole. On the
@@ -923,13 +934,24 @@ Three features make \eqref{eq:logmap-decomposition} the natural organisation of 
 \item \emph{The mixed term needs only a three-point function.} $\mathcal M_\ell$ involves only
   the leading bispectrum $\ens{\theta\theta L_2}$ of the log map, in two collapsed
   configurations. $L_3$ does not enter it.
-\item \emph{All dynamics sits in the log-map spectrum.} $L_3$ appears only in $C^{L,4}_\ell$.
-  In the superhorizon limit $\theta=O(\kappa^2)$, so $\mathcal N_\ell=O(\kappa^8)$ and
-  $\mathcal M_\ell=O(\kappa^6)$. Hence the entire $O(k_0^4)$ result of \S\ref{sec:sh},
-  including the $\frac{29}{3}$, is the fourth-order spectrum of $L$. Conversely, at finite
-  $k_0$, $\mathcal N_\ell$ and $\mathcal M_\ell$ are the parts of the answer that come from the
-  nonlinearity of the \emph{measurement} (exponentiation and normalisation), as distinct from
-  the nonlinearity of the dynamics.
+\item \emph{All cubic response sits in the log-map spectrum.} $L_3$ appears only in
+  $C^{L,4}_\ell$. The quadratic dynamics ($L_2$) enters both $C^{L,4}_\ell$ and
+  $\mathcal M_\ell$. $\mathcal N_\ell$ is pure measurement nonlinearity (exponentiation and
+  normalisation). $\mathcal M_\ell$ is the interference of that nonlinearity with the quadratic
+  dynamics.
+\item \emph{Gradient counting.} In the superhorizon limit $\theta=O(\kappa^2)$, so
+  $\mathcal N_\ell=O(\kappa^8)$. Power counting alone gives $\mathcal M_\ell=O(\kappa^6)$, but
+  that order cancels. At leading gradient order $\theta=-\tau^2A_{nn}$ and
+  $L_2=\tau^2(4gA+2B)_{nn}$, with $A=(\partial\partial g)_{\TF}$ and
+  $B=(\partial g\,\partial g)_{\TF}$. At a point, $g$, $A$ and $\nabla g$ are independent,
+  and $\ens g=\ens B=0$. Hence $\ens{\theta(\nh)\theta(\nh')L_2(\hat m)}=0$ for arbitrary
+  directions at $O(\kappa^6)$; spatial parity removes $O(\kappa^7)$. Therefore
+  \[
+  \mathcal M_\ell=O(\kappa^8),\qquad\mathcal N_\ell=O(\kappa^8),
+  \]
+  and the fourth-order temperature and log-temperature spectra agree through total gradient
+  order six. This order contains the leading quadrupole ($O(k_0^4)$, \S\ref{sec:sh}) and the
+  leading octupole ($O(k_0^6)$, \S\ref{sec:sh-octupole}).
 \end{enumerate}
 \code{solution/check\_logmap\_decomposition.py} verifies \eqref{eq:logmap-decomposition} and
 \eqref{eq:lognormal-term} exactly for $\ell=1,\dots,4$. It uses a band-limited isotropic
@@ -1000,7 +1022,8 @@ On the monochromatic shell:
   with $\lambda=\bar t_o-t$ and $\lambda'=\bar t_o-t'$. Its Legendre coefficients are
   $4\pi\sigma^2T_\ell^2$. Consequently the real-space lognormal term
   $\frac12\xi^2-\frac1{2\pi}\xi\star\xi$ of \eqref{eq:logmap-realspace} has elementary
-  integrands.
+  integrands. Its multipoles still require the viewing-angle projection
+  \eqref{eq:lognormal-legendre}.
 \item At second order, the \emph{only} non-local input to the log map is the order-two
   trace-free metric along the background ray:
   \[
@@ -1026,12 +1049,16 @@ The lapse $\nu_2$ enters only through $d_2$ and $D_2$, which first appear in $\T
 By Wick's theorem, every contraction between local quantities is a derivative of
 $\sigma^2j_0(k_0|X-Y|)$, evaluated at points on the two rays or at the observer. Therefore all
 of $\mathcal N_\ell$, and every \emph{local--local} part of $C^{L,4}_\ell$ and
-$\mathcal M_\ell$, are line-of-sight integrals of elementary functions. These parts have no
-$\mu$ integral and no Green-function times. The angular integral over $\mu$ (equivalently the
-total momentum $K\in[0,2k_0]$), and the nested Green-function times, are confined to the terms
-that contain $A_2$, $A_3$ or~$\nu_2$. That is, they are confined to the resonant second- and
-third-order field response. This is a reorganisation of the same exact integrals; the local
-line-of-sight integrals are not evaluated here.
+$\mathcal M_\ell$, have correlation functions that are line-of-sight integrals of elementary
+functions. These parts need no integral over the primordial relative-momentum angle~$\mu$ and
+no Green-function times. Two different angular integrations must be kept apart, however. The
+\emph{viewing-angle} Legendre projection
+$C_\ell=2\pi\int_{-1}^1P_\ell(\nh\cdot\nh')\,w(\nh\cdot\nh')\,\dd(\nh\cdot\nh')$ remains, and it
+is not evaluated here. The relative-momentum integral over $\mu$ (equivalently the total
+momentum $K\in[0,2k_0]$), and the nested Green-function times, are confined to the terms that
+contain $A_2$, $A_3$ or~$\nu_2$: the resonant second- and third-order field response. This is a
+reorganisation of the same exact integrals; the local line-of-sight integrals are not
+evaluated.
 
 \begin{theorem}[Existence]\label{thm:exist}
 For all finite $0<x_\star<x_o$, the integrals for $C_\ell^{(22)}$ and $C_\ell^{(13)}$ converge
@@ -1148,7 +1175,7 @@ C_2^{(22)}=\frac{272\pi}{675}\sigma^4\Xi^2,\qquad
 C_2^{(13)}=\frac{16\pi}{75}\sigma^4\Xi^2,
 \]
 \[
-C_2=\frac{4\pi}{225}\eps^2\sigma^2\Xi^2\Big[1+\frac{29}{3}\eps^2\sigma^2\Big]+O(\eps^6)+O(k_0^6),\qquad C_{\ell\ge3}=O(k_0^6).
+C_2=\frac{4\pi}{225}\eps^2\sigma^2\Xi^2\Big[1+\frac{29}{3}\eps^2\sigma^2\Big]+O(\eps^6)+O(k_0^6),\qquad C_{\ell\ge3}=O(k_0^6)\ \text{(the octupole is given in \S\ref{sec:sh-octupole})}.
 \]
 Two checks: $C_2^{(11)}$ agrees with the line-of-sight transfer function
 $T_2\to-\frac{2}{15}k_0^2\tau^2$, and the direct $\eps$-expansion of $\ens{\sum_m|a_{2m}|^2}$
@@ -1184,31 +1211,120 @@ Here $D=k\partial_k$ acts on the degree-four momentum norms. Three consequences 
   $\frac12\sigma_L^2D^2$ acting on the short-mode spectrum, which is equivalent to acting on
   the response after integration by parts in $\ln k$. In the superhorizon limit every mode is
   ``long'' relative to the horizon, and the field at the observer dilates its own gradients.
-\item \emph{Convention dependence.} The residual dilation was fixed by $\ens{g}=0$
-  (\S\ref{sec:ic}). Fixing it instead by $\ens{\zeta}=\mu$ maps $m_j\to e^{-j\mu}m_j$, which is
-  the same as multiplying the first factor by $e^{-4\mu}$. The $8$ (and hence $e^{8\eps^2m_0}$)
-  thus measures the chart normalisation of $k$; it is not a property of the observable at a
-  fixed physical wavenumber. The ratio
+\item \emph{What is, and is not, a convention.} A genuine constant relabelling
+  $X'=e^cX$, $\zeta'(X')=\zeta(e^{-c}X')-c$ changes the mean, $\mu'=\mu-c$, and rescales the
+  moments, $m_j'=e^{-jc}m_j$, but it leaves the variance $m_0'=m_0$ unchanged. The full
+  spectrum is invariant: the deterministic factor $e^{-4\mu}$ compensates the rescaled
+  moments. The stochastic factor $e^{8\eps^2m_0}$ is the average of the observer's
+  \emph{random} local dilation, and it survives every such relabelling. For the ensemble
+  specified in the problem (Gaussian $\zeta$ with the chart-shell $k_0$ and $\sigma^2$ held
+  fixed), the fourth-order coefficient is therefore $\frac{29}{3}$, observer dilation
+  included. The ratio
   \begin{equation}\label{eq:sh-invariant-ratio}
-  \boxed{\displaystyle
   \frac{C_{2,\mathrm{lead}}}{\frac{16\pi}{225}\tau^4\eps^2\ens{e^{-4\zeta_o}}m_4}
   =1+\frac53\eps^2\frac{m_2^2}{m_4}
-  \ \xrightarrow{\ \text{shell}\ }\ 1+\frac53\eps^2\sigma^2}
+  \ \xrightarrow{\ \text{shell}\ }\ 1+\frac53\eps^2\sigma^2
   \end{equation}
-  is invariant, and it holds to all orders in $\eps$ at leading gradient order.
+  is a useful \emph{dilation-factored} ratio, valid to all orders in $\eps$ at leading
+  gradient order. It is not a replacement answer.
 \end{enumerate}
-Equivalently, measure the wavenumber in the seed's orthonormal frame at the observer,
-$k_{\rm phys}=e^{-\zeta_o}k$, and put $\Xi_{\rm phys}=e^{-2\zeta_o}\Xi$. On the shell,
+Equivalently, write $k_{\rm phys}=e^{-\zeta_o}k$ for the wavenumber in the seed's
+orthonormal frame at the observer, and put $\Xi_{\rm phys}=e^{-2\zeta_o}\Xi$. Then, as an
+identity on the shell,
 \begin{equation}\label{eq:sh-physical}
 C_{2,\mathrm{lead}}=\frac{4\pi}{225}\eps^2\sigma^2\,\ens{\Xi_{\rm phys}^2}
 \Big(1+\frac53\eps^2\sigma^2\Big).
 \end{equation}
-Equation~\eqref{eq:sh-physical} is the form we regard as the physical superhorizon answer.
-Relative to the local physical scale, the only nonlinear correction is the
-$\frac53\eps^2\sigma^2$ of the gradient-squared curvature. Equation~\eqref{eq:sh-shell-resummed}
-is the same result expressed at fixed chart wavenumber $k_0$, as the problem's held-fixed
-convention requires. \code{solution/check\_dilation\_factorisation.py} verifies the covariance
-exactly in $\zeta$, the mean-shift/dilation equivalence, and the Gaussian dilation operator.
+Holding a locally inferred scale fixed instead of the chart-shell $k_0$ would be a
+\emph{different}, conditional specification of the ensemble. It is not the one posed.
+\path{solution/check_dilation_factorisation.py} verifies the covariance exactly in $\zeta$,
+the mean-shift/dilation equivalence and the Gaussian dilation operator.
+
+\subsection{Leading octupole: a curvature-gradient multipole}\label{sec:sh-octupole}
+For every $\ell\ge2$, the lowest powers of $s'(x)=x/3+O(x^3)$ and
+$w_\ell(y)=\ell(\ell-1)y^{\ell-2}/(2\ell+1)!!+O(y^\ell)$ in \eqref{eq:linear-transfer} give
+\begin{equation}\label{eq:Tl-leading}
+T_\ell(k)=-\frac{k^\ell(\bar t_o-\bar t_\star)^{\ell-1}\big[\bar t_o+(\ell-1)\bar t_\star\big]}{3\,(2\ell+1)!!}
++O(k^{\ell+2}).
+\end{equation}
+For $\ell=2$ this is $T_2\to-\frac2{15}k^2\tau^2$. For $\ell=3$ it is
+$T_3\to-\frac2{35}k^3\beta_3$, with
+\[
+\beta_3=\frac13\int_{\bar t_\star}^{\bar t_o}t\,(\bar t_o-t)\,\dd t
+=\frac{(\bar t_o-\bar t_\star)^2(\bar t_o+2\bar t_\star)}{18}.
+\]
+
+\begin{theorem}[Leading octupole, exact in $\zeta$]\label{thm:octupole}
+Let all momenta scale as $\kappa\to0$ at fixed times. To every order in $\eps$, the
+$\ell=3$ part of the map is
+\begin{equation}\label{eq:octupole-map}
+\boxed{\displaystyle
+\Theta_{3,\mathrm{lead}}(\nh)=\beta_3\,\big[\nabla_{\langle a}R_{bc\rangle}\big]_o\,n^an^bn^c
++O(\kappa^4),\qquad
+\nabla_{\langle a}R_{bc\rangle}=\frac f2\big[\partial_a\partial_b\partial_c(f^2)\big]_{\rm STF},}
+\end{equation}
+where $f=e^{-\zeta}$. The curvature, the covariant derivative and the orthonormal components
+are those of the seed metric $\gamma^{(0)}=e^{2\zeta}\delta$, and $\langle\cdots\rangle$
+denotes the symmetric trace-free part.
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+\item \emph{Coordinates.} Use seed Riemann normal coordinates at the observer. This is a
+  time-independent relabelling of the comoving labels, so it is allowed at fixed physical
+  labels. The Christoffel symbols vanish at the observer and are $O(\kappa^2)$ along the ray.
+  Ray deflection and displacement therefore enter only at $O(\kappa^4)$, and so do the
+  endpoint, the clock, the frame rotation and the nonlinear normalisation terms.
+\item \emph{Shear.} The leading shear is covariant, $\sigma_{ab}=-\frac t3R_{{\rm TF},ab}$,
+  by \eqref{eq:grad}.
+\item \emph{Expansion along the ray.} Expanding along the radial ray,
+  \[\Theta=\frac13\int t\,\big[R_{\rm TF}+(\bar t_o-t)\,n^c\nabla_cR_{\rm TF}\big]_{nn}\,\dd t+O(\kappa^4).\]
+  The first term is the quadrupole \eqref{eq:curvature-quadrupole}. The second term is
+  $\beta_3\nabla_{\langle a}R_{bc\rangle}n^an^bn^c$ plus a dipole, which by the contracted
+  Bianchi identity is proportional to $n\cdot\nabla R$. The dipole is removed by the final
+  projection and does not affect $\ell=3$.
+\item \emph{Conformal identity.} The conformal identity in \eqref{eq:octupole-map} is
+  proved for generic $\zeta$ in \path{solution/check_gradient_octupole.py}.
+\end{enumerate}
+\end{proof}
+
+With the moments $m_j$ of Prop.~\ref{prop:sh-resummed} (now including $m_6$), the same
+independence argument gives an exact Gaussian average. Write $\Theta_{3,\rm lead}=\beta_3Q_{abc}n^an^bn^c$ with
+$Q_{abc}=e^{-3\eps g}\big[-\eps g_{abc}+6\eps^2g_{(ab}g_{c)}-4\eps^3g_ag_bg_c\big]_{\rm STF}$, by
+\eqref{eq:octupole-map}. The three coefficients come from three facts:
+\begin{itemize}
+\item $\ens{|g_{\langle abc\rangle}|^2}=\frac25m_6$;
+\item the $\ell=3$ part of the trace-free Hessian $\otimes$ gradient carries $\frac7{15}$ of
+  $\ens{A{:}A}\ens{|\nabla g|^2}$;
+\item $\ens{|(\nabla g)^{\otimes3}_{\rm STF}|^2}=\frac25\ens{|\nabla g|^6}=\frac{14}9m_2^3$.
+\end{itemize}
+With $\sum_m|a_{3m}|^2=\frac{8\pi}{35}Q{:}Q$, the result is
+\begin{equation}\label{eq:octupole-resummed}
+\boxed{\displaystyle
+C_{3,\mathrm{lead}}=\frac{16\pi}{1225}\beta_3^2\eps^2e^{18\eps^2m_0}
+\Big[m_6+28\eps^2m_2m_4+\frac{560}9\eps^4m_2^3\Big].}
+\end{equation}
+On the shell, with $v=\eps^2\sigma^2$,
+\begin{equation}\label{eq:octupole-shell}
+\boxed{\displaystyle
+C_{3,\mathrm{lead}}=\frac{4\pi}{3675}(x_o-x_\star)^4(x_o+2x_\star)^2\eps^2\sigma^2
+e^{18v}\Big(1+28v+\frac{560}9v^2\Big),}
+\end{equation}
+and, through the requested order,
+\[
+C_3=\eps^2C_3^{(11)}\big[1+46\eps^2\sigma^2\big]+O(\eps^6)+O(k_0^8),\qquad
+\frac{C_3^{(22)}}{C_3^{(11)}}=148\sigma^2,\quad\frac{C_3^{(13)}}{C_3^{(11)}}=27\sigma^2 .
+\]
+The linear term agrees with $4\pi\sigma^2T_3^2$ from \eqref{eq:Tl-leading}. The structure
+parallels the quadrupole:
+\begin{itemize}
+\item the observer dilation is $e^{\frac12\eps^2m_0D^2}$ at degree $D=6$, giving $e^{18v}$
+  (compared with $D=4$ and $e^{8v}$ for the quadrupole);
+\item $46=18+28$, the second term being the Hessian--gradient interference;
+\item the $v^2$ term is the cubed gradient.
+\end{itemize}
+This evaluates the leading $O(k_0^6)$ octupole only, not the finite-wavelength spectrum, and
+the exponential resums the leading-gradient expression only. The cross-check by the
+independent ray generator (\code{observable\_generator.py}) was not run at this order.
 
 \subsection{Late time, first order}
 
@@ -1296,8 +1412,9 @@ Superhorizon observable & \code{solution/observable\_generator.py SH}: orders 1 
 Superhorizon $C_2$ & \code{solution/superhorizon.py}\\
 Strengthened report identities & \code{solution/check\_report\_identities.py}: background residual Bianchi identities and zero-mode constraint matching; conformal driver and cubic commutator shear; Fermi--Walker rotation; centred normalisation and polarised map kernels; the two-norm spectrum; general-moment and monochromatic leading-gradient resummation. These are exact symbolic identities, not an arbitrary-time cubic-observable verification.\\
 Literature-inspired gradient tests & \code{solution/check\_gradient\_modes.py}: exact special-conformal Jacobian and flat seed; zero shear and hence zero map for the completed adiabatic profile; quadratic completion and its conversion to the convention of \cite{MirbabayiZaldarriaga}; nonzero uncompensated-gradient quadrupole; plane-wave soft generator and the leading-gradient check of \eqref{eq:gradient-ward}. The general finite-time Ward identity is proved by covariance, not by full-kernel substitution.\\
-Log-map decomposition & \code{solution/check\_logmap\_decomposition.py} (about 6~min): \eqref{eq:logmap-decomposition} and the $3j$ lognormal term \eqref{eq:lognormal-term} for $\ell=1,\dots,4$, in a band-limited Gaussian sky with non-Gaussian $L_2,L_3$; exact sphere integrals and Gaussian moments\\
+Log-map decomposition & \code{solution/check\_logmap\_decomposition.py} (about 2~min): \eqref{eq:logmap-decomposition} and the $3j$ lognormal term \eqref{eq:lognormal-term} for $\ell=1,\dots,4$, in a band-limited Gaussian sky with non-Gaussian $L_2,L_3$; exact sphere integrals and Gaussian moments\\
 Shell locality & \code{solution/check\_shell\_locality.py}: the local form of the shell first-order fields and of $\theta$; $\sigma^{(2)}=\frac12A_2'+\frac12(H_1^2)'+2gH_1'$ for generic matrices. Item~(3) of Prop.~\ref{prop:shell-local} is by inspection.\\
+Leading octupole; $\mathcal M_\ell$ cancellation & \code{solution/check\_gradient\_octupole.py}: the conformal identity $\nabla_{\langle a}R_{bc\rangle}=\frac f2[\partial^3f^2]_{\rm STF}$ for generic $\zeta$; the leading $T_\ell$ coefficient \eqref{eq:Tl-leading} for $\ell=2,\dots,7$; $\beta_3$; exact isotropic Wick moments giving \eqref{eq:octupole-resummed} and the shell ratios $148\sigma^2$, $27\sigma^2$; $\ens{\theta\theta L_2}=0$ at leading gradient order. The octupole map itself rests on the proof of Thm.~\ref{thm:octupole}.\\
 Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$\\
 Normalisation; Wick and Fourier measures & \code{verification/normalization\_expansion.py}; \code{validation/check\_algebra.py}\\
 \bottomrule
@@ -1320,10 +1437,10 @@ Normalisation; Wick and Fourier measures & \code{verification/normalization\_exp
   By Prop.~\ref{prop:shell-local}, their local--local parts are line-of-sight integrals of
   elementary functions; these are not evaluated. Only the terms with $A_2$, $A_3$ or $\nu_2$
   carry the angular and Green-function integrals.
-\item The next order of the superhorizon expansion (the leading $C_3$ and the $O(k_0^6)$
-  correction to $C_2$ at fourth order) is not computed. It needs the $O(t^4)$ gradient data and
-  the $O(\kappa^3)$ map: ray deflection, spatial variation along the ray, endpoint and clock.
-  At first order it follows directly from Prop.~\ref{prop:Tl}.
+\item The leading superhorizon quadrupole ($O(k_0^4)$) and octupole ($O(k_0^6)$) are evaluated.
+  The next corrections are not computed: the $O(k_0^6)$ correction to $C_2$ at fourth order, and
+  the $O(k_0^8)$ correction to $C_3$. They need the $O(t^4)$ gradient data and the
+  $O(\kappa^4)$ map (ray deflection, endpoint, clock and nonlinear normalisation).
 \item The second-order tensor kernel has not been compared term by term with the
   scalar-induced tensor kernels of \S\ref{sec:literature}.
 \item The late-time limit at fourth order (non-uniform at the resonances) is not evaluated.
@@ -1338,6 +1455,88 @@ Normalisation; Wick and Fourier measures & \code{verification/normalization\_exp
   justification for interchanging the full nonlinear solution, an infinite amplitude series
   and an ensemble average.
 \end{enumerate}
+
+\appendix
+%======================================================================
+\section{Exploratory numerics at finite \texorpdfstring{$k_0$}{k0} (not evidence)}\label{app:numerics}
+%======================================================================
+The problem forbids numerics as a substitute for derivation, and nothing in the main text
+relies on this appendix. It records an exploratory evaluation, made to look for structure at
+finite $k_0$ that a later analytical argument might prove, so that readers can build on it.
+
+\paragraph{What is computed.}
+By Thm.~\ref{thm:logmap}, every part of the fourth-order spectrum except
+$\frac13\operatorname{Re}C_\ell[\theta,L_3]$ needs only second-order quantities. Those parts
+are $\frac14C^{(22)}_\ell$, $\mathcal N_\ell$, $\mathcal M_\ell$ and $\frac14C_\ell[L_2,L_2]$.
+\path{solution/explore_fourth_order.py} evaluates them for $\ell=2$ on the shell ($k_0=1$,
+$\sigma=1$), at fixed $\bar t_o/\bar t_\star=3$ and $\bar t_I=\bar t_\star/2$. The ingredients
+are:
+\begin{itemize}
+\item the exact second-order sources of \code{second\_order.py}, inserted into the Green
+  formulas of \S\ref{sec:fields} and integrated by quadrature;
+\item the ray, emission, clock and normalisation formulas of \S\ref{sec:obs};
+\item Gauss--Legendre quadrature in $\mu$ and on the sphere.
+\end{itemize}
+
+\paragraph{Validation.}
+\begin{enumerate}
+\item The first-order part reproduces the entire-function $T_2$ of Prop.~\ref{prop:Tl} to
+  $10^{-6}$ for $x_o\le6$, and to $0.4\%$ at $x_o=12$, where the ray grid is coarse.
+\item $\frac14C_2[\theta^2,\theta^2]$ equals the first term of $\mathcal N_2$ to all printed
+  digits.
+\item The dilation Ward identity holds at finite $k$ ($x_o=1.5$) for the complete second-order
+  map: $[\mathcal K_2(k,q)+\mathcal K_2(k,-q)]/2=-k\partial_k\mathcal K_1$, with residual
+  $4.5\times10^{-3}$ at $q=0.04$ and $1.1\times10^{-3}$ at $q=0.02$, i.e.\ $O(q^2)$. As negative
+  controls, dropping the ray terms or $A_2$ gives $O(1)$ failures. The clock and endpoint
+  terms vanish in this limit and are not tested by it.
+\item The clock shift agrees with a direct root of the exact clock equation to eight digits.
+\item The results are stable to four or five digits under refinement of the $\mu$, sphere,
+  ray and field grids.
+\item As $x_o\to0$, $\frac14C_2^{(22)}/\sigma^2C_2^{(11)}$ approaches $\frac{17}3$.
+\end{enumerate}
+
+\paragraph{Results} (absolute values; $\sigma=1$; the entries at $x_o\ge8$ carry about $1\%$
+error).
+\begin{center}
+\begin{tabular}{rrrrrr}
+\toprule
+$x_o$ & $C_2^{(11)}$ & $\frac14C_2^{(22)}$ & $\frac14C_2[L_2,L_2]$ & $\mathcal M_2$ & $\mathcal N_2$\\\midrule
+0.5 & 0.00243 & 0.00867 & 0.00867 & $1.9\times10^{-6}$ & $-6.0\times10^{-7}$\\
+1   & 0.0258  & 0.0172  & 0.0177  & $-2.9\times10^{-4}$ & $-6.7\times10^{-5}$\\
+1.5 & 0.0596  & 0.388   & 0.396   & $-0.0119$ & $-3.1\times10^{-4}$\\
+2   & 0.0423  & 2.61    & 2.64    & $-0.0453$ & $9.5\times10^{-5}$\\
+3   & 0.116   & 6.26    & 6.32    & $-0.320$  & $-0.0012$\\
+4   & 0.958   & 8.32    & 8.65    & $-2.10$   & $-0.048$\\
+6   & 0.0458  & 5.23    & 4.96    & $0.697$   & $0.126$\\
+8   & 0.00059 & 6.80    & 4.65    & $1.26$    & $0.746$\\
+12  & 0.00035 & 2.43    & 2.44    & $-0.057$  & $0.020$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\paragraph{Observations.}
+\begin{enumerate}
+\item \emph{Hierarchy reversal inside the horizon.} $\frac14C_2^{(22)}$ stays $O(1)\sigma^4$
+  out to $x_o=12$, while $C_2^{(11)}$ decays and passes near zeros of $T_2$. Once
+  $x_o\gtrsim2$ the fourth-order term exceeds the first-order one unless
+  $\eps^2\sigma^2\ll10^{-2}$ (and $\ll10^{-4}$ near zeros of $T_2$). The small
+  renormalisation of \S\ref{sec:sh} is a superhorizon statement only.
+\item \emph{Measurement nonlinearity.} $\mathcal N_2+\mathcal M_2$ is below about $5\%$ of
+  $\frac14C_2[L_2,L_2]$ for $x_o\le3$, but it reaches 25--45\% at $x_o=4$--8.
+\item \emph{The local/resonant split cancels.} At small $x_o$ almost all of
+  $\frac14C_2[L_2,L_2]$ comes from the $A_2$ part. At late times the local part, the $A_2$
+  part and their interference are each large and cancel: at $x_o=12$ they are 12.5, 17.4 and
+  $-27.5$, which sum to 2.4. Each piece belongs to a particular frame, and only the sum is
+  physical, so evaluating the pieces separately is not a simpler route.
+\item \emph{No simple momentum structure.} The $\mu$-integrand is smooth. It has no
+  singular feature at the sound cone $\mu=-\frac13$, and it peaks at total momentum
+  $K\approx0.8$--$1.0\,k_0$ rather than at $K\to0$. The density divided by $T_2(K)^2$ varies by
+  orders of magnitude with $x_o$, so the second-order sum mode does not behave like a
+  first-order mode of momentum~$K$.
+\end{enumerate}
+The missing piece, $\frac13\operatorname{Re}C_2[\theta,L_3]$, needs a third-order solver. The
+late-time behaviour of $\frac14C^{(22)}_2$, which appears to approach a slowly varying
+$O(1)\sigma^4$, is the natural place to look for an asymptotic closed form.
 
 \begin{thebibliography}{99}
 \bibitem{MirbabayiZaldarriaga}

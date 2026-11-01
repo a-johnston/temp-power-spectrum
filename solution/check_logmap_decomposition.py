@@ -98,20 +98,26 @@ def spectrum(F, G, l):
 
 
 def series_map():
-    """Theta from its exact definition, Taylor coefficients Theta^(2), Theta^(3) (with r! convention)."""
-    Lfull = eps * theta + eps**2 * L2 / 2 + eps**3 * L3 / 6
-    num = sum(Lfull**n / sp.factorial(n) for n in range(4))
-    num = sp.expand(num)
-    num = sum(num.coeff(eps, k) * eps**k for k in range(4))
-    den = sky_mean(num)
-    den = sum(sp.expand(den).coeff(eps, k) * eps**k for k in range(4))
-    inv = sp.expand(sum((1 - den)**n for n in range(4)))
-    inv = sum(inv.coeff(eps, k) * eps**k for k in range(4))
-    Th = sp.expand(num * inv - 1)
-    T1 = Th.coeff(eps, 1)
-    T2 = 2 * Th.coeff(eps, 2)
-    T3 = 6 * Th.coeff(eps, 3)
-    return T1, T2, T3
+    """Theta from its exact definition, Taylor coefficients Theta^(2), Theta^(3) (with r! convention).
+
+    eps-polynomials are stored as coefficient lists and truncated at eps^3 before every
+    multiplication, so orders that would be discarded are never expanded.
+    """
+    def mul(A, B):
+        return [sp.expand(sum(A[i] * B[k - i] for i in range(k + 1))) for k in range(4)]
+    Lc = [0, theta, L2 / 2, L3 / 6]
+    num, power = [1, 0, 0, 0], [1, 0, 0, 0]
+    for n_ in range(1, 4):
+        power = mul(power, Lc)
+        num = [num[k] + power[k] / sp.factorial(n_) for k in range(4)]
+    den = [sky_mean(c) if c != 0 else 0 for c in num]
+    x = [0] + [-den[k] for k in range(1, 4)]              # 1/den = sum_n (1 - den)^n, den[0] = 1
+    inv, power = [1, 0, 0, 0], [1, 0, 0, 0]
+    for _ in range(1, 4):
+        power = mul(power, x)
+        inv = [inv[k] + power[k] for k in range(4)]
+    Th = mul(num, inv)
+    return Th[1], 2 * Th[2], 6 * Th[3]
 
 
 def N_formula(l, Cs):

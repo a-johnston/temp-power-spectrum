@@ -17,9 +17,10 @@
   gradient-squared signal for the stated Gaussian seed. Matter-era transfer coefficients
   are not used. The linear transfer function is now given for every ℓ in the same entire
   kernels as the second-order fields, and the superhorizon spectrum is factorised into an
-  observer dilation (convention dependent) and an invariant curvature norm. The fourth-order
+  random observer dilation (part of the answer for the posed ensemble) and a curvature norm;
+  the leading octupole is a curvature-gradient multipole with a resummed spectrum. The fourth-order
   spectrum is split exactly via the centred log-temperature map into its own spectrum, a
-  closed-form lognormal 3j term and a collapsed bispectrum; on the monochromatic shell the
+  explicit lognormal 3j term and a collapsed bispectrum; on the monochromatic shell the
   non-local (resonant) content is confined to A₂, A₃ and ν₂. The large expanded
   kernels remain in the referenced ancillary files.
   The report's repaired constraint proof and explicit frame completion supersede the
@@ -55,5 +56,7 @@ Earlier material, kept for provenance (the unified documents supersede it):
 | `superhorizon.py` | exact superhorizon `C₂⁽¹¹⁾`, `C₂⁽²²⁾`, `C₂⁽¹³⁾` |
 | `transfer_entire.py L...` | closed form of the linear transfer function `T_ℓ` for every ℓ in the entire kernels `J_m` (no logs or Ci); coefficients are Laurent coefficients of two rational functions; proved exactly for each given ℓ (x*-derivative identity plus the value at x* = x_o); a printed high-precision comparison is supplementary |
 | `check_dilation_factorisation.py` | the leading-gradient map is exactly covariant under ζ → ζ + c (= momentum dilation); the mean of ζ factors out as `⟨e^{−4ζ_o}⟩`; the invariant ratio `1 + (5/3)ε² m₂²/m₄`; Gaussian average of the dilation operator |
-| `check_logmap_decomposition.py` | exact check (~6 min) of the log-map decomposition `¼C⁽²²⁾ + ⅓Re C⁽¹³⁾ = C^{L,4} + N_ℓ[C] + M_ℓ` and of the closed-form 3j lognormal term, in a band-limited Gaussian sky with non-Gaussian `L₂`, `L₃` |
+| `check_logmap_decomposition.py` | exact check (~2 min) of the log-map decomposition `¼C⁽²²⁾ + ⅓Re C⁽¹³⁾ = C^{L,4} + N_ℓ[C] + M_ℓ` and of the explicit 3j lognormal term, in a band-limited Gaussian sky with non-Gaussian `L₂`, `L₃` |
 | `check_shell_locality.py` | on the monochromatic shell the first-order fields and θ are local in g; σ⁽²⁾ = ½A₂′ + ½(H₁²)′ + 2gH₁′, so A₂ is the only non-local second-order input to the map |
+| `check_gradient_octupole.py` | leading octupole: conformal identity ∇⟨aR_bc⟩ = (f/2)[∂³f²]_STF, leading T_ℓ coefficient (ℓ = 2..7), β₃, exact Wick moments of the resummed octupole spectrum and the shell ratios 148σ², 27σ²; ⟨θθL₂⟩ = 0 at leading gradient order (so M_ℓ = O(κ⁸)) |
+| `explore_fourth_order.py ward\|scan` | **exploratory numerics, not evidence** (report appendix): second-order part of the fourth-order spectrum at finite k₀; validated by the closed-form T₂, a finite-k Ward identity with negative controls, and grid convergence. Needs numpy: `uv run --no-project --with numpy --with sympy --with mpmath python explore_fourth_order.py scan` |
