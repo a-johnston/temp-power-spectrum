@@ -2,3 +2,7 @@ __pycache__/
 *.py[cod]
 .venv/
 solution/results/.closed_second_order.pkl
+*.aux
+*.log
+*.toc
+
