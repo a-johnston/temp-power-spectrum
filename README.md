@@ -15,7 +15,10 @@
   Mode* (arXiv:1409.4777v2), adds an exact adiabatic-gradient null test and a finite-time
   soft-gradient identity. It distinguishes a nonlinear coordinate mode from the physical
   gradient-squared signal for the stated Gaussian seed. Matter-era transfer coefficients
-  are not used. The large expanded kernels remain in the referenced ancillary files.
+  are not used. The linear transfer function is now given for every ℓ in the same entire
+  kernels as the second-order fields, and the superhorizon spectrum is factorised into an
+  observer dilation (convention dependent) and an invariant curvature norm. The large expanded
+  kernels remain in the referenced ancillary files.
   The report's repaired constraint proof and explicit frame completion supersede the
   corresponding older derivation notes.
   Build with `latexmk -pdf` in the devbox image, or run `pdflatex` twice in `report/`.
@@ -47,3 +50,5 @@ Earlier material, kept for provenance (the unified documents supersede it):
 | `check_ward_dilation3.py` | third-order field dilation identity `K₃(k,0,0) = (k·∂_k)²K₁` |
 | `observable_generator.py W2\|W3\|SH\|SH3` | independent generator of Θ⁽¹⁻³⁾ from the exact definitions; observable Ward identities through `O(κ⁴)`; superhorizon closed form at orders 1–2 (`SH`). `SH3` (third order) did not complete within 50 min: the SymPy assembly of the observable is the bottleneck |
 | `superhorizon.py` | exact superhorizon `C₂⁽¹¹⁾`, `C₂⁽²²⁾`, `C₂⁽¹³⁾` |
+| `transfer_entire.py L...` | closed form of the linear transfer function `T_ℓ` for every ℓ in the entire kernels `J_m` (no logs or Ci); coefficients are Laurent coefficients of two rational functions; proved exactly for each given ℓ (x*-derivative identity plus the value at x* = x_o); a printed high-precision comparison is supplementary |
+| `check_dilation_factorisation.py` | the leading-gradient map is exactly covariant under ζ → ζ + c (= momentum dilation); the mean of ζ factors out as `⟨e^{−4ζ_o}⟩`; the invariant ratio `1 + (5/3)ε² m₂²/m₄`; Gaussian average of the dilation operator |

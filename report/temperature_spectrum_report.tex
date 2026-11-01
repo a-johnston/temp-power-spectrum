@@ -53,20 +53,28 @@ cancels exactly in the normalised map. Further results:
 \item Third-order kernels are explicit nested integrals.
 \item The complete map $\Theta^{(1,2,3)}$ is constructed. It retains photon propagation,
   emission surface, observer clock, tetrad and normalisation terms.
-\item $C_\ell^{(11)}$, $C_\ell^{(22)}$ and $C_\ell^{(13)}$ are reduced to exact
-  finite-dimensional integrals, with every sky integral done in closed form.
+\item The linear transfer function $T_\ell$ is given in closed form for every $\ell$, as a
+  short sum of the same entire functions $J_m$ used at second order. The coefficients are
+  Laurent coefficients of two explicit rational functions, with no logarithms or $\mathrm{Ci}$.
+\item $C_\ell^{(22)}$ and $C_\ell^{(13)}$ are reduced to exact finite-dimensional integrals,
+  with every sky integral done in closed form.
 \item The finite-time map admits a compact centred-exponent form, and the spectrum is the
   sum of a corrected linear-response norm and a quadratic-response norm. These are exact
   reorganisations through the required order, not evaluations of the remaining integrals.
 \item In the superhorizon limit the observable is a local trace-free-curvature quadrupole,
-  \emph{exact in~$\zeta$}. Its leading-gradient Gaussian spectrum resums to
+  \emph{exact in~$\zeta$}. Its leading-gradient Gaussian spectrum factorises into an
+  observer dilation and a curvature norm:
   \[
-  C_{2,\mathrm{lead}}=\tfrac{4\pi}{225}\eps^2\sigma^2\Xi^2
-  e^{8\eps^2\sigma^2}\big(1+\tfrac53\eps^2\sigma^2\big),
-  \qquad \Xi\equiv x_o^2-x_\star^2 .
+  C_{2,\mathrm{lead}}=\tfrac{4\pi}{225}\eps^2\sigma^2\,\ens{\Xi_{\rm phys}^2}
+  \big(1+\tfrac53\eps^2\sigma^2\big),\qquad
+  \ens{\Xi_{\rm phys}^2}=\ens{e^{-4\zeta_o}}\Xi^2=e^{8\eps^2\sigma^2}\Xi^2,\qquad
+  \Xi\equiv x_o^2-x_\star^2 .
   \]
-  Through fourth order this gives the factor $1+\frac{29}{3}\eps^2\sigma^2$.
-  The resummation concerns the leading-gradient expression, not the finite-wavelength solution.
+  Through fourth order this gives the factor $1+\frac{29}{3}\eps^2\sigma^2$, with
+  $\frac{29}{3}=8+\frac53$. The $8$ is the chart dilation by the observer's own $\zeta$ and
+  depends on the convention fixing the mean of $\zeta$. The invariant $\frac53$ is the
+  gradient-squared curvature. These statements concern the leading-gradient expression, not
+  the finite-wavelength solution.
 \end{itemize}
 Analytical proofs and exact computer-algebra checks (no numerical evidence) are distinguished
 in the verification ledger. We state explicitly which integrals remain unevaluated and which
@@ -99,10 +107,10 @@ Constrained initial data at every order & regular solution at any $t_i$; constra
 Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\ref{sec:fields}); 2nd order \st{closed form}; 3rd order \st{explicit nested integrals} \\
 Observer, clock, tetrad, emission surface & \S\ref{sec:obs}; explicit Fermi--Walker rotation, irrelevant to the spectrum at this order (Prop.~\ref{prop:frame}) \\
 Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks \\
-$C_\ell^{(11)}$ & \st{closed form} ($\ell=2,3$; general $\ell$ as a 1D integral) \\
+$C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}), proved for $\ell=2,\dots,6$ \\
 $C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, sky integrals evaluated (\S\ref{sec:spec}); existence proved \\
 Monochromatic, held-fixed quantity & $\ens{g^2}=\sigma^2$ fixed (\S\ref{sec:mono}) \\
-Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map; late time: \st{first order}; general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
+Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into observer dilation $\times$ invariant curvature norm (\eqref{eq:sh-dilation-factorised}, \eqref{eq:sh-invariant-ratio}); late time: \st{first order}; general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
 Convergence for general spectra & compact support: \st{proved}; IR: leading cancellation \st{derived} from the Ward identities; UV: \st{power counting only} \\
 Verification & \S\ref{sec:ledger} (exact symbolic, generic-jet proofs) \\
 \bottomrule
@@ -123,9 +131,11 @@ $8\pi G\alpha\T^4=3a_1^2$.
 \item Every field is $Y=\sum_r\eps^rY^{(r)}/r!$ with
   $Y^{(r)}=\int_{k_1\ldots k_r}K_r(k_1,\ldots,k_r)\,g_{k_1}\cdots g_{k_r}e^{iK\cdot X}$ and
   $K=\sum k_a$. The symmetric kernels carry no extra $1/r!$.
-\item \emph{Multilinear rule:} $K_r$ is the coefficient of $z_1\cdots z_r$ when
-  $g=\sum_az_ae^{ik_a\cdot X}$ is inserted and only monomials in distinct labels are kept. This
-  fixes every combinatorial factor.
+\item \emph{Multilinear rule:} $K_r$ is the coefficient of $\eps^rz_1\cdots z_r$ in the
+  \emph{full} series $Y$ when $g=\sum_az_ae^{ik_a\cdot X}$ is inserted and only monomials in
+  distinct labels are kept. Equivalently, the coefficient of $z_1\cdots z_r$ in $Y^{(r)}$ is
+  $r!\,K_r$, as the integral representation above requires. This fixes every combinatorial
+  factor; for example $K_2(k,0)=-k\cdot\partial_kK_1$ in \S\ref{sec:gauge}.
 \item Spherical harmonics $Y_{\ell m}$ are complex, with the Condon--Shortley phase.
 \end{itemize}
 
@@ -673,6 +683,43 @@ this problem's spectrum. Nor do long-wavelength cancellations prove that the ker
 comparable, finite momenta reduce to local curvature polynomials. In the notation of
 \S\ref{sec:sh}, the positive $m_2^2$ contribution is retained.
 
+\subsection{Further literature}\label{sec:literature}
+The following work bears directly on particular steps. None of it is used as an input: every
+result above is derived independently in the temperature frame. Each item states what it
+corroborates and what has \emph{not} been compared.
+\begin{itemize}
+\item \emph{Adiabatic modes and their Ward identities}
+  \cite{Weinberg2003,HinterbichlerHuiKhoury,CreminelliNorenaSimonovic}. The dilation and
+  special-conformal identities of \S\ref{sec:gauge} and Prop.~\ref{prop:gradient-ward} are the
+  lowest members of this tower. The dilation factorisation \eqref{eq:sh-dilation-factorised} is
+  the Gaussian average of the first member.
+\item \emph{Local observers and curvature} \cite{PajerSchmidtZaldarriaga,DaiPajerSchmidt}.
+  Conformal Fermi coordinates make long modes appear locally only through curvature. This
+  matches the seed-Ricci form \eqref{eq:curvature-quadrupole} and the statement that only the
+  trace-free curvature quadrupole survives at leading gradient order.
+\item \emph{Superhorizon modes and the CMB quadrupole}
+  \cite{GrishchukZeldovich,EKCsuperhorizon}. The $C_2\propto\Xi^2\propto k_0^4$ behaviour of
+  \S\ref{sec:sh} is the Grishchuk--Zel'dovich effect, here in the radiation era, with finite
+  emission time and exactly in $\zeta$.
+\item \emph{Nonlinear Sachs--Wolfe effect} \cite{BartoloMatarreseRiotto2004,Boubekeur2009}.
+  These papers show that the second-order large-scale temperature is far simpler than its
+  metric ingredients. Lemma~\ref{lem:redshift} ($T_{\rm obs}\propto e^{-I}$ exactly) is the
+  temperature-frame version of that simplification. Their matter-era coefficients are not
+  comparable.
+\item \emph{Nonlinear $\zeta$ and the gradient expansion}
+  \cite{SalopekBond,LythMalikSasaki,LangloisVernizzi}. These support Def.~\ref{def:ic}: they
+  give the conservation of $\zeta=\frac16\ln\det\gamma$ and the uniform-density ($\delta N$)
+  interpretation, and \eqref{eq:grad} is the radiation-era leading term of their expansion.
+\item \emph{Scalar-induced tensors in the radiation era}
+  \cite{AnandaClarksonWands,KohriTerada,EspinosaRaccoRiotto}. These give closed-form
+  $\Si/\mathrm{Ci}$ kernels for the second-order tensor sourced by two first-order scalars,
+  including the monochromatic spectrum and its resonance at $K=2k_0/\sqrt3$. That resonance is
+  the sound-cone surface $\mu=-1/3$ of \S\ref{sec:fields}, where the entire-function kernels
+  are manifestly finite. A term-by-term comparison of our TT kernel $h$ with theirs (which
+  needs a gauge map from Newtonian to temperature-frame variables) has \emph{not} been made. It
+  is the most direct external test available for the second-order field solution.
+\end{itemize}
+
 %======================================================================
 \section{The spectrum}\label{sec:spec}
 %======================================================================
@@ -733,9 +780,71 @@ w_\ell(y)=\frac13j_\ell(y)+j_\ell''(y).
 \end{equation}
 The prime on $s$ differentiates $x$, and those on $j_\ell$ differentiate its full argument.
 Thus $C_\ell^{(11)}=4\pi\int\mathcal P(k)T_\ell(k)^2\,\dd\ln k$.
-Evaluated expressions for $T_2$ and $T_3$ remain in
-\path{verification/results/T2_closed_form.txt} and
-\path{verification/results/T3_closed_form.txt}.
+
+\paragraph{Closed form of $T_\ell$ for every $\ell$ \st{closed form}.}
+The integrand is a product of a sound wave in the acoustic phase $x$ and a spherical wave in
+the photon phase $\sqrt3(x_o-x)=k(t_o-t)$. Split both into their Hankel (outgoing) parts,
+\begin{equation}\label{eq:hankel-split}
+\begin{aligned}
+s'(x)&=\operatorname{Re}\big[e^{ix}S(x)\big],& S(x)&=-i+\frac2x+\frac{2i}{x^2},\\
+w_\ell(y)&=\operatorname{Re}\big[e^{iy}V_\ell(y)\big],&
+V_\ell(y)&=e^{-iy}\Big(\frac13+\partial_y^2\Big)h^{(1)}_\ell(y),
+\end{aligned}
+\end{equation}
+and put $V^{+}_\ell=V_\ell$, $V^{-}_\ell=\overline{V_\ell}$ (conjugate coefficients),
+$\omega_\sigma=1-\sigma\sqrt3$ and $\Delta=x_o-x_\star$. Both $S$ and $V_\ell$ are Laurent
+polynomials; for example
+\[
+\begin{aligned}
+V_2(y)&=-\frac{2i\,(y^4+6iy^3-24y^2-54iy+54)}{3y^5},\\
+V_3(y)&=-\frac{2\,(y^5+9iy^4-54y^3-204iy^2+450y+450i)}{3y^6}.
+\end{aligned}
+\]
+
+\begin{proposition}[Entire-function form of the transfer function]\label{prop:Tl}
+Use the subtracted kernels of \S\ref{sec:fields},
+\[
+J_m(\omega,t)=\int_0^ts^{-m}\Big[e^{i\omega s}-\sum_{j<m}\frac{(i\omega s)^j}{j!}\Big]\dd s ,
+\]
+each of which is $t^{1-m}$ times an entire function of $\omega t$. Then
+\begin{equation}\label{eq:Tl-entire}
+\boxed{\begin{aligned}
+T_\ell=-\frac32\operatorname{Re}\sum_{\sigma=\pm1}\Big\{&
+e^{i\sigma\sqrt3x_o}\sum_{m=1}^{2}a^\sigma_m\big[J_m(\omega_\sigma,x_o)-J_m(\omega_\sigma,x_\star)\big]\\
+&+e^{ix_o}\sum_{m=1}^{\ell+3}b^\sigma_m\,J_m(-\omega_\sigma,\Delta)\Big\},
+\end{aligned}}
+\end{equation}
+where the coefficients depend on $x_o$ only:
+\[
+a^\sigma_2=2iV^\sigma_\ell(\sqrt3x_o),\quad
+a^\sigma_1=2V^\sigma_\ell(\sqrt3x_o)-2\sqrt3\,i\,V^{\sigma\prime}_\ell(\sqrt3x_o),\quad
+b^\sigma_m=\big[u^{-m}\big]\,S(x_o-u)\,V^\sigma_\ell(\sqrt3u),
+\]
+with $[u^{-m}]$ denoting the Laurent coefficient at $u=0$.
+\end{proposition}
+\begin{proof}
+By \eqref{eq:hankel-split}, $-3s'w_\ell=-\frac32\operatorname{Re}\sum_\sigma
+e^{i\sigma\sqrt3x_o}e^{i\omega_\sigma x}R_\sigma(x)$, where
+$R_\sigma(x)=S(x)V^\sigma_\ell(\sqrt3(x_o-x))$ is rational and vanishes at infinity. Its only
+poles are at $x=0$ (order two, from $S$) and $x=x_o$ (order $\ell+3$, from $V_\ell$), so
+$R_\sigma$ is the sum of its two principal parts. These are $a^\sigma_2/x^2+a^\sigma_1/x$ and, in
+$u=x_o-x$, $\sum_mb^\sigma_mu^{-m}$. Write each $e^{i\omega x}x^{-m}$ as the subtracted
+integrand of $J_m$ plus the principal part of $e^{i\omega x}x^{-m}$. The discarded pieces add up
+to the principal part, at $x=0$ and at $x=x_o$, of the complex integrand. The real part of that
+sum is the principal part of $-3s'(x)w_\ell(\sqrt3(x_o-x))$, which is regular at both points
+($s'(x)=x/3+O(x^3)$, and $w_\ell$ is entire). Hence the discarded pieces vanish under
+$\operatorname{Re}$, and term-by-term integration gives \eqref{eq:Tl-entire}.
+\end{proof}
+
+The representation has no logarithms, no $\mathrm{Ci}$ and no elementary remainder. It uses
+the same entire functions as the second-order kernels, and the only frequencies are the beats
+$\sqrt3\mp1$ between the photon and acoustic phases. Every term is manifestly finite as
+$x_\star\to x_o$ and as $x_\star\to0$. If preferred, the recursion for $J_M$ reduces everything
+to $J_1=-\Cin+i\Si$ together with elementary terms. The superseded $\mathrm{Ci}/\mathrm{Si}$ form
+(\path{verification/results/T2_closed_form.txt}, \path{T3_closed_form.txt}) carries
+removable $\ln(\sqrt3\pm1)$ constants and is kept only as a cross-check.
+\code{solution/transfer\_entire.py} proves \eqref{eq:Tl-entire} exactly for
+$\ell=2,\dots,6$, as an identity in $x_\star$ together with its value at $x_\star=x_o$.
 
 \subsection{Monochromatic spectrum}\label{sec:mono}
 
@@ -893,6 +1002,60 @@ reproduces $\frac14C^{(22)}+\frac13C^{(13)}$. The fourth-order correction is a f
 renormalisation of the quadrupole by the factor $1+\frac{29}{3}\eps^2\sigma^2$. It is
 independent of $T_I$ at this order.
 
+\paragraph{Dilation factorisation: what the $29/3$ is made of.}
+The map \eqref{eq:curvature-quadrupole} is exactly covariant under the residual dilation:
+$\Theta_{\rm lead}[\zeta+c]=e^{-2c}\,\Theta_{\rm lead}[\zeta]$, and it carries two spatial
+derivatives. A constant shift of $\zeta$ is therefore \emph{exactly} the momentum dilation
+$k\to e^{-c}k$. In the Gaussian average, the observer's own value $\zeta_o=\eps g(0)$ is
+independent of the trace-free Hessian and the gradient at the observer, so it acts as a dilation of
+everything else:
+\begin{equation}\label{eq:sh-dilation-factorised}
+\boxed{\begin{aligned}
+C_{2,\mathrm{lead}}
+&=\underbrace{\ens{e^{-4\zeta_o}}}_{\text{observer dilation}}\;
+\frac{16\pi}{225}\tau^4\eps^2\Big(\underbrace{m_4}_{\text{Hessian}}
++\underbrace{\tfrac53\eps^2m_2^2}_{\text{gradient}^2}\Big),\\
+\ens{e^{-4\zeta_o}}&=\ens{e^{-\zeta_oD}}\big|_{D=4}=e^{\frac12\eps^2m_0D^2}\big|_{D=4}=e^{8\eps^2m_0}.
+\end{aligned}}
+\end{equation}
+Here $D=k\partial_k$ acts on the degree-four momentum norms. Three consequences follow.
+\begin{enumerate}
+\item \emph{Origin of the coefficients.} The fourth-order coefficient splits as
+  $\frac{29}{3}=8+\frac53$. The $8=\frac12D^2|_{D=4}$ is the observer dilation; it is shared
+  equally between $\frac14C^{(22)}$ (4) and $\frac13C^{(13)}$ (4). The $\frac53$ is pure
+  $\frac14C^{(22)}$. It is exactly the Gaussian average of the gradient-squared quadrupole
+  \eqref{eq:physical-gradient-quadrupole}, the effect isolated by \cite{MirbabayiZaldarriaga}.
+\item \emph{Same operator as in the infrared.} The $O(\eps^2)$ term of
+  $\ens{e^{-\zeta_oD}}$ is $\frac12\eps^2m_0D^2$. This is the operator of Thm.~\ref{thm:ir},
+  $\frac12\sigma_L^2D^2$ acting on the short-mode spectrum, which is equivalent to acting on
+  the response after integration by parts in $\ln k$. In the superhorizon limit every mode is
+  ``long'' relative to the horizon, and the field at the observer dilates its own gradients.
+\item \emph{Convention dependence.} The residual dilation was fixed by $\ens{g}=0$
+  (\S\ref{sec:ic}). Fixing it instead by $\ens{\zeta}=\mu$ maps $m_j\to e^{-j\mu}m_j$, which is
+  the same as multiplying the first factor by $e^{-4\mu}$. The $8$ (and hence $e^{8\eps^2m_0}$)
+  thus measures the chart normalisation of $k$; it is not a property of the observable at a
+  fixed physical wavenumber. The ratio
+  \begin{equation}\label{eq:sh-invariant-ratio}
+  \boxed{\displaystyle
+  \frac{C_{2,\mathrm{lead}}}{\frac{16\pi}{225}\tau^4\eps^2\ens{e^{-4\zeta_o}}m_4}
+  =1+\frac53\eps^2\frac{m_2^2}{m_4}
+  \ \xrightarrow{\ \text{shell}\ }\ 1+\frac53\eps^2\sigma^2}
+  \end{equation}
+  is invariant, and it holds to all orders in $\eps$ at leading gradient order.
+\end{enumerate}
+Equivalently, measure the wavenumber in the seed's orthonormal frame at the observer,
+$k_{\rm phys}=e^{-\zeta_o}k$, and put $\Xi_{\rm phys}=e^{-2\zeta_o}\Xi$. On the shell,
+\begin{equation}\label{eq:sh-physical}
+C_{2,\mathrm{lead}}=\frac{4\pi}{225}\eps^2\sigma^2\,\ens{\Xi_{\rm phys}^2}
+\Big(1+\frac53\eps^2\sigma^2\Big).
+\end{equation}
+Equation~\eqref{eq:sh-physical} is the form we regard as the physical superhorizon answer.
+Relative to the local physical scale, the only nonlinear correction is the
+$\frac53\eps^2\sigma^2$ of the gradient-squared curvature. Equation~\eqref{eq:sh-shell-resummed}
+is the same result expressed at fixed chart wavenumber $k_0$, as the problem's held-fixed
+convention requires. \code{solution/check\_dilation\_factorisation.py} verifies the covariance
+exactly in $\zeta$, the mean-shift/dilation equivalence, and the Gaussian dilation operator.
+
 \subsection{Late time, first order}
 
 \begin{proposition}
@@ -964,7 +1127,8 @@ Check & Script and scope\\\midrule\endhead
 Lemmas L1--L5; generic field equations & \code{verification/check\_exact\_lemmas.py}, \code{check\_fw\_conformal.py}, \code{check\_field\_equations\_generic.py} (generic 2-jets)\\
 Mixed trace-free form (T) & \code{solution/check\_evolution\_form.py} (generic 2-jets)\\
 First order, two gauges, all $\ell$ & \code{verification/check\_first\_order.py}; \code{solution/first\_order\_engine\_check.py}\\
-Closed form $T_2$, $T_3$ & \code{verification/transfer\_closed\_form.py}\\
+Entire-function $T_\ell$ (Prop.~\ref{prop:Tl}) & \code{solution/transfer\_entire.py 2 3 4 5 6}: the $x_\star$-derivative of \eqref{eq:Tl-entire} equals the integrand exactly, as an identity of exponential polynomials, and the representation vanishes at $x_\star=x_o$. A printed high-precision comparison is supplementary only.\\
+Earlier $\mathrm{Ci}/\mathrm{Si}$ form of $T_2$, $T_3$ & \code{verification/transfer\_closed\_form.py} (kept as a cross-check)\\
 Green functions, $K\to0$ & \code{solution/check\_green.py}\\
 2nd-order sources and operators & \code{solution/second\_order.py}\\
 2nd order, all 10 equations & \code{solution/second\_order\_consistency.py}: exact Taylor series through $O(t^8)$, general $K$ and $K=0$\\
@@ -978,6 +1142,7 @@ Superhorizon observable & \code{solution/observable\_generator.py SH}: orders 1 
 Superhorizon $C_2$ & \code{solution/superhorizon.py}\\
 Strengthened report identities & \code{solution/check\_report\_identities.py}: background residual Bianchi identities and zero-mode constraint matching; conformal driver and cubic commutator shear; Fermi--Walker rotation; centred normalisation and polarised map kernels; the two-norm spectrum; general-moment and monochromatic leading-gradient resummation. These are exact symbolic identities, not an arbitrary-time cubic-observable verification.\\
 Literature-inspired gradient tests & \code{solution/check\_gradient\_modes.py}: exact special-conformal Jacobian and flat seed; zero shear and hence zero map for the completed adiabatic profile; quadratic completion and its conversion to the convention of \cite{MirbabayiZaldarriaga}; nonzero uncompensated-gradient quadrupole; plane-wave soft generator and the leading-gradient check of \eqref{eq:gradient-ward}. The general finite-time Ward identity is proved by covariance, not by full-kernel substitution.\\
+Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$\\
 Normalisation; Wick and Fourier measures & \code{verification/normalization\_expansion.py}; \code{validation/check\_algebra.py}\\
 \bottomrule
 \end{longtable}
@@ -995,6 +1160,12 @@ Normalisation; Wick and Fourier measures & \code{verification/normalization\_exp
   as a reference rather than being embedded in the report. The literature-inspired
   \eqref{eq:soft-remainder} fixes the first two soft coefficients but does not determine the
   comparable-momentum remainder or the full cubic response.
+\item The next order of the superhorizon expansion (the leading $C_3$ and the $O(k_0^6)$
+  correction to $C_2$ at fourth order) is not computed. It needs the $O(t^4)$ gradient data and
+  the $O(\kappa^3)$ map: ray deflection, spatial variation along the ray, endpoint and clock.
+  At first order it follows directly from Prop.~\ref{prop:Tl}.
+\item The second-order tensor kernel has not been compared term by term with the
+  scalar-induced tensor kernels of \S\ref{sec:literature}.
 \item The late-time limit at fourth order (non-uniform at the resonances) is not evaluated.
 \item Ultraviolet convergence for spectra without compact support is established by power
   counting only, not by a rigorous bound.
@@ -1008,7 +1179,7 @@ Normalisation; Wick and Fourier measures & \code{verification/normalization\_exp
   and an ensemble average.
 \end{enumerate}
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{99}
 \bibitem{MirbabayiZaldarriaga}
 M.~Mirbabayi and M.~Zaldarriaga,
 \emph{CMB Anisotropies from a Gradient Mode},
@@ -1016,6 +1187,52 @@ M.~Mirbabayi and M.~Zaldarriaga,
 The supplied source is
 \path{arXiv-1409.4777v2/gradient_submit_Apr11_15.tex}; the comparisons above use
 \S\S3--5 and Appendix~C.
+\bibitem{Weinberg2003}
+S.~Weinberg, \emph{Adiabatic modes in cosmology}, Phys.\ Rev.\ D \textbf{67}, 123504 (2003).
+\bibitem{HinterbichlerHuiKhoury}
+K.~Hinterbichler, L.~Hui and J.~Khoury, \emph{An infinite set of Ward identities for
+adiabatic modes in cosmology}, JCAP \textbf{01} (2014) 039.
+\bibitem{CreminelliNorenaSimonovic}
+P.~Creminelli, J.~Nore\~na and M.~Simonovi\'c, \emph{Conformal consistency relations for
+single-field inflation}, JCAP \textbf{07} (2012) 052.
+\bibitem{PajerSchmidtZaldarriaga}
+E.~Pajer, F.~Schmidt and M.~Zaldarriaga, \emph{The observed squeezed limit of cosmological
+three-point functions}, Phys.\ Rev.\ D \textbf{88}, 083502 (2013).
+\bibitem{DaiPajerSchmidt}
+L.~Dai, E.~Pajer and F.~Schmidt, \emph{Conformal Fermi coordinates}, JCAP \textbf{11} (2015)
+043.
+\bibitem{GrishchukZeldovich}
+L.~P.~Grishchuk and Ya.~B.~Zel'dovich, \emph{Long-wavelength perturbations of a
+Friedmann universe, and anisotropy of the microwave background radiation}, Sov.\ Astron.\
+\textbf{22}, 125 (1978).
+\bibitem{EKCsuperhorizon}
+A.~L.~Erickcek, S.~M.~Carroll and M.~Kamionkowski, \emph{Superhorizon perturbations and the
+cosmic microwave background}, Phys.\ Rev.\ D \textbf{78}, 083012 (2008).
+\bibitem{BartoloMatarreseRiotto2004}
+N.~Bartolo, S.~Matarrese and A.~Riotto, \emph{Enhancement of non-Gaussianity after
+inflation}, JHEP \textbf{04} (2004) 006.
+\bibitem{Boubekeur2009}
+L.~Boubekeur, P.~Creminelli, G.~D'Amico, J.~Nore\~na and F.~Vernizzi, \emph{Sachs--Wolfe at
+second order: the CMB bispectrum on large angular scales}, JCAP \textbf{08} (2009) 029.
+\bibitem{SalopekBond}
+D.~S.~Salopek and J.~R.~Bond, \emph{Nonlinear evolution of long-wavelength metric
+fluctuations in inflationary models}, Phys.\ Rev.\ D \textbf{42}, 3936 (1990).
+\bibitem{LythMalikSasaki}
+D.~H.~Lyth, K.~A.~Malik and M.~Sasaki, \emph{A general proof of the conservation of the
+curvature perturbation}, JCAP \textbf{05} (2005) 004.
+\bibitem{LangloisVernizzi}
+D.~Langlois and F.~Vernizzi, \emph{Evolution of non-linear cosmological perturbations},
+Phys.\ Rev.\ Lett.\ \textbf{95}, 091303 (2005).
+\bibitem{AnandaClarksonWands}
+K.~N.~Ananda, C.~Clarkson and D.~Wands, \emph{The cosmological gravitational wave background
+from primordial density perturbations}, Phys.\ Rev.\ D \textbf{75}, 123518 (2007).
+\bibitem{KohriTerada}
+K.~Kohri and T.~Terada, \emph{Semianalytic calculation of gravitational wave spectrum
+nonlinearly induced from primordial curvature perturbations}, Phys.\ Rev.\ D \textbf{97},
+123532 (2018).
+\bibitem{EspinosaRaccoRiotto}
+J.~R.~Espinosa, D.~Racco and A.~Riotto, \emph{A cosmological signature of the SM Higgs
+instability: gravitational waves}, JCAP \textbf{09} (2018) 012.
 \end{thebibliography}
 
 \end{document}
