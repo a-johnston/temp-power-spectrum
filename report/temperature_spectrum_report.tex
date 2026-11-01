@@ -58,6 +58,12 @@ cancels exactly in the normalised map. Further results:
   Laurent coefficients of two explicit rational functions, with no logarithms or $\mathrm{Ci}$.
 \item $C_\ell^{(22)}$ and $C_\ell^{(13)}$ are reduced to exact finite-dimensional integrals,
   with every sky integral done in closed form.
+\item The fourth-order spectrum splits exactly into three parts, using the centred
+  log-temperature map $L$ (the log of $T_{\rm obs}$ minus its sky mean): the fourth-order spectrum of
+  $L$; a lognormal normalisation term, a closed-form $3j$ convolution of $C^{(11)}$ with
+  itself; and a collapsed bispectrum of $L$. On the monochromatic shell, all first-order
+  quantities are local in the primordial field. The resonant integrals over angle and
+  Green-function times are confined to the second- and third-order metric response.
 \item The finite-time map admits a compact centred-exponent form, and the spectrum is the
   sum of a corrected linear-response norm and a quadratic-response norm. These are exact
   reorganisations through the required order, not evaluations of the remaining integrals.
@@ -108,7 +114,7 @@ Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\r
 Observer, clock, tetrad, emission surface & \S\ref{sec:obs}; explicit Fermi--Walker rotation, irrelevant to the spectrum at this order (Prop.~\ref{prop:frame}) \\
 Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks \\
 $C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}), proved for $\ell=2,\dots,6$ \\
-$C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, sky integrals evaluated (\S\ref{sec:spec}); existence proved \\
+$C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, sky integrals evaluated (\S\ref{sec:spec}); existence proved; log-map decomposition with the lognormal part \st{closed form} (Thm.~\ref{thm:logmap}) \\
 Monochromatic, held-fixed quantity & $\ens{g^2}=\sigma^2$ fixed (\S\ref{sec:mono}) \\
 Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into observer dilation $\times$ invariant curvature norm (\eqref{eq:sh-dilation-factorised}, \eqref{eq:sh-invariant-ratio}); late time: \st{first order}; general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
 Convergence for general spectra & compact support: \st{proved}; IR: leading cancellation \st{derived} from the Ward identities; UV: \st{power counting only} \\
@@ -844,7 +850,93 @@ to $J_1=-\Cin+i\Si$ together with elementary terms. The superseded $\mathrm{Ci}/
 (\path{verification/results/T2_closed_form.txt}, \path{T3_closed_form.txt}) carries
 removable $\ln(\sqrt3\pm1)$ constants and is kept only as a cross-check.
 \code{solution/transfer\_entire.py} proves \eqref{eq:Tl-entire} exactly for
-$\ell=2,\dots,6$, as an identity in $x_\star$ together with its value at $x_\star=x_o$.
+$\ell=1,\dots,6$, as an identity in $x_\star$ together with its value at $x_\star=x_o$. The
+case $\ell=1$, the dipole of $\Theta^{(1)}$, is needed in \S\ref{sec:logmap}.
+
+\subsection{Log-map decomposition of the fourth-order spectrum}\label{sec:logmap}
+By Lemma~\ref{lem:redshift}, the centred \emph{log-temperature map}
+\begin{equation}\label{eq:logmap}
+L(\nh)\equiv\ln T_{\rm obs}(\nh)-\sky{\ln T_{\rm obs}}=-\big(I(\nh)-\sky{I}\big)
+\end{equation}
+is an observable. It is linear in the redshift exponent~$I$ and contains no normalisation
+nonlinearity; the clock composition and the frame of \S\ref{sec:obs} are included. The map
+is recovered from it exactly by $\Theta=e^L/\sky{e^L}-1$. Write
+$L=\eps\theta+\eps^2L_2/2+\eps^3L_3/6$. Then $\theta=\Theta^{(1)}$ is Gaussian and isotropic,
+with spectrum $C_\ell\equiv C_\ell^{(11)}$ and correlation function
+$\xi(\nh\cdot\nh')=\sum_{\ell\ge1}\frac{2\ell+1}{4\pi}C_\ell P_\ell(\nh\cdot\nh')$.
+
+\begin{theorem}[Log-map decomposition]\label{thm:logmap}
+For $\ell\ge1$, exactly,
+\begin{equation}\label{eq:logmap-decomposition}
+\boxed{\frac14C^{(22)}_\ell+\frac13\operatorname{Re}C^{(13)}_\ell
+=C^{L,4}_\ell+\mathcal N_\ell[C]+\mathcal M_\ell,}
+\end{equation}
+where, writing $C_\ell[F,G]=\frac1{2\ell+1}\sum_m\ens{F_{\ell m}G^*_{\ell m}}$, the three
+terms are the fourth-order spectrum of the log map, the lognormal normalisation and the
+collapsed log-map bispectrum:
+\begin{align}
+C^{L,4}_\ell&=\tfrac14C_\ell[L_2,L_2]+\tfrac13\operatorname{Re}C_\ell[\theta,L_3],\\
+\mathcal N_\ell[C]&=\frac12\sum_{\ell_1,\ell_2\ge1}\frac{(2\ell_1+1)(2\ell_2+1)}{4\pi}
+\begin{pmatrix}\ell_1&\ell_2&\ell\\0&0&0\end{pmatrix}^{\!2}C_{\ell_1}C_{\ell_2}
+-\frac{C_\ell^2}{2\pi},\label{eq:lognormal-term}\\
+\mathcal M_\ell&=\tfrac12\operatorname{Re}C_\ell[L_2,\theta^2]+\operatorname{Re}C_\ell[\theta,\theta L_2].
+\end{align}
+In real space, with $w^{(4)}$ the $\eps^4$ coefficient of $\ens{\Theta(\nh)\Theta(\nh')}$ (for
+$\ell\ge1$) and $(\xi\star\xi)(\nh\cdot\nh')=\int\dd\Omega_m\,\xi(\nh\cdot\hat m)\,\xi(\hat m\cdot\nh')$,
+\begin{equation}\label{eq:logmap-realspace}
+w^{(4)}=\tfrac14\ens{L_2L_2'}+\tfrac13\ens{\theta L_3'}
++\tfrac12\xi^2-\tfrac1{2\pi}\,\xi\star\xi
++\tfrac12\ens{\theta^2L_2'}+\ens{\theta\,\theta'L_2'},
+\end{equation}
+where primes denote evaluation at $\nh'$, and the right-hand side is symmetrised in
+$\nh\leftrightarrow\nh'$.
+\end{theorem}
+\begin{proof}
+With $J_c=-L$, \eqref{eq:centred-map} gives $\Theta^{(2)}=L_2+\mathsf P_0\theta^2$ and
+$\Theta^{(3)}=L_3+3\mathsf P_0(\theta L_2)+\mathsf P_0\theta^3-3\theta\sky{\theta^2}$; the
+projections $\mathsf P_0$ affect only $\ell=0$. Insert these into the bilinear spectra and
+collect terms. For the terms in $\theta$ alone, Wick's theorem gives
+$\ens{\theta^2\theta'^2}_c=2\xi^2$, $\ens{\theta\,\theta'^3}=3\xi\,\xi(1)$ and
+$\ens{\theta\theta'\sky{\theta^2}}=\xi\,\xi(1)+\frac2{4\pi}\xi\star\xi$. The variance terms
+$\xi(1)$ cancel between the last two. The harmonic form follows from
+$P_{\ell_1}P_{\ell_2}=\sum_L(2L+1)\big(\begin{smallmatrix}\ell_1&\ell_2&L\\0&0&0\end{smallmatrix}\big)^2P_L$
+and from the fact that $\xi\star\xi$ has Legendre coefficients $C_\ell^2$.
+\end{proof}
+
+Three features make \eqref{eq:logmap-decomposition} the natural organisation of the answer.
+\begin{enumerate}
+\item \emph{The lognormal term is closed form.} $\mathcal N_\ell$ depends on $C^{(11)}$
+  alone. By Prop.~\ref{prop:Tl} it is explicit for every $\ell$. The map variance
+  $\xi(1)$ cancels identically. The dipole ($\ell_1=1$ or $\ell_2=1$) enters explicitly,
+  because it is removed only after the nonlinear normalisation, as the problem requires. The
+  term $-C_\ell^2/2\pi$ is the effect of normalising by the \emph{random} sky monopole. On the
+  monochromatic shell,
+  \begin{equation}\label{eq:lognormal-shell}
+  \boxed{\displaystyle
+  \mathcal N_\ell=2\pi\sigma^4\Big[\sum_{\ell_1,\ell_2\ge1}(2\ell_1+1)(2\ell_2+1)
+  \begin{pmatrix}\ell_1&\ell_2&\ell\\0&0&0\end{pmatrix}^{\!2}
+  T_{\ell_1}^2T_{\ell_2}^2-4T_\ell^4\Big].}
+  \end{equation}
+  The sum converges absolutely. $T_{\ell}$ is an integral of $w_\ell(y)$ over
+  $y\in[0,\sqrt3(x_o-x_\star)]$, so it decays faster than any power once $\ell$ exceeds the
+  maximal argument.
+\item \emph{The mixed term needs only a three-point function.} $\mathcal M_\ell$ involves only
+  the leading bispectrum $\ens{\theta\theta L_2}$ of the log map, in two collapsed
+  configurations. $L_3$ does not enter it.
+\item \emph{All dynamics sits in the log-map spectrum.} $L_3$ appears only in $C^{L,4}_\ell$.
+  In the superhorizon limit $\theta=O(\kappa^2)$, so $\mathcal N_\ell=O(\kappa^8)$ and
+  $\mathcal M_\ell=O(\kappa^6)$. Hence the entire $O(k_0^4)$ result of \S\ref{sec:sh},
+  including the $\frac{29}{3}$, is the fourth-order spectrum of $L$. Conversely, at finite
+  $k_0$, $\mathcal N_\ell$ and $\mathcal M_\ell$ are the parts of the answer that come from the
+  nonlinearity of the \emph{measurement} (exponentiation and normalisation), as distinct from
+  the nonlinearity of the dynamics.
+\end{enumerate}
+\code{solution/check\_logmap\_decomposition.py} verifies \eqref{eq:logmap-decomposition} and
+\eqref{eq:lognormal-term} exactly for $\ell=1,\dots,4$. It uses a band-limited isotropic
+Gaussian sky ($\ell=1,2$ with independent spectra) and an independent dipole field $\chi$, with
+non-Gaussian $L_2=\mathsf P_0(\theta\chi+\theta^2)$ and $L_3=\mathsf P_0(\theta\chi^2)$. The map
+is expanded from its exact definition, and every average is an exact sphere integral and
+Gaussian moment. For a pure quadrupole, for example, $\mathcal N_2=-\frac{9}{28\pi}C_2^2$.
 
 \subsection{Monochromatic spectrum}\label{sec:mono}
 
@@ -878,6 +970,68 @@ The remaining integrals are therefore:
 \item for $C^{(13)}$: $\mu$ and up to five nested times.
 \end{itemize}
 All integrands are elementary or closed-form.
+
+\paragraph{Shell locality and the real-space form.}
+On the shell, $g$ obeys $\nabla^2g=-k_0^2g$ exactly, and
+$\ens{g(X)g(Y)}=\sigma^2j_0(k_0|X-Y|)$. Every first-order field is therefore a fixed time
+profile multiplying a \emph{local} derivative of $g$:
+\[
+\nu_1=-u_1(x_0)\,g,\qquad H_{1,ij}=-Q(t)\Big(\partial_i\partial_j+\tfrac13\delta_{ij}k_0^2\Big)g,
+\qquad x_0=k_0t/\sqrt3,
+\]
+with $Q$ the first-order kernel of \S\ref{sec:obs} at $k=k_0$. For a general spectrum the
+time profiles depend on $|k|$, and this locality is lost.
+
+\begin{proposition}[Shell locality]\label{prop:shell-local}
+On the monochromatic shell:
+\begin{enumerate}
+\item The first-order map is a local line integral of the primordial field:
+  \[
+  \theta(\nh)=\mathsf P_0\Big[\tfrac12\int_{\bar t_\star}^{\bar t_o}Q'(t)\,\mathcal D_{\nh}\,
+  g\big(\nh(\bar t_o-t)\big)\,\dd t\Big],\qquad
+  \mathcal D_{\nh}=(\nh\cdot\partial)^2+\tfrac13k_0^2 .
+  \]
+  Its correlation function is a double line-of-sight integral of an elementary function,
+  \begin{equation}\label{eq:xi-shell}
+  \xi(\nh\cdot\nh')=\frac{\sigma^2}{4}\int\!\!\int\dd t\,\dd t'\,Q'(t)Q'(t')\,
+  \mathcal D^X_{\nh}\mathcal D^Y_{\nh'}\,j_0(k_0|X-Y|)\Big|_{X=\nh\lambda,\,Y=\nh'\lambda'}
+  -(\ell=0\ \text{part}),
+  \end{equation}
+  with $\lambda=\bar t_o-t$ and $\lambda'=\bar t_o-t'$. Its Legendre coefficients are
+  $4\pi\sigma^2T_\ell^2$. Consequently the real-space lognormal term
+  $\frac12\xi^2-\frac1{2\pi}\xi\star\xi$ of \eqref{eq:logmap-realspace} has elementary
+  integrands.
+\item At second order, the \emph{only} non-local input to the log map is the order-two
+  trace-free metric along the background ray:
+  \[
+  L_2=L_2^{\rm loc}-\mathsf P_0\Big[\tfrac12\int_{\bar t_\star}^{\bar t_o}A_{2,nn}'\big(t,\nh(\bar t_o-t)\big)\,\dd t\Big].
+  \]
+  Here $L_2^{\rm loc}$ is given by the formulas of \S\ref{sec:obs} with $A_2\to0$. It is a
+  local quadratic form in derivatives of $g$ along the ray and at the observer, with fixed
+  time profiles.
+\item At third order, the non-local inputs are $A_2$, $A_3$ and $\nu_2$. They enter through
+  $\sigma_2$, $X_2$, $e_2$, the emission shift $d_2$ and the clock shift $D_2$.
+\end{enumerate}
+\end{proposition}
+\begin{proof}
+(1) For a single mode, $\frac12Q'\mathcal D_{\nh}e^{ik\cdot X}=-\frac12Q'k^2(\mu^2-\frac13)e^{ik\cdot X}=-\sigma_{1,nn}$,
+so $\theta=-\mathsf P_0I_1$, as in \S\ref{sec:obs}. Then \eqref{eq:xi-shell} follows from the
+shell correlation of~$g$. (2) Since $\gamma=e^{2\zeta}e^H$, the second-order shear is
+$\sigma^{(2)}=\frac12A_2'+\frac12(H_1^2)'+2gH_1'$. Every other ingredient of $I_2$ and of the
+second-order clock composition is first order: $X_1$, $e_1$, $d_1$, $D_1$, and the frame.
+The lapse $\nu_2$ enters only through $d_2$ and $D_2$, which first appear in $\Theta^{(3)}$.
+(3) Inspect $F_3$, the ray source of $X_2$, $I_3$ and $D_2$ in \S\ref{sec:obs}.
+\end{proof}
+
+By Wick's theorem, every contraction between local quantities is a derivative of
+$\sigma^2j_0(k_0|X-Y|)$, evaluated at points on the two rays or at the observer. Therefore all
+of $\mathcal N_\ell$, and every \emph{local--local} part of $C^{L,4}_\ell$ and
+$\mathcal M_\ell$, are line-of-sight integrals of elementary functions. These parts have no
+$\mu$ integral and no Green-function times. The angular integral over $\mu$ (equivalently the
+total momentum $K\in[0,2k_0]$), and the nested Green-function times, are confined to the terms
+that contain $A_2$, $A_3$ or~$\nu_2$. That is, they are confined to the resonant second- and
+third-order field response. This is a reorganisation of the same exact integrals; the local
+line-of-sight integrals are not evaluated here.
 
 \begin{theorem}[Existence]\label{thm:exist}
 For all finite $0<x_\star<x_o$, the integrals for $C_\ell^{(22)}$ and $C_\ell^{(13)}$ converge
@@ -1142,6 +1296,8 @@ Superhorizon observable & \code{solution/observable\_generator.py SH}: orders 1 
 Superhorizon $C_2$ & \code{solution/superhorizon.py}\\
 Strengthened report identities & \code{solution/check\_report\_identities.py}: background residual Bianchi identities and zero-mode constraint matching; conformal driver and cubic commutator shear; Fermi--Walker rotation; centred normalisation and polarised map kernels; the two-norm spectrum; general-moment and monochromatic leading-gradient resummation. These are exact symbolic identities, not an arbitrary-time cubic-observable verification.\\
 Literature-inspired gradient tests & \code{solution/check\_gradient\_modes.py}: exact special-conformal Jacobian and flat seed; zero shear and hence zero map for the completed adiabatic profile; quadratic completion and its conversion to the convention of \cite{MirbabayiZaldarriaga}; nonzero uncompensated-gradient quadrupole; plane-wave soft generator and the leading-gradient check of \eqref{eq:gradient-ward}. The general finite-time Ward identity is proved by covariance, not by full-kernel substitution.\\
+Log-map decomposition & \code{solution/check\_logmap\_decomposition.py} (about 6~min): \eqref{eq:logmap-decomposition} and the $3j$ lognormal term \eqref{eq:lognormal-term} for $\ell=1,\dots,4$, in a band-limited Gaussian sky with non-Gaussian $L_2,L_3$; exact sphere integrals and Gaussian moments\\
+Shell locality & \code{solution/check\_shell\_locality.py}: the local form of the shell first-order fields and of $\theta$; $\sigma^{(2)}=\frac12A_2'+\frac12(H_1^2)'+2gH_1'$ for generic matrices. Item~(3) of Prop.~\ref{prop:shell-local} is by inspection.\\
 Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$\\
 Normalisation; Wick and Fourier measures & \code{verification/normalization\_expansion.py}; \code{validation/check\_algebra.py}\\
 \bottomrule
@@ -1159,7 +1315,11 @@ Normalisation; Wick and Fourier measures & \code{verification/normalization\_exp
   evaluated beyond the superhorizon limit. The expanded ancillary equations remain available
   as a reference rather than being embedded in the report. The literature-inspired
   \eqref{eq:soft-remainder} fixes the first two soft coefficients but does not determine the
-  comparable-momentum remainder or the full cubic response.
+  comparable-momentum remainder or the full cubic response. After the log-map decomposition
+  (Thm.~\ref{thm:logmap}), the unevaluated content is $C^{L,4}_\ell$ and $\mathcal M_\ell$.
+  By Prop.~\ref{prop:shell-local}, their local--local parts are line-of-sight integrals of
+  elementary functions; these are not evaluated. Only the terms with $A_2$, $A_3$ or $\nu_2$
+  carry the angular and Green-function integrals.
 \item The next order of the superhorizon expansion (the leading $C_3$ and the $O(k_0^6)$
   correction to $C_2$ at fourth order) is not computed. It needs the $O(t^4)$ gradient data and
   the $O(\kappa^3)$ map: ray deflection, spatial variation along the ray, endpoint and clock.
