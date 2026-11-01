@@ -8,7 +8,17 @@
   exact integral representation, or open.
 - **`report/temperature_spectrum_report.tex`**: the final report for the problem. It covers the
   results, the proofs, the evaluated limits, the verification ledger, and what remains
-  unevaluated. Build it with `latexmk -pdf` in the devbox image.
+  unevaluated. The strengthened report includes a constraint-proof repair, an explicit
+  Fermi–Walker map correction, compact finite-time source/map/spectrum representations, and
+  an all-amplitude Gaussian average of the leading-gradient quadrupole (not a finite-wavelength
+  resummation). A comparison with Mirbabayi & Zaldarriaga, *CMB Anisotropies from a Gradient
+  Mode* (arXiv:1409.4777v2), adds an exact adiabatic-gradient null test and a finite-time
+  soft-gradient identity. It distinguishes a nonlinear coordinate mode from the physical
+  gradient-squared signal for the stated Gaussian seed. Matter-era transfer coefficients
+  are not used. The large expanded kernels remain in the referenced ancillary files.
+  The report's repaired constraint proof and explicit frame completion supersede the
+  corresponding older derivation notes.
+  Build with `latexmk -pdf` in the devbox image, or run `pdflatex` twice in `report/`.
 - `solution/`: exact SymPy checks for the unified derivation. Run them with `solution/run_all.sh`.
   The exact sources are in `solution/results/`.
 
@@ -29,6 +39,8 @@ Earlier material, kept for provenance (the unified documents supersede it):
 | `check_ward_dilation.py` | dilation Ward identity for second-order fields, in closed form, with negative controls |
 | `third_order.py` | exact third-order sources at `(k, q, −q)` (written to `results/`); operators identical to second order |
 | `check_observable_expansion.py` | ray, emission root, moving endpoint, clock and composition formulas through third order, for arbitrary fields |
+| `check_report_identities.py` | exact residual Bianchi identities and homogeneous constraint counterexample; factored conformal driver and cubic matrix shear; FW rotation; centred/polarised map; two-norm spectrum; general-moment and shell leading-gradient resummation. Fast, read-only, no numerical checks. |
+| `check_gradient_modes.py` | exact special-conformal null seed and quadratic completion; comparison of the primordial profile with arXiv:1409.4777v2; nonzero uncompensated-gradient quadrupole; soft generator and leading-gradient Ward check, with a negative control. The arbitrary-time Ward identity is proved by covariance in the report, not by full-kernel substitution. |
 | `closed_forms.py`, `closed_second_order.py` | second-order kernels in closed form in entire functions (Si, Cin, 𝔢_m), regular on every resonance; every antiderivative verified by exact differentiation; `--check N` substitutes into the lapse equation (passes); `--check all` (hours) also substitutes into (M) and (T) |
 | `fast_series.py N` | third-order implementation test, fast and exact: the full nonlinear equations at `(k, q, −q)`, including the exact `K = 0` pair, vanish through `O(t^{N−2})`; `N = 8` takes about 70 s; negative controls `mutate-c3`, `mutate-K2` |
 | `third_order_consistency.py N` | slower SymPy reference implementation of the same test |

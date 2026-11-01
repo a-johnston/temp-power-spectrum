@@ -9,7 +9,8 @@ set -euo pipefail
 cd "$(dirname "$0")"
 PY="${PYTHON:-python3}"
 for s in check_evolution_form.py first_order_engine_check.py check_green.py second_order.py \
-         check_ward_dilation.py check_ward_dilation3.py check_observable_expansion.py third_order.py \
+         check_ward_dilation.py check_ward_dilation3.py check_observable_expansion.py \
+         check_report_identities.py check_gradient_modes.py third_order.py \
          "second_order_consistency.py ${DEPTH:-6}" "fast_series.py 8" \
          closed_second_order.py "observable_generator.py W2 4" "observable_generator.py W3 4" \
          "observable_generator.py SH 2" superhorizon.py; do
