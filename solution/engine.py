@@ -58,6 +58,8 @@ class Field:
                 if len(k) > Ctx.maxdeg:
                     continue
                 d[k] = d.get(k, 0) + v1 * v2
+        if Ctx.trunc is not None:
+            d = {k: Ctx.trunc(v) for k, v in d.items()}
         return Field(d)
 
     __rmul__ = __mul__
@@ -84,6 +86,7 @@ class Field:
 class Ctx:
     maxdeg = 2
     momenta = {}
+    trunc = None   # optional coefficient truncation (e.g. a power series cut), applied after products
 
     @classmethod
     def mom(cls, labels):

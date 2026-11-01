@@ -492,6 +492,27 @@ depends on `k0` only through `x⋆ = k0t̄⋆/√3`, `x_o` and `x_I`.
 
 ## 9. Ledger of unevaluated integrals and open steps
 
+> **Update.** The final report, `report/temperature_spectrum_report.tex`, supersedes this ledger.
+> Items 1–3 below are now resolved:
+> - closed forms in entire functions (`solution/closed_second_order.py`);
+> - a third-order implementation test (`solution/third_order_consistency.py`);
+> - an independent kernel generator with Ward-identity checks
+>   (`solution/observable_generator.py`).
+>
+> Item 4 is resolved in part:
+> - every sky integral is done in closed form;
+> - existence is proved;
+> - the superhorizon limit is evaluated exactly in ζ (`solution/superhorizon.py`).
+>
+> Items 5–6 are also resolved in part:
+> - the late-time limit at first order;
+> - the infrared cancellation from the Ward identities;
+> - an ultraviolet power-counting criterion.
+>
+> The report states what remains open.
+
+The original ledger follows.
+
 1. **Second-order field kernels.** Single integrals of elementary functions. Si/Ci reduction is
    mechanical with the antiderivative recursion of `verification/transfer_closed_form.py`. It is
    not generated. **[open: closed form]**

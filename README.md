@@ -6,6 +6,9 @@
 - **`derivations/UNIFIED_DERIVATION.md`**: the execution of the plan, through third order in the
   map and fourth order in `C_ℓ`, with a status ledger. Each result is marked as evaluated, an
   exact integral representation, or open.
+- **`report/temperature_spectrum_report.tex`**: the final report for the problem. It covers the
+  results, the proofs, the evaluated limits, the verification ledger, and what remains
+  unevaluated. Build it with `latexmk -pdf` in the devbox image.
 - `solution/`: exact SymPy checks for the unified derivation. Run them with `solution/run_all.sh`.
   The exact sources are in `solution/results/`.
 
@@ -26,3 +29,9 @@ Earlier material, kept for provenance (the unified documents supersede it):
 | `check_ward_dilation.py` | dilation Ward identity for second-order fields, in closed form, with negative controls |
 | `third_order.py` | exact third-order sources at `(k, q, −q)` (written to `results/`); operators identical to second order |
 | `check_observable_expansion.py` | ray, emission root, moving endpoint, clock and composition formulas through third order, for arbitrary fields |
+| `closed_forms.py`, `closed_second_order.py` | second-order kernels in closed form in entire functions (Si, Cin, 𝔢_m), regular on every resonance; every antiderivative verified by exact differentiation; `--check N` substitutes into the lapse equation (passes); `--check all` (hours) also substitutes into (M) and (T) |
+| `fast_series.py N` | third-order implementation test, fast and exact: the full nonlinear equations at `(k, q, −q)`, including the exact `K = 0` pair, vanish through `O(t^{N−2})`; `N = 8` takes about 70 s; negative controls `mutate-c3`, `mutate-K2` |
+| `third_order_consistency.py N` | slower SymPy reference implementation of the same test |
+| `check_ward_dilation3.py` | third-order field dilation identity `K₃(k,0,0) = (k·∂_k)²K₁` |
+| `observable_generator.py W2\|W3\|SH\|SH3` | independent generator of Θ⁽¹⁻³⁾ from the exact definitions; observable Ward identities through `O(κ⁴)`; superhorizon closed form at orders 1–2 (`SH`). `SH3` (third order) did not complete within 50 min: the SymPy assembly of the observable is the bottleneck |
+| `superhorizon.py` | exact superhorizon `C₂⁽¹¹⁾`, `C₂⁽²²⁾`, `C₂⁽¹³⁾` |

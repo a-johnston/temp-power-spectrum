@@ -116,6 +116,14 @@ supplementary output.
 
 ## 4. Open items (carried forward explicitly)
 
+> **Update.** See `report/temperature_spectrum_report.tex` for how items 1–6 were resolved, and
+> for what is still open:
+> - evaluation of `C^(22)` and `C^(13)` at general `k0`;
+> - the late-time limit at fourth order;
+> - a rigorous ultraviolet bound.
+>
+> The original list follows.
+
 1. **Third-order implementation test.** Consistency is proved (derivation §4.4). An explicit
    Taylor-series residual test at third order, like the second-order one, is still to be run;
    it is expensive.
