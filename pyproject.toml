@@ -1,7 +1,7 @@
 [project]
-name = "david"
+name = "davids_math"
 version = "0.1.0"
-description = "Add your description here"
+description = ""
 readme = "README.md"
 authors = [
     { name = "Adam Johnston", email = "adam.johnston00@gmail.com" }
