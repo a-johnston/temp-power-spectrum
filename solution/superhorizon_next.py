@@ -68,6 +68,20 @@ if __name__ == "__main__":
 
 # ------------------------------------------------------------------ spectrum from saved kernels
 def load(name):
+    """Kernels as SymPy expressions; the slow rational simplification is cached next to the pickle."""
+
+    cache = os.path.join(OUT, f"superhorizon_kernels_{name}_sympy.pkl")
+    src = os.path.join(OUT, f"superhorizon_kernels_{name}.pkl")
+    if os.path.exists(cache) and os.path.getmtime(cache) >= os.path.getmtime(src):
+        with open(cache, "rb") as fh:
+            return pickle.load(fh)
+    out, G = _load(name)
+    with open(cache, "wb") as fh:
+        pickle.dump((out, G), fh)
+    return out, G
+
+
+def _load(name):
     import sympy as sp
 
     with open(os.path.join(OUT, f"superhorizon_kernels_{name}.pkl"), "rb") as fh:
@@ -171,7 +185,9 @@ def spectrum():
         # (1/3) Re C13 = sigma^4/(2l+1) * (1/2) int dmu Re S_l[K1(k), K3(k,q,-q)]
         d13 = shell(S2(K1, K3, G))
         assert sp.expand(d13.coeff(sq, 1)) == 0, "odd powers of sqrt(1-mu^2) must cancel"
-        d13 = sp.re(sp.expand(d13.coeff(sq, 0)))
+        d13 = sp.expand(d13.coeff(sq, 0))
+        # real part with all symbols real (sp.re would wrap the non-real pickle symbols in re(...))
+        d13 = sp.expand((d13 + d13.subs(sp.I, -sp.I)) / 2)
         third = truncate_kappa(sp.integrate(d13, (mu, -1, 1)) / 2 / 5, kap, 6)
     return C11, quarterC22, third, G
 

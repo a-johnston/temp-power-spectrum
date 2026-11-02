@@ -36,7 +36,8 @@ part of the current tree.
 - **Superhorizon limit.** The quadrupole and the octupole are local curvature multipoles, exact
   in ζ. Their fourth-order factors are `1 + 29ε²σ²/3` and `1 + 46ε²σ²`. For any nonnegative
   spectrum the coefficients lie in `[8, 29/3]·m₀` and `[18, 46]·m₀`, and the monochromatic shell
-  attains both upper bounds.
+  attains both upper bounds. The complete fourth-order quadrupole is also given at the next
+  gradient order, O(k₀⁶), with symbolic emission, observation and initial times.
 - **Open.** What remains unevaluated is listed in the report's section "What remains
   unevaluated". An appendix records exploratory finite-k₀ numerics, which are not evidence.
 
@@ -104,7 +105,7 @@ and an independent CAS (Maxima).
 | `observable_generator.py W2\|W3\|SH\|SH3` | independent generator of Θ⁽¹⁻³⁾ from the exact definitions; observable Ward identities through `O(κ⁴)`; superhorizon closed form at orders 1–2 (`SH`). `SH3` (third order) did not complete within 50 min: the SymPy assembly of the observable is the bottleneck |
 | `observable_fast.py SH\|SH3\|W2\|W3 [KMAX] [mutation]` | fast exact port of the independent generator: same definitions, sparse-polynomial arithmetic over ℚ(i); SH in 11 s, W2/W3 through O(κ⁴), and SH3 (third-order superhorizon map at (k, q, −q), general momenta) in about 12 min; mutations show that the dilation Ward tests are blind to the ray, endpoint and normalisation terms but fail without e^{−ζ} in the initial direction |
 | `check_tensor_newtonian.py` | independent cross-check of the shell tensor amplitude against the finite-time Kohri–Terada induced-GW kernel through the nonlinear Newtonian → temperature-frame map (derivation: `report/tensor_newtonian_crosscheck.md`); `check_shell_reduction.py` ties it to this repo's `c_T` |
-| `superhorizon_next.py kernels2\|kernels3\|spectrum` | next superhorizon order: map kernels through O(κ⁴) from the fast generator; C₂⁽¹¹⁾ and ¼C₂⁽²²⁾ at O(k₀⁶) (cubic part via `kernels3`, a multi-hour run) |
+| `superhorizon_next.py kernels2\|kernels3\|spectrum` | next superhorizon order: map kernels through O(κ⁴) from the fast generator; C₂⁽¹¹⁾, ¼C₂⁽²²⁾ and ⅓Re C₂⁽¹³⁾ at O(k₀⁶), and the complete ε⁴k₀⁶ coefficient. `kernels3` takes about 13 h on a laptop; `spectrum` takes about 25 min the first time and 4 s once cached |
 | `check_quadrupole_next_hand.py [--compare]` | independent hand-map calculation of C₂⁽¹¹⁾ and ¼C₂⁽²²⁾ at O(k₀⁶) from its own O(t⁴) field data and the explicit ray, endpoint and clock formulas; endpoint and clock pieces separately nonzero; `--compare` checks every projected-kernel component against the generator output (derivation: `report/quadrupole_next_hand_check.md`) |
 | `check_bessel_translation.py` | separated (translation) form of the mixed-time sky integrals: single-time Bessel functions, 3j weights and P_L(μ), checked exactly against the Funk–Hecke form through degree 10 |
 | `check_cartesian_green.py` | projector-free Cartesian form of the spatial field equation: eigenvalues of 𝔅_K and exact equality of its polynomial-in-K series with the projector-based kernels through O(t⁷) (pairs, the K = 0 pair, third order); hence the recombined kernels are analytic in K, continuous at K = 0 |
