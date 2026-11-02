@@ -1,53 +1,74 @@
 # The observed CMB temperature power spectrum through fourth order (radiation-only universe)
 
-Analytical solution of the problem in `problem_statement.tex`: the observed temperature anisotropy
-through third order and its angular power spectrum through fourth order in the primordial
-amplitude, for a flat radiation-only universe in general relativity, with Planck test photons
-emitted on a physical temperature surface and an observer on a fluid worldline.
+An analytical solution of the problem in [`problem_statement.tex`](problem_statement.tex). The
+problem is a flat, radiation-only universe in general relativity, with Planck test photons
+emitted on a physical temperature surface and an observer on a fluid worldline. It asks for the
+observed temperature map through third order, and its angular power spectrum through fourth
+order, in the primordial amplitude.
 
-## Start here
+The full solution is the report, [`report/temperature_spectrum_report.pdf`](report/temperature_spectrum_report.pdf)
+(source `.tex`). Every analytical step in it is backed by an exact SymPy check in `solution/`.
+The earlier approaches, intermediate notes and reviews are kept in the git history and are not
+part of the current tree.
 
-- **`report/temperature_spectrum_report.tex`** (and `.pdf`): the final report. It contains every
-  result, proof and evaluated limit, the verification ledger, what remains unevaluated, and an
-  appendix of exploratory (not-evidence) numerics. Build with `pdflatex` run three times in
-  `report/` (or `latexmk -pdf`).
-- `problem_statement.tex`: the task.
+## Main results
 
-Main results, in report order: the exact temperature-frame redshift formula; the triangular
-field solution with all ten equations proved; second-order kernels in closed form and
-third-order kernels as nested integrals; the complete map Θ⁽¹⁻³⁾; the entire-function closed form
-of the linear transfer function T_ℓ for every ℓ; the log-map and observer-dilation
-decompositions of the fourth-order spectrum; complete fourth-order spectra at zeros of T_ℓ; and
-the superhorizon quadrupole and octupole exact in ζ (fourth-order factors 1 + 29ε²σ²/3 and
-1 + 46ε²σ²).
+- **Exact redshift.** Use the fluid's velocity potential and comoving labels as coordinates
+  (the *temperature frame*). Then the observed temperature is an exact line integral of the
+  shear of a conformally rescaled metric, `T_obs = T_fluid(o) e^{-I}`, and the observer's own
+  temperature cancels exactly from the normalised map.
+- **Field solution.** A triangular solution with elementary Green functions satisfies all ten
+  field equations at every order. The second-order kernels are in closed form in entire
+  functions. The third-order kernels are explicit nested integrals.
+- **Map and spectrum.** The complete map Θ⁽¹⁻³⁾ includes the ray, emission surface, observer
+  clock, tetrad and normalisation. In the spectrum, all sky integrals are done in closed form.
+- **Linear transfer function.** `T_ℓ` is given in closed form for every ℓ, in the same entire
+  functions as the second-order kernels.
+- **Structure of the fourth-order spectrum.**
+  - an exact log-map decomposition: the log-temperature spectrum, plus a lognormal term, plus a
+    collapsed bispectrum;
+  - an exact observer-dilation decomposition;
+  - complete fourth-order spectra at zeros of `T_ℓ`.
+- **Superhorizon limit.** The quadrupole and the octupole are local curvature multipoles, exact
+  in ζ. Their fourth-order factors are `1 + 29ε²σ²/3` and `1 + 46ε²σ²`.
+- **Open.** What remains unevaluated is listed in the report's section "What remains
+  unevaluated". An appendix records exploratory finite-k₀ numerics, which are not evidence.
 
-## Setup
+## Walkthrough: report sections and their checks
+
+| Report section | Checks (in `solution/`) |
+|---|---|
+| Exact framework (temperature frame, exact redshift, field equations) | `foundations/check_exact_lemmas.py`, `foundations/check_fw_conformal.py`, `foundations/check_exact_field_equations.py`, `foundations/check_field_equations_generic.py`, `check_evolution_form.py` |
+| Primordial state and initial data | `foundations/check_initial_data_gradient.py` |
+| Field solution at every order | `check_green.py`, `second_order.py`, `second_order_consistency.py`, `closed_forms.py`, `closed_second_order.py`, `third_order.py`, `fast_series.py`, `third_order_consistency.py`, `check_report_identities.py` |
+| The observable through third order | `check_observable_expansion.py`, `observable_generator.py`, `foundations/normalization_expansion.py`, `foundations/check_algebra.py` |
+| Gauge invariance and Ward identities | `check_ward_dilation.py`, `check_ward_dilation3.py`, `observable_generator.py W2\|W3`, `foundations/check_first_order.py`, `first_order_engine_check.py`, `check_gradient_modes.py` |
+| The spectrum (transfer function, log-map and observer-dilation decompositions, shell) | `transfer_entire.py`, `check_logmap_decomposition.py`, `check_dilation_factorisation.py`, `check_shell_locality.py` |
+| Limits (superhorizon quadrupole and octupole, infrared) | `superhorizon.py`, `observable_generator.py SH`, `check_dilation_factorisation.py`, `check_gradient_octupole.py` |
+| Appendix: exploratory numerics | `numerics/explore_fourth_order.py`, `numerics/explore_third_order.py` |
+
+## Setup and reproduction
 
 ```
-uv sync            # creates .venv with sympy, mpmath, numpy (pyproject.toml, uv.lock)
+uv sync                     # .venv with sympy, mpmath, numpy (pyproject.toml, uv.lock)
+solution/run_all.sh         # every exact check; uses .venv by default (override with PYTHON=...)
+cd report && pdflatex temperature_spectrum_report.tex   # three times, or latexmk -pdf
 ```
 
-## Reproduce
-
-- Exact checks (SymPy, no numerical evidence): `solution/run_all.sh` uses `.venv` by default
-  (override with `PYTHON=...`). The slow steps are listed in its header. Individual checks run
-  as `.venv/bin/python solution/<script>.py`; the table below says what each establishes.
-- Older layers, kept for provenance: `verification/run_all.sh` and
-  `python -B -m unittest discover -s validation -p 'check_*.py'`.
-- Exploratory numerics (report appendix; **not evidence**): see below.
+The slow steps of `run_all.sh` are listed in its header. Individual checks run as
+`.venv/bin/python solution/<script>.py`. `.devbox/` defines an equivalent container with LaTeX
+and an independent CAS (Maxima).
 
 ## Layout
 
 | Path | Contents |
 |---|---|
-| `report/` | the final report |
-| `solution/` | the exact SymPy checks behind the report (table below); `solution/results/` holds the exact expanded sources and kernels referenced by the report |
-| `solution/numerics/` | exploratory finite-k₀ numerics (below) |
-| `verification/` | exact lemmas, generic-jet field equations, first order in two gauges, the earlier Ci/Si transfer closed form |
-| `reviews/` | independent reviews and review notes (the report incorporates their accepted points) |
-| `arXiv-1409.4777v2/` | Mirbabayi & Zaldarriaga, *CMB Anisotropies from a Gradient Mode*, used for comparison |
-| `PLAN.md`, `derivations/UNIFIED_DERIVATION.md` | the unified plan and its execution notes; the report supersedes them where they differ |
-| `APPROACH.md`, `approach/`, `derivations/{QUADRATIC,CUBIC}_INITIAL_DATA.md`, `derivations/OFFSHELL_VALIDATION.md`, `validation/` | earlier (orange and purple) branches, kept for provenance |
+| `problem_statement.tex` | the task |
+| `report/` | the report (`.tex` and built `.pdf`) |
+| `solution/` | exact checks for the field solution, observable, spectrum and limits |
+| `solution/foundations/` | exact checks of the framework: lemmas, generic-jet field equations, first order in two gauges, normalisation and Gaussian algebra (`gr.py` holds the shared tensor utilities) |
+| `solution/results/` | exact expanded sources and kernels referenced by the report |
+| `solution/numerics/` | exploratory finite-k₀ numerics (not evidence) |
 
 ## Exact checks in `solution/`
 
@@ -74,6 +95,10 @@ uv sync            # creates .venv with sympy, mpmath, numpy (pyproject.toml, uv
 | `check_logmap_decomposition.py` | exact check (~2 min) of the log-map decomposition `¼C⁽²²⁾ + ⅓Re C⁽¹³⁾ = C^{L,4} + N_ℓ[C] + M_ℓ` and of the explicit 3j lognormal term, in a band-limited Gaussian sky with non-Gaussian `L₂`, `L₃` |
 | `check_shell_locality.py` | on the monochromatic shell the first-order fields and θ are local in g; σ⁽²⁾ = ½A₂′ + ½(H₁²)′ + 2gH₁′, so A₂ is the only non-local second-order input to the map |
 | `check_gradient_octupole.py` | leading octupole: conformal identity ∇⟨aR_bc⟩ = (f/2)[∂³f²]_STF, leading T_ℓ coefficient (ℓ = 2..7), β₃, exact Wick moments of the resummed octupole spectrum and the shell ratios 148σ², 27σ²; ⟨θθL₂⟩ = 0 at leading gradient order (so M_ℓ = O(κ⁸)) |
+
+`foundations/` additionally contains the framework checks listed in the walkthrough table.
+`foundations/check_algebra.py` is a `unittest` suite: run it with
+`python -m unittest discover -s solution/foundations -p check_algebra.py`.
 
 ## Exploratory numerics in `solution/numerics/` (not evidence)
 

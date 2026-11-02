@@ -1,6 +1,6 @@
 """Exact field equations E00/E0i/Eij and the Hamiltonian constraint (L4) for GENERIC gamma.
 
-Adapted from the independent auditor's strong test (see approach/VALIDATION.md, audit W4).
+A strong test of Prop. 'Unified field equations' of the report.
 gamma = w(X) L diag(a, b, 1/(ab)) L^T with L unit lower-triangular (P, Q, R): six free
 functions; a, b, P, Q, R, N depend on (t,x,y,z), w on (x,y,z) only, so det gamma = w^3 is
 t-independent but spatially varying -- exactly the class allowed by lemma L1

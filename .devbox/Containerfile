@@ -3,10 +3,10 @@
 FROM ubuntu:24.04
 
 # Exact computer algebra for the analytical derivation and its symbolic checks:
-#   - Python + pinned SymPy/mpmath (primary CAS; validation/ and verification/)
+#   - Python + pinned SymPy/mpmath (primary CAS; solution/), numpy for the exploratory numerics
 #   - Maxima (independent second CAS for cross-checking key identities)
-#   - LaTeX toolchain to build the derivation documents
-# No numerical evolution or quadrature stack is installed or used as evidence.
+#   - LaTeX toolchain to build the report
+# Numerics (solution/numerics/) are exploratory only and never used as evidence.
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       ca-certificates curl git make \

@@ -336,7 +336,7 @@ def scan(xos=(0.25, 0.5, 1.0, 1.5, 2.0, 3.0, 4.0, 6.0), nmu=24, l=2, lmax=None, 
 
 
 def harden():
-    """Diagnostics requested in reviews/REVIEW_FOURTH_ORDER_EXPLORATION.md (section 6)."""
+    """Pipeline diagnostics: analytic vs finite-difference A2', cutoff, moving endpoint, ray-grid convergence."""
     # (a) analytic A2' versus finite differences
     for mu in (-0.9, -1 / 3, 0.5):
         b2 = np.sqrt(1 - mu**2)

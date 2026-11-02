@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-"""Exact checks of selected identities in APPROACH.md, NOT a spectrum solver.
+"""Exact checks of identities used in the report (not a spectrum solver): radiation background,
+sky normalisation and zero mean, log/temperature map, cancellation of the common temperature
+factor, cubic emission root, Taylor factors, Wick pairings, scalar/tensor Green functions,
+endpoint energies, angular normalisation and dipole projection, Gaussian moments, shell measure.
 
 No random sampling, numerical evolution, quadrature, or floating-point evidence.
-Run: python -m unittest discover -s validation -p 'check_*.py' -v
+Run: python -m unittest discover -s solution/foundations -p check_algebra.py -v
 """
 
 import unittest

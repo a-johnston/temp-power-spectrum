@@ -27,7 +27,7 @@
 
 \title{The observed temperature power spectrum through fourth order\\
 in a radiation-only universe: final report}
-\author{Unified analysis (branch \code{unified/temperature-spectrum})}
+\author{Adam Johnston}
 \date{2026-10-31}
 
 \begin{document}
@@ -58,10 +58,10 @@ cancels exactly in the normalised map. Further results:
   Laurent coefficients of two explicit rational functions, with no logarithms or $\mathrm{Ci}$.
 \item $C_\ell^{(22)}$ and $C_\ell^{(13)}$ are reduced to exact finite-dimensional integrals,
   with every sky integral done in closed form.
-\item The fourth-order spectrum splits exactly into three parts, using the centred
-  log-temperature map $L$ (the log of $T_{\rm obs}$ minus its sky mean): the fourth-order spectrum of
-  $L$; a lognormal normalisation term, a closed-form $3j$ convolution of $C^{(11)}$ with
-  itself; and a collapsed bispectrum of $L$. On the monochromatic shell, all first-order
+\item The fourth-order spectrum splits exactly into three parts. They are defined by the centred
+  log-temperature map $L$, which is the log of $T_{\rm obs}$ minus its sky mean. The three
+  parts are the fourth-order spectrum of $L$, a lognormal normalisation term given by an
+  explicit $3j$ series in $C^{(11)}$ alone, and a collapsed bispectrum of $L$. On the monochromatic shell, all first-order
   quantities are local in the primordial field. The resonant integrals over angle and
   Green-function times are confined to the second- and third-order metric response.
 \item The finite-time map admits a compact centred-exponent form, and the spectrum is the
@@ -851,9 +851,8 @@ The representation has no logarithms, no $\mathrm{Ci}$ and no elementary remaind
 the same entire functions as the second-order kernels, and the only frequencies are the beats
 $\sqrt3\mp1$ between the photon and acoustic phases. Every term is manifestly finite as
 $x_\star\to x_o$ and as $x_\star\to0$. If preferred, the recursion for $J_M$ reduces everything
-to $J_1=-\Cin+i\Si$ together with elementary terms. The superseded $\mathrm{Ci}/\mathrm{Si}$ form
-(\path{verification/results/T2_closed_form.txt}, \path{T3_closed_form.txt}) carries
-removable $\ln(\sqrt3\pm1)$ constants and is kept only as a cross-check.
+to $J_1=-\Cin+i\Si$ together with elementary terms. Expressed instead in $\mathrm{Ci}$ and $\Si$,
+the same function carries removable $\ln(\sqrt3\pm1)$ constants.
 \code{solution/transfer\_entire.py} proves \eqref{eq:Tl-entire} exactly for
 $\ell=1,\dots,6$, as an identity in $x_\star$ together with its value at $x_\star=x_o$. The
 case $\ell=1$, the dipole of $\Theta^{(1)}$, is needed in \S\ref{sec:logmap}.
@@ -1479,11 +1478,11 @@ an independent symbol, so a zero residual is a proof.
 \begin{longtable}{p{6.2cm}p{8.8cm}}
 \toprule
 Check & Script and scope\\\midrule\endhead
-Lemmas L1--L5; generic field equations & \code{verification/check\_exact\_lemmas.py}, \code{check\_fw\_conformal.py}, \code{check\_field\_equations\_generic.py} (generic 2-jets)\\
+Lemmas L1--L5; generic field equations & \path{solution/foundations/check_exact_lemmas.py}, \path{check_fw_conformal.py}, \path{check_exact_field_equations.py}, \path{check_field_equations_generic.py} (generic 2-jets)\\
+Gradient-expansion data \eqref{eq:grad} & \path{solution/foundations/check_initial_data_gradient.py} (exact in $\zeta$)\\
 Mixed trace-free form (T) & \code{solution/check\_evolution\_form.py} (generic 2-jets)\\
-First order, two gauges, all $\ell$ & \code{verification/check\_first\_order.py}; \code{solution/first\_order\_engine\_check.py}\\
+First order, two gauges, all $\ell$ & \path{solution/foundations/check_first_order.py}; \code{solution/first\_order\_engine\_check.py}\\
 Entire-function $T_\ell$ (Prop.~\ref{prop:Tl}) & \code{solution/transfer\_entire.py 2 3 4 5 6}: the $x_\star$-derivative of \eqref{eq:Tl-entire} equals the integrand exactly, as an identity of exponential polynomials, and the representation vanishes at $x_\star=x_o$. A printed high-precision comparison is supplementary only.\\
-Earlier $\mathrm{Ci}/\mathrm{Si}$ form of $T_2$, $T_3$ & \code{verification/transfer\_closed\_form.py} (kept as a cross-check)\\
 Green functions, $K\to0$ & \code{solution/check\_green.py}\\
 2nd-order sources and operators & \code{solution/second\_order.py}\\
 2nd order, all 10 equations & \code{solution/second\_order\_consistency.py}: exact Taylor series through $O(t^8)$, general $K$ and $K=0$\\
@@ -1495,13 +1494,13 @@ Observable expansion formulas & \code{solution/check\_observable\_expansion.py} 
 Observable Ward identities & \code{solution/observable\_generator.py W2|W3} through $O(\kappa^4)$\\
 Superhorizon observable & \code{solution/observable\_generator.py SH}: orders 1 and 2, general $(k,q)$. \emph{Not completed:} \code{SH3} (third order at $(k,q,-q)$). Its fields are built by the fast engine in about 12~s, but the generator's SymPy assembly of the observable did not finish within 50~minutes. Porting the generator to the fast arithmetic would remove this; it was not done.\\
 Superhorizon $C_2$ & \code{solution/superhorizon.py}\\
-Strengthened report identities & \code{solution/check\_report\_identities.py}: background residual Bianchi identities and zero-mode constraint matching; conformal driver and cubic commutator shear; Fermi--Walker rotation; centred normalisation and polarised map kernels; the two-norm spectrum; general-moment and monochromatic leading-gradient resummation. These are exact symbolic identities, not an arbitrary-time cubic-observable verification.\\
-Literature-inspired gradient tests & \code{solution/check\_gradient\_modes.py}: exact special-conformal Jacobian and flat seed; zero shear and hence zero map for the completed adiabatic profile; quadratic completion and its conversion to the convention of \cite{MirbabayiZaldarriaga}; nonzero uncompensated-gradient quadrupole; plane-wave soft generator and the leading-gradient check of \eqref{eq:gradient-ward}. The general finite-time Ward identity is proved by covariance, not by full-kernel substitution.\\
+Report identities & \code{solution/check\_report\_identities.py}: background residual Bianchi identities and zero-mode constraint matching; conformal driver and cubic commutator shear; Fermi--Walker rotation; centred normalisation and polarised map kernels; the two-norm spectrum; general-moment and monochromatic leading-gradient resummation. These are exact symbolic identities, not an arbitrary-time cubic-observable verification.\\
+Gradient-mode tests & \code{solution/check\_gradient\_modes.py}: exact special-conformal Jacobian and flat seed; zero shear and hence zero map for the completed adiabatic profile; quadratic completion and its conversion to the convention of \cite{MirbabayiZaldarriaga}; nonzero uncompensated-gradient quadrupole; plane-wave soft generator and the leading-gradient check of \eqref{eq:gradient-ward}. The general finite-time Ward identity is proved by covariance, not by full-kernel substitution.\\
 Log-map decomposition & \code{solution/check\_logmap\_decomposition.py} (about 2~min): \eqref{eq:logmap-decomposition} and the $3j$ lognormal term \eqref{eq:lognormal-term} for $\ell=1,\dots,4$, in a band-limited Gaussian sky with non-Gaussian $L_2,L_3$; exact sphere integrals and Gaussian moments\\
 Shell locality & \code{solution/check\_shell\_locality.py}: the local form of the shell first-order fields and of $\theta$; $\sigma^{(2)}=\frac12A_2'+\frac12(H_1^2)'+2gH_1'$ for generic matrices. Item~(3) of Prop.~\ref{prop:shell-local} is by inspection.\\
 Leading octupole; $\mathcal M_\ell$ cancellation & \code{solution/check\_gradient\_octupole.py}: the conformal identity $\nabla_{\langle a}R_{bc\rangle}=\frac f2[\partial^3f^2]_{\rm STF}$ for generic $\zeta$; the leading $T_\ell$ coefficient \eqref{eq:Tl-leading} for $\ell=2,\dots,7$; $\beta_3$; exact isotropic Wick moments giving \eqref{eq:octupole-resummed} and the shell ratios $148\sigma^2$, $27\sigma^2$; $\ens{\theta\theta L_2}=0$ at leading gradient order. The octupole map itself rests on the proof of Thm.~\ref{thm:octupole}.\\
 Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$; superhorizon observer-centred kernels of Prop.~\ref{prop:obs-dilation} ($\mathcal K^c_2=-\tau^2\TF(kq+qk)_{nn}$, $\mathcal K^c_3(k,q,-q)=0$)\\
-Normalisation; Wick and Fourier measures & \code{verification/normalization\_expansion.py}; \code{validation/check\_algebra.py}\\
+Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
 \bottomrule
 \end{longtable}
 
@@ -1568,7 +1567,7 @@ are:
 \paragraph{Validation.}
 \begin{enumerate}
 \item The first-order part reproduces the entire-function $T_2$ of Prop.~\ref{prop:Tl} to
-  $10^{-6}$ for $x_o\le6$, and to $0.4\%$ at $x_o=12$, where the ray grid is coarse.
+  $10^{-6}$ for $x_o\le6$, and to $1.2\times10^{-4}$ at $x_o=12$ (ray grid $n_t=160\,x_o$).
 \item $\frac14C_2[\theta^2,\theta^2]$ equals the first term of $\mathcal N_2$ to all printed
   digits.
 \item The dilation Ward identity holds at finite $k$ ($x_o=1.5$) for the complete second-order
@@ -1586,8 +1585,8 @@ are:
   derivative to $10^{-4}$.
 \item Moving the early-time cutoff of the Green integrals from $10^{-3}\bar t_o$ to
   $2\times10^{-5}\bar t_o$ changes the results in the seventh digit.
-\item The ray quadrature error scales as $n_t^{-2}$. The earlier $0.4\%$ discrepancy in $T_2$
-  at $x_o=12$ was this error. With $n_t=160\,x_o$, the first-order error is below
+\item The ray quadrature error scales as $n_t^{-2}$. On a coarse grid
+  ($n_t=320$) it gives a $0.4\%$ error in $T_2$ at $x_o=12$. With $n_t=160\,x_o$, the first-order error is below
   $10^{-4}$ for $x_o\le12$. Grid refinement in $\mu$, the sphere and the ray changes a node
   value at $x_o\approx7.9$ only in the sixth digit.
 \item As $x_o\to0$, $\frac14C_2^{(22)}/\sigma^2C_2^{(11)}$ approaches $\frac{17}3$.
@@ -1743,7 +1742,7 @@ $x_o$ & $C_2^{(11)}$ & $\frac14C_2^{(22)}$ & $\frac13\operatorname{Re}C_2[\theta
 The small-$x_o$ ratios approach $\frac{29}3=9.67$. Inside the horizon the $22$ and $13$
 contributions are of the same size and partly cancel, and the net fourth-order correction to
 the quadrupole changes sign several times. Away from nodes the cubic term is therefore
-essential, as the review anticipated; the second-order part alone would give the wrong sign
+essential: the second-order part alone would give the wrong sign
 at $x_o=1$--$1.5$ and at $3$--$4$. Convergence of the cubic term: at $x_o=3$ it is stable to five
 digits under $16\to24$ $\mu$ nodes and under a finer sphere ($20\to28$ polar nodes) and ray
 ($300\to450$) grid. At $x_o=4$ it is stable to five digits under $16\to24$ $\mu$ nodes and to
@@ -1857,9 +1856,7 @@ $L_3$, still contain the second-order vectors and tensors, which are kept.
 \bibitem{MirbabayiZaldarriaga}
 M.~Mirbabayi and M.~Zaldarriaga,
 \emph{CMB Anisotropies from a Gradient Mode},
-\href{https://arxiv.org/abs/1409.4777}{arXiv:1409.4777}, version~2 (2015).
-The supplied source is
-\path{arXiv-1409.4777v2/gradient_submit_Apr11_15.tex}; the comparisons above use
+\href{https://arxiv.org/abs/1409.4777}{arXiv:1409.4777}, version~2 (2015). The comparisons above use
 \S\S3--5 and Appendix~C.
 \bibitem{Weinberg2003}
 S.~Weinberg, \emph{Adiabatic modes in cosmology}, Phys.\ Rev.\ D \textbf{67}, 123504 (2003).

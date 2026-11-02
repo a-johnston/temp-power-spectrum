@@ -2,7 +2,7 @@
 
 All fields are ARBITRARY (SymPy undefined functions of (t, x, y, z, eps)), constrained only by
 the vanishing of the background shear/connection.  Each displayed formula of
-derivations/UNIFIED_DERIVATION.md Sec. 5 is compared with the direct eps-expansion of its exact
+the report's section 'The observable through third order' is compared with the direct eps-expansion of its exact
 definition.  WLOG nhat = (0, 0, 1) (all formulas are rotation covariant); background ray
 Xbar(t) = nhat (t_o - t), ebar = -nhat.
 

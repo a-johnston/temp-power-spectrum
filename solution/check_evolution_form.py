@@ -6,20 +6,20 @@ Unified form (n = ln N, S = gamma^{-1} sigma the mixed shear, all indices raised
   (M)  R_0i = 0                 <=>  D_j S^j_i - 2 d_i n' + 2 S^j_i d_j n + 2 n' d_i n = 0
   (T)  TF[gamma^{-1} R_(ij)] = 0 <=>  TF[ S' + 2 n' S + R^k_j - 2 D^k D_j n + 2 D^k n D_j n ] = 0
 
-(T) is new relative to both earlier branches: in mixed form the sigma.sigma terms of the
+(T) is the mixed trace-free form of the spatial equations: in mixed form the sigma.sigma terms of the
 spatial equation cancel exactly, because (gamma^{-1})' sigma = -2 S S.  The physical source
 R_ij = a1^2 gamma_ij / N^2 is pure trace, so only the trace-free (TF) part is an evolution
-equation; its trace combines with (N) into the Hamiltonian constraint (proved upstream in
-verification/check_field_equations_generic.py).
+equation; its trace combines with (N) into the Hamiltonian constraint (proved in
+foundations/check_field_equations_generic.py).
 
-Proof method (as upstream): every function value and derivative is replaced by an independent
+Proof method (as in foundations/check_field_equations_generic.py): every function value and derivative is replaced by an independent
 symbol (2-jet), for a generic six-function gamma with t-independent det and arbitrary N.
 """
 import os
 import sys
 import sympy as sp
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'verification'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'foundations'))
 sys.argv = sys.argv[:1]  # upstream module parses argv for its mode; force 'jet'
 import check_field_equations_generic as up  # noqa: E402
 

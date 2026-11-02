@@ -1,6 +1,6 @@
 """Consistency of the triangular second-order solution with ALL field equations.
 
-Solution prescription (derivations/UNIFIED_DERIVATION.md, Sec. 4):
+Solution prescription (report, section 'Field solution at every order'):
   nu_2 : 3 nu'' + K^2 nu - 6 nu/t^2 = -c_N,   nu_2 = c2 t^2 + O(t^4),
          c2 = [2(k1^2 + k2^2) - k1.k2]/9   (t^2 coefficient of -R[e^{2 zeta} delta]/36, exact in zeta)
   K != 0:
