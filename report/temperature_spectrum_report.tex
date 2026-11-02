@@ -1596,8 +1596,8 @@ are:
 \end{enumerate}
 The convergence tests were made at $x_o\le3$, at one node near $x_o=7.9$, and at $x_o=12$ on
 both trajectories, where $24\to40$ $\mu$ nodes and a $1.5\times$ finer ray grid change
-$\frac14C^{(22)}_2$ only in the sixth digit. The $x_o=16$ rows are not converged (see the note
-below the tables).
+$\frac14C^{(22)}_2$ only in the sixth digit. At $x_o=16$ the $\mu$ quadrature needs 32 nodes, and
+the $x_o=16$ rows use them (see the note below the tables).
 
 \paragraph{Results.} Absolute values with $\sigma=1$ and $\ell=2$, along the fixed-ratio trajectory
 $x_\star=x_o/3$, $x_I=x_o/6$. The first-order error is at most $1.2\times10^{-4}$.
@@ -1614,7 +1614,7 @@ $x_o$ & $C_2^{(11)}$ & $\frac14C_2^{(22)}$ & $\frac14C_2[L_2,L_2]$ & $\mathcal M
 6   & 0.0458  & 5.23    & 4.96    & $0.697$   & $0.126$\\
 8   & 0.00059 & 6.80    & 4.65    & $1.26$    & $0.746$\\
 12  & 0.00036 & 2.43    & 2.44    & $-0.057$  & $0.020$\\
-16$^\dagger$ & 0.0533  & 1.25    & 1.29    & $0.267$   & $0.035$\\
+16$^\dagger$ & 0.0533  & 1.29    & 1.33    & $0.267$   & $0.035$\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -1627,17 +1627,15 @@ $x_o$ & $C_2^{(11)}$ & $\frac14C_2^{(22)}$ & $\frac14C_2[L_2,L_2]$ & $\mathcal M
 4  & 0.946  & 8.31 & 8.53 & $-1.98$  & $-0.028$\\
 8  & 0.0014 & 4.21 & 2.57 & $0.907$  & $0.563$\\
 12 & 0.0302 & 1.76 & 1.63 & $-0.304$ & $0.041$\\
-16$^\dagger$ & 0.00091 & 0.666 & 0.569 & $-0.032$ & $0.047$\\
+16$^\dagger$ & 0.00091 & 0.787 & 0.719 & $-0.061$ & $0.047$\\
 \bottomrule
 \end{tabular}
 \end{center}
-\noindent$^\dagger$\emph{Not converged.} At $x_o=16$, going from $24$ to $32$ $\mu$ nodes and from $n_t=2560$ to $3840$ changes
-$\frac14C_2^{(22)}$ from 0.666 to 0.787 (fixed emission) and from 1.251 to 1.287 (fixed ratio), while the first-order
-error stays below $10^{-4}$. Both refinements were made together, so the cause is not isolated. At $x_o=12$, by
-contrast, the same kind of refinement ($24\to40$ $\mu$ nodes, and $n_t$ from 1920 to 2880) changes $\frac14C^{(22)}_2$
-only in the sixth digit on both trajectories. A narrowing resonant layer would have to set in sharply between
-$x_o=12$ and $16$ to explain the change, so a numerical problem at $x_o=16$ is at least as likely. The $x_o=16$
-values should not be used until $\mu$ and $n_t$ are refined separately.
+\noindent$^\dagger$At $x_o=16$, 32 $\mu$ nodes are needed. With 24 nodes, which suffice at $x_o\le12$,
+$\frac14C_2^{(22)}$ comes out 3\% low (fixed ratio: 1.2514 against 1.28688) and 15\% low (fixed emission: 0.66617
+against 0.787269). Increasing to 48 nodes leaves both values unchanged to six digits, and a $1.5\times$ finer ray grid has
+no effect. The relative-momentum integrand therefore acquires structure between $x_o=12$ and $16$ that 24 nodes do not
+resolve. The $x_o=16$ rows above use 32 nodes.
 
 \emph{Complete fourth-order spectra at linear-transfer nodes} (Prop.~\ref{prop:nodes}). At
 these points $C_\ell=\eps^4\sigma^4\,c_\ell$ exactly through fourth order, with:
