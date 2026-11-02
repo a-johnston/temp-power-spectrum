@@ -1290,6 +1290,32 @@ and it enters through $j_\ell(|V|)$. The open part of the finite-$k_0$ evaluatio
 localised to these mixed-time sky factors. This is a structural statement, not an
 evaluation.
 
+\begin{proposition}[Separated form of the mixed-time sky factors]\label{prop:translation}
+For $V=\lambda_1k+\lambda_2q$ with $\hat k=\hat z$, $\hat k\cdot\hat q=\mu$ and $|k|=|q|=k_0$,
+\[
+\int\dd\Omega\,P_\ell(\hat z\cdot\nh)\,e^{i\nh\cdot V}
+=4\pi\sum_{L_1,L_2}(2L_1+1)(2L_2+1)\,i^{L_1+L_2}\,j_{L_1}(k_0\lambda_1)\,j_{L_2}(k_0\lambda_2)
+\begin{pmatrix}\ell&L_1&L_2\\0&0&0\end{pmatrix}^{\!2}P_{L_2}(\mu).
+\]
+\end{proposition}
+\begin{proof}
+Expand each plane wave, $e^{i\lambda k\cdot\nh}=\sum_L(2L+1)i^Lj_L(k_0\lambda)P_L(\hat k\cdot\nh)$. Then
+combine $P_\ell P_{L_1}$ at the common direction $\hat z$ by the Legendre product rule, and integrate
+against $P_{L_2}(\hat q\cdot\nh)$ by the addition theorem. The series converges absolutely, since
+$j_L(x)$ decays faster than any power once $L$ exceeds $x$, and for fixed $\ell$ the triangle
+rule leaves a single infinite sum. \path{solution/check_bessel_translation.py} checks the identity
+exactly against the Funk--Hecke form, order by order through total degree 10 in
+$(\lambda_1,\lambda_2)$, for $\ell\le4$ and symbolic $\mu$, with a negative control.
+\end{proof}
+The square root disappears: each Bessel function has a single time argument, and $\mu$
+enters only through the polynomial $P_{L_2}(\mu)$. Polynomial prefactors in $\nh\cdot\hat k$ and
+$\nh\cdot\hat q$ follow by differentiating with respect to $k_0\lambda_1$ and $k_0\lambda_2$. Other
+prefactors add further Gaunt couplings, and the double sky integral of $C^{(22)}$ separates
+copy by copy. The remaining angular integral is therefore a set of Legendre moments
+$\int_{-1}^1P_L(\mu)F(\mu,\ldots)\,\dd\mu$ of the field amplitudes, and with $\mu=2u^2-1$ their
+integrands are entire in $u$. This moves the difficulty into a well-defined set of scalar
+moments without evaluating them.
+
 \begin{proposition}[The contracted cubic response is scalar]\label{prop:contracted}
 For an isotropic spectrum, define the angle-averaged cubic metric response
 \[
@@ -1859,6 +1885,7 @@ Shell two-amplitude form (Prop.~\ref{prop:shell-two}) & \code{solution/check\_sh
 Shell locality & \code{solution/check\_shell\_locality.py}: the local form of the shell first-order fields and of $\theta$; $\sigma^{(2)}=\frac12A_2'+\frac12(H_1^2)'+2gH_1'$ for generic matrices. Item~(3) of Prop.~\ref{prop:shell-local} is by inspection.\\
 Leading octupole; $\mathcal M_\ell$ cancellation & \code{solution/check\_gradient\_octupole.py}: the conformal identity $\nabla_{\langle a}R_{bc\rangle}=\frac f2[\partial^3f^2]_{\rm STF}$ for generic $\zeta$; the leading $T_\ell$ coefficient \eqref{eq:Tl-leading} for $\ell=2,\dots,7$; $\beta_3$; exact isotropic Wick moments giving \eqref{eq:octupole-resummed} and the shell ratios $148\sigma^2$, $27\sigma^2$; $\ens{\theta\theta L_2}=0$ at leading gradient order. The octupole map itself rests on the proof of Thm.~\ref{thm:octupole}.\\
 Next superhorizon order & \path{solution/superhorizon_next.py kernels2|kernels3|spectrum}: map kernels through $O(\kappa^4)$ from the fast generator; $C^{(11)}_2$ at $O(k_0^6)$ checked against the transfer integral. \path{solution/check_quadrupole_next_hand.py --compare}: an independent hand-map calculation reproducing $C^{(11)}_2$ and $\frac14C^{(22)}_2$ at $O(k_0^6)$ and every component of the projected kernel; endpoint and clock pieces nonzero; negative controls\\
+Separated sky factors (Prop.~\ref{prop:translation}) & \path{solution/check_bessel_translation.py}: the translation form equals the Funk--Hecke form exactly through degree 10, $\ell\le4$, symbolic $\mu$; negative control\\
 Projector-free Cartesian solution (Prop.~\ref{prop:cartesian}) & \path{solution/check_cartesian_green.py}: eigenvalues of $\mathfrak B_K$ ($K^2$, $0$, $-K^2/3$); the Cartesian series, with coefficients polynomial in $K$, equals the projector-based kernels exactly through $O(t^7)$ for $(k,q)$, $(k,-q)$, the $K=0$ pair $(q,-q)$, and third order at $(k,q,-q)$\\
 Orthonormal redshift driver (Prop.~\ref{prop:orthonormal}) & \path{solution/check_orthonormal_driver.py}: $\frac12e^{-H/2}(e^H)'e^{-H/2}=\frac12H'+\frac1{48}[H,[H,H']]+O(\eps^4)$ for generic non-commuting matrices; the shell commutator vanishes\\
 Longitudinal-gauge redshift & \path{solution/check_longitudinal_redshift.py}: the ADM energy law with a shift on generic jets; exact equality with the temperature-frame exponent including the endpoint conformal and Doppler factors; $\Phi=\Psi$ and zero first-order scalar shift under the full time-and-space map; clock identity; negative controls\\
@@ -1897,8 +1924,8 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
   \item contracting and projecting the cubic sources and propagation products before solving,
     with observable-weighted (adjoint) Green kernels, so that the integral over the line of
     sight passes through the Green operator;
-  \item spherical-Bessel translation (Gegenbauer) formulas, which separate the mixed-time sky
-    factors into products of single-time Bessel functions with Gaunt coefficients;
+  \item evaluating the Legendre moments of the field amplitudes left by the separated sky form
+    (Prop.~\ref{prop:translation});
   \item shuffle identities for the ordered time integrals, for example $E_{ab}+E_{ba}=F_aF_b$
     for the nested logarithmic kernels.
   \end{itemize}
