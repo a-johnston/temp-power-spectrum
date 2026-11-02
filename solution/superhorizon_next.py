@@ -163,15 +163,35 @@ def spectrum():
     assert sp.expand(dens.coeff(sq, 1)) == 0, "odd powers of sqrt(1-mu^2) must cancel (reflection symmetry)"
     dens = dens.coeff(sq, 0)
     quarterC22 = truncate_kappa(sp.integrate(dens, (mu, -1, 1)) / 5 / 4, kap, 6)
-    return C11, quarterC22, G
+    third = None
+    if os.path.exists(os.path.join(OUT, "superhorizon_kernels_3.pkl")):
+        K3s, _ = load("3")  # same symbol names, hence identical SymPy symbols
+        assert sp.expand(K3s[(1,)] - K1) == 0, "first-order kernels of the two runs disagree"
+        K3 = K3s[(1, 2, 3)]
+        # (1/3) Re C13 = sigma^4/(2l+1) * (1/2) int dmu Re S_l[K1(k), K3(k,q,-q)]
+        d13 = shell(S2(K1, K3, G))
+        assert sp.expand(d13.coeff(sq, 1)) == 0, "odd powers of sqrt(1-mu^2) must cancel"
+        d13 = sp.re(sp.expand(d13.coeff(sq, 0)))
+        third = truncate_kappa(sp.integrate(d13, (mu, -1, 1)) / 2 / 5, kap, 6)
+    return C11, quarterC22, third, G
 
 
 if __name__ == "__main__" and MODE == "spectrum":
     import sympy as sp
 
-    C11, qC22, G = spectrum()
+    C11, qC22, tC13, G = spectrum()
     kap = G["kap"]
     print("  C11  kappa^4:", sp.factor(C11.coeff(kap, 4)))
     print("  C11  kappa^6:", sp.factor(C11.coeff(kap, 6)))
     print("  C22/4 kappa^4:", sp.factor(qC22.coeff(kap, 4)), "  ratio", sp.simplify(qC22.coeff(kap, 4) / C11.coeff(kap, 4)))
     print("  C22/4 kappa^6:", sp.factor(qC22.coeff(kap, 6)))
+    if tC13 is not None:
+        L4 = C11.coeff(kap, 4)
+        print("  C13/3 kappa^4:", sp.factor(tC13.coeff(kap, 4)), "  ratio", sp.simplify(tC13.coeff(kap, 4) / L4))
+        print("  C13/3 kappa^6:", sp.factor(tC13.coeff(kap, 6)))
+        tot4 = sp.simplify((qC22.coeff(kap, 4) + tC13.coeff(kap, 4)) / L4)
+        assert tot4 == sp.Rational(29, 3), tot4
+        print("[ok] leading fourth-order factor 29/3 reproduced from the kappa^4 kernels")
+        print("  complete eps^4 k0^6 coefficient (1/4 C22 + 1/3 Re C13):", sp.factor(qC22.coeff(kap, 6) + tC13.coeff(kap, 6)))
+    else:
+        print("  (cubic kernels not yet available: run kernels3)")
