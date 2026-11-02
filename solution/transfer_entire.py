@@ -30,19 +30,24 @@ EXACT CHECKS (no quadrature as evidence):
 A high-precision comparison with the earlier Ci/Si closed form is printed as a supplementary
 spot check only.
 """
+
 import sys
+
 import sympy as sp
 
-x, u, xo, xs, t = sp.symbols('x u x_o x_star t', positive=True)
-y = sp.Symbol('y', positive=True)
+x, u, xo, xs, t = sp.symbols("x u x_o x_star t", positive=True)
+y = sp.Symbol("y", positive=True)
 s3 = sp.sqrt(3)
 I = sp.I
 
 
 def hankel_rational(n):
     """h_n^(1)(y) = e^{iy} * this rational function of y."""
-    return (-I)**(n + 1) / y * sum((I / (2 * y))**m * sp.factorial(n + m)
-                                   / (sp.factorial(m) * sp.factorial(n - m)) for m in range(n + 1))
+    return (
+        (-I) ** (n + 1)
+        / y
+        * sum((I / (2 * y)) ** m * sp.factorial(n + m) / (sp.factorial(m) * sp.factorial(n - m)) for m in range(n + 1))
+    )
 
 
 def V_rational(l):
@@ -55,7 +60,7 @@ Sr = -I + 2 / x + 2 * I / x**2
 
 
 def conj_rational(expr):
-    return expr.subs(I, -I)        # coefficients are in Q(i); y, x real
+    return expr.subs(I, -I)  # coefficients are in Q(i); y, x real
 
 
 def coefficients(l):
@@ -72,7 +77,7 @@ def coefficients(l):
     return V, out
 
 
-J = sp.Function('J')   # J(m, w, t)
+J = sp.Function("J")  # J(m, w, t)
 
 
 def representation(l, coeffs):
@@ -82,16 +87,16 @@ def representation(l, coeffs):
         w = 1 - sg * s3
         expr += sp.exp(I * sg * s3 * xo) * (a1 * (J(1, w, xo) - J(1, w, xs)) + a2 * (J(2, w, xo) - J(2, w, xs)))
         expr += sp.exp(I * xo) * sum(b[m] * J(m, -w, xo - xs) for m in b)
-    return expr     # T_l = -(3/2) Re expr
+    return expr  # T_l = -(3/2) Re expr
 
 
 def dJdt(m, w, tt):
-    return tt**(-m) * (sp.exp(I * w * tt) - sum((I * w * tt)**j / sp.factorial(j) for j in range(m)))
+    return tt ** (-m) * (sp.exp(I * w * tt) - sum((I * w * tt) ** j / sp.factorial(j) for j in range(m)))
 
 
 def laurent_generators(expr, syms):
     """Map sin/cos/exp with arguments sum (a + b sqrt3) s to independent Laurent generators."""
-    gens = {s_: (sp.Symbol(f'P_{s_}'), sp.Symbol(f'Q_{s_}')) for s_ in syms}
+    gens = {s_: (sp.Symbol(f"P_{s_}"), sp.Symbol(f"Q_{s_}")) for s_ in syms}
     expr = sp.expand(expr.rewrite(sp.exp))
     rep = {}
     for f in expr.atoms(sp.exp):
@@ -105,7 +110,7 @@ def laurent_generators(expr, syms):
             ap = sp.expand(c - bq * s3)
             assert ap.is_integer and bq.is_integer, f
             Pz, Qz = gens[s_]
-            Z *= Pz**int(ap) * Qz**int(bq)
+            Z *= Pz ** int(ap) * Qz ** int(bq)
         assert rest == 0, f
         rep[f] = Z
     return expr.xreplace(rep)
@@ -120,11 +125,11 @@ def check(l, coeffs):
         w = 1 - sg * s3
         d += sp.exp(I * sg * s3 * xo) * (-a1 * dJdt(1, w, xs) - a2 * dJdt(2, w, xs))
         d += sp.exp(I * xo) * sum(-b[m] * dJdt(m, -w, xo - xs) for m in b)
-    dT = -sp.Rational(3, 4) * (d + d.subs(I, -I))     # -(3/2) Re d, all symbols real
+    dT = -sp.Rational(3, 4) * (d + d.subs(I, -I))  # -(3/2) Re d, all symbols real
     jl = sp.expand_func(sp.jn(l, y))
     wl = jl / 3 + sp.diff(jl, y, 2)
     sprime = sp.diff(2 * sp.sin(x) / x - sp.cos(x), x)
-    target = 3 * sprime.subs(x, xs) * wl.subs(y, s3 * (xo - xs))      # d/dx* of -3 int_{x*}
+    target = 3 * sprime.subs(x, xs) * wl.subs(y, s3 * (xo - xs))  # d/dx* of -3 int_{x*}
     resid = laurent_generators(dT - target, [xs, xo])
     assert sp.cancel(sp.together(resid)) == 0, f"derivative check failed for l={l}"
     return rep
@@ -132,6 +137,7 @@ def check(l, coeffs):
 
 def numeric(l, coeffs, xs_v, xo_v):
     import mpmath as mp
+
     def Jn(m, w, tt):
         # exact recursion of the report: J_1 = -Cin(|w| t) + i sgn(w) Si(|w| t),
         # J_M = t^{1-M} E_M / (1-M) + i w J_{M-1} / (M-1)
@@ -139,15 +145,18 @@ def numeric(l, coeffs, xs_v, xo_v):
             z = abs(w) * tt
             cin = mp.euler + mp.log(z) - mp.ci(z)
             return -cin + 1j * mp.sign(w) * mp.si(z)
-        EM = mp.e**(1j * w * tt) - sum((1j * w * tt)**j / mp.factorial(j) for j in range(m))
-        return tt**(1 - m) * EM / (1 - m) + 1j * w * Jn(m - 1, w, tt) / (m - 1)
+        EM = mp.e ** (1j * w * tt) - sum((1j * w * tt) ** j / mp.factorial(j) for j in range(m))
+        return tt ** (1 - m) * EM / (1 - m) + 1j * w * Jn(m - 1, w, tt) / (m - 1)
+
     val = 0
     for sg in (+1, -1):
         a1, a2, b = coeffs[sg]
         w = float(1 - sg * s3)
         f = lambda e: complex(sp.N(e.subs(xo, xo_v), 30))
-        val += mp.e**(1j * sg * float(s3) * xo_v) * (f(a1) * (Jn(1, w, xo_v) - Jn(1, w, xs_v)) + f(a2) * (Jn(2, w, xo_v) - Jn(2, w, xs_v)))
-        val += mp.e**(1j * xo_v) * sum(f(b[m]) * Jn(m, -w, xo_v - xs_v) for m in b)
+        val += mp.e ** (1j * sg * float(s3) * xo_v) * (
+            f(a1) * (Jn(1, w, xo_v) - Jn(1, w, xs_v)) + f(a2) * (Jn(2, w, xo_v) - Jn(2, w, xs_v))
+        )
+        val += mp.e ** (1j * xo_v) * sum(f(b[m]) * Jn(m, -w, xo_v - xs_v) for m in b)
     return -1.5 * mp.re(val)
 
 
@@ -165,11 +174,16 @@ if __name__ == "__main__":
                 print(f"                b{m}={b[m]}")
         if l == 2:
             import mpmath as mp
+
             mp.mp.dps = 20
-            for (a_, b_) in [(0.3, 4.1), (2.0, 17.5)]:
-                jl = lambda q: mp.sqrt(mp.pi / (2 * q)) * mp.besselj(l + 0.5, q)
-                def integrand(xx):
+            for a_, b_ in [(0.3, 4.1), (2.0, 17.5)]:
+                jl = lambda q, l=l: mp.sqrt(mp.pi / (2 * q)) * mp.besselj(l + 0.5, q)
+
+                def integrand(xx, b_=b_, jl=jl):
                     yy = mp.sqrt(3) * (b_ - xx)
                     return -3 * (2 * mp.cos(xx) / xx - 2 * mp.sin(xx) / xx**2 + mp.sin(xx)) * (jl(yy) / 3 + mp.diff(jl, yy, 2))
-                q = mp.quad(integrand, [a_, b_ - mp.mpf('1e-15')])
-                print(f"     supplementary spot check x*={a_}, xo={b_}: representation {mp.nstr(numeric(l, coeffs, a_, b_), 12)}  quadrature {mp.nstr(q, 12)}")
+
+                q = mp.quad(integrand, [a_, b_ - mp.mpf("1e-15")])
+                print(
+                    f"     supplementary spot check x*={a_}, xo={b_}: representation {mp.nstr(numeric(l, coeffs, a_, b_), 12)}  quadrature {mp.nstr(q, 12)}"
+                )

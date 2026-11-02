@@ -15,22 +15,29 @@ independent spectra), chi an independent l = 1 Gaussian sky, and
 definition, every harmonic projection is an exact sphere integral of polynomials, and every
 ensemble average is an exact Gaussian moment.  Nothing is numerical.
 """
+
 import itertools
+
 import sympy as sp
 from sympy.physics.wigner import wigner_3j
 
-x, y, z = sp.symbols('x y z', real=True)
-xp, yp, zp = sp.symbols('xp yp zp', real=True)
-eps = sp.Symbol('epsilon')
-C1, C2, D1 = sp.symbols('C1 C2 D1', positive=True)
+x, y, z = sp.symbols("x y z", real=True)
+xp, yp, zp = sp.symbols("xp yp zp", real=True)
+eps = sp.Symbol("epsilon")
+C1, C2, D1 = sp.symbols("C1 C2 D1", positive=True)
 pi = sp.pi
 
 
 def sphere_monomial(a, b, c):
     if a % 2 or b % 2 or c % 2:
         return sp.S.Zero
-    return 2 * sp.gamma(sp.Rational(a + 1, 2)) * sp.gamma(sp.Rational(b + 1, 2)) * \
-        sp.gamma(sp.Rational(c + 1, 2)) / sp.gamma(sp.Rational(a + b + c + 3, 2))
+    return (
+        2
+        * sp.gamma(sp.Rational(a + 1, 2))
+        * sp.gamma(sp.Rational(b + 1, 2))
+        * sp.gamma(sp.Rational(c + 1, 2))
+        / sp.gamma(sp.Rational(a + b + c + 3, 2))
+    )
 
 
 def sphere_integral(poly):
@@ -39,20 +46,25 @@ def sphere_integral(poly):
 
 
 Y1 = [sp.sqrt(3 / (4 * pi)) * v for v in (x, y, z)]
-Y2 = [sp.sqrt(15 / (4 * pi)) * x * y, sp.sqrt(15 / (4 * pi)) * y * z, sp.sqrt(15 / (4 * pi)) * x * z,
-      sp.sqrt(15 / (16 * pi)) * (x**2 - y**2), sp.sqrt(5 / (16 * pi)) * (3 * z**2 - (x**2 + y**2 + z**2))]
+Y2 = [
+    sp.sqrt(15 / (4 * pi)) * x * y,
+    sp.sqrt(15 / (4 * pi)) * y * z,
+    sp.sqrt(15 / (4 * pi)) * x * z,
+    sp.sqrt(15 / (16 * pi)) * (x**2 - y**2),
+    sp.sqrt(5 / (16 * pi)) * (3 * z**2 - (x**2 + y**2 + z**2)),
+]
 basis = Y1 + Y2
 # orthonormality on the unit sphere (z^2 kept explicit; integrals use exact monomial moments)
 for i, j in itertools.product(range(8), repeat=2):
     assert sp.simplify(sphere_integral(basis[i] * basis[j]) - (1 if i == j else 0)) == 0
 
-a = sp.symbols('a0:8', real=True)          # theta coefficients: var C1 (l=1), C2 (l=2)
-b = sp.symbols('b0:3', real=True)          # chi coefficients: var D1
+a = sp.symbols("a0:8", real=True)  # theta coefficients: var C1 (l=1), C2 (l=2)
+b = sp.symbols("b0:3", real=True)  # chi coefficients: var D1
 variance = {**{a[i]: C1 for i in range(3)}, **{a[i]: C2 for i in range(3, 8)}, **{v: D1 for v in b}}
 gauss_vars = list(a) + list(b)
 
-theta = sum(ai * Yi for ai, Yi in zip(a, basis))
-chi = sum(bi * Yi for bi, Yi in zip(b, Y1))
+theta = sum(ai * Yi for ai, Yi in zip(a, basis, strict=True))
+chi = sum(bi * Yi for bi, Yi in zip(b, Y1, strict=True))
 
 
 def sky_mean(f):
@@ -72,11 +84,11 @@ def gaussian_mean(poly):
     out = 0
     for mon, coef in p.terms():
         term = coef
-        for v, k in zip(gauss_vars, mon):
+        for v, k in zip(gauss_vars, mon, strict=True):
             if k % 2:
                 term = 0
                 break
-            term *= sp.factorial2(k - 1) * variance[v]**(k // 2)
+            term *= sp.factorial2(k - 1) * variance[v] ** (k // 2)
         out += term
     return sp.expand(out)
 
@@ -91,7 +103,7 @@ def spectrum(F, G, l):
     K = sp.Poly(legendre_kernel(l), xp, yp, zp)
     total = 0
     for mon, coef in K.terms():
-        Gm = sphere_integral(sp.expand(G * x**mon[0] * y**mon[1] * z**mon[2]))   # int G(n') n'^mon
+        Gm = sphere_integral(sp.expand(G * x ** mon[0] * y ** mon[1] * z ** mon[2]))  # int G(n') n'^mon
         Fm = sphere_integral(sp.expand(F * coef))
         total += Fm * Gm
     return sp.expand(gaussian_mean(total) / (2 * l + 1))
@@ -103,15 +115,17 @@ def series_map():
     eps-polynomials are stored as coefficient lists and truncated at eps^3 before every
     multiplication, so orders that would be discarded are never expanded.
     """
+
     def mul(A, B):
         return [sp.expand(sum(A[i] * B[k - i] for i in range(k + 1))) for k in range(4)]
+
     Lc = [0, theta, L2 / 2, L3 / 6]
     num, power = [1, 0, 0, 0], [1, 0, 0, 0]
     for n_ in range(1, 4):
         power = mul(power, Lc)
         num = [num[k] + power[k] / sp.factorial(n_) for k in range(4)]
     den = [sky_mean(c) if c != 0 else 0 for c in num]
-    x = [0] + [-den[k] for k in range(1, 4)]              # 1/den = sum_n (1 - den)^n, den[0] = 1
+    x = [0] + [-den[k] for k in range(1, 4)]  # 1/den = sum_n (1 - den)^n, den[0] = 1
     inv, power = [1, 0, 0, 0], [1, 0, 0, 0]
     for _ in range(1, 4):
         power = mul(power, x)
@@ -125,10 +139,10 @@ def N_formula(l, Cs):
     for l1, l2 in itertools.product(Cs, repeat=2):
         w = wigner_3j(l1, l2, l, 0, 0, 0)
         tot += sp.Rational(1, 2) * (2 * l1 + 1) * (2 * l2 + 1) / (4 * pi) * w**2 * Cs[l1] * Cs[l2]
-    return sp.expand(tot - Cs.get(l, 0)**2 / (2 * pi))
+    return sp.expand(tot - Cs.get(l, 0) ** 2 / (2 * pi))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     T1, T2, T3 = series_map()
     assert sp.expand(T1 - theta) == 0
     Cs = {1: C1, 2: C2}
@@ -141,5 +155,5 @@ if __name__ == '__main__':
         # The lognormal term alone: theta-only map, L2 = L3 = 0
         Tn2, Tn3 = theta**2, theta**3 - 3 * theta * sky_mean(theta**2)
         assert sp.simplify(spectrum(Tn2, Tn2, l) / 4 + spectrum(theta, Tn3, l) / 3 - N) == 0, l
-        print(f'[ok] l={l}: exact quartic spectrum = C^L4 + N_l[C] + M_l;  N_l = {sp.factor(N)}')
-    print('LOG-MAP DECOMPOSITION VERIFIED (exact sphere integrals and Gaussian moments)')
+        print(f"[ok] l={l}: exact quartic spectrum = C^L4 + N_l[C] + M_l;  N_l = {sp.factor(N)}")
+    print("LOG-MAP DECOMPOSITION VERIFIED (exact sphere integrals and Gaussian moments)")

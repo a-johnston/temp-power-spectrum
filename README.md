@@ -50,10 +50,16 @@ part of the current tree.
 ## Setup and reproduction
 
 ```
-uv sync                     # .venv with sympy, mpmath, numpy (pyproject.toml, uv.lock)
+uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools (pyproject.toml, uv.lock)
 solution/run_all.sh         # every exact check; uses .venv by default (override with PYTHON=...)
 cd report && pdflatex temperature_spectrum_report.tex   # three times, or latexmk -pdf
 ```
+
+Development: `uv sync` also installs the dev tools (prek, ruff, ty). `prek install` sets up the
+pre-commit hook, which runs `ruff check --fix`, `ruff format` and `ty check` from the project venv
+(`prek.toml`); run them on demand with `prek run --all-files`. The ty configuration in
+`pyproject.toml` relaxes three rules for the symbolic modules only, where SymPy's partly typed
+dynamic API causes false positives; the numerics keep the full rule set.
 
 The slow steps of `run_all.sh` are listed in its header. Individual checks run as
 `.venv/bin/python solution/<script>.py`. `.devbox/` defines an equivalent container with LaTeX
@@ -69,6 +75,7 @@ and an independent CAS (Maxima).
 | `solution/foundations/` | exact checks of the framework: lemmas, generic-jet field equations, first order in two gauges, normalisation and Gaussian algebra (`gr.py` holds the shared tensor utilities) |
 | `solution/results/` | exact expanded sources and kernels referenced by the report |
 | `solution/numerics/` | exploratory finite-k₀ numerics (not evidence) |
+| `pyproject.toml`, `uv.lock`, `prek.toml` | environment, lint and type-check configuration |
 
 ## Exact checks in `solution/`
 

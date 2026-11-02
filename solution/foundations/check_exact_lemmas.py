@@ -18,21 +18,22 @@ Checked here with ARBITRARY functions N(t,X), gamma_ij(t,X):
       N^2 (R[gamma] - 4 Lap ln N - 2 |D ln N|^2 - sigma_ij sigma^ij) + 6 (d_t N)^2 = 6 a1^2,
       where 8 pi G alpha Tref^4 = 3 a1^2 fixes the background a = a1 t.
 """
-import sympy as sp
-from gr import christoffel, ricci, assert_zero
 
-t, x, y, z = X = sp.symbols('t x y z', real=True)
-c = sp.Symbol('c', positive=True)  # rho = c / N^4  (c = alpha Tref^4)
+import sympy as sp
+from gr import assert_zero, christoffel, ricci
+
+t, x, y, z = X = sp.symbols("t x y z", real=True)
+c = sp.Symbol("c", positive=True)  # rho = c / N^4  (c = alpha Tref^4)
 
 # ---------------------------------------------------------------- L1
-N = sp.Function('N')(*X)
+N = sp.Function("N")(*X)
 gfun = {}
 for i in range(3):
     for j in range(i, 3):
-        gfun[i, j] = gfun[j, i] = sp.Function(f'g{i}{j}')(*X)
+        gfun[i, j] = gfun[j, i] = sp.Function(f"g{i}{j}")(*X)
 gam = sp.Matrix(3, 3, lambda i, j: gfun[i, j])
 g = sp.zeros(4, 4)
-g[0, 0] = -N**2
+g[0, 0] = -(N**2)
 for i in range(3):
     for j in range(3):
         g[i + 1, j + 1] = N**2 * gam[i, j]
@@ -57,11 +58,15 @@ for n_ in range(4):
     s -= sp.Rational(1, 2) * sum(sp.diff(g[a, b], X[n_]) * Tup[a, b] for a in range(4) for b in range(4))
     div.append(s)
 for i in range(1, 4):
-    assert_zero(div[i], f"L1 Euler (nu={i}) identically satisfied for arbitrary N, gamma_ij",
-                simp=lambda e: sp.simplify(sp.together(e)))
+    assert_zero(
+        div[i], f"L1 Euler (nu={i}) identically satisfied for arbitrary N, gamma_ij", simp=lambda e: sp.simplify(sp.together(e))
+    )
 expected0 = -sp.Rational(2, 3) * rho * sp.diff(detg, t) / detg
-assert_zero(div[0] - expected0, "L1 continuity: nabla_mu T^mu_t = -(2/3) rho d_t ln det(gamma)",
-            simp=lambda e: sp.simplify(sp.together(e)))
+assert_zero(
+    div[0] - expected0,
+    "L1 continuity: nabla_mu T^mu_t = -(2/3) rho d_t ln det(gamma)",
+    simp=lambda e: sp.simplify(sp.together(e)),
+)
 
 # ---------------------------------------------------------------- L2
 # synchronous metric gtilde = -dt^2 + gamma_ij dX dX with arbitrary gamma
@@ -73,15 +78,18 @@ for i in range(3):
 Gam, _ = christoffel(gt, X)
 for i in range(3):
     for j in range(3):
-        assert_zero(Gam[0][i + 1][j + 1] - sp.diff(gam[i, j], t) / 2, f"L2 Gamma^t_{{X{i+1}X{j+1}}} = (1/2) d_t gamma_ij")
+        assert_zero(Gam[0][i + 1][j + 1] - sp.diff(gam[i, j], t) / 2, f"L2 Gamma^t_{{X{i + 1}X{j + 1}}} = (1/2) d_t gamma_ij")
 assert all(sp.simplify(Gam[0][0][m]) == 0 for m in range(4))
 print("[ok] L2 Gamma^t_{t mu} = 0, hence dp^t/dlambda = -(1/2) d_t gamma_ij p^i p^j (exact)")
 # spatial: Gamma^i_{tj} = (1/2) gamma^{ik} d_t gamma_kj  (=> exact e^i equation)
 for i in range(3):
     for j in range(3):
         rhs = sum(gaminv[i, k] * sp.diff(gam[k, j], t) for k in range(3)) / 2
-        assert_zero(Gam[i + 1][0][j + 1] - rhs, f"L2 Gamma^X{i+1}_{{t X{j+1}}} = (1/2) gamma^ik d_t gamma_kj",
-                    simp=lambda e: sp.simplify(sp.together(e)))
+        assert_zero(
+            Gam[i + 1][0][j + 1] - rhs,
+            f"L2 Gamma^X{i + 1}_{{t X{j + 1}}} = (1/2) gamma^ik d_t gamma_kj",
+            simp=lambda e: sp.simplify(sp.together(e)),
+        )
 # spatial Christoffels of gtilde coincide with those of gamma (synchronous, g_tt = -1)
 G3l, _ = christoffel(gam, list(X[1:]))
 for i in range(3):
@@ -91,15 +99,18 @@ for i in range(3):
 print("[ok] L2 Gammat^i_jk = Gamma[gamma]^i_jk")
 # exact ray equation from the geodesic equation, p = p^t (1, e^i):
 #   de^i/dt = [ -Gamma^i_ab + e^i Gamma^t_ab ] (1,e)^a (1,e)^b
-ev_ = [1] + list(sp.symbols('e1 e2 e3'))
+ev_ = [1] + list(sp.symbols("e1 e2 e3"))
 sig_m = sp.Matrix(3, 3, lambda i, j: sp.diff(gam[i, j], t) / 2)
 sig_up = gaminv * sig_m
 for i in range(3):
-    geo = (-sum(Gam[i + 1][a_][b_] * ev_[a_] * ev_[b_] for a_ in range(4) for b_ in range(4))
-           + ev_[i + 1] * sum(Gam[0][a_][b_] * ev_[a_] * ev_[b_] for a_ in range(4) for b_ in range(4)))
-    claim = (-2 * sum(sig_up[i, j] * ev_[j + 1] for j in range(3))
-             - sum(G3l[i][j][k_] * ev_[j + 1] * ev_[k_ + 1] for j in range(3) for k_ in range(3))
-             + ev_[i + 1] * sum(sig_m[j, k_] * ev_[j + 1] * ev_[k_ + 1] for j in range(3) for k_ in range(3)))
+    geo = -sum(Gam[i + 1][a_][b_] * ev_[a_] * ev_[b_] for a_ in range(4) for b_ in range(4)) + ev_[i + 1] * sum(
+        Gam[0][a_][b_] * ev_[a_] * ev_[b_] for a_ in range(4) for b_ in range(4)
+    )
+    claim = (
+        -2 * sum(sig_up[i, j] * ev_[j + 1] for j in range(3))
+        - sum(G3l[i][j][k_] * ev_[j + 1] * ev_[k_ + 1] for j in range(3) for k_ in range(3))
+        + ev_[i + 1] * sum(sig_m[j, k_] * ev_[j + 1] * ev_[k_ + 1] for j in range(3) for k_ in range(3))
+    )
     assert sp.simplify(sp.together(sp.expand(geo - claim))) == 0, i
 print("[ok] L2 exact ray equation de^i/dt = -2 sigma^i_j e^j - Gamma3^i_jk e^j e^k + e^i sigma_jk e^j e^k")
 # redshift law: d ln p^t / dt = -Gamma^t_ab (1,e)(1,e) = -sigma_ij e^i e^j
@@ -127,8 +138,12 @@ ok = True
 for a in range(4):
     for b in range(4):
         for cc in range(b, 4):
-            rhs = (GamT[a][b][cc] + (w[cc] if a == b else 0) + (w[b] if a == cc else 0)
-                   - gt[b, cc] * sum(gtinv[a, d] * w[d] for d in range(4)))
+            rhs = (
+                GamT[a][b][cc]
+                + (w[cc] if a == b else 0)
+                + (w[b] if a == cc else 0)
+                - gt[b, cc] * sum(gtinv[a, d] * w[d] for d in range(4))
+            )
             if sp.simplify(sp.together(Gg[a][b][cc] - rhs)) != 0:
                 ok = False
 assert ok
@@ -136,7 +151,7 @@ print("[ok] L3 conformal Christoffel identity Gamma[g] = Gamma[gt] + C(w)")
 # (i) if p is an affinely parametrised null geodesic of g, then pt = N^2 p (dlambda~ = dlambda/N^2)
 #     is an affinely parametrised geodesic of gt.  Pointwise identity at an arbitrary point with
 #     arbitrary components p^a, using dp^a/dlambda = -Gamma[g]^a_bc p^b p^c and g(p,p) = 0.
-pv = list(sp.symbols('p0 p1 p2 p3'))
+pv = list(sp.symbols("p0 p1 p2 p3"))
 null_p0 = sp.sqrt(sum(gt[i, j] * pv[i] * pv[j] for i in range(1, 4) for j in range(1, 4)))
 psub = {pv[0]: null_p0}  # gt(p,p)=0 <=> g(p,p)=0 (future-directed)
 for A_ in range(4):
@@ -151,18 +166,18 @@ Et = -sum(gt[a_, b_] * [1, 0, 0, 0][a_] * pv[b_] for a_ in range(4) for b_ in ra
 E_ = -sum(g[a_, b_] * ([1, 0, 0, 0][a_] / N) * (pv[b_] / N**2) for a_ in range(4) for b_ in range(4))
 assert sp.simplify(E_ - Et / N) == 0
 print("[ok] L3 E = Etilde/N; with N_e = Tref/T_*, N_o = Tref/T_fluid(o):")
-Ts, To_, Eo_t, Ee_t, Tref = sp.symbols('T_star T_o Etilde_o Etilde_e T_ref', positive=True)
+Ts, To_, Eo_t, Ee_t, Tref = sp.symbols("T_star T_o Etilde_o Etilde_e T_ref", positive=True)
 Tobs = Ts * (Eo_t / (Tref / To_)) / (Ee_t / (Tref / Ts))
 assert sp.simplify(Tobs - To_ * Eo_t / Ee_t) == 0
 print("[ok] L3 T_obs = T_* E_o/E_e = T_fluid(o) Etilde_o/Etilde_e  (T_* and Tref cancel exactly)")
 
 # ---------------------------------------------------------------- L4
-a1 = sp.Symbol('a1', positive=True)
-A = sp.Function('A')(*X)
-B = sp.Function('B')(*X)
+a1 = sp.Symbol("a1", positive=True)
+A = sp.Function("A")(*X)
+B = sp.Function("B")(*X)
 gam1 = sp.diag(sp.exp(2 * A), sp.exp(2 * B), sp.exp(-2 * A - 2 * B))  # det = 1: expansion-free family
 gg = sp.zeros(4, 4)
-gg[0, 0] = -N**2
+gg[0, 0] = -(N**2)
 for i in range(3):
     gg[i + 1, i + 1] = N**2 * gam1[i, i]
 Gm, ggi = christoffel(gg, X)
@@ -179,14 +194,17 @@ R3 = ricci(G3, X3)
 R3s = sum(g3i[i, j] * R3[i, j] for i in range(3) for j in range(3))
 lnN3 = sp.log(N)
 grad = [sp.diff(lnN3, X3[i]) for i in range(3)]
-lap = sum(g3i[i, j] * (sp.diff(lnN3, X3[i], X3[j]) - sum(G3[k][i][j] * grad[k] for k in range(3)))
-          for i in range(3) for j in range(3))
+lap = sum(
+    g3i[i, j] * (sp.diff(lnN3, X3[i], X3[j]) - sum(G3[k][i][j] * grad[k] for k in range(3))) for i in range(3) for j in range(3)
+)
 gradsq = sum(g3i[i, j] * grad[i] * grad[j] for i in range(3) for j in range(3))
 sig = sp.Matrix(3, 3, lambda i, j: sp.diff(g3[i, j], t) / 2)
-sigsq = sum(g3i[i, k] * g3i[j, l] * sig[i, j] * sig[k, l]
-            for i in range(3) for j in range(3) for k in range(3) for l in range(3))
-formula = N**2 * (R3s - 4 * lap - 2 * gradsq - sigsq) + 6 * sp.diff(N, t)**2
-assert_zero(sp.expand(Hlhs - formula), "L4 exact Hamiltonian constraint: 2N^6 G^tt = N^2(R-4Lap lnN-2|D lnN|^2-sigma^2)+6 Ndot^2",
-            simp=lambda e: sp.simplify(sp.expand(e)))
+sigsq = sum(g3i[i, k] * g3i[j, l] * sig[i, j] * sig[k, l] for i in range(3) for j in range(3) for k in range(3) for l in range(3))
+formula = N**2 * (R3s - 4 * lap - 2 * gradsq - sigsq) + 6 * sp.diff(N, t) ** 2
+assert_zero(
+    sp.expand(Hlhs - formula),
+    "L4 exact Hamiltonian constraint: 2N^6 G^tt = N^2(R-4Lap lnN-2|D lnN|^2-sigma^2)+6 Ndot^2",
+    simp=lambda e: sp.simplify(sp.expand(e)),
+)
 print("    (field equation: this equals 6 a1^2;  background N=a1 t, gamma=delta satisfies it)")
 print("ALL EXACT LEMMAS VERIFIED")

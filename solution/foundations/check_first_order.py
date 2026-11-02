@@ -17,11 +17,12 @@ Checks: all 10 Einstein equations at O(eps) for (A) and (B); regularity and t->0
 the exact line-of-sight transfer functions of both routes coincide for every l >= 1
 (proved for symbolic l via d/dt_* of the difference = 0 plus the coincidence limit).
 """
-import sympy as sp
-from gr import christoffel, ricci, assert_zero
 
-t, z, xx, yy = sp.symbols('t z x y', real=True)
-k, a1, zeta, eps = sp.symbols('k a1 zeta epsilon', positive=True)
+import sympy as sp
+from gr import assert_zero, christoffel, ricci
+
+t, z, xx, yy = sp.symbols("t z x y", real=True)
+k, a1, zeta, eps = sp.symbols("k a1 zeta epsilon", positive=True)
 X = [t, xx, yy, z]
 s3 = sp.sqrt(3)
 xv = k * t / s3
@@ -37,7 +38,7 @@ def einstein_residual(g, Tdn, label):
             res = Ric[m, n] - g[m, n] * R / 2 - Tdn[m, n]
             res1 = sp.diff(res, eps).subs(eps, 0)
             res0 = res.subs(eps, 0)
-            assert sp.simplify(res0) == 0, (label, m, n, 'background')
+            assert sp.simplify(res0) == 0, (label, m, n, "background")
             r = sp.simplify(sp.expand((res1 / ph).rewrite(sp.exp)))
             assert r == 0, (label, m, n, r)
     print(f"[ok] {label}: G_mu nu = T_mu nu at O(eps^0) and O(eps^1), all 10 components")
@@ -50,7 +51,7 @@ k2E = 3 * zeta * (2 * sp.sin(xv) / xv - sp.cos(xv) - 1)
 N = a1 * t * (1 + eps * nu * ph)
 gam = sp.diag(1 + 2 * eps * C * ph, 1 + 2 * eps * C * ph, 1 + 2 * eps * (C - k2E) * ph)
 g = sp.zeros(4, 4)
-g[0, 0] = -N**2
+g[0, 0] = -(N**2)
 for i in range(3):
     g[i + 1, i + 1] = N**2 * gam[i, i]
 rho = 3 * a1**2 / N**4
@@ -59,7 +60,7 @@ udn = [-N, 0, 0, 0]
 Tdn = sp.Matrix(4, 4, lambda m, n: (rho + p) * udn[m] * udn[n] + p * g[m, n])
 einstein_residual(g, Tdn, "(A) temperature-frame linear solution")
 assert_zero(3 * C - k2E - 3 * zeta, "(A) expansion-free: 3C - k^2E = 3 zeta for all t")
-for f, lim, nm in [(nu, 0, 'nu'), (C, zeta, 'C'), (k2E, 0, 'k^2 E')]:
+for f, lim, nm in [(nu, 0, "nu"), (C, zeta, "C"), (k2E, 0, "k^2 E")]:
     ser = sp.expand(sp.series(f, t, 0, 10).removeO())
     assert sp.simplify(ser.subs(t, 0) - lim) == 0
     assert all(sp.simplify(ser.coeff(t, p_)) == 0 for p_ in (1, 3, 5, 7, 9)), nm
@@ -70,10 +71,10 @@ for f, lim, nm in [(nu, 0, 'nu'), (C, zeta, 'C'), (k2E, 0, 'k^2 E')]:
 a = a1 * t
 Phi = -2 * zeta * (sp.sin(xv) - xv * sp.cos(xv)) / xv**3
 H = 1 / t
-lapPsi = -k**2 * Phi
-vN = -(t**2 / 2) * (sp.diff(Phi, t) + H * Phi)                     # v^i = d_i vN  (0i constraint)
+lapPsi = -(k**2) * Phi
+vN = -(t**2 / 2) * (sp.diff(Phi, t) + H * Phi)  # v^i = d_i vN  (0i constraint)
 dN = (2 * t**2 / 3) * (lapPsi - 3 * H * (sp.diff(Phi, t) + H * Phi))  # 00 constraint
-gN = sp.diag(-a**2 * (1 + 2 * eps * Phi * ph), *([a**2 * (1 - 2 * eps * Phi * ph)] * 3))
+gN = sp.diag(-(a**2) * (1 + 2 * eps * Phi * ph), *([a**2 * (1 - 2 * eps * Phi * ph)] * 3))
 rhoN = 3 / (a1**2 * t**4) * (1 + eps * dN * ph)
 pN = rhoN / 3
 # u^mu = a^-1 (1 - eps Phi, 0, 0, eps i k vN)  -> lower with gN
@@ -86,16 +87,15 @@ einstein_residual(gN, TdnN, "(B) Newtonian-gauge linear solution (Phi=Psi, delta
 # Theta^(1)(n) = int d^3k/(2pi)^3 zeta_k e^{ik.x_o} sum_l (2l+1) i^l T_l(k) P_l(khat.n)
 # (A): T^A_l = - int_{t*}^{to} dt k^2 E'(t) [ j_l/3 + j_l'' ](k (to - t))
 # (B): T^B_l = [delta_N/4 + Phi]_* j_l(k r*) - k vN(t*) j_l'(k r*) + int 2 Phi' j_l + k vN(to) j_l'(0)
-ts, to, L = sp.symbols('t_star t_o L', positive=True)  # L = l(l+1)
-J0, J1, J2, J3 = sp.symbols('J0 J1 J2 J3')               # j_l, j_l', j_l'', j_l''' at y = k(to - t*)
+ts, to, L = sp.symbols("t_star t_o L", positive=True)  # L = l(l+1)
+J0, J1, J2, J3 = sp.symbols("J0 J1 J2 J3")  # j_l, j_l', j_l'', j_l''' at y = k(to - t*)
 yv = k * (to - ts)
-bessel_J2 = -(2 / yv) * J1 - (1 - L / yv**2) * J0          # spherical Bessel ODE
+bessel_J2 = -(2 / yv) * J1 - (1 - L / yv**2) * J0  # spherical Bessel ODE
 # d/dt* of T^A: + k^2 E'(t*) [J0/3 + J2]
 dTA = (sp.diff(k2E, t) * (J0 / 3 + J2)).subs(t, ts)
 # d/dt* of T^B: d/dt*[F j(y)] = F' j - k F j' ; d/dt*[-k vN j'(y)] = -k vN' j' + k^2 vN j''; ISW: -2Phi'(t*) j
-Fb = (dN / 4 + Phi)
-dTB = (sp.diff(Fb, t) * J0 - k * Fb * J1 - k * sp.diff(vN, t) * J1 + k**2 * vN * J2
-       - 2 * sp.diff(Phi, t) * J0).subs(t, ts)
+Fb = dN / 4 + Phi
+dTB = (sp.diff(Fb, t) * J0 - k * Fb * J1 - k * sp.diff(vN, t) * J1 + k**2 * vN * J2 - 2 * sp.diff(Phi, t) * J0).subs(t, ts)
 # structural identity (found by the independent auditor): the temperature-frame shear rate
 # equals the Newtonian-gauge velocity gradient, (k^2 E)' = k^2 v_N
 assert sp.simplify(sp.diff(k2E, t) - k**2 * vN) == 0
@@ -111,8 +111,8 @@ assert cJ0 == 0 and cJ1 == 0, (cJ0, cJ1)
 print("[ok] d/dt*(T^A_l - T^B_l) = 0 identically, for symbolic l (indeed for any radial kernel j)")
 # coincidence limit t* -> to (y -> 0): j_l(0)=delta_l0, j_l'(0)=delta_l1/3. T^A -> 0.
 # T^B(t*=to) = [dN/4+Phi](to) delta_l0 - k vN(to) delta_l1/3 + k vN(to) delta_l1/3
-yy0 = sp.Symbol('y', positive=True)
-tt_ = sp.Symbol('tt', positive=True)
+yy0 = sp.Symbol("y", positive=True)
+tt_ = sp.Symbol("tt", positive=True)
 
 
 def TB_full(l, tstar):
@@ -133,7 +133,7 @@ def TA_full(l, tstar):
 
 for l in range(1, 5):
     em, isw, obs = TB_full(l, ts)
-    lim_em = sp.limit(em, ts, to)            # emission-endpoint terms as t* -> to
+    lim_em = sp.limit(em, ts, to)  # emission-endpoint terms as t* -> to
     tb = sp.simplify(lim_em + isw.subs(ts, to).doit() + obs)
     ta = TA_full(l, ts).subs(ts, to).doit()
     assert tb == 0 and ta == 0, (l, tb, ta)

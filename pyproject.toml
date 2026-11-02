@@ -15,3 +15,39 @@ dependencies = [
 
 [tool.uv]
 package = false             # a collection of scripts and a report, not an installable package
+
+[dependency-groups]
+dev = [
+    "prek>=0.5.9",
+    "ruff>=0.17.3",
+    "ty>=0.0.95",
+]
+
+[tool.ruff]
+line-length = 130
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = [
+    "E501",   # long symbolic expressions and tables
+    "E741",   # l is the multipole index throughout
+    "E731",   # short named lambdas are idiomatic in the symbolic checks
+]
+
+[tool.ty.environment]
+python-version = "3.13"
+# the scripts import their sibling modules by directory (sys.path), not as a package
+extra-paths = ["solution", "solution/foundations", "solution/numerics"]
+
+# SymPy's dynamic API is only partly typed: sp.Function("f") returns a callable UndefinedFunction
+# class, Basic supports arithmetic at runtime, and Function subclasses override eval with their own
+# signature. In the symbolic modules these rules report only those false positives. The numerics
+# (solution/numerics/) keep the full rule set.
+[[tool.ty.overrides]]
+include = ["solution/*.py", "solution/foundations/*.py"]
+
+[tool.ty.overrides.rules]
+call-non-callable = "ignore"
+unsupported-operator = "ignore"
+invalid-method-override = "ignore"

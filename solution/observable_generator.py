@@ -21,25 +21,28 @@ Checks (exact, order by order in kappa):
   SH  superhorizon closed form at O(kappa^2) for a general pair (k, q):
       Theta = -tau^2 e^{-2 zeta} TF[zeta_ij - zeta_i zeta_j] n n,  tau^2 = (t_o^2 - tbar_*^2)/6.
 """
+
 import sys
 import time
-import sympy as sp
-from engine import Field, Ctx, equations, fexp, t, I
+
 import second_order as so
+import sympy as sp
+from engine import Ctx, Field, I, equations, fexp, t
 
 KMAX = int(sys.argv[2]) if len(sys.argv) > 2 else 4
 _argv, sys.argv = sys.argv, sys.argv[:1]
-import third_order_consistency as tc   # noqa: E402  (exact series depth 6 >= KMAX)
+import third_order_consistency as tc  # noqa: E402  (exact series depth 6 >= KMAX)
+
 sys.argv = _argv
-kap = sp.Symbol('kappa', positive=True)
-to, ts, tIb, tob = sp.symbols('t_o tbar_star tbar_I tbar_o', positive=True)
-tp = sp.Symbol('tp', positive=True)
-nv = sp.symbols('n1 n2 n3', real=True)
+kap = sp.Symbol("kappa", positive=True)
+to, ts, tIb, tob = sp.symbols("t_o tbar_star tbar_I tbar_o", positive=True)
+tp = sp.Symbol("tp", positive=True)
+nv = sp.symbols("n1 n2 n3", real=True)
 T0 = time.time()
 
 
 def LOG(m):
-    print(f'  [{time.time() - T0:7.1f}s] {m}', flush=True)
+    print(f"  [{time.time() - T0:7.1f}s] {m}", flush=True)
 
 
 def trunc(e):
@@ -60,7 +63,7 @@ def lin_fields(label, kvec, kmag):
     return _lin(label, kvec, kmag)
 
 
-so.lin_fields = lin_fields
+so.lin_fields = lin_fields  # ty: ignore[invalid-assignment]  (deliberate patch: zero-momentum modes)
 
 
 def sky_mean(e):
@@ -90,7 +93,7 @@ def integ_poly(e, lo, hi, var=t):
     P = sp.Poly(e, var)
     out = 0
     for (m,), c in P.terms():
-        out += c * (hi**(m + 1) - lo**(m + 1)) / (m + 1)
+        out += c * (hi ** (m + 1) - lo ** (m + 1)) / (m + 1)
     return sp.expand(out)
 
 
@@ -148,7 +151,7 @@ def solve_root(phi, tbar):
         for m in range(1, Ctx.maxdeg + 1):
             un = un * u
             if m >= 2:
-                log_rest = log_rest + un * (sp.Integer(-1)**(m + 1) / m)
+                log_rest = log_rest + un * (sp.Integer(-1) ** (m + 1) / m)
         delta = (shift_eval(phi, delta, tbar) + log_rest) * (-tbar)
         delta = fmap(delta, trunc)
     return delta
@@ -157,10 +160,11 @@ def solve_root(phi, tbar):
 def observable(nu, zeta, H):
     """Theta(n) kernels (dict label-set -> polynomial in n, kappa, times) for the given fields."""
     E = equations(nu, zeta, H)
-    gam, S, Gam = E['gam'], E['S'], E['Gam']
+    gam, S, Gam = E["gam"], E["S"], E["Gam"]
     sig = [[gam[i][j].dt() / 2 for j in range(3)] for i in range(3)]
     # initial direction: e(t_o) = -e^{-zeta} exp(-H/2) n at the origin
     from engine import mexp, mscale
+
     Ginvhalf = mscale(mexp(mscale(H, sp.Rational(-1, 2))), fexp(zeta * (-1)))
     G0 = [[at_origin(Ginvhalf[i][j], to) for j in range(3)] for i in range(3)]
     n = [Field.const(c) for c in nv]
@@ -179,10 +183,19 @@ def observable(nu, zeta, H):
             Ai = Ai - sum((Gr[i][j][k] * e[j] * e[k] for j in range(3) for k in range(3)), Field())
             Ai = Ai + e[i] * see
             A.append(fmap(Ai, trunc))
-        dX = [Field({Sx: trunc(e0[i].d.get(Sx, 0) * (t - to)
-                               + integ_poly((tp - t) * sp.sympify(A[i].d.get(Sx, 0)).subs(t, tp), t, to, tp))
-                     for Sx in set(e0[i].d) | set(A[i].d)}) for i in range(3)]
-        LOG(f'ray iteration {it + 1}')
+        dX = [
+            Field(
+                {
+                    Sx: trunc(
+                        e0[i].d.get(Sx, 0) * (t - to)
+                        + integ_poly((tp - t) * sp.sympify(A[i].d.get(Sx, 0)).subs(t, tp), t, to, tp)
+                    )
+                    for Sx in set(e0[i].d) | set(A[i].d)
+                }
+            )
+            for i in range(3)
+        ]
+        LOG(f"ray iteration {it + 1}")
     e = [n[i] * (-1) + dX[i].dt() for i in range(3)]
     sr = [[taylor_on_ray(sig[i][j], dX) for j in range(3)] for i in range(3)]
     F = fmap(sum((sr[i][j] * e[i] * e[j] for i in range(3) for j in range(3)), Field()), trunc)
@@ -198,7 +211,7 @@ def observable(nu, zeta, H):
         corr = corr + dn * fmap(G, lambda v: v.subs(t, ts)) / sp.factorial(m)
         G = G.dt()
     Iexp = fmap(Iexp - corr, trunc)
-    LOG('exponent I built (ray, emission root, endpoint)')
+    LOG("exponent I built (ray, emission root, endpoint)")
     Tn = fexp(Iexp * (-1))
     mean = fmap(Tn, sky_mean)
     m1 = (mean - 1).without_const()
@@ -209,13 +222,12 @@ def observable(nu, zeta, H):
         inv = inv + term
     Thc = fmap((Tn * inv - 1).without_const(), trunc)
     # clock
-    omega = Field({Sx: v for Sx, v in nu.d.items()})          # nu(t, 0): no phase at the origin
+    omega = Field({Sx: v for Sx, v in nu.d.items()})  # nu(t, 0): no phase at the origin
     tI_shift = solve_root(omega, tIb)
     eom = fexp(omega)
     Wint = Field({Sx: integ_poly(t * v, 0, tp) for Sx, v in (eom - 1).without_const().d.items()})
     Wf = fmap(Wint, lambda v: v.subs(tp, t))
     D = Field()
-    tI_full = tI_shift
     for _ in range(Ctx.maxdeg + 1):
         R = tI_shift * (2 * tIb) + tI_shift * tI_shift - shift_eval(Wf, D, tob) * 2 + shift_eval(Wf, tI_shift, tIb) * 2
         D = fmap((R - D * D) / (2 * tob), trunc)
@@ -226,7 +238,7 @@ def observable(nu, zeta, H):
         dn = dn * D
         G = fmap(G, lambda v: sp.diff(v, to))
         Th = Th + dn * fmap(G, lambda v: v.subs(to, tob)) / sp.factorial(m)
-    LOG('normalised, clock composed')
+    LOG("normalised, clock composed")
     return fmap(Th, trunc)
 
 
@@ -238,17 +250,17 @@ def build_fields(W, MAG, labels, depth):
     tc.TCUT = tc.DEPTH + 6
     so.TAYLOR = tc.DEPTH + 6
     second = {}
-    pairs = [(a, b) for i, a in enumerate(labels) for b in labels[i + 1:]]
+    pairs = [(a, b) for i, a in enumerate(labels) for b in labels[i + 1 :]]
     for pr in pairs:
         ka, kb = W[pr[0]], W[pr[1]]
         k1k2 = sum(ka[i] * kb[i] for i in range(3))
-        c2 = sp.expand((2 * (MAG[pr[0]]**2 + MAG[pr[1]]**2) - k1k2) / 9)
+        c2 = sp.expand((2 * (MAG[pr[0]] ** 2 + MAG[pr[1]] ** 2) - k1k2) / 9)
         nus, As, _, _ = tc.solve_top(list(pr), {}, c2)
         second[pr] = (nus, As)
     third = None
     if len(labels) == 3:
         ks = [W[a] for a in labels]
-        sq = sum(MAG[a]**2 for a in labels)
+        sq = sum(MAG[a] ** 2 for a in labels)
         dots = sum(sum(ks[i][c] * ks[j][c] for c in range(3)) for i in range(3) for j in range(i + 1, 3))
         c3 = sp.expand(sp.Rational(2, 9) * (-2 * sq + dots))
         third = tc.solve_top(list(labels), second, c3)[:2]
@@ -266,12 +278,11 @@ def build_fields_fast(W, MAG, labels, kmax):
     momenta, so keeping t^0..t^(kmax+2) keeps every kappa^(<= kmax) term of every kernel.
     """
     import fast_series as fs
-    names = {'p': kap * so.p, 'b1': kap * so.b1, 'b2': kap * so.b2}
-    K12 = (so.p + so.b1)**2 + so.b2**2
-    K13 = (so.p - so.b1)**2 + so.b2**2
-    inv = {'ip': 1 / (kap * so.p), 'u': 1 / (kap**2 * K12), 'v': 1 / (kap**2 * K13)}
 
-    plain = {'p': so.p, 'b1': so.b1, 'b2': so.b2, 'ip': 1 / so.p, 'u': 1 / K12, 'v': 1 / K13}
+    K12 = (so.p + so.b1) ** 2 + so.b2**2
+    K13 = (so.p - so.b1) ** 2 + so.b2**2
+
+    plain = {"p": so.p, "b1": so.b1, "b2": so.b2, "ip": 1 / so.p, "u": 1 / K12, "v": 1 / K13}
 
     def conv(series):
         # a t^k coefficient is homogeneous of degree k in the momenta, so scaling every momentum
@@ -288,10 +299,10 @@ def build_fields_fast(W, MAG, labels, kmax):
     second_fast = {}
     for pr in ((1, 2), (1, 3), (2, 3)):
         second_fast[pr] = fs.solve(list(pr), {})
-        LOG(f'fast engine: pair {pr} solved')
+        LOG(f"fast engine: pair {pr} solved")
     top = fs.solve([1, 2, 3], second_fast)
-    LOG('fast engine: third order solved')
-    second = {pr: (conv(n_), sp.Matrix(3, 3, lambda i, j: conv(A_[i][j]))) for pr, (n_, A_) in second_fast.items()}
+    LOG("fast engine: third order solved")
+    second = {pr: (conv(n_), sp.Matrix(3, 3, lambda i, j, A_=A_: conv(A_[i][j]))) for pr, (n_, A_) in second_fast.items()}
     third = (conv(top[0]), sp.Matrix(3, 3, lambda i, j: conv(top[1][i][j])))
     tc.W, tc.MAG = W, MAG
     so.TAYLOR = kmax + 8
@@ -300,48 +311,49 @@ def build_fields_fast(W, MAG, labels, kmax):
     return tc.fields(labels, second, (tuple(labels),) + third)
 
 
-if __name__ == '__main__':
-    test = sys.argv[1] if len(sys.argv) > 1 else 'W2'
+if __name__ == "__main__":
+    test = sys.argv[1] if len(sys.argv) > 1 else "W2"
     p, q, b1, b2 = so.p, so.q, so.b1, so.b2
     Ctx.trunc = None
-    if test in ('W2', 'W3'):
-        labels = [1, 2] if test == 'W2' else [1, 2, 3]
+    if test in ("W2", "W3"):
+        labels = [1, 2] if test == "W2" else [1, 2, 3]
         W = {1: (kap * p, 0, 0), 2: (0, 0, 0), 3: (0, 0, 0)}
         MAG = {1: kap * p, 2: 0, 3: 0}
         nu, zeta, H = build_fields(W, MAG, labels, KMAX)
-        LOG('fields ready')
+        LOG("fields ready")
         Ctx.trunc = trunc
         Th = observable(nu, zeta, H)
         base = Th.coeff([1])
         Dk = lambda e: sp.expand(kap * sp.diff(e, kap))
-        if test == 'W2':
+        if test == "W2":
             pred = -Dk(base)
             got = Th.coeff([1, 2])
-            lab = 'Theta_{sL} = -kappa d_kappa Theta_s'
+            lab = "Theta_{sL} = -kappa d_kappa Theta_s"
         else:
             pred = Dk(Dk(base))
             got = Th.coeff([1, 2, 3])
-            lab = 'Theta_{sLL} = (kappa d_kappa)^2 Theta_s'
+            lab = "Theta_{sLL} = (kappa d_kappa)^2 Theta_s"
         diff = trunc(sp.expand(got - pred))
-        assert diff == 0, ('Ward identity of the observable fails', sp.factor(diff))
+        assert diff == 0, ("Ward identity of the observable fails", sp.factor(diff))
         assert trunc(base) != 0
-        print(f'[ok] {test}: {lab}  through O(kappa^{KMAX}) (exact; all ray, endpoint, clock, frame, '
-              f'normalisation terms)')
-    elif test == 'SH':
+        print(f"[ok] {test}: {lab}  through O(kappa^{KMAX}) (exact; all ray, endpoint, clock, frame, normalisation terms)")
+    elif test == "SH":
         labels = [1, 2]
         W = {1: (kap * p, 0, 0), 2: (kap * b1, kap * b2, 0)}
         MAG = {1: kap * p, 2: kap * q}
         nu, zeta, H = build_fields(W, MAG, labels, KMAX)
-        LOG('fields ready')
+        LOG("fields ready")
         Ctx.trunc = trunc
         Th = observable(nu, zeta, H)
         tau2 = (tob**2 - ts**2) / 6
         k1 = sp.Matrix([kap * p, 0, 0])
         k2 = sp.Matrix([kap * b1, kap * b2, 0])
         nn = sp.Matrix(nv)
+
         # multilinear coefficient of -tau^2 e^{-2 zeta} TF[zeta_ij - zeta_i zeta_j] n n at the origin
         def tf_nn(M):
             return (nn.T * M * nn)[0, 0] - M.trace() * (nn.T * nn)[0, 0] / 3
+
         zij = lambda k: -k * k.T
         pred1 = -tau2 * tf_nn(zij(k1))
         pred12 = -tau2 * (tf_nn(-2 * zij(k2)) + tf_nn(-2 * zij(k1)) - tf_nn(-(k1 * k2.T + k2 * k1.T)))
@@ -350,20 +362,19 @@ if __name__ == '__main__':
         r12 = so.reduce_b2(sp.expand(sp.expand(Th.coeff([1, 2]) - pred12).coeff(kap, 2)))
         low = [so.reduce_b2(sp.expand(sp.expand(Th.coeff([1, 2])).coeff(kap, m))) for m in (0, 1)]
         assert r12 == 0 and low == [0, 0], (r12, low)
-        print('[ok] SH: generator reproduces the superhorizon closed form at O(kappa^2), orders 1 and 2, '
-              'general (k, q)')
-    elif test == 'SH3':
+        print("[ok] SH: generator reproduces the superhorizon closed form at O(kappa^2), orders 1 and 2, general (k, q)")
+    elif test == "SH3":
         labels = [1, 2, 3]
         W = {1: (kap * p, 0, 0), 2: (kap * b1, kap * b2, 0), 3: (-kap * b1, -kap * b2, 0)}
         MAG = {1: kap * p, 2: kap * q, 3: kap * q}
         nu, zeta, H = build_fields_fast(W, MAG, labels, KMAX)
-        LOG('fields ready')
+        LOG("fields ready")
         Ctx.trunc = trunc
         Th = observable(nu, zeta, H)
         tau2 = (tob**2 - ts**2) / 6
-        zs = sp.symbols('z1 z2 z3')
+        zs = sp.symbols("z1 z2 z3")
         ks = [sp.Matrix(W[a]) for a in labels]
-        Z = sum(zs[a] for a in range(3))                         # zeta at the origin
+        Z = sum(zs[a] for a in range(3))  # zeta at the origin
         Zi = sum((zs[a] * I * ks[a] for a in range(3)), sp.zeros(3, 1))
         Zij = sum((zs[a] * (-ks[a] * ks[a].T) for a in range(3)), sp.zeros(3, 3))
         M = sp.exp(-2 * Z) * (Zij - Zi * Zi.T)
@@ -375,4 +386,4 @@ if __name__ == '__main__':
         r = so.reduce_b2(sp.expand(sp.expand(got - pred).coeff(kap, 2)))
         low = [so.reduce_b2(sp.expand(got.coeff(kap, m))) for m in (0, 1)]
         assert r == 0 and low == [0, 0], (r, low)
-        print('[ok] SH3: generator reproduces the superhorizon closed form at O(kappa^2), third order at (k, q, -q)')
+        print("[ok] SH3: generator reproduces the superhorizon closed form at O(kappa^2), third order at (k, q, -q)")

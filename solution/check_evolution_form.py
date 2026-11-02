@@ -15,15 +15,17 @@ foundations/check_field_equations_generic.py).
 Proof method (as in foundations/check_field_equations_generic.py): every function value and derivative is replaced by an independent
 symbol (2-jet), for a generic six-function gamma with t-independent det and arbitrary N.
 """
+
 import os
 import sys
+
 import sympy as sp
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'foundations'))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "foundations"))
 sys.argv = sys.argv[:1]  # upstream module parses argv for its mode; force 'jet'
 import check_field_equations_generic as up  # noqa: E402
 
-ev = up.make_ev('jet')
+ev = up.make_ev("jet")
 X, X3, t = up.X, up.X3, up.t
 gam, gi, N, G3, G4 = up.gam, up.gi, up.N, up.G3, up.G4
 
@@ -33,14 +35,13 @@ n = sp.log(N)
 dn = [sp.diff(n, q) for q in X3]
 ndot = sp.diff(n, t)
 sig = sp.Matrix(3, 3, lambda i, j: sp.diff(gam[i, j], t) / 2)
-S = gi * sig                                   # S^k_j
+S = gi * sig  # S^k_j
 DDn = sp.Matrix(3, 3, lambda i, j: sp.diff(n, X3[i], X3[j]) - sum(G3[k][i][j] * dn[k] for k in range(3)))
 dnn = sp.Matrix(3, 3, lambda i, j: dn[i] * dn[j])
 
 gip = gi.applyfunc(ev)
-lhs = gip * sp.Matrix(3, 3, lambda i, j: R4[i + 1, j + 1])          # gamma^{-1} R4_ij (mixed)
-rhs = (S.diff(t) + 2 * ndot * S).applyfunc(ev) + gip * R3 \
-    + (gi * (-2 * DDn + 2 * dnn)).applyfunc(ev)
+lhs = gip * sp.Matrix(3, 3, lambda i, j: R4[i + 1, j + 1])  # gamma^{-1} R4_ij (mixed)
+rhs = (S.diff(t) + 2 * ndot * S).applyfunc(ev) + gip * R3 + (gi * (-2 * DDn + 2 * dnn)).applyfunc(ev)
 D = (lhs - rhs).applyfunc(sp.cancel)
 tr = sp.cancel(sum(D[i, i] for i in range(3)))
 for i in range(3):

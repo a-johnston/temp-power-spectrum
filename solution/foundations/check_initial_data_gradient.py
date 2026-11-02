@@ -9,23 +9,24 @@ check that the momentum constraint at that order is satisfied identically (it is
 to solve).  This is the explicit statement that the initial data are NOT obtained by
 setting higher-order perturbations to zero: nu2, H2 are fixed nonlinear functionals of zeta.
 """
+
 import sympy as sp
 from gr import christoffel, ricci
 
-t = sp.Symbol('t', positive=True)
-x, y, z = Xs = sp.symbols('x y z', real=True)
+t = sp.Symbol("t", positive=True)
+x, y, z = Xs = sp.symbols("x y z", real=True)
 X = [t, x, y, z]
-a1 = sp.Symbol('a1', positive=True)
-zeta = sp.Function('zeta')(*Xs)
-nu2 = sp.Function('nu2')(*Xs)
+a1 = sp.Symbol("a1", positive=True)
+zeta = sp.Function("zeta")(*Xs)
+nu2 = sp.Function("nu2")(*Xs)
 h = {}
 names = [(0, 0), (0, 1), (0, 2), (1, 1), (1, 2)]
-for (i, j) in names:
-    h[i, j] = h[j, i] = sp.Function(f'H{i}{j}')(*Xs)
+for i, j in names:
+    h[i, j] = h[j, i] = sp.Function(f"H{i}{j}")(*Xs)
 h[2, 2] = -h[0, 0] - h[1, 1]
 H2 = sp.Matrix(3, 3, lambda i, j: h[i, j])
 
-lam = sp.Symbol('lam')  # bookkeeping: t^2 corrections carry lam, truncated at lam^1
+lam = sp.Symbol("lam")  # bookkeeping: t^2 corrections carry lam, truncated at lam^1
 N2 = a1**2 * t**2 * (1 + 2 * lam * t**2 * nu2)
 gam = sp.exp(2 * zeta) * (sp.eye(3) + lam * t**2 * H2)
 g = sp.zeros(4, 4)
@@ -34,9 +35,11 @@ for i in range(3):
     for j in range(3):
         g[i + 1, j + 1] = N2 * gam[i, j]
 
+
 def trunc(e):
     e = sp.expand(e)
     return sp.expand(e.subs(lam, 0) + lam * sp.diff(e, lam).subs(lam, 0))
+
 
 # inverse metric to O(lam)
 ginv = sp.zeros(4, 4)
@@ -59,11 +62,11 @@ Ric = ricci(Gam, X, simp=trunc)
 invN2 = (1 - 2 * lam * t**2 * nu2) / (a1**2 * t**2)
 Ttt = trunc(3 * a1**2 * invN2)
 E = {}
-E['tt'] = trunc(Ric[0, 0] - Ttt)
+E["tt"] = trunc(Ric[0, 0] - Ttt)
 for i in range(3):
-    E[f't{i}'] = trunc(Ric[0, i + 1])
+    E[f"t{i}"] = trunc(Ric[0, i + 1])
     for j in range(i, 3):
-        E[f'{i}{j}'] = trunc(Ric[i + 1, j + 1] - a1**2 * gam[i, j] * invN2)
+        E[f"{i}{j}"] = trunc(Ric[i + 1, j + 1] - a1**2 * gam[i, j] * invN2)
 
 # background (lam^0) must vanish at the orders where it is O(t^-2); the gradient terms of the
 # seed metric e^{2 zeta} delta appear at O(t^0) and must be balanced by the lam^1 t^2 terms.
@@ -76,16 +79,16 @@ for key, e in E.items():
     tot = sp.expand(tot * t**2)
     poly = sp.Poly(tot, t)
     lowest = min(m[0] for m in poly.monoms())
-    coeffs = {m[0]: c for m, c in zip(poly.monoms(), poly.coeffs())}
+    coeffs = {m[0]: c for m, c in zip(poly.monoms(), poly.coeffs(), strict=True)}
     eqs.append((key, lowest, coeffs))
 # tt and ij: lowest relevant is t^2 (i.e. O(t^0) before multiplying); t_i: t^3 (O(t^1))
 unknowns = [nu2] + [h[i, j] for (i, j) in names]
 lin = []
-for key, lowest, coeffs in eqs:
-    if key.startswith('t') and key != 'tt':
+for key, _lowest, coeffs in eqs:
+    if key.startswith("t") and key != "tt":
         continue
     c0 = coeffs.get(0, 0)
-    assert sp.simplify(c0) == 0, (key, 'O(t^-2) background mismatch', c0)
+    assert sp.simplify(c0) == 0, (key, "O(t^-2) background mismatch", c0)
     lin.append(coeffs.get(2, 0))
 sol = sp.solve(lin, unknowns, dict=True)
 assert len(sol) == 1, sol
@@ -94,8 +97,8 @@ print("[ok] unique solution at leading gradient order (Hamiltonian/evolution equ
 for k_, v_ in sol.items():
     print(f"   {k_} =", v_)
 # momentum constraint at its lowest order (t^1): must hold identically
-for key, lowest, coeffs in eqs:
-    if key.startswith('t') and key != 'tt':
+for key, _lowest, coeffs in eqs:
+    if key.startswith("t") and key != "tt":
         for pw, c in coeffs.items():
             r = sp.simplify(sp.expand(c.subs(sol).doit()))
             assert r == 0, (key, pw, r)
@@ -109,6 +112,6 @@ print("   nu2 / R[e^{2zeta} delta] =", cand_nu2)
 TF = sp.simplify(R3 - sp.exp(2 * zeta) * sp.eye(3) * R3s / 3)
 ratio = sp.simplify(sol[h[0, 1]] / (sp.exp(-2 * zeta) * TF[0, 1]))
 print("   H2_01 / (e^{-2zeta} traceless Ricci_01) =", ratio)
-for (i, j) in names:
+for i, j in names:
     assert sp.simplify(sol[h[i, j]] - ratio * sp.exp(-2 * zeta) * TF[i, j]) == 0
 print("[ok] H2 is proportional to the traceless Ricci tensor of the seed metric, nu2 to its Ricci scalar")

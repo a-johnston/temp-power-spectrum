@@ -10,15 +10,15 @@ orderings).  Spatial derivatives act as i * (total momentum of the monomial).
 
 Everything is exact SymPy algebra.
 """
-import itertools
+
 import sympy as sp
 
-t = sp.Symbol('t', positive=True)
+t = sp.Symbol("t", positive=True)
 I = sp.I
 
 
 class Field:
-    __slots__ = ('d',)
+    __slots__ = ("d",)
 
     def __init__(self, d=None):
         self.d = {k: v for k, v in (d or {}).items() if v != 0}
@@ -86,7 +86,7 @@ class Field:
 class Ctx:
     maxdeg = 2
     momenta = {}
-    trunc = None   # optional coefficient truncation (e.g. a power series cut), applied after products
+    trunc = None  # optional coefficient truncation (e.g. a power series cut), applied after products
 
     @classmethod
     def mom(cls, labels):
@@ -162,10 +162,11 @@ def equations(nu, zeta, H):
     gi = mscale(Minv, em2z)
     dgam = [[[gam[i][j].d_(k) for k in range(3)] for j in range(3)] for i in range(3)]
     # Christoffel Gamma^a_{ij}
-    low = [[[(dgam[b][j][i] + dgam[b][i][j] - dgam[i][j][b]) * sp.Rational(1, 2)
-             for j in range(3)] for i in range(3)] for b in range(3)]
-    Gam = [[[sum((gi[a][b] * low[b][i][j] for b in range(3)), Field()) for j in range(3)]
-            for i in range(3)] for a in range(3)]
+    low = [
+        [[(dgam[b][j][i] + dgam[b][i][j] - dgam[i][j][b]) * sp.Rational(1, 2) for j in range(3)] for i in range(3)]
+        for b in range(3)
+    ]
+    Gam = [[[sum((gi[a][b] * low[b][i][j] for b in range(3)), Field()) for j in range(3)] for i in range(3)] for a in range(3)]
     Ric = mzero()
     for i in range(3):
         for j in range(i, 3):
@@ -182,8 +183,7 @@ def equations(nu, zeta, H):
     trSS = mtrace(mmul(S, S))
     dnu = [nu.d_(i) for i in range(3)]
     nudot = nu.dt()
-    DDnu = [[nu.d_(i).d_(j) - sum((Gam[k][i][j] * dnu[k] for k in range(3)), Field())
-             for j in range(3)] for i in range(3)]
+    DDnu = [[nu.d_(i).d_(j) - sum((Gam[k][i][j] * dnu[k] for k in range(3)), Field()) for j in range(3)] for i in range(3)]
     lap = sum((gi[i][j] * DDnu[i][j] for i in range(3) for j in range(3)), Field())
     grad2 = sum((gi[i][j] * dnu[i] * dnu[j] for i in range(3) for j in range(3)), Field())
     em2nu = fexp(nu * (-2))
@@ -198,21 +198,24 @@ def equations(nu, zeta, H):
         sj = sum((S[j][i] * dnu[j] for j in range(3)), Field())
         eqM.append(div - nudot.d_(i) * 2 + dnu[i] * (2 / t) + sj * 2 + nudot * dnu[i] * 2)
     dndn = [[dnu[i] * dnu[j] for j in range(3)] for i in range(3)]
-    inner = madd(madd(madd([[S[i][j].dt() for j in range(3)] for i in range(3)],
-                           mscale(S, nudot * 2 + 2 / t)), Rmix),
-                 mmul(gi, madd(mscale(DDnu, -2), mscale(dndn, 2))))
+    inner = madd(
+        madd(madd([[S[i][j].dt() for j in range(3)] for i in range(3)], mscale(S, nudot * 2 + 2 / t)), Rmix),
+        mmul(gi, madd(mscale(DDnu, -2), mscale(dndn, 2))),
+    )
     eqT = tf(inner)
     one_t = Field.const(1 / t)
     eqH = Rs - lap * 4 - grad2 * 2 - trSS + (one_t + nudot) * (one_t + nudot) * 6 - em2nu * (6 / t**2)
-    return {'N': eqN, 'M': eqM, 'T': eqT, 'Ham': eqH, 'S': S, 'gam': gam, 'gi': gi, 'Gam': Gam}
+    return {"N": eqN, "M": eqM, "T": eqT, "Ham": eqH, "S": S, "gam": gam, "gi": gi, "Gam": Gam}
 
 
 def tt_proj(Kv):
     """Projectors for total momentum Kv (list of 3 sympy exprs, |K| > 0)."""
     K2 = sum(c**2 for c in Kv)
     P = sp.Matrix(3, 3, lambda i, j: (1 if i == j else 0) - Kv[i] * Kv[j] / K2)
+
     def TT(A):
         A = sp.Matrix(A)
         PAP = P * A * P
         return PAP - P * (PAP.trace()) / 2
+
     return P, TT

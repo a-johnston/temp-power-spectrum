@@ -3,6 +3,7 @@
 Everything here is exact SymPy algebra: no numerical evaluation is used anywhere.
 Index convention: coordinates x[0..3] = (t, x, y, z); metric g[mu, nu].
 """
+
 import sympy as sp
 
 
@@ -11,11 +12,11 @@ def christoffel(g, x):
     n = len(x)
     ginv = g.inv()
     dg = [[[sp.diff(g[a, b], x[c]) for c in range(n)] for b in range(n)] for a in range(n)]
-    Gam = [[[0] * n for _ in range(n)] for _ in range(n)]
+    Gam: list[list[list[sp.Expr]]] = [[[sp.S.Zero] * n for _ in range(n)] for _ in range(n)]
     for a in range(n):
         for b in range(n):
             for c in range(b, n):
-                s = 0
+                s = sp.S.Zero
                 for d in range(n):
                     if ginv[a, d] != 0:
                         s += ginv[a, d] * (dg[d][b][c] + dg[d][c][b] - dg[b][c][d])

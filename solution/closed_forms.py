@@ -15,6 +15,7 @@ is the principal part of B at s = 0, which must vanish (asserted).  No division 
 so the result is manifestly regular on every resonance surface: there are no ln|w| terms to
 recombine.
 """
+
 import sympy as sp
 
 I = sp.I
@@ -38,6 +39,7 @@ class Cin(sp.Function):
 
 class Ephi(sp.Function):
     """Ephi(m, z) = int_0^1 u^m e^{z u} du  (entire in z)."""
+
     nargs = 2
 
     @classmethod
@@ -51,16 +53,20 @@ class Ephi(sp.Function):
 
     def elementary(self):
         m, z = self.args
-        m = int(m)
-        return sp.factorial(m) * (-1)**(m + 1) / z**(m + 1) * (
-            1 - sp.exp(z) * sum((-z)**j / sp.factorial(j) for j in range(m + 1)))
+        m = int(sp.Integer(m))
+        return (
+            sp.factorial(m)
+            * (-1) ** (m + 1)
+            / z ** (m + 1)
+            * (1 - sp.exp(z) * sum((-z) ** j / sp.factorial(j) for j in range(m + 1)))
+        )
 
 
 def J(M, w, t):
     if M == 1:
         return -Cin(w * t) + I * sp.Si(w * t)
-    EM = sp.exp(I * w * t) - sum((I * w * t)**j / sp.factorial(j) for j in range(M))
-    return t**(1 - M) * EM / (1 - M) + I * w / (M - 1) * J(M - 1, w, t)
+    EM = sp.exp(I * w * t) - sum((I * w * t) ** j / sp.factorial(j) for j in range(M))
+    return t ** (1 - M) * EM / (1 - M) + I * w / (M - 1) * J(M - 1, w, t)
 
 
 class Freq:
@@ -76,7 +82,7 @@ class Freq:
         assert not lin.has(self.t), arg
         ca = sp.nsimplify(sp.expand(lin.coeff(p) * s3))
         cb = sp.nsimplify(sp.expand(lin.coeff(q) * s3))
-        ck = sp.expand(lin.coeff(K) * s3)          # = c + d sqrt3
+        ck = sp.expand(lin.coeff(K) * s3)  # = c + d sqrt3
         d = sp.nsimplify(ck.coeff(s3))
         c = sp.nsimplify(sp.expand(ck - d * s3))
         rest = sp.expand(lin - (ca * p + cb * q) / s3 - (c / s3 + d) * K)
@@ -139,7 +145,7 @@ def split_frequencies(expr, fr, s):
         mden = 0
         if dep != 1:
             b_, e_ = dep.as_base_exp()
-            assert b_ == s and e_.is_integer, ('non-monomial s-denominator', dep)
+            assert b_ == s and e_.is_integer, ("non-monomial s-denominator", dep)
             mden = int(e_)
         cpow = sp.Poly(sp.expand(n_), s)
         for (m,), c in cpow.terms():
@@ -161,15 +167,15 @@ def integrate0(expr, s, t, syms, reduce=lambda e: sp.cancel(e)):
             if c == 0:
                 continue
             if m >= 0:
-                res += c * t**(m + 1) * Ephi(m, I * w * t)
+                res += c * t ** (m + 1) * Ephi(m, I * w * t)
             else:
                 M = -m
                 res += c * J(M, w, t)
                 for j in range(M):
                     n = j - M
-                    principal[n] = principal.get(n, 0) + c * (I * w)**j / sp.factorial(j)
+                    principal[n] = principal.get(n, 0) + c * (I * w) ** j / sp.factorial(j)
     for n, c in principal.items():
-        assert reduce(sp.expand(c)) == 0, f'principal part s^{n} of the integrand does not vanish'
+        assert reduce(sp.expand(c)) == 0, f"principal part s^{n} of the integrand does not vanish"
     return res
 
 
@@ -186,5 +192,5 @@ def check_antiderivative(P, expr, s, t, syms, reduce):
     parts = split_frequencies(d, fr, t)
     for key, lau in parts.items():
         for m, c in lau.items():
-            assert reduce(c) == 0, ('antiderivative check failed', key, m)
+            assert reduce(c) == 0, ("antiderivative check failed", key, m)
     return True
