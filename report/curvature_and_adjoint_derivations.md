@@ -1,83 +1,16 @@
-# Critical review and independent cubic check
+# Derivations: adjoint cubic response, orthonormal F_2, and the three-tensor k_0^6 quadrupole
 
-## Verdict
-
-The three specifically requested results are **correct**, with qualifications about how they should be stated:
-
-1. The adjoint proposition has the correct sign, homogeneous coefficient 14, and Green-function contact term. Third-order emission and clock shifts really do not enter the cubic map. This does **not** eliminate the lower-order endpoint and clock terms in that map.
-2. The orthonormal-direction `F_2` identity is correct, including its factors of two. It removes explicit local shear products, not the ray displacement or direction response.
-3. An independent local-curvature calculation reproduces the complete reported `k_0^6` coefficient of `Re C_2^(13)/3`, with symbolic initial, emission, and observation times. It also reproduces the linear and quadratic coefficients. No existing field engine, observable generator, or saved kernel is imported by this calculation.
-
-There is a useful new simplification: through fourth gradient order, the quadrupole is a linear combination of only **three local curvature tensors**. Only two of those tensors contribute to the fourth-order-in-amplitude spectrum at total gradient order six. There is also a cleaner, momentum-constraint version of the adjoint formula that eliminates its explicit contact/Hamiltonian-source cancellation before integration.
-
-The report gives a substantive constructive analytical solution, rather than merely a numerical prescription. The problem explicitly allows exact definite integrals; leaving the finite-wavelength time and momentum integrals unevaluated is therefore not, by itself, a failure. The strongest justified completeness statement is for finite physical times and admissible spectra, in particular a finite-variance compactly supported spectrum or the monochromatic shell. Unrestricted UV/IR convergence is not established, as the report acknowledges.
-
-The original report and its PDF have not been changed. This review supplies two new standalone checks:
+Supporting derivations for Prop. adjoint, the orthonormal-direction map (Prop. orthonormal), and the
+next-gradient-order quadrupole of the report (eq. three-tensor). The checks are
 
 ```sh
 .venv/bin/python -B solution/check_adjoint_exact.py
-.venv/bin/python -B solution/check_cubic_curvature_hand.py
+.venv/bin/python -B solution/check_cubic_curvature_hand.py   # ~6 s; imports no generator or cached kernel
 ```
 
-The second takes about six seconds in this environment. Its speed comes from calculating only the required local gradient coefficient, not from approximating a finite-wavelength answer numerically.
+These derivations come from an external correctness review; the full review is in the git history.
 
-## 1. Corrections and qualifications to make before sign-off
-
-### 1.1 A literal variance-normalization error
-
-At `report/temperature_spectrum_report.tex:1826`, the displayed leading ratios omit `sigma^2`. With the report's explicit variance convention, they should read
-
-\[
-\frac{C_2^{(22)}}{4C_2^{(11)}}=\frac{17}{3}\sigma^2,
-\qquad
-\frac{\operatorname{Re}C_2^{(13)}}{3C_2^{(11)}}=4\sigma^2
-\]
-
-at leading gradient order. Alternatively, divide the denominators by the additional factor as in `C^(22)/(4 sigma^2 C^(11)) = 17/3`. The analogous ratio in the verification ledger at line 1987 needs the same clarification. The actual spectrum coefficients contain the correct powers of the variance; this is a presentation error, not an error in those coefficients.
-
-### 1.2 The normalized adjoint formula excludes transfer nodes
-
-The proposition at lines 1380–1417 divides by `T_ell`. Its ratio form requires `k_0>0` and `T_ell != 0`. The report separately discusses nodes, but the proposition should state this restriction or give the unnormalized identity first. Section 3 below supplies a form valid at nodes too.
-
-The proof should also give the small-source-time estimate justifying Fubini, rather than relying only on the compactness of the time interval: the decaying lapse solution is singular at zero. The estimate is straightforward and is supplied below.
-
-### 1.3 Be precise about spectral admissibility
-
-“Any compactly supported spectrum” should mean a nonnegative **finite spectral measure**, or an equivalent explicit finite-variance condition, not an arbitrary function with compact support that may be nonintegrable at `k=0`. Compact momentum support alone does not imply a finite Gaussian point variance. The IR theorem is appropriately conditional and does not establish convergence for every smooth spectrum on `(0,infinity)`.
-
-The problem does not specify a particular general spectrum, so giving a spectrum functional with explicit admissibility conditions is natural. But an unconditional claim of convergence for arbitrary primordial spectra would go beyond the proof.
-
-### 1.4 Reproduction and evidence descriptions need updating
-
-`solution/run_all.sh` does not actually run every exact check named in the README. In particular, it does not run `superhorizon_next.py kernels3` or `superhorizon_next.py spectrum`. Thus an “ALL CHECKS PASSED” from that script is not a fresh reproduction of the cubic `k_0^6` result. A practical improvement is to add the fast independent curvature check to the default runner and put the approximately 13-hour cubic regeneration behind an explicit slow-check option.
-
-The report's statements that the cubic coefficient has no independent hand check are now superseded by the new check. The adjoint ledger should distinguish its analytical proof and exact operator checks from the optional numerical comparison. Numerical agreement at the `10^-4` level is neither needed nor sufficient as the proof required by the problem.
-
-### 1.5 Clarify notation in the orthonormal map formulas
-
-In the `F_r` formulas, derivatives of the field coefficients are taken at the background spacetime point. The perturbations `e_r` or `v_r` are direction coefficients along the perturbed ray. In a term such as `(X_1 dot partial) sigma_1(n,e_1)`, the spatial derivative acts on the field, not on the already computed ray coefficient. The distinction is particularly important for `F_3`; otherwise it is easy to double-count displacement terms when implementing the proposed replacement by `B_r,v_r`.
-
-No mathematical correction to the stated `F_2` formula is required.
-
-## 2. Requirement-by-requirement assessment
-
-| Problem requirement | Assessment |
-|---|---|
-| Radiation-only GR and exact measurement | The temperature-frame formulation is consistent with the exact energy-ratio measurement. The direction-independent observer temperature cancels only after forming the complete normalized map. |
-| Gaussian nonlinear primordial variable | The Gaussian variable and its material chart are specified. The absence of free higher-order scalar, tensor, vorticity, and decaying modes is specified rather than imposed by setting higher-order fields to zero. |
-| Constrained initial data | The regular coefficients are fixed by the Hamiltonian constraint. The report correctly warns that regularity alone does not eliminate the homogeneous constraint-violating mode. The Bianchi induction supplies the all-order argument. |
-| Observer, clock, tetrad, physical emission surface | These are retained. The symmetric-frame calculation is completed by the Fermi–Walker rotation for the general-spectrum map; its real `13` contribution vanishes realization by realization. |
-| Complete cubic observable | The explicit ray/endpoint/clock/normalization formulas and the finite coefficient-extraction prescription determine it at general momenta. Only the contracted cubic configuration is expanded in the ancillary sources; this is a distinction in explicitness and testing, not an omitted sector in the prescription. |
-| Induced vectors and tensors | Retained before the shell specialization. The shell vector cancellation follows from symmetry; it is not a general-spectrum approximation. Tensor products remain in the contracted cubic sources even when the averaged new cubic tensor is scalar. |
-| Wick, Fourier, angular and factorial normalizations | Consistent in the actual spectrum formulas. All three `13` pairings are included; the internal `(q,-q)` pair is not normal-ordered away. The minor ratio typo is identified above. |
-| Monopole normalization and late dipole subtraction | Correct order of operations. The dipole participates in nonlinear products before its final removal. |
-| Analytical calculation | The field, ray and spectral integral prescriptions are analytical, with the special functions and boundary branches specified. A finite expanded cubic source file is not itself a substitute for the proof, but the triangular construction and consistency argument provide that proof. |
-| Gauge invariance | The measurement is defined at fixed physical labels. The soft Ward checks are useful but not sufficient tests of every propagation term; the report correctly acknowledges this limitation. |
-| Limits and exchanges | Finite-time compact-domain gradient expansions are justified order by order. The all-amplitude averages are averages of leading-gradient expressions, not claims of convergence of the full nonlinear perturbation series. The fourth-order late-time and unrestricted UV limits remain open. |
-
-I would describe the report as a valid analytical integral-representation solution within its declared regular perturbative domain, with evaluated long-wavelength coefficients. I would not describe it as a fully evaluated arbitrary-wavelength spectrum, or as a proof for unrestricted primordial spectra.
-
-## 3. Adjoint proposition: proof and a cleaner equivalent form
+## 1. Adjoint form of the top-order cubic response
 
 Write `k=k_0`, `c=k/sqrt(3)`, `e=bar t_star`, `o=bar t_o`, and
 
@@ -100,7 +33,7 @@ L_NG_N=0\quad(t>s),\qquad G_N(s,s)=0,\qquad
 
 The minus sign is important: the particular solution is for `L_N nu = -c_N`.
 
-### 3.1 Why the third-order shifts disappear
+### 1.1 Why the third-order shifts disappear
 
 The background conformal shear is identically zero. Consequently the redshift integrand has no zeroth-order term:
 
@@ -124,7 +57,7 @@ There is no `d_3` term: it would multiply `F_0`. Equivalently, moving a boundary
 
 contains no `D_3`. The same reasoning excludes `X_3,e_3`: they multiply zero background shear or its derivatives.
 
-This proves the intended claim, but not the stronger and false statement that endpoint and clock corrections disappear from the cubic observable. The terms displayed above remain, and Section 5 gives their nonzero contributions to the requested spectrum coefficient.
+This proves the intended claim, but not the stronger and false statement that endpoint and clock corrections disappear from the cubic observable. The terms displayed above remain, and Section 3 gives their nonzero contributions to the requested spectrum coefficient.
 
 The genuinely new cubic field enters only as
 
@@ -134,7 +67,7 @@ The genuinely new cubic field enters only as
 
 Centering removes only its sky monopole. Lower-order normalization products cannot involve a cubic field until a higher amplitude order. After the internal-direction average only its scalar metric profile survives.
 
-### 3.2 Homogeneous term and contact term
+### 1.2 Homogeneous term and contact term
 
 With
 
@@ -163,11 +96,11 @@ When differentiating `H[nu_part]`, the `nu_part''` term sees the diagonal jump o
 =-\frac{3}{k^2t}c_N(t).
 \]
 
-This is precisely the local term in the report. Omitting it from the Hamiltonian-source version would be an error.
+This is the local term of the contact form of the adjoint. Omitting it from the Hamiltonian-source version would be an error.
 
 For `s<e`, the partial transfer functions have fixed lower limit `e>0`. They are finite constants as functions of `s`; `u_1(cs)=O(s^2)` and `u_2(cs)=O(s^{-1})`. The cubic lapse source is `c_N(s)=O(s^2)`, because `nu,H=O(s^2)` and all nonlinear terms in the lapse equation start at that order. The Fubini integrand near `s=0` is therefore `O(s)`, hence absolutely integrable. The remaining domain is compact and regular. This supplies the missing endpoint estimate.
 
-### 3.3 Source compatibility removes the explicit contact term
+### 1.3 Source compatibility removes the explicit contact term
 
 For solved lower-order fields, the scalar Hamiltonian and momentum constraints imply a particularly useful source identity:
 
@@ -198,7 +131,7 @@ Define the contact-free kernel
 -u_2(cs)\mathcal T_\ell[\mathcal H u_1](s)\right].
 \]
 
-The report's kernel is `W = W^0 - 3 w(s)/(k^2 s)` on `s>e`. Its contact term and Hamiltonian term combine **pointwise**:
+The contact-form kernel is `W = W^0 - 3 w(s)/(k^2 s)` on `s>e`. Its contact term and Hamiltonian term combine **pointwise**:
 
 \[
 -\frac{3}{k^2t}w\,c_N+\frac{3}{4k^2}w\,c_{\rm Ham}'
@@ -226,11 +159,11 @@ The unnormalized spectrum identity is
 }
 \]
 
-It remains meaningful at `T_ell=0`, whereas the displayed ratio in the original proposition does not. The new form uses the same partial transfer functions but no differentiated Hamiltonian source and no separate contact term. It does not assert that all remaining finite-wavelength cancellation has disappeared.
+It remains meaningful at `T_ell=0`, whereas the displayed ratio in a ratio form does not. The new form uses the same partial transfer functions but no differentiated Hamiltonian source and no separate contact term. It does not assert that all remaining finite-wavelength cancellation has disappeared.
 
 `check_adjoint_exact.py` verifies the Green identities, homogeneous factor, contact coefficient, arbitrary-function operator identity, source combination, and moving-endpoint/clock combinatorics exactly. The Fubini argument is the analytical estimate above, not a numerical test.
 
-## 4. Orthonormal-direction F_2 identity
+## 2. Orthonormal-direction F_2 identity
 
 Set `M=exp(H)` and `v=exp(zeta) exp(H/2)e`. The exact driver is
 
@@ -287,11 +220,11 @@ n\cdot\left[\nabla H_{1,nn}-(n\cdot\partial)(H_1n)\right]=0.
 
 On the shell, `H_1(t,X)=f(t)B(X)` additionally kills the cubic double commutator. Off shell that commutator must be kept. The existing two orthonormal checks were rerun and passed.
 
-## 5. Independent curvature route to the cubic k_0^6 coefficient
+## 3. Independent curvature route to the k_0^6 quadrupole
 
 This route is independent of both `observable_fast.py` and the earlier quadratic hand-map script. It starts with the exact equations and expands in spatial gradients, keeping the amplitude dependence until the final kernel extraction.
 
-### 5.1 Local field data, exact in the primordial curvature
+### 3.1 Local field data, exact in the primordial curvature
 
 Let
 
@@ -351,7 +284,7 @@ Consequently
 
 One derivation of the first formula uses the Ricci variation for `delta gamma = -Ric/3 + R gamma/9`; the Hessian-of-`R` terms cancel against the lapse Hessian in the spatial equation. The script does not assume that simplification as its only field check: it independently constructs `delta Gamma` and `delta Ric` using covariant derivatives and verifies the unsimplified spatial equation through cubic amplitude. It also checks the Cotton identity directly. No inverse momentum projectors are needed.
 
-### 5.2 Hand ray and endpoint expansion
+### 3.2 Hand ray and endpoint expansion
 
 Put
 
@@ -403,7 +336,7 @@ After normalization, with `P_0` denoting sky centering, the result is
 
 In particular, the coefficient `3 Delta^2/8` includes both the direction response and nonlinear map normalization. The latter has not been discarded. The Fermi–Walker commutator starts beyond the gradient order relevant here.
 
-### 5.3 Three-tensor quadrupole
+### 3.3 Three-tensor quadrupole
 
 The angular projection identities are
 
@@ -442,7 +375,7 @@ where
 
 This is an all-amplitude local gradient formula, not a finite-wavelength closed solution. It is substantially simpler than component ray kernels at this gradient order. The new script checks every quadrupole-tensor component of this reduced expression against the preceding unreduced even-sky expression through cubic amplitude.
 
-### 5.4 Exact kernel extraction and angular averages
+### 3.4 Exact kernel extraction and angular averages
 
 The script sets `k_0=1` during the homogeneous gradient calculation and uses three distinct nilpotent labels for
 
@@ -475,7 +408,7 @@ Thus the cubic contribution follows from the exact Wick/angular normalization
 =4\pi\sigma^4k_0^6(p_{1,2}p_{3,4}+p_{1,4}p_{3,2}).
 \]
 
-### 5.5 Final coefficient and a cleaner spectral presentation
+### 3.5 Final coefficient and a cleaner spectral presentation
 
 The resulting cubic coefficient is
 
@@ -527,34 +460,3 @@ The initial-time dependence and the boundary terms are real. In particular, the 
 \]
 
 These are nonzero despite the absence of `d_3,D_3`. The script has negative controls for omitting the spatial Hessian, fourth-gradient field, emission term, clock term, or `K_1^[4] K_3^[2]` ordering. It separately verifies the contractions that vanish.
-
-## 6. Verification performed and remaining limits of this review
-
-The following existing checks were rerun successfully, using exact symbolic arithmetic:
-
-- `foundations/check_exact_lemmas.py`
-- `foundations/check_fw_conformal.py`
-- `foundations/check_field_equations_generic.py jet`
-- `foundations/check_initial_data_gradient.py`
-- `foundations/check_first_order.py`
-- `check_evolution_form.py`
-- `check_green.py`
-- `check_report_identities.py`
-- `check_observable_expansion.py`
-- `check_orthonormal_driver.py`
-- `check_orthonormal_map.py`
-- `check_tensor_newtonian.py`
-- `check_shell_reduction.py`
-- `check_longitudinal_redshift.py`
-- `check_gradient_octupole.py`
-- `check_logmap_decomposition.py`
-- `check_cartesian_green.py`
-- `fast_series.py 8`
-- `check_quadrupole_next_hand.py --compare`
-- `superhorizon_next.py spectrum` using the existing saved kernels
-
-The two new standalone checks also pass. The cached `spectrum` run is a reproduction of the assembly, not independent regeneration of its input; the new curvature derivation is the independent check.
-
-I did not regenerate the approximately 13-hour cubic kernel cache, complete the hours-long arbitrary-time component substitution, or reevaluate the exploratory numerical appendix. No numerical evolution, quadrature, fitting, or sampled numerical agreement was used to establish any result in this review.
-
-For presentation, I recommend promoting the three-tensor curvature formula and the contact-free adjoint to the analytical body, retaining the expanded polynomials as an audit trail, updating the ledger and variance typo, and moving the extensive exploratory numerics out of the main exposition. The arbitrary-wavelength integrals and late-time fourth-order asymptotics remain genuine open simplification targets; the new results do not claim to evaluate them.

@@ -80,7 +80,11 @@ def adjoint_vs_direct(x_o, mu, R=3.0, ng=12000, l=2):
     hom = f3["c3"] / c1 * T1
     srcN = np.trapezoid((WN * f3["cN"])[tsel], tg[tsel])
     srcH = 3 / (2 * K**2) * T(np.gradient(f3["cH"], tg))
-    return dict(direct=direct, adjoint=hom + srcN + srcH, hom=hom, srcN=srcN, srcH=srcH, T1=T1, WN=(tg, WN))
+    # momentum-constraint form: contact + Hamiltonian terms -> (3/K^2) int w i K.c_M  (k along x)
+    W0 = -(u1 * U2 - u2 * U1) / (3 * c)
+    srcM = 3 / K**2 * T(1j * K * f3["cM"][0])
+    mom = hom + np.trapezoid((W0 * f3["cN"])[tsel], tg[tsel]) + srcM
+    return dict(direct=direct, adjoint=hom + srcN + srcH, momentum=mom, hom=hom, srcN=srcN, srcH=srcH, T1=T1, WN=(tg, WN))
 
 
 def kernel_check(xos=(1.0, 3.0), mus=(0.9, 0.3, -0.5)):
@@ -90,6 +94,7 @@ def kernel_check(xos=(1.0, 3.0), mus=(0.9, 0.3, -0.5)):
             rel = abs(r["adjoint"] - r["direct"]) / abs(r["direct"])
             print(
                 f"  x_o={xo} mu={mu:+.2f}: T[h_S3]/T[h_S1] direct {r['direct'] / r['T1']:.6g}  adjoint {r['adjoint'] / r['T1']:.6g}"
+                f"  momentum form {r['momentum'] / r['T1']:.6g}"
                 f"  rel {rel:.1e}   [hom {r['hom'] / r['T1']:.4g}, c_N {r['srcN'] / r['T1']:.4g}, c_Ham {r['srcH'] / r['T1']:.4g}]",
                 flush=True,
             )

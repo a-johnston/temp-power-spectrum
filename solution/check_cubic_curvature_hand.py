@@ -2,7 +2,7 @@
 
 No project modules, field engine, ray generator, or saved output are imported.
 All arithmetic is exact. The nilpotent labels extract symmetric Fourier kernels;
-the local covariant gradient expansion is derived in report/critical_review.md.
+the local covariant gradient expansion is derived in report/curvature_and_adjoint_derivations.md.
 Run: .venv/bin/python -B solution/check_cubic_curvature_hand.py
 """
 

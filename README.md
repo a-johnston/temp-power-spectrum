@@ -51,14 +51,15 @@ part of the current tree.
 | The observable through third order | `check_observable_expansion.py`, `observable_generator.py`, `observable_fast.py`, `foundations/normalization_expansion.py`, `foundations/check_algebra.py` |
 | Gauge invariance and Ward identities | `check_ward_dilation.py`, `check_ward_dilation3.py`, `observable_generator.py W2\|W3`, `foundations/check_first_order.py`, `first_order_engine_check.py`, `check_gradient_modes.py` |
 | The spectrum (transfer function, primary form `C_ℓ = 4πvT_ℓ² + v²[Q_ℓ + 4πT_ℓ Re R_ℓ]`, shell two-amplitude reduction, log-map and observer-dilation decompositions) | `transfer_entire.py`, `check_shell_reduction.py`, `check_logmap_decomposition.py`, `check_dilation_factorisation.py`, `check_shell_locality.py` |
-| Limits (superhorizon quadrupole and octupole, infrared) | `superhorizon.py`, `observable_generator.py SH`, `check_dilation_factorisation.py`, `check_gradient_octupole.py` |
+| Limits (superhorizon quadrupole and octupole, next gradient order, infrared) | `superhorizon.py`, `observable_generator.py SH`, `check_dilation_factorisation.py`, `check_gradient_octupole.py`, `superhorizon_next.py`, `check_quadrupole_next_hand.py`, `check_cubic_curvature_hand.py` |
 | Appendix: exploratory numerics | `numerics/explore_fourth_order.py`, `numerics/explore_third_order.py`, `numerics/explore_adjoint.py` |
 
 ## Setup and reproduction
 
 ```
 uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools (pyproject.toml, uv.lock)
-solution/run_all.sh         # every exact check; uses .venv by default (override with PYTHON=...)
+solution/run_all.sh         # the exact checks; uses .venv by default (override with PYTHON=...)
+SLOW=1 solution/run_all.sh  # also regenerates the cubic superhorizon kernels (~13 h)
 cd report && pdflatex temperature_spectrum_report.tex   # three times, or latexmk -pdf
 ```
 
@@ -77,7 +78,7 @@ and an independent CAS (Maxima).
 | Path | Contents |
 |---|---|
 | `problem_statement.tex` | the task |
-| `report/` | the report (`.tex` and built `.pdf`) and three supporting derivations: `tensor_newtonian_crosscheck.md`, `quadrupole_next_hand_check.md`, `longitudinal_redshift.md` |
+| `report/` | the report (`.tex` and built `.pdf`) and four supporting derivations: `tensor_newtonian_crosscheck.md`, `quadrupole_next_hand_check.md`, `longitudinal_redshift.md`, `curvature_and_adjoint_derivations.md` |
 | `solution/` | exact checks for the field solution, observable, spectrum and limits |
 | `solution/foundations/` | exact checks of the framework: lemmas, generic-jet field equations, first order in two gauges, normalisation and Gaussian algebra (`gr.py` holds the shared tensor utilities) |
 | `solution/results/` | exact expanded sources and kernels referenced by the report |
@@ -111,6 +112,8 @@ and an independent CAS (Maxima).
 | `check_cartesian_green.py` | projector-free Cartesian form of the spatial field equation: eigenvalues of 𝔅_K and exact equality of its polynomial-in-K series with the projector-based kernels through O(t⁷) (pairs, the K = 0 pair, third order); hence the recombined kernels are analytic in K, continuous at K = 0 |
 | `check_orthonormal_driver.py` | in the orthonormal photon direction v = e^ζ e^{H/2} e the redshift driver is ½H′ + [H,[H,H′]]/48 + O(ε⁴) for non-commuting H, so the conformal and (H₁²)′ terms drop out; on the shell it is ½H′ through third order |
 | `check_orthonormal_map.py` | the map in orthonormal directions: the first-order equation for v is transverse, and the second-order integrand becomes ½H₂′ₙₙ + X₁·∂H₁′ₙₙ − 2H₁′(n, v₁), because the local shear products cancel identically against e − v |
+| `check_adjoint_exact.py` | exact ingredients of the adjoint form of the top-order cubic response: lapse Green function and its jump, the factor 14, the source compatibility c_Ham′ − 4c_N/t = 2iK·c_M that removes the contact term, and the absence of d₃, D₃ |
+| `check_cubic_curvature_hand.py` | independent covariant-curvature calculation of the complete quadrupole at O(k₀⁶) (C⁽¹¹⁾, ¼C⁽²²⁾ and ⅓Re C⁽¹³⁾); no generator, field engine or cached kernel; verifies the three-tensor form and has negative controls; ~6 s |
 | `check_longitudinal_redshift.py` | exact longitudinal-gauge form of the redshift (shift, tensor shear, Doppler factors, displaced endpoints) and its equality with the temperature-frame exponent (derivation: `report/longitudinal_redshift.md`) |
 | `superhorizon.py` | exact superhorizon `C₂⁽¹¹⁾`, `C₂⁽²²⁾`, `C₂⁽¹³⁾` |
 | `transfer_entire.py L...` | closed form of the linear transfer function `T_ℓ` for every ℓ in the entire kernels `J_m` (no logs or Ci); coefficients are Laurent coefficients of two rational functions; proved exactly for each given ℓ (x*-derivative identity plus the value at x* = x_o); a printed high-precision comparison is supplementary |

@@ -1,7 +1,7 @@
 """Exact algebra behind the report's cubic adjoint and its momentum form.
 
 No numerical integration or field-engine imports. Fubini itself is justified
-analytically in report/critical_review.md; these checks establish the generic
+analytically in report/curvature_and_adjoint_derivations.md; these checks establish the generic
 operator, diagonal-jump, source-compatibility, and endpoint identities it uses.
 """
 

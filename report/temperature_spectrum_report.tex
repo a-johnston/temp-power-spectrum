@@ -125,10 +125,10 @@ Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\r
 Observer, clock, tetrad, emission surface & \S\ref{sec:obs}; explicit Fermi--Walker rotation, irrelevant to the spectrum at this order (Prop.~\ref{prop:frame}) \\
 Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks \\
 $C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}); the proof is analytic for every $\ell$, and the script checks $\ell=1,\dots,6$ \\
-$C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, organised as $C_\ell=4\pi vT_\ell^2+v^2[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell]$ (\eqref{eq:primary}); sky integrals evaluated (\S\ref{sec:spec}); shell metric reduced to two amplitudes, contracted cubic response scalar; existence proved for finite times and compactly supported spectra; log-map decomposition with the lognormal part \st{explicit} (convergent $3j$ series, or one Legendre integral of $\xi^2$; Thm.~\ref{thm:logmap}) \\
+$C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, organised as $C_\ell=4\pi vT_\ell^2+v^2[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell]$ (\eqref{eq:primary}); sky integrals evaluated (\S\ref{sec:spec}); shell metric reduced to two amplitudes, contracted cubic response scalar; existence proved for finite times and finite spectral measures of compact support in $0<k<\infty$; log-map decomposition with the lognormal part \st{explicit} (convergent $3j$ series, or one Legendre integral of $\xi^2$; Thm.~\ref{thm:logmap}) \\
 Monochromatic, held-fixed quantity & $\ens{g^2}=\sigma^2$ fixed (\S\ref{sec:mono}) \\
-Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into the random observer dilation $\times$ a curvature norm (\eqref{eq:sh-dilation-factorised}); leading octupole \st{closed form} (\S\ref{sec:sh-octupole}); late time: \st{first order}; general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
-Convergence for general spectra & compact support: \st{proved}; IR: leading cancellation \st{derived} from the Ward identities; UV: \st{power counting only} \\
+Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into the random observer dilation $\times$ a curvature norm (\eqref{eq:sh-dilation-factorised}); leading octupole \st{closed form} (\S\ref{sec:sh-octupole}); complete fourth-order $C_2$ at the next gradient order $O(k_0^6)$: \st{closed form}, via three local curvature tensors (\eqref{eq:three-tensor}), checked by two independent routes; late time: \st{first order}; general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
+Convergence for general spectra & finite spectral measure of compact support in $0<k<\infty$: \st{proved}; IR: leading cancellation \st{derived} from the Ward identities; UV: \st{power counting only} \\
 Verification & \S\ref{sec:ledger} (exact symbolic, generic-jet proofs) \\
 \bottomrule
 \end{longtable}
@@ -632,6 +632,9 @@ F_1&=\sigma_{1,nn},\qquad F_2=\sigma_{2,nn}+2X_1\!\cdot\!\partial\sigma_{1,nn}-4
 F_3&=\sigma_{3,nn}+3X_1\!\cdot\!\partial\sigma_{2,nn}-6\sigma_2(n,e_1)+3X_2\!\cdot\!\partial\sigma_{1,nn}+3(X_1\!\cdot\!\partial)^2\sigma_{1,nn}\\
 &\quad-12(X_1\!\cdot\!\partial)\sigma_1(n,e_1)-6\sigma_1(n,e_2)+6\sigma_1(e_1,e_1).
 \end{align*}
+Here $\partial$ acts only on the field coefficients $\sigma_r$, evaluated at the background point
+$(t,\bar X)$; $X_r$ and $e_r$ are ray coefficients already computed, and are not differentiated.
+For example, in $(X_1\cdot\partial)\sigma_1(n,e_1)$ the derivative hits $\sigma_1$ alone.
 Equivalently, in the orthonormal directions of Prop.~\ref{prop:orthonormal}, replace
 $\sigma_r\to\mathcal B_r$ and $e_r\to v_r$. Then
 $F_2=\frac12H_{2,nn}'+X_1\cdot\partial H_{1,nn}'-2H_1'(n,v_1)$ contains no local products.
@@ -1381,48 +1384,63 @@ triangular scheme, and $c=k_0/\sqrt3$.
 On the shell, the part of $\frac13\operatorname{Re}C^{(13)}_\ell$ that is linear in the
 third-order field kernels is
 \[
-\boxed{\frac{\frac13\operatorname{Re}C^{(13)}_\ell\big|_{\rm top}}{\sigma^2C^{(11)}_\ell}
-=14+\frac1{T_\ell}\Big[\int_0^{t_o}\mathcal W_\ell(s)\,\bar c_N(s)\,\dd s
-+\frac{3}{4k_0^2}\int_{\bar t_\star}^{t_o}w_\ell(k_0(t_o-t))\,\partial_t\bar c_{\rm Ham}(t)\,\dd t\Big],}
+\boxed{\tfrac13\operatorname{Re}C^{(13)}_\ell\big|_{\rm top}=4\pi\sigma^4\,T_\ell\,\mathcal A_\ell,\qquad
+\mathcal A_\ell=14\,T_\ell+\int_0^{t_o}\mathcal W^0_\ell(s)\,\bar c_N(s)\,\dd s
++\frac{3}{2k_0^2}\int_{\bar t_\star}^{t_o}w_\ell(k_0(t_o-t))\,\overline{iK\cdot c_M}(t)\,\dd t,}
 \]
 where $\bar c=\frac12\int_{-1}^1\operatorname{Re}c^{(3)}(k,q,-q)\,\dd\mu$ are the
-shell-averaged third-order sources, $14=c_3/c_1$ is the regular-lapse ratio on the shell, and
-the adjoint kernel is
+shell-averaged third-order sources (for the momentum source, the real part of
+$iK\cdot c_M$ as a whole), $14=c_3/c_1$ is the regular-lapse ratio on the shell, and the
+adjoint kernel is
 \[
-\mathcal W_\ell(s)=-\frac1{3c}\Big[u_1(cs)\,\mathcal T_\ell[\mathcal H u_2](s)
--u_2(cs)\,\mathcal T_\ell[\mathcal H u_1](s)\Big]
--\frac{3}{k_0^2s}\,w_\ell(k_0(t_o-s))\,\mathbb 1_{s>\bar t_\star}.
+\mathcal W^0_\ell(s)=-\frac1{3c}\Big[u_1(cs)\,\mathcal T_\ell[\mathcal H u_2](s)
+-u_2(cs)\,\mathcal T_\ell[\mathcal H u_1](s)\Big].
 \]
 Here $\mathcal T_\ell[\mathcal Hu_1](s)=-\mathcal T_\ell[h_{S1}](s)$ is minus the partial
 first-order transfer function, and $\mathcal T_\ell[\mathcal Hu_2](s)$ is the same integral for
 the decaying lapse mode $u_2$. Both are constant for $s<\bar t_\star$. The adjoint kernel is
-thus the Wronskian of the growing- and decaying-mode partial transfer functions, plus a local
-term from the jump $\partial_tG_N(t,t)=-\frac13$ of the lapse Green function. No third-order
-field equation is solved.
+thus the Wronskian of the growing- and decaying-mode partial transfer functions. No
+third-order field equation is solved. The identity holds at transfer nodes; for
+$T_\ell\neq0$ it reads $\frac13\operatorname{Re}C^{(13)}_\ell|_{\rm top}=\sigma^2C^{(11)}_\ell\,\mathcal A_\ell/T_\ell$.
 \end{proposition}
 \begin{proof}
 At order three the field kernels $(\nu_3,A_3)$ enter the map exactly as a first-order field of
-momentum $K=k$ would. They do not enter the emission or clock shifts at all: $d_3$ multiplies
-$F_0=0$ and $D_3$ multiplies $\partial_{t_o}\Theta_0=0$. They also do not enter the ray, since
-$X_3$ and $e_3$ multiply background derivatives that vanish. What remains is
-$-\int\frac12A'_{3,nn}e^{iK\cdot n\lambda}\dd t$. By Prop.~\ref{prop:contracted} only
+momentum $K=k$ would. They do not enter through the third-order emission or clock shifts:
+$d_3$ multiplies $F_0=0$ and $D_3$ multiplies $\partial_{t_o}\Theta_0=0$. They do not enter the
+ray, since $X_3$ and $e_3$ multiply background derivatives that vanish. (The lower-order
+shifts $d_1,d_2,D_1,D_2$ do remain in the cubic map; they are part of the non-top terms.) What
+remains is $-\int\frac12A'_{3,nn}e^{iK\cdot n\lambda}\dd t$. By Prop.~\ref{prop:contracted} only
 $h_{S3}$ survives the shell average, and it carries the first-order angular structure, so its
-$\ell$-projection relative to that of $\theta$ is $\mathcal T_\ell[h_{S3}](0)/T_\ell$. Insert
+contribution is $4\pi\sigma^4T_\ell\,\mathcal T_\ell[h_{S3}](0)$. Insert
 $h_{S3}=\mathcal H[\nu_3]+\frac{3}{2K^2}c^{(3)}_{\rm Ham}$ and the Green formula for $\nu_3$ of
-\S\ref{sec:fields}. The homogeneous term $\frac{9c_3}{K^2}u_1$ gives $c_3/c_1$, because
+\S\ref{sec:fields}. The homogeneous term $\frac{9c_3}{K^2}u_1$ gives $14T_\ell$, because
 $\nu_1=-u_1$ and $\mathcal H[u_1]=6-h_{S1}$. In the particular term, $\partial_t\mathcal H$
-contains $\nu_3''$, whose Green function has the jump $-\frac13$; that produces the local term.
-Exchanging the $t$ and $s$ integrals (Fubini on $0<s<t<t_o$) gives the rest. The sources are
-local in time, so the $\mu$ average passes through.
+contains $\nu_3''$, whose Green function has the jump $\partial_tG_N(t,t)=-\frac13$. This gives
+a local term $-\frac{3}{k_0^2t}w_\ell\,c_N$. The scalar Hamiltonian and longitudinal momentum
+constraints of the solved lower-order fields imply the source compatibility
+\[
+c_{\rm Ham}'-\tfrac4tc_N=2iK\cdot c_M .
+\]
+Indeed, differentiating $h_S$ and using the lapse equation gives
+$h_S'=6(\nu'-\nu/t)+\frac{3}{2K^2}(c_{\rm Ham}'-\frac4tc_N)$, while the momentum constraint
+contracted with $K$ gives $h_S'=6(\nu'-\nu/t)+\frac{3i}{K^2}K\cdot c_M$. So the local term and the $c_{\rm Ham}'$ term combine
+pointwise into the momentum term. Finally exchange the $t$ and $s$ integrals. For $s<\bar t_\star$
+the partial transfer integrals are constants, $u_1(cs)=O(s^2)$, $u_2(cs)=O(s^{-1})$, and
+$c_N(s)=O(s^2)$, so the integrand is $O(s)$ near $s=0$. The rest of the domain is compact and
+regular, which justifies Fubini. The sources are local in time, so the $\mu$ average passes
+through.
 \end{proof}
-The proposition is checked against the direct third-order Green solution, and against the
-full numerical cubic map, in \path{solution/numerics/explore_adjoint.py}. The relative
-agreement is $3\times10^{-4}$ at $x_o=3$ (kernel level) and $4\times10^{-4}$ at $x_o=1.5$ (map
-level, $\ell=2$). At $x_o=1$ it is $1$--$2\times10^{-3}$, except at $\mu=0.9$, where the value
-is small and the agreement is $2\times10^{-2}$, decreasing under grid refinement. This is
-numerical evidence for an analytic identity. The identity reorganises the integrals without
-removing their cancellation: at $x_o=1$, $\mu=0.9$ the three terms $14$, $-73$ and $+58$ (in
-units of $T_\ell$) sum to $-0.24$. The rest of $C^{(13)}$, from products of lower-order fields in the map, is untouched.
+The operator identities, the jump, the factor $14$, the source compatibility and the
+endpoint/clock combinatorics are verified exactly in \path{solution/check_adjoint_exact.py}.
+Numerically (\path{solution/numerics/explore_adjoint.py}, not evidence), the momentum form
+agrees with the direct third-order Green solution to a few parts in $10^{6}$ at $x_o=1$ and $3$. The
+equivalent form with a contact term and $\partial_t\bar c_{\rm Ham}$ in place of the momentum
+source agrees only to $10^{-3}$--$10^{-4}$, because of its numerical derivative and $1/s$
+term. At map level the agreement is $4\times10^{-4}$ at $x_o=1.5$, limited by the map grid.
+The identity reorganises the integrals without removing their cancellation: at $x_o=1$,
+$\mu=0.9$ the homogeneous, $c_N$ and $c_{\rm Ham}$ terms of the contact form are $14$, $-73$ and
+$+58$ (in units of $T_\ell$) and sum to $-0.24$. The rest of $C^{(13)}$, from products of
+lower-order fields in the map, is not covered.
 
 \begin{proposition}[Complete fourth order at linear-transfer nodes]\label{prop:nodes}
 On the shell, $C^{(13)}_\ell\propto T_\ell(k_0)$, and the cubic kernel is finite at finite
@@ -1565,7 +1583,9 @@ the limit. The ray and line-of-sight integrals run over finite
 intervals, and the emission and observation times are positive.
 \end{proof}
 The theorem and the spectrum formulas therefore apply to finite times and to the
-monochromatic (or any compactly supported) spectrum. Arbitrary spectra without compact
+monochromatic spectrum, and to any spectrum that is a nonnegative finite measure with compact
+support in $0<k<\infty$ (so the point variance is finite; compact support alone does not
+exclude a non-integrable infrared tail at $k\to0$). Arbitrary spectra without compact
 support are not covered: the ultraviolet behaviour is open (\S\ref{sec:limits}).
 
 %======================================================================
@@ -1823,32 +1843,81 @@ C^{(11)}_2&=\frac{4\pi}{2025}\sigma^2k_0^4\Delta^2-\frac{4\pi}{637875}\sigma^2k_
 \tfrac13\operatorname{Re}C^{(13)}_2&=\frac{16\pi}{2025}\sigma^4k_0^4\Delta^2-\frac{2\pi}{1913625}\sigma^4k_0^6\Delta
 \big(2835i^4+9973o^4-25440o^2e^2+33920oe^3-21288e^4\big)+O(k_0^8).
 \end{align*}
-The leading ratios $\frac14C^{(22)}/C^{(11)}=\frac{17}3$ and $\frac13\operatorname{Re}C^{(13)}/C^{(11)}=4$
-reproduce the factor $\frac{29}3$ of Thm.~\ref{thm:sh} from the generator's own kernels. The
-complete fourth-order quadrupole through $O(k_0^6)$ is therefore
+The leading ratios $\frac14C^{(22)}/C^{(11)}=\frac{17}3\sigma^2$ and
+$\frac13\operatorname{Re}C^{(13)}/C^{(11)}=4\sigma^2$ reproduce the factor $\frac{29}3$ of
+Thm.~\ref{thm:sh} from the generator's own kernels.
+
+\emph{Three-tensor form.} The polynomials have a compact geometric origin. Let
+$\mathfrak a=-R[\gamma_0]/36$ and $\mathsf A_{ab}=-\frac13R_{\langle ab\rangle}[\gamma_0]$ be the
+curvature scalar and trace-free Ricci tensor of the seed metric $\gamma_0=e^{2\zeta}\delta$, so
+that $\nu=t^2\mathfrak a+t^4\mathfrak b+\cdots$ and $H=t^2\mathsf A+t^4\mathsf B+\cdots$. The field
+equations give $30\mathfrak b=\nabla^2\mathfrak a-6\mathfrak a^2-\operatorname{tr}\mathsf A^2$.
+Because the seed is conformally flat (vanishing Cotton tensor),
+$\nabla^b\mathsf A_{ab}=2\nabla_a\mathfrak a$, and
+\[
+\mathsf B=\tfrac3{20}(\nabla\nabla\mathfrak a)_{\rm TF}+\tfrac3{20}(\mathsf A^2)_{\rm TF}-\tfrac7{10}\mathfrak a\mathsf A .
+\]
+Then, exactly in $\zeta$ and through fourth gradient order, the quadrupole is a combination of
+only three local tensors at the observer:
+\begin{equation}\label{eq:three-tensor}
+\boxed{\Theta_{\ell=2}=Q_{ab}n^an^b,\qquad
+Q=-\tfrac\Delta2\mathsf A+\beta_H(\nabla\nabla\mathfrak a)_{\rm TF}+\beta_S(\mathsf A^2)_{\rm TF}
++\beta_a\,\mathfrak a\mathsf A+O(\partial^6),}
+\end{equation}
+with $L=\int_e^ot(o-t)^2\dd t$, $E=o^4-e^4$ and
+\begin{align*}
+\beta_H&=-\tfrac{11}{14}L-\tfrac3{40}E=-\tfrac{o-e}{420}\big(59o^3+59o^2e-106oe^2+114e^3\big),\\
+\beta_S&=\tfrac{27}{14}L-\tfrac3{40}E-\tfrac1{28}\Delta^2=\tfrac{o-e}{140}\big(7o^3+7o^2e-118oe^2+62e^3\big),\\
+\beta_a&=\tfrac{27}{7}L+\tfrac7{20}E+\tfrac{o^4+3i^4}4-e^4
+=\tfrac3{140}\big(43o^4-90o^2e^2+120oe^3-108e^4+35i^4\big).
+\end{align*}
+The line-of-sight Hessian, the direction response, the map normalisation, the emission
+surface ($-e^4$) and the observer clock ($\frac14(o^4+3i^4)$) are all inside these three
+coefficients. The $(\mathsf A^2)_{\rm TF}$ tensor drops out of the fourth-order spectrum after
+the Gaussian average: its interference terms are proportional to fourth-order contractions of
+a Gaussian Hessian with a trace-free gradient square, which vanish. So two time coefficients
+determine every $k_0^6$ term:
+\[
+\boxed{\begin{aligned}
+[C_2^{(11)}]_{k_0^6}&=\tfrac{16\pi}{6075}\sigma^2k_0^6\Delta\,\beta_H,&
+[\tfrac14C_2^{(22)}]_{k_0^6}&=\tfrac{32\pi}{18225}\sigma^4k_0^6\Delta\,(30\beta_H-\beta_a),\\
+[\tfrac13\operatorname{Re}C_2^{(13)}]_{k_0^6}&=\tfrac{8\pi}{18225}\sigma^4k_0^6\Delta\,(110\beta_H-9\beta_a),&
+[C_2^{(4)}]_{k_0^6}&=\tfrac{8\pi}{18225}\sigma^4k_0^6\Delta\,(230\beta_H-13\beta_a).
+\end{aligned}}
+\]
+The complete fourth-order quadrupole through $O(k_0^6)$ is therefore
 \[
 \boxed{C_2^{(4)}=\frac{29}{3}\cdot\frac{4\pi}{2025}\sigma^4k_0^4\Delta^2
--\frac{2\pi}{1913625}\sigma^4k_0^6\Delta\big(4095i^4+18601o^4-48480o^2e^2+64640oe^3-38856e^4\big)+O(k_0^8).}
++\frac{8\pi}{18225}\sigma^4k_0^6\Delta\,(230\beta_H-13\beta_a)+O(k_0^8),}
 \]
-The $k_0^6$ coefficient is not a fixed multiple of that of $C^{(11)}_2$. Subtracting the
-observer-dilation part $\frac12\sigma^2D^2C^{(11)}_2$ ($=18\sigma^2C^{(11)}_2$ at this order,
-against $8$ at leading order) leaves
-$-\frac{2\pi}{273375}\sigma^4k_0^6\Delta\big(1747o^4-4380o^2e^2+5840oe^3-3792e^4+585i^4\big)$.
+whose second term expands to
+$-\frac{2\pi}{1913625}\sigma^4k_0^6\Delta\big(4095i^4+18601o^4-48480o^2e^2+64640oe^3-38856e^4\big)$.
+The observer-dilation part $\frac12\sigma^2D^2C^{(11)}_2$ is $18\sigma^2C^{(11)}_2$ at this order
+(against $8$ at leading order), that is $\frac{8\pi}{18225}\sigma^4k_0^6\Delta\cdot108\beta_H$.
+What remains after subtracting it is $\frac{8\pi}{18225}\sigma^4k_0^6\Delta(122\beta_H-13\beta_a)$.
+The derivation is in \path{report/curvature_and_adjoint_derivations.md}.
 Five features of these results:
 \begin{itemize}
 \item \emph{Observer clock.} The initial event $\bar t_I$ first enters at this order, through
   the observer clock.
-\item \emph{Endpoint and clock pieces.} The endpoint and clock pieces of $\frac14C^{(22)}_2$ are
-  separately nonzero: $\frac{32\pi}{18225}\sigma^4k_0^6\Delta e^4$ and
-  $-\frac{8\pi}{18225}\sigma^4k_0^6\Delta(o^4+3i^4)$.
+\item \emph{Endpoint and clock pieces.} These are separately nonzero. For $\frac14C^{(22)}_2$
+  they are $\frac{32\pi}{18225}\sigma^4k_0^6\Delta e^4$ and
+  $-\frac{8\pi}{18225}\sigma^4k_0^6\Delta(o^4+3i^4)$. For $\frac13\operatorname{Re}C^{(13)}_2$ they
+  are $\frac{8\pi}{2025}\sigma^4k_0^6\Delta e^4$ and $-\frac{2\pi}{2025}\sigma^4k_0^6\Delta(o^4+3i^4)$.
+  The third-order shifts $d_3$, $D_3$ do not enter, but the lower-order ones do.
 \item \emph{Checks.} $C^{(11)}_2$ agrees with the small-$k$ expansion of the transfer integral.
   Both lines are reproduced by an independent hand calculation, which builds its own $O(t^4)$
   field data and uses the explicit ray, endpoint and clock formulas of \S\ref{sec:obs}. It
   agrees component by component with the projected quadrupole kernel
   (\path{report/quadrupole_next_hand_check.md}, \path{solution/check_quadrupole_next_hand.py}). This
-  checks precisely the terms the dilation Ward tests cannot see. The cubic line has no
-  independent hand check. It comes from the same generator, whose cubic map reproduces the
-  SH3 observable test and, at $O(k_0^4)$, the ratio $4$ of Thm.~\ref{thm:sh}.
+  checks precisely the terms the dilation Ward tests cannot see. All three lines, including
+  the cubic one, are reproduced by an independent covariant-curvature calculation,
+  \path{solution/check_cubic_curvature_hand.py}, which imports no field engine, generator or
+  cached kernel. It verifies the fourth-gradient field equations from direct covariant
+  derivatives, checks \eqref{eq:three-tensor} component by component against the unreduced
+  map, and keeps both orderings $K_1^{[2]}K_3^{[4]}+K_1^{[4]}K_3^{[2]}$. Its negative controls
+  detect an omitted Hessian, fourth-gradient field, emission term, clock term or ordering. It
+  runs in about 6~s, against about 13~h for the generator's cubic kernels.
 \item \emph{Locality.} The temperature-frame field kernels, and hence the map kernels, are
   polynomial in the momenta and times through this order. The generator carries
   $1/|k\pm q|^2$ as formal symbols. After substitution, both $\mathcal K_2(k,q)$ and
@@ -1984,11 +2053,11 @@ Log-map decomposition & \code{solution/check\_logmap\_decomposition.py} (about 2
 Shell two-amplitude form (Prop.~\ref{prop:shell-two}) & \code{solution/check\_shell\_reduction.py}: $c_{M,z}=c_{T,xz}=c_{T,yz}=0$ for general momenta; $K\times c_M=0$ on the shell identically in $t$ and $\mu$; off-shell negative control\\
 Shell locality & \code{solution/check\_shell\_locality.py}: the local form of the shell first-order fields and of $\theta$; $\sigma^{(2)}=\frac12A_2'+\frac12(H_1^2)'+2gH_1'$ for generic matrices. Item~(3) of Prop.~\ref{prop:shell-local} is by inspection.\\
 Leading octupole; $\mathcal M_\ell$ cancellation & \code{solution/check\_gradient\_octupole.py}: the conformal identity $\nabla_{\langle a}R_{bc\rangle}=\frac f2[\partial^3f^2]_{\rm STF}$ for generic $\zeta$; the leading $T_\ell$ coefficient \eqref{eq:Tl-leading} for $\ell=2,\dots,7$; $\beta_3$; exact isotropic Wick moments giving \eqref{eq:octupole-resummed} and the shell ratios $148\sigma^2$, $27\sigma^2$; $\ens{\theta\theta L_2}=0$ at leading gradient order. The octupole map itself rests on the proof of Thm.~\ref{thm:octupole}.\\
-Next superhorizon order & \path{solution/superhorizon_next.py kernels2|kernels3|spectrum}: map kernels through $O(\kappa^4)$ from the fast generator; $C^{(11)}_2$ at $O(k_0^6)$ checked against the transfer integral; the $\kappa^4$ cubic kernel gives $\frac13\operatorname{Re}C^{(13)}/C^{(11)}=4$ and the total $\frac{29}3$ (asserted), and the complete $\eps^4k_0^6$ coefficient. Kernel run about 13 h; assembly about 25 min the first time, 4 s once cached. \path{solution/check_quadrupole_next_hand.py --compare}: an independent hand-map calculation reproducing $C^{(11)}_2$ and $\frac14C^{(22)}_2$ at $O(k_0^6)$ and every component of the projected kernel; endpoint and clock pieces nonzero; negative controls\\
+Next superhorizon order & \path{solution/superhorizon_next.py kernels2|kernels3|spectrum}: map kernels through $O(\kappa^4)$ from the fast generator; $C^{(11)}_2$ at $O(k_0^6)$ checked against the transfer integral; the $\kappa^4$ cubic kernel gives $\frac13\operatorname{Re}C^{(13)}/C^{(11)}=4\sigma^2$ and the total $\frac{29}3$ (asserted), and the complete $\eps^4k_0^6$ coefficient. Kernel run about 13 h; assembly about 25 min the first time, 4 s once cached. \path{solution/check_quadrupole_next_hand.py --compare}: an independent hand-map calculation reproducing $C^{(11)}_2$ and $\frac14C^{(22)}_2$ at $O(k_0^6)$ and every component of the projected kernel; endpoint and clock pieces nonzero; negative controls. \path{solution/check_cubic_curvature_hand.py}: an independent covariant-curvature calculation (no generator, field engine or cache) of all three lines at $O(k_0^6)$, the fourth-gradient field equations, the three-tensor form \eqref{eq:three-tensor} and the vanishing $(\mathsf A^2)_{\rm TF}$ contractions; negative controls\\
 Separated sky factors (Prop.~\ref{prop:translation}) & \path{solution/check_bessel_translation.py}: the translation form equals the Funk--Hecke form exactly through degree 10, $\ell\le4$, symbolic $\mu$; negative control\\
 Projector-free Cartesian solution (Prop.~\ref{prop:cartesian}) & \path{solution/check_cartesian_green.py}: eigenvalues of $\mathfrak B_K$ ($K^2$, $0$, $-K^2/3$); the Cartesian series, with coefficients polynomial in $K$, equals the projector-based kernels exactly through $O(t^7)$ for $(k,q)$, $(k,-q)$, the $K=0$ pair $(q,-q)$, and third order at $(k,q,-q)$\\
 Orthonormal redshift driver (Prop.~\ref{prop:orthonormal}) & \path{solution/check_orthonormal_driver.py}: $\frac12e^{-H/2}(e^H)'e^{-H/2}=\frac12H'+\frac1{48}[H,[H,H']]+O(\eps^4)$ for generic non-commuting matrices; the shell commutator vanishes. \path{solution/check_orthonormal_map.py}: the first-order orthonormal direction equation is transverse, and the second-order integrand in $v$ equals the original one (the local products cancel against $e-v$), for generic fields\\
-Adjoint top-order cubic response (Prop.~\ref{prop:adjoint}) & Proof by Fubini. Numerical only (exploratory engine): \path{solution/numerics/explore_adjoint.py kernel|map} agrees with the direct third-order Green solution and with the full numerical cubic map to $3$--$4\times10^{-4}$ at $x_o=1.5,3$\\
+Adjoint top-order cubic response (Prop.~\ref{prop:adjoint}) & \path{solution/check_adjoint_exact.py}: the lapse Green function, its diagonal jump and the contact coefficient, the factor $14$, the source compatibility $c_{\rm Ham}'-4c_N/t=2iK\cdot c_M$, and the absence of $d_3$, $D_3$ with $d_1,d_2,D_1,D_2$ retained, all exact. Fubini by the estimate in the proof. Numerical comparison (exploratory, \path{solution/numerics/explore_adjoint.py}) with the direct solve and the full map\\
 Longitudinal-gauge redshift & \path{solution/check_longitudinal_redshift.py}: the ADM energy law with a shift on generic jets; exact equality with the temperature-frame exponent including the endpoint conformal and Doppler factors; $\Phi=\Psi$ and zero first-order scalar shift under the full time-and-space map; clock identity; negative controls\\
 Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$; superhorizon observer-centred kernels of Prop.~\ref{prop:obs-dilation} ($\mathcal K^c_2=-\tau^2\TF(kq+qk)_{nn}$, $\mathcal K^c_3(k,q,-q)=0$)\\
 Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
@@ -2026,8 +2095,10 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
     but not the late-time one (App.~\ref{app:numerics});
   \item the adjoint form (Prop.~\ref{prop:adjoint}) handles the top-order cubic field. Still
     open: the same treatment of the propagation products (ray, endpoint and clock terms built
-    from lower-order fields), and the shell-averaged sources $\bar c_N$, $\bar c_{\rm Ham}$ in
+    from lower-order fields), and the shell-averaged sources $\bar c_N$, $\overline{iK\cdot c_M}$ in
     closed form;
+  \item the three-tensor reduction \eqref{eq:three-tensor} of the next gradient order, extended to
+    $O(k_0^8)$ and to the octupole;
   \item evaluating the Legendre moments of the field amplitudes left by the separated sky form
     (Prop.~\ref{prop:translation});
   \item shuffle identities for the ordered time integrals, for example $E_{ab}+E_{ba}=F_aF_b$
@@ -2042,7 +2113,8 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
   $q=0$ at fixed finite times. This holds for the integral representations by construction, but
   the uniformity of the expansion in $k$ over unbounded spectra is not proved.
 \item The results are established for finite emission and observation times and for the
-  monochromatic (or any compactly supported) spectrum. Spectra without compact support need
+  monochromatic spectrum, or any finite spectral measure supported in a compact subset of
+  $0<k<\infty$. Spectra without such support need
   the ultraviolet and infrared estimates above.
 \item The perturbative domain is treated order by order: a single emission intersection and no
   caustics. There is no statement about convergence in~$\eps$. In particular,

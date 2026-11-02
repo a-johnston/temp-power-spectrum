@@ -6,6 +6,10 @@
 # Optional slow cross-checks (hours, not completed): closed_second_order.py --check all,
 # third_order_consistency.py 4, observable_generator.py SH3 2 (superseded by observable_fast.py SH3).
 # DEPTH sets the second-order Taylor depth (6 -> O(t^4); 10 -> O(t^8)).
+# SLOW=1 also regenerates the cubic superhorizon kernels (superhorizon_next.py kernels3, ~13 h on a
+# laptop). Without it, `superhorizon_next.py spectrum` assembles from the saved kernels if present
+# (~25 min the first time, seconds once cached); the cubic O(k0^6) coefficient is reproduced
+# independently and quickly by check_cubic_curvature_hand.py.
 set -euo pipefail
 cd "$(dirname "$0")"
 VENV_PY="$(cd .. && pwd)/.venv/bin/python"
@@ -25,14 +29,21 @@ $PY -B -m unittest discover -s foundations -p check_algebra.py
 for s in check_evolution_form.py first_order_engine_check.py check_green.py second_order.py \
          check_ward_dilation.py check_ward_dilation3.py check_observable_expansion.py \
          check_report_identities.py check_gradient_modes.py check_dilation_factorisation.py \
-         "transfer_entire.py 1 2 3" check_shell_reduction.py check_tensor_newtonian.py check_longitudinal_redshift.py check_orthonormal_driver.py check_orthonormal_map.py check_cartesian_green.py check_bessel_translation.py check_shell_locality.py check_logmap_decomposition.py check_gradient_octupole.py third_order.py \
+         "transfer_entire.py 1 2 3" check_shell_reduction.py check_tensor_newtonian.py check_longitudinal_redshift.py check_orthonormal_driver.py check_orthonormal_map.py check_adjoint_exact.py check_cartesian_green.py check_bessel_translation.py check_shell_locality.py check_logmap_decomposition.py check_gradient_octupole.py third_order.py \
          "second_order_consistency.py ${DEPTH:-6}" "fast_series.py 8" \
          closed_second_order.py "observable_generator.py W2 4" "observable_generator.py W3 4" \
          "observable_generator.py SH 2" "observable_fast.py SH 2" "observable_fast.py W2 4" \
          "observable_fast.py W3 4" "observable_fast.py SH3 2" superhorizon.py \
-         "superhorizon_next.py kernels2" "check_quadrupole_next_hand.py --compare"; do
+         "superhorizon_next.py kernels2" "check_quadrupole_next_hand.py --compare" \
+         check_cubic_curvature_hand.py; do
   echo "=== $s"
   # shellcheck disable=SC2086
   $PY -B $s
 done
+if [ "${SLOW:-0}" = 1 ]; then
+  echo "=== superhorizon_next.py kernels3 (slow)"
+  $PY -B superhorizon_next.py kernels3
+fi
+echo "=== superhorizon_next.py spectrum"
+$PY -B superhorizon_next.py spectrum
 echo "ALL CHECKS PASSED"
