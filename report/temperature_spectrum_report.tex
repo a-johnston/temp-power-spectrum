@@ -57,7 +57,11 @@ cancels exactly in the normalised map. Further results:
   short sum of the same entire functions $J_m$ used at second order. The coefficients are
   Laurent coefficients of two explicit rational functions, with no logarithms or $\mathrm{Ci}$.
 \item $C_\ell^{(22)}$ and $C_\ell^{(13)}$ are reduced to exact finite-dimensional integrals,
-  with every sky integral done in closed form.
+  with every sky integral done in closed form. On the monochromatic shell the answer is
+  organised as $C_\ell=4\pi vT_\ell^2+v^2[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell]$, with
+  $v=\eps^2\sigma^2$. Two exact symmetry reductions simplify it. The second-order metric
+  reduces to two amplitudes, one scalar and one tensor polarisation, with no vector part. The
+  angle-averaged cubic metric response is a single scalar.
 \item The fourth-order spectrum splits exactly into three parts. They are defined by the centred
   log-temperature map $L$, which is the log of $T_{\rm obs}$ minus its sky mean. The three
   parts are the fourth-order spectrum of $L$, a lognormal normalisation term given by an
@@ -79,7 +83,9 @@ cancels exactly in the normalised map. Further results:
   Through fourth order this gives the factor $1+\frac{29}{3}\eps^2\sigma^2$, with
   $\frac{29}{3}=8+\frac53$. The $8$ is the Gaussian average of the observer's own random
   local dilation; it is part of the answer for the specified ensemble. The $\frac53$ is the
-  gradient-squared curvature.
+  gradient-squared curvature. For any nonnegative spectrum, the leading-gradient coefficients lie in
+  $[8,\frac{29}3]\,m_0$ for the quadrupole and $[18,46]\,m_0$ for the octupole. The
+  monochromatic shell attains both upper bounds.
 \item The leading octupole is a local curvature-gradient octupole,
   $\Theta_{3,\rm lead}=\beta_3\nabla_{\langle a}R_{bc\rangle}n^an^bn^c$. Its spectrum also
   resums. Through fourth order it gives $C_{3}=\eps^2C_3^{(11)}(1+46\eps^2\sigma^2)$ at
@@ -119,7 +125,7 @@ Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\r
 Observer, clock, tetrad, emission surface & \S\ref{sec:obs}; explicit Fermi--Walker rotation, irrelevant to the spectrum at this order (Prop.~\ref{prop:frame}) \\
 Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks \\
 $C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}), proved for $\ell=2,\dots,6$ \\
-$C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, sky integrals evaluated (\S\ref{sec:spec}); existence proved; log-map decomposition with the lognormal part \st{explicit} (convergent $3j$ series, or one Legendre integral of $\xi^2$; Thm.~\ref{thm:logmap}) \\
+$C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, organised as $C_\ell=4\pi vT_\ell^2+v^2[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell]$ (\eqref{eq:primary}); sky integrals evaluated (\S\ref{sec:spec}); shell metric reduced to two amplitudes, contracted cubic response scalar; existence proved for finite times and compactly supported spectra; log-map decomposition with the lognormal part \st{explicit} (convergent $3j$ series, or one Legendre integral of $\xi^2$; Thm.~\ref{thm:logmap}) \\
 Monochromatic, held-fixed quantity & $\ens{g^2}=\sigma^2$ fixed (\S\ref{sec:mono}) \\
 Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into the random observer dilation $\times$ a curvature norm (\eqref{eq:sh-dilation-factorised}); leading octupole \st{closed form} (\S\ref{sec:sh-octupole}); late time: \st{first order}; general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
 Convergence for general spectra & compact support: \st{proved}; IR: leading cancellation \st{derived} from the Ward identities; UV: \st{power counting only} \\
@@ -373,7 +379,9 @@ asserted in the code). \emph{No division by any frequency occurs}, so the kernel
 finite on every resonance surface:
 \begin{itemize}
 \item the scalar collinear surfaces $\mu=\pm1$;
-\item the tensor and vector sound cone $\mu=-1/3$ (for $|k_1|=|k_2|$).
+\item the tensor sound cone $\mu=-1/3$ (for $|k_1|=|k_2|$). On this shell the second-order
+  vector response vanishes identically (Prop.~\ref{prop:shell-two}), so the resonance belongs
+  to the tensor sector alone.
 \end{itemize}
 The removable $\ln|\alpha|$ terms that $\mathrm{Ci}$ would introduce never appear. The complete
 expressions for $\nu_2$, $h_S$, $w$ and $h$ are in
@@ -387,12 +395,45 @@ independently by the exact series test through $O(t^8)$. A direct closed-form su
 (M) and (T) is available (\code{--check all}) but was not run to completion: it takes hours, and
 it is redundant with these checks.
 
+\begin{proposition}[Two-amplitude form on the shell]\label{prop:shell-two}
+For any pair $(k_1,k_2)$, reflection through the plane of the two momenta leaves a single TT
+polarisation. If moreover $|k_1|=|k_2|$ and $K=k_1+k_2\neq0$, then $P_\perp c_M^{(2)}=0$
+identically in $t$, so the second-order vector response vanishes. With $u=\hat K$,
+$v=(k_1-k_2)/|k_1-k_2|$ (orthogonal to $u$ on the shell) and $w=u\times v$,
+\begin{equation}\label{eq:shell-two}
+\boxed{A_{2,ij}=F_S(t,k_0,\mu)\Big(u_iu_j-\tfrac13\delta_{ij}\Big)+F_T(t,k_0,\mu)\,(v_iv_j-w_iw_j),\qquad-1<\mu<1,}
+\end{equation}
+with $F_S=h_S$ and $F_T$ the single TT amplitude. The zero-total-momentum pair ($\mu=-1$) is
+the separately constructed $K=0$ kernel, and the collinear pair ($\mu=1$) has no $v$.
+\end{proposition}
+\begin{proof}
+A parity-even quadratic vector source has the form $c_M=A\,k_1+B\,k_2$, with $A(k_1,k_2)=B(k_2,k_1)$
+by exchange symmetry. On the shell the scalar invariants are exchange-symmetric, so $A=B$ and
+$c_M\parallel K$. With no vector seed, $w=\frac{2i}{K^2}\int P_\perp c_M=0$. For the tensor, the
+reflection $w\to-w$ removes the $vw+wv$ polarisation, and exchange ($v\to-v$) is compatible with
+$vv-ww$. \path{solution/check_shell_reduction.py} verifies $c_{M,z}=c_{T,xz}=c_{T,yz}=0$ for general
+momenta, and $K\times c_M=0$ on the shell identically in $t$ and $\mu$, with an off-shell negative
+control.
+\end{proof}
+This is an exact finite-time reduction. On the shell, the second-order metric is two scalar
+functions of $(t,\mu)$ instead of a component matrix.
+
 \paragraph{Third order \st{explicit nested integrals}.} For $C^{(13)}$ only the configuration
 $(k,q,-q)$ is needed. The source $c^{(3)}$ is explicit
 (\code{solution/results/third\_order\_sources.txt}) in the first-order closed forms and in
 $K_2(k,q)$, $K_2(k,-q)$ and $K_2(q,-q)$. The last of these is the exact $K=0$ kernel, never a
 limit. The third-order kernels are the formulas above applied to $c^{(3)}$, so they are double
-integrals with closed-form inner integrals.
+integrals with closed-form inner integrals. Three levels should be distinguished:
+\begin{itemize}
+\item the general cubic response at arbitrary $(k_1,k_2,k_3)$, which is \emph{defined}
+  constructively by the triangular scheme and the multilinear rule (Thm.~\ref{thm:consistency}
+  covers it);
+\item the configuration $(k,q,-q)$, which is the only one generated explicitly, because it is
+  the only one $C^{(13)}$ needs;
+\item the checks of that configuration: an exact series test of all field equations
+  through $O(t^6)$, and a finite-$k$ numerical Ward test (App.~\ref{app:numerics}). Neither is
+  a substitution of the assembled cubic kernel at arbitrary times.
+\end{itemize}
 
 %======================================================================
 \section{The observable through third order}\label{sec:obs}
@@ -1020,9 +1061,10 @@ Three remarks place this result.
   part is the $\frac53$, and the centred $13$ part and the cross term vanish. The
   decomposition \eqref{eq:obs-dilation} is the finite-$k_0$ extension of
   \eqref{eq:sh-dilation-factorised}.
-\item \emph{Status.} At finite $k_0$ the dilation term is not the dominant part of
-  $C^{(4)}$ (App.~\ref{app:numerics}). Whether the centred part or the cross term carries
-  simple structure is open.
+\item \emph{Status.} No analytical statement is made here about the relative size of the
+  three terms at finite $k_0$. In the sampled configurations of the exploratory appendix
+  (App.~\ref{app:numerics}, not evidence), the dilation term is not dominant. Whether the
+  centred part or the cross term carries simple structure is open.
 \end{itemize}
 
 \subsection{Monochromatic spectrum}\label{sec:mono}
@@ -1039,6 +1081,79 @@ C^{(11)}_\ell&=4\pi\sigma^2T_\ell(k_0)^2,\\
 C^{(22)}_\ell&=\frac{\sigma^4}{4\pi}\int_{-1}^1\!\dd\mu\!\int\!\dd\Omega\!\int\!\dd\Omega'\,P_\ell(\nh\cdot\nh')\,\mathcal K_2(\nh)\mathcal K_2(\nh')^*,\\
 C^{(13)}_\ell&=\frac{3\sigma^4}{2}\,i^\ell T_\ell(k_0)\int_{-1}^1\!\dd\mu\Big[\int\!\dd\Omega\,P_\ell(\hat z\cdot\nh)\,\mathcal K_3(k_0\hat z,k_0\hat q_\mu,-k_0\hat q_\mu;\nh)\Big]^* .
 \end{align}
+
+\paragraph{Primary form of the answer.} Put $v=\eps^2\sigma^2$ and define two dimensionless
+response functions of $k_0$ at fixed times:
+\begin{align}
+Q_\ell&=\frac1{4(2\ell+1)}\int_{-1}^1\!\dd\mu\sum_m\big|A^{(2)}_{\ell m}(k_0\hat z,k_0\hat q_\mu)\big|^2\ \ge0,\\
+R_\ell&=\frac1{8\pi i^\ell}\int_{-1}^1\!\dd\mu\int\!\dd\Omega\,P_\ell(\hat z\cdot\nh)\,
+\mathcal K_3(k_0\hat z,k_0\hat q_\mu,-k_0\hat q_\mu;\nh).
+\end{align}
+Then, exactly through fourth order,
+\begin{equation}\label{eq:primary}
+\boxed{C_\ell=4\pi v\,T_\ell^2+v^2\big[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell\big]+O(v^3).}
+\end{equation}
+This is a reorganisation, not an evaluation, but it exposes the physics directly:
+\begin{itemize}
+\item $Q_\ell\ge0$: the quadratic response always generates power;
+\item $R_\ell$: the cubic response interferes with the linear response;
+\item at a linear node, $C_\ell=v^2Q_\ell+O(v^3)$ (Prop.~\ref{prop:nodes});
+\item a negative fourth-order correction away from nodes is not inconsistent.
+\end{itemize}
+The decompositions of Thm.~\ref{thm:logmap} and Prop.~\ref{prop:obs-dilation} explain how
+$Q_\ell$ and $R_\ell$ are built.
+
+\paragraph{What the final integrals contain.} For auditability, here is every ingredient of
+\eqref{eq:primary}, in one place:
+\begin{enumerate}
+\item \emph{Linear transfer.} $T_\ell$: Prop.~\ref{prop:Tl}, closed form.
+\item \emph{Second-order map kernel.} $\mathcal K_2=A^{(2)}$ in harmonic space. It is the map of
+  \S\ref{sec:obs}, centred as in \eqref{eq:centred-map} and composed with the clock.
+  \begin{itemize}
+  \item Its fields are the first-order closed forms and, on the shell, the two amplitudes
+    $F_S,F_T$ of \eqref{eq:shell-two} together with $\nu_2$, in closed form (\S\ref{sec:fields}).
+  \item Its time integrals are the ray integral over $[\bar t_\star,\bar t_o]$, which contains the
+    nested displacement integral over $[t,\bar t_o]$, and the emission-endpoint and clock terms.
+  \end{itemize}
+\item \emph{Cubic map kernel.} $\mathcal K_3(k,q,-q)$.
+  \begin{itemize}
+  \item The new third-order field enters linearly through
+    $\sigma^{(3)}\ni\frac12A_3'$. Only its $\hat q$-average is needed, and by
+    Prop.~\ref{prop:contracted} that average is a single scalar function. It is obtained from the
+    lapse and Hamiltonian Green formulas with the $\hat q$-averaged cubic sources.
+  \item Everything else is a product of lower-order fields: $\sigma^{(3)}$ products, $X_2$, $e_2$,
+    the emission shift $d_2$, the clock $D_2$ and the normalisation. These contain the
+    second-order tensor and $\nu_2$, which are kept in full.
+  \item The pair $(q,-q)$ uses the exact $K=0$ kernel.
+  \end{itemize}
+\item \emph{Sky integrals.} Every term has the form $c\,\Pi(\nh)e^{i\nh\cdot V}$, and the sky
+  integrals are evaluated in closed form below.
+\item \emph{Remaining integrals.} What is left is the integral over $\mu\in[-1,1]$ and the
+  nested times. The point $\mu=-1$ is a null set (Thm.~\ref{thm:exist}).
+\end{enumerate}
+
+\begin{proposition}[The contracted cubic response is scalar]\label{prop:contracted}
+For an isotropic spectrum, define the angle-averaged cubic metric response
+\[
+\bar A_{3,ij}(k,q;t)=\frac1{4\pi}\int\dd\Omega_{\hat q}\,A_{3,ij}(k,q,-q;t).
+\]
+Then
+\[
+\bar A_{3,ij}=F_3(k,q;t)\Big(\hat k_i\hat k_j-\tfrac13\delta_{ij}\Big),
+\]
+so the vector and TT parts of the angle-averaged cubic metric response vanish.
+\end{proposition}
+\begin{proof}
+The third-order operator depends on the total momentum $k$ only, so averaging over $\hat q$
+commutes with solving. After the average, $\hat k$ is the only preferred direction. A
+symmetric trace-free tensor built from $\hat k$ and $\delta$ alone is proportional to
+$\hat k\hat k-\delta/3$.
+\end{proof}
+The new cubic field work for $C^{(13)}$ is therefore one scalar problem with averaged
+sources. Two caveats: the lower-order tensor contributions inside the cubic sources and
+propagation products must be kept, and the uncontracted map $\Theta^{(3)}$ still needs all
+three sectors. The exploratory evaluation in App.~\ref{app:numerics} confirms numerically that
+keeping only the scalar part reproduces the full result.
 
 \begin{proposition}[Complete fourth order at linear-transfer nodes]\label{prop:nodes}
 On the shell, $C^{(13)}_\ell\propto T_\ell(k_0)$, and the cubic kernel is finite at finite
@@ -1149,17 +1264,40 @@ For all finite $0<x_\star<x_o$, the integrals for $C_\ell^{(22)}$ and $C_\ell^{(
 absolutely. The restriction to the shell is well defined.
 \end{theorem}
 \begin{proof}
-The domains are compact. The integrands are bounded for the following reasons:
-\begin{itemize}
-\item the field kernels are continuous in time and momenta, and finite on resonances, by the
-  entire-function representation;
-\item $c_M^{(2)}$ is analytic and vanishes at $K=0$, so $c_M=O(K)$, and the projector terms
-  $(\hat K\hat K-\delta/3)h_S$ and $K\otimes w$ are bounded near $K\to0$. They are
-  discontinuous only at $\mu=-1$, a null set;
-\item $K_2(q,-q)$ in $C^{(13)}$ is the exact $K=0$ kernel;
-\item the ray integrals are over finite intervals.
-\end{itemize}
+The momentum, angle and time domains are compact. The integrands are finite sums of products
+of phases, first-order closed forms, and the higher-order kernels and their first time
+derivatives. It therefore suffices to show that each kernel and its time derivative is bounded,
+and continuous outside a null set. The entire-function representation removes every
+frequency-resonance denominator, but not the inverse powers of the total momentum $K$
+introduced by the projectors. These are handled sector by sector.
+\begin{enumerate}
+\item \emph{Lapse.} The Green function
+  $-\frac1{3c}[u_2(ct)u_1(cs)-u_1(ct)u_2(cs)]$ and the homogeneous term
+  $\frac{9c_r}{K^2}u_1(ct)$ are even entire functions of $c=K/\sqrt3$ (the latter equals
+  $c_rt^2$ times one). Hence $\nu_r$ and $\nu_r'$ are continuous in $K$ including $K=0$, where
+  they reduce to the $K=0$ formulas.
+\item \emph{Scalar.} The Hamiltonian form of $h_S$ carries $K^{-2}$. Use instead the
+  equivalent longitudinal momentum-constraint form
+  $h_S(t)=\int_0^t\big[6(\nu_r'-\nu_r/s)+3i\,K\!\cdot\!c_M(s)/K^2\big]\dd s$. The two agree for
+  $K\neq0$ by Thm.~\ref{thm:consistency}. Since $c_M$ is analytic in the momenta and vanishes at
+  $K=0$, $|K\cdot c_M|/K^2=O(1)$, so $h_S$ and $h_S'$ are bounded as $K\to0$.
+\item \emph{Vector.} $P_\perp c_M=O(K)$, so $w=\frac{2i}{K^2}\int P_\perp c_M=O(K^{-1})$, and the
+  metric component $K\otimes w$ is $O(1)$. On the shell $w\equiv0$
+  (Prop.~\ref{prop:shell-two}).
+\item \emph{Tensor.} The TT projector is bounded, and the Green function $\sin K(t-s)/K$ is
+  entire and even in $K$.
+\end{enumerate}
+The projectors themselves depend on $\hat K$, so the recombined Cartesian kernel may depend
+on the direction of approach at $K=0$. This happens only at $\mu=-1$ on the shell, a null set,
+and boundedness is all that absolute convergence needs. Continuity of the full Cartesian
+kernel at $K=0$ is not claimed, and nothing uses it. Where an exact zero total momentum
+occurs inside the cubic sources, namely the pair $(q,-q)$, the separately constructed exact
+$K=0$ kernel is used, not a limit. The ray and line-of-sight integrals run over finite
+intervals, and the emission and observation times are positive.
 \end{proof}
+The theorem and the spectrum formulas therefore apply to finite times and to the
+monochromatic (or any compactly supported) spectrum. Arbitrary spectra without compact
+support are not covered: the ultraviolet behaviour is open (\S\ref{sec:limits}).
 
 %======================================================================
 \section{Limits}\label{sec:limits}
@@ -1406,6 +1544,22 @@ parallels the quadrupole:
 \item $46=18+28$, the second term being the Hessian--gradient interference;
 \item the $v^2$ term is the cubed gradient.
 \end{itemize}
+\paragraph{Bounds for general spectra.} For any nonnegative spectrum with finite, nonzero
+moments, the leading-gradient fourth-order factors are
+\[
+\frac{C_{2,\rm lead}}{\eps^2C^{(11)}_{2,\rm lead}}=1+\eps^2b_2,\quad b_2=m_0\Big(8+\tfrac53r_2\Big),\qquad
+\frac{C_{3,\rm lead}}{\eps^2C^{(11)}_{3,\rm lead}}=1+\eps^2b_3,\quad b_3=m_0(18+28r_3),
+\]
+up to $O(\eps^4)$, with shape parameters $r_2=m_2^2/(m_0m_4)$ and $r_3=m_2m_4/(m_0m_6)$. The
+Cauchy--Schwarz inequalities $m_2^2\le m_0m_4$ and $m_4^2\le m_2m_6$ give $0\le r_3\le r_2\le1$.
+Hence
+\begin{equation}\label{eq:moment-bounds}
+\boxed{8\,m_0\le b_2\le\tfrac{29}3\,m_0,\qquad18\,m_0\le b_3\le46\,m_0,}
+\end{equation}
+with equality at the upper ends exactly for the monochromatic shell. At fixed primordial
+variance, the shell therefore maximises both relative leading-gradient corrections. The lower
+ends are approached by very broad spectra, for which only the observer dilation survives.
+
 This evaluates the leading $O(k_0^6)$ octupole only, not the finite-wavelength spectrum, and
 the exponential resums the leading-gradient expression only. The cross-check by the
 independent ray generator (\code{observable\_generator.py}) was not run at this order.
@@ -1426,7 +1580,10 @@ $O(1/x_o)$, giving $O(\ln x_o/x_o)$ by integration by parts.
 \end{proof}
 
 At fourth order the late-time limit is non-uniform at the resonances $\mu=\pm1$ and
-$\mu=-1/3$. Only the order ``angle first'' is admissible. Its evaluation is \st{open}.
+$\mu=-1/3$. A pointwise late-time limit therefore cannot simply be interchanged with the
+angular integral without a uniform estimate or an explicit treatment of the resonant regions.
+Matched asymptotics in angle and time, or an analytically subtracted representation, would be
+legitimate routes. The evaluation is \st{open}.
 
 \subsection{General spectra}
 
@@ -1475,6 +1632,18 @@ All checks are exact symbolic computations (SymPy~1.14). None uses floating poin
 quadrature as evidence. ``Generic 2-jets'' means that every function value and derivative is
 an independent symbol, so a zero residual is a proof.
 
+The checks are of different kinds, and the ledger says which kind each one is:
+\begin{itemize}
+\item \emph{general proofs}: generic jets, arbitrary fields, closed-form identities;
+\item \emph{finite exact series tests}: all field equations through a stated order in $t$;
+\item \emph{exact closed-form substitutions}: completed for the lapse equation at second order
+  only.
+\end{itemize}
+In particular, the assembled third-order kernel at $(k,q,-q)$ is checked by an exact series
+through $O(t^6)$ and by Ward identities in $\kappa$. It is not checked by substitution at
+arbitrary finite time. The exploratory numerics of App.~\ref{app:numerics} add finite-$k$
+Ward tests, but they are not evidence.
+
 \begin{longtable}{p{6.2cm}p{8.8cm}}
 \toprule
 Check & Script and scope\\\midrule\endhead
@@ -1497,6 +1666,7 @@ Superhorizon $C_2$ & \code{solution/superhorizon.py}\\
 Report identities & \code{solution/check\_report\_identities.py}: background residual Bianchi identities and zero-mode constraint matching; conformal driver and cubic commutator shear; Fermi--Walker rotation; centred normalisation and polarised map kernels; the two-norm spectrum; general-moment and monochromatic leading-gradient resummation. These are exact symbolic identities, not an arbitrary-time cubic-observable verification.\\
 Gradient-mode tests & \code{solution/check\_gradient\_modes.py}: exact special-conformal Jacobian and flat seed; zero shear and hence zero map for the completed adiabatic profile; quadratic completion and its conversion to the convention of \cite{MirbabayiZaldarriaga}; nonzero uncompensated-gradient quadrupole; plane-wave soft generator and the leading-gradient check of \eqref{eq:gradient-ward}. The general finite-time Ward identity is proved by covariance, not by full-kernel substitution.\\
 Log-map decomposition & \code{solution/check\_logmap\_decomposition.py} (about 2~min): \eqref{eq:logmap-decomposition} and the $3j$ lognormal term \eqref{eq:lognormal-term} for $\ell=1,\dots,4$, in a band-limited Gaussian sky with non-Gaussian $L_2,L_3$; exact sphere integrals and Gaussian moments\\
+Shell two-amplitude form (Prop.~\ref{prop:shell-two}) & \code{solution/check\_shell\_reduction.py}: $c_{M,z}=c_{T,xz}=c_{T,yz}=0$ for general momenta; $K\times c_M=0$ on the shell identically in $t$ and $\mu$; off-shell negative control\\
 Shell locality & \code{solution/check\_shell\_locality.py}: the local form of the shell first-order fields and of $\theta$; $\sigma^{(2)}=\frac12A_2'+\frac12(H_1^2)'+2gH_1'$ for generic matrices. Item~(3) of Prop.~\ref{prop:shell-local} is by inspection.\\
 Leading octupole; $\mathcal M_\ell$ cancellation & \code{solution/check\_gradient\_octupole.py}: the conformal identity $\nabla_{\langle a}R_{bc\rangle}=\frac f2[\partial^3f^2]_{\rm STF}$ for generic $\zeta$; the leading $T_\ell$ coefficient \eqref{eq:Tl-leading} for $\ell=2,\dots,7$; $\beta_3$; exact isotropic Wick moments giving \eqref{eq:octupole-resummed} and the shell ratios $148\sigma^2$, $27\sigma^2$; $\ens{\theta\theta L_2}=0$ at leading gradient order. The octupole map itself rests on the proof of Thm.~\ref{thm:octupole}.\\
 Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$; superhorizon observer-centred kernels of Prop.~\ref{prop:obs-dilation} ($\mathcal K^c_2=-\tau^2\TF(kq+qk)_{nn}$, $\mathcal K^c_3(k,q,-q)=0$)\\
@@ -1535,6 +1705,9 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
 \item The infrared statement (Thm.~\ref{thm:ir}) assumes that the kernels are analytic in $q$ at
   $q=0$ at fixed finite times. This holds for the integral representations by construction, but
   the uniformity of the expansion in $k$ over unbounded spectra is not proved.
+\item The results are established for finite emission and observation times and for the
+  monochromatic (or any compactly supported) spectrum. Spectra without compact support need
+  the ultraviolet and infrared estimates above.
 \item The perturbative domain is treated order by order: a single emission intersection and no
   caustics. There is no statement about convergence in~$\eps$. In particular,
   \eqref{eq:sh-shell-resummed} is an exact average of a leading-gradient expression, not a
@@ -1659,8 +1832,10 @@ are at 9.46677 and 11.96208 ($\ell=2$, fixed ratio), at 8.52178, 10.89081 and 13
 \begin{enumerate}
 \item \emph{Linear dominance, not perturbative breakdown.} Inside the horizon,
   $\frac14C_2^{(22)}$ stays $O(1)\sigma^4$ while $C_2^{(11)}$ is smaller and passes through
-  nodes of $T_2$. For $x_o\gtrsim2$ the first-order term dominates the quadrupole only if
-  $\eps^2\sigma^2\ll\frac14C_2^{(22)}/C_2^{(11)}$; at a node the first nonzero prediction is
+  nodes of $T_2$. With $r_{22}=C_2^{(22)}/(4\sigma^2C_2^{(11)})$, the quadratic contribution is
+  smaller than the linear one only if $\eps^2\sigma^2\,r_{22}\ll1$, and $r_{22}\gg1$ for
+  $x_o\gtrsim2$. Away from nodes the $13$ term also enters the total correction. At a node, the
+  first nonzero prediction is
   the fourth-order one (Prop.~\ref{prop:nodes}). This is a statement about which order
   dominates a given multipole. It does not establish breakdown of the expansion, which would
   need the next order. Away from nodes, the missing $13$ term could still change the

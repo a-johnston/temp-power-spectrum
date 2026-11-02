@@ -28,9 +28,13 @@ part of the current tree.
   - an exact log-map decomposition: the log-temperature spectrum, plus a lognormal term, plus a
     collapsed bispectrum;
   - an exact observer-dilation decomposition;
-  - complete fourth-order spectra at zeros of `T_ℓ`.
+  - complete fourth-order spectra at zeros of `T_ℓ`;
+  - on the monochromatic shell, two exact symmetry reductions: the second-order metric is two
+    amplitudes with no vector part, and the angle-averaged cubic response is a single scalar.
 - **Superhorizon limit.** The quadrupole and the octupole are local curvature multipoles, exact
-  in ζ. Their fourth-order factors are `1 + 29ε²σ²/3` and `1 + 46ε²σ²`.
+  in ζ. Their fourth-order factors are `1 + 29ε²σ²/3` and `1 + 46ε²σ²`. For any nonnegative
+  spectrum the coefficients lie in `[8, 29/3]·m₀` and `[18, 46]·m₀`, and the monochromatic shell
+  attains both upper bounds.
 - **Open.** What remains unevaluated is listed in the report's section "What remains
   unevaluated". An appendix records exploratory finite-k₀ numerics, which are not evidence.
 
@@ -43,7 +47,7 @@ part of the current tree.
 | Field solution at every order | `check_green.py`, `second_order.py`, `second_order_consistency.py`, `closed_forms.py`, `closed_second_order.py`, `third_order.py`, `fast_series.py`, `third_order_consistency.py`, `check_report_identities.py` |
 | The observable through third order | `check_observable_expansion.py`, `observable_generator.py`, `foundations/normalization_expansion.py`, `foundations/check_algebra.py` |
 | Gauge invariance and Ward identities | `check_ward_dilation.py`, `check_ward_dilation3.py`, `observable_generator.py W2\|W3`, `foundations/check_first_order.py`, `first_order_engine_check.py`, `check_gradient_modes.py` |
-| The spectrum (transfer function, log-map and observer-dilation decompositions, shell) | `transfer_entire.py`, `check_logmap_decomposition.py`, `check_dilation_factorisation.py`, `check_shell_locality.py` |
+| The spectrum (transfer function, primary form `C_ℓ = 4πvT_ℓ² + v²[Q_ℓ + 4πT_ℓ Re R_ℓ]`, shell two-amplitude reduction, log-map and observer-dilation decompositions) | `transfer_entire.py`, `check_shell_reduction.py`, `check_logmap_decomposition.py`, `check_dilation_factorisation.py`, `check_shell_locality.py` |
 | Limits (superhorizon quadrupole and octupole, infrared) | `superhorizon.py`, `observable_generator.py SH`, `check_dilation_factorisation.py`, `check_gradient_octupole.py` |
 | Appendix: exploratory numerics | `numerics/explore_fourth_order.py`, `numerics/explore_third_order.py` |
 
@@ -100,6 +104,7 @@ and an independent CAS (Maxima).
 | `transfer_entire.py L...` | closed form of the linear transfer function `T_ℓ` for every ℓ in the entire kernels `J_m` (no logs or Ci); coefficients are Laurent coefficients of two rational functions; proved exactly for each given ℓ (x*-derivative identity plus the value at x* = x_o); a printed high-precision comparison is supplementary |
 | `check_dilation_factorisation.py` | the leading-gradient map is exactly covariant under ζ → ζ + c (= momentum dilation); the mean of ζ factors out as `⟨e^{−4ζ_o}⟩`; the invariant ratio `1 + (5/3)ε² m₂²/m₄`; Gaussian average of the dilation operator |
 | `check_logmap_decomposition.py` | exact check (~2 min) of the log-map decomposition `¼C⁽²²⁾ + ⅓Re C⁽¹³⁾ = C^{L,4} + N_ℓ[C] + M_ℓ` and of the explicit 3j lognormal term, in a band-limited Gaussian sky with non-Gaussian `L₂`, `L₃` |
+| `check_shell_reduction.py` | on the monochromatic shell the second-order vector source vanishes identically in t and μ, and reflection leaves one TT polarisation, so A₂ is two amplitudes (scalar and tensor); off-shell negative control |
 | `check_shell_locality.py` | on the monochromatic shell the first-order fields and θ are local in g; σ⁽²⁾ = ½A₂′ + ½(H₁²)′ + 2gH₁′, so A₂ is the only non-local second-order input to the map |
 | `check_gradient_octupole.py` | leading octupole: conformal identity ∇⟨aR_bc⟩ = (f/2)[∂³f²]_STF, leading T_ℓ coefficient (ℓ = 2..7), β₃, exact Wick moments of the resummed octupole spectrum and the shell ratios 148σ², 27σ²; ⟨θθL₂⟩ = 0 at leading gradient order (so M_ℓ = O(κ⁸)) |
 
