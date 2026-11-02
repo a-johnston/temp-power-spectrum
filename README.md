@@ -76,7 +76,7 @@ and an independent CAS (Maxima).
 | Path | Contents |
 |---|---|
 | `problem_statement.tex` | the task |
-| `report/` | the report (`.tex` and built `.pdf`) and `tensor_newtonian_crosscheck.md` (derivation behind the tensor cross-check) |
+| `report/` | the report (`.tex` and built `.pdf`) and three supporting derivations: `tensor_newtonian_crosscheck.md`, `quadrupole_next_hand_check.md`, `longitudinal_redshift.md` |
 | `solution/` | exact checks for the field solution, observable, spectrum and limits |
 | `solution/foundations/` | exact checks of the framework: lemmas, generic-jet field equations, first order in two gauges, normalisation and Gaussian algebra (`gr.py` holds the shared tensor utilities) |
 | `solution/results/` | exact expanded sources and kernels referenced by the report |
@@ -104,6 +104,9 @@ and an independent CAS (Maxima).
 | `observable_generator.py W2\|W3\|SH\|SH3` | independent generator of Θ⁽¹⁻³⁾ from the exact definitions; observable Ward identities through `O(κ⁴)`; superhorizon closed form at orders 1–2 (`SH`). `SH3` (third order) did not complete within 50 min: the SymPy assembly of the observable is the bottleneck |
 | `observable_fast.py SH\|SH3\|W2\|W3 [KMAX] [mutation]` | fast exact port of the independent generator: same definitions, sparse-polynomial arithmetic over ℚ(i); SH in 11 s, W2/W3 through O(κ⁴), and SH3 (third-order superhorizon map at (k, q, −q), general momenta) in about 12 min; mutations show that the dilation Ward tests are blind to the ray, endpoint and normalisation terms but fail without e^{−ζ} in the initial direction |
 | `check_tensor_newtonian.py` | independent cross-check of the shell tensor amplitude against the finite-time Kohri–Terada induced-GW kernel through the nonlinear Newtonian → temperature-frame map (derivation: `report/tensor_newtonian_crosscheck.md`); `check_shell_reduction.py` ties it to this repo's `c_T` |
+| `superhorizon_next.py kernels2\|kernels3\|spectrum` | next superhorizon order: map kernels through O(κ⁴) from the fast generator; C₂⁽¹¹⁾ and ¼C₂⁽²²⁾ at O(k₀⁶) (cubic part via `kernels3`, a multi-hour run) |
+| `check_quadrupole_next_hand.py [--compare]` | independent hand-map calculation of C₂⁽¹¹⁾ and ¼C₂⁽²²⁾ at O(k₀⁶) from its own O(t⁴) field data and the explicit ray, endpoint and clock formulas; endpoint and clock pieces separately nonzero; `--compare` checks every projected-kernel component against the generator output (derivation: `report/quadrupole_next_hand_check.md`) |
+| `check_longitudinal_redshift.py` | exact longitudinal-gauge form of the redshift (shift, tensor shear, Doppler factors, displaced endpoints) and its equality with the temperature-frame exponent (derivation: `report/longitudinal_redshift.md`) |
 | `superhorizon.py` | exact superhorizon `C₂⁽¹¹⁾`, `C₂⁽²²⁾`, `C₂⁽¹³⁾` |
 | `transfer_entire.py L...` | closed form of the linear transfer function `T_ℓ` for every ℓ in the entire kernels `J_m` (no logs or Ci); coefficients are Laurent coefficients of two rational functions; proved exactly for each given ℓ (x*-derivative identity plus the value at x* = x_o); a printed high-precision comparison is supplementary |
 | `check_dilation_factorisation.py` | the leading-gradient map is exactly covariant under ζ → ζ + c (= momentum dilation); the mean of ζ factors out as `⟨e^{−4ζ_o}⟩`; the invariant ratio `1 + (5/3)ε² m₂²/m₄`; Gaussian average of the dilation operator |

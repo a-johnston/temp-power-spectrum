@@ -10,3 +10,4 @@ solution/results/.closed_second_order.pkl
 .DS_Store
 # regenerable numeric caches (rebuilt automatically from the exact sources on first use)
 solution/results/*_numeric.pkl
+solution/results/superhorizon_kernels_*.pkl
