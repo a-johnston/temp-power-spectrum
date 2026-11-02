@@ -1,14 +1,17 @@
 [project]
-name = "davids_math"
+name = "radiation-cmb-fourth-order"
 version = "0.1.0"
-description = ""
+description = "Analytical observed CMB temperature power spectrum through fourth order in a radiation-only universe: report, exact SymPy checks, and exploratory numerics."
 readme = "README.md"
 authors = [
     { name = "Adam Johnston", email = "adam.johnston00@gmail.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "mpmath>=1.3",          # high-precision special functions (transfer_entire.py, numerics/)
+    "numpy>=2.3",           # exploratory numerics in solution/numerics/ only
+    "sympy>=1.14.0",        # every exact check
+]
 
-[build-system]
-requires = ["uv_build>=0.13.6,<0.14.0"]
-build-backend = "uv_build"
+[tool.uv]
+package = false             # a collection of scripts and a report, not an installable package

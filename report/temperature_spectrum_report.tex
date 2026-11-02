@@ -960,6 +960,72 @@ non-Gaussian $L_2=\mathsf P_0(\theta\chi+\theta^2)$ and $L_3=\mathsf P_0(\theta\
 is expanded from its exact definition, and every average is an exact sphere integral and
 Gaussian moment. For a pure quadrupole, for example, $\mathcal N_2=-\frac{9}{28\pi}C_2^2$.
 
+\subsection{Observer-centred dilation decomposition}\label{sec:obs-dilation}
+Split the primordial field into its value at the observer and the observer-centred remainder,
+$g=g_o+g_c$, with $g_o=g(0)$ and $g_c=g-g(0)$. A constant shift of $\zeta$ is exactly a
+momentum dilation (\S\ref{sec:gauge}). Hence $\Theta[\eps g]=\exp(-\eps g_o\mathfrak D)\,\Theta[\eps g_c]$
+exactly, where $\mathfrak D=\sum_ak_a\cdot\partial_{k_a}$ acts on the kernels at fixed $\nh$ and
+fixed physical labels. Expanding gives the kernels of the observer-centred field:
+\begin{align*}
+\mathcal K^c_2(k,q)&=\mathcal K_2(k,q)+\mathfrak D\mathcal K_1(k)+\mathfrak D\mathcal K_1(q),\\
+\mathcal K^c_3(k,q,-q)&=\mathcal K_3(k,q,-q)+\mathfrak D\big[\mathcal K^c_2(k,q)+\mathcal K^c_2(k,-q)+\mathcal K^c_2(q,-q)\big]\\
+&\quad-\mathfrak D^2\big[\mathcal K_1(k)+\mathcal K_1(q)+\mathcal K_1(-q)\big].
+\end{align*}
+Write $A^c_{r,\ell m}$ for their harmonic coefficients and $D=k\partial_k$.
+
+\begin{proposition}[Observer-dilation decomposition]\label{prop:obs-dilation}
+For $\ell\ge1$ and any spectrum for which the integrals exist, with $\sigma^2=\ens{g^2}=\int_kP$,
+\begin{equation}\label{eq:obs-dilation}
+\boxed{\begin{aligned}
+\frac14C^{(22)}_\ell+\frac13\operatorname{Re}C^{(13)}_\ell
+={}&C^{c,4}_\ell
++\frac{\sigma^2}{2(2\ell+1)}\int_kP(k)\,D^2\sum_m|A^{(1)}_{\ell m}(k)|^2\\
+&-\frac{2}{2\ell+1}\int_k\!\int_qP(k)P(q)\,\mathfrak D\operatorname{Re}\sum_mA^c_{2,\ell m}(k,q)A^{(1)*}_{\ell m}(k).
+\end{aligned}}
+\end{equation}
+Here $C^{c,4}_\ell$ is the fourth-order spectrum built from the observer-centred kernels,
+\[
+C^{c,4}_\ell=\frac{1}{2(2\ell+1)}\sum_m\int\!\!\int PP\,|A^c_2|^2+\frac1{2\ell+1}\operatorname{Re}\sum_m\int\!\!\int PP\,A^{(1)}A^{c*}_3 .
+\]
+On the monochromatic shell, with $\sigma^2$ held fixed, the last two terms become
+$\frac12\sigma^2D_{k_0}^2C^{(11)}_\ell$ and a total derivative $-2D_{k_0}X_\ell$, where
+$D_{k_0}=k_0\,\dd/\dd k_0$ at fixed times and
+$X_\ell=\frac1{2\ell+1}\operatorname{Re}\sum_m\int\!\!\int PP\,A^c_2A^{(1)*}$.
+\end{proposition}
+\begin{proof}
+Insert the kernel relations into the Gaussian reductions of \S\ref{sec:spec}. Several terms
+are independent of $\hat k$ and vanish against $A^{(1)}_{\ell m}(k)$ after the $\hat k$ integral
+for $\ell\ge1$: $\mathfrak D\mathcal K^c_2(q,-q)$ and $\mathfrak D^2\mathcal K_1(\pm q)$ in
+$\mathcal K_3$, and the cross term $\mathfrak D\mathcal K_1(k)\,\mathfrak D\mathcal K_1(q)^*$ in
+$|\mathcal K_2|^2$. The purely dilation parts give
+$\sigma^2\int P\,[\,|DA^{(1)}|^2+\operatorname{Re}A^{(1)}D^2A^{(1)*}]=\frac{\sigma^2}2\int P\,D^2|A^{(1)}|^2$.
+In the dilation--centred interference, the $22$ term contributes
+$-2\operatorname{Re}A^c_2\,DA^{(1)*}$ (by $k\leftrightarrow q$ symmetry) and the $13$ term
+contributes $-2\operatorname{Re}A^{(1)}(\mathfrak DA^c_2)^*$ (by $q\to-q$). Their sum is the
+total dilation derivative $-2\,\mathfrak D\operatorname{Re}A^c_2A^{(1)*}$, because $A^{(1)}(k)$
+does not depend on $q$. On the shell,
+$\int\!\!\int PP\,\mathfrak DF=D_{k_0}\int\!\!\int PP\,F$ at fixed $\sigma^2$.
+\end{proof}
+
+Three remarks place this result.
+\begin{itemize}
+\item \emph{Relation to the infrared theorem.} Integrating by parts in $\ln k$, the
+  dilation term equals $\frac{\sigma^2}{2(2\ell+1)}\int_k\sum_m|A^{(1)}_{\ell m}|^2(D+3)^2P$.
+  This is Thm.~\ref{thm:ir} with the long-mode variance $\sigma_L^2$ replaced by the full
+  variance. The observer's own value of the field acts as a long mode for every wavelength.
+\item \emph{Superhorizon limit.} At leading gradient order, $\mathcal K_1=\tau^2\TF(kk)_{nn}$,
+  and two exact simplifications follow:
+  $\mathcal K^c_2=-\tau^2\TF(kq+qk)_{nn}$ is pure gradient-squared, and
+  $\mathcal K^c_3(k,q,-q)=0$ identically. The cross term vanishes after the $\hat q$ average.
+  Hence $\frac{29}3=8+\frac53+0+0$: the dilation term is exactly the $8$, the centred $22$
+  part is the $\frac53$, and the centred $13$ part and the cross term vanish. The
+  decomposition \eqref{eq:obs-dilation} is the finite-$k_0$ extension of
+  \eqref{eq:sh-dilation-factorised}.
+\item \emph{Status.} At finite $k_0$ the dilation term is not the dominant part of
+  $C^{(4)}$ (App.~\ref{app:numerics}). Whether the centred part or the cross term carries
+  simple structure is open.
+\end{itemize}
+
 \subsection{Monochromatic spectrum}\label{sec:mono}
 
 \emph{After} the complete observable is constructed, set
@@ -974,6 +1040,25 @@ C^{(11)}_\ell&=4\pi\sigma^2T_\ell(k_0)^2,\\
 C^{(22)}_\ell&=\frac{\sigma^4}{4\pi}\int_{-1}^1\!\dd\mu\!\int\!\dd\Omega\!\int\!\dd\Omega'\,P_\ell(\nh\cdot\nh')\,\mathcal K_2(\nh)\mathcal K_2(\nh')^*,\\
 C^{(13)}_\ell&=\frac{3\sigma^4}{2}\,i^\ell T_\ell(k_0)\int_{-1}^1\!\dd\mu\Big[\int\!\dd\Omega\,P_\ell(\hat z\cdot\nh)\,\mathcal K_3(k_0\hat z,k_0\hat q_\mu,-k_0\hat q_\mu;\nh)\Big]^* .
 \end{align}
+
+\begin{proposition}[Complete fourth order at linear-transfer nodes]\label{prop:nodes}
+On the shell, $C^{(13)}_\ell\propto T_\ell(k_0)$, and the cubic kernel is finite at finite
+times. Hence, at every nontrivial zero of $T_\ell(k_0)$, $C^{(11)}_\ell=C^{(13)}_\ell=0$ and
+\[
+\boxed{C_\ell=\frac{\eps^4}{4}C^{(22)}_\ell+O(\eps^6)\qquad\text{when }T_\ell(k_0)=0 .}
+\]
+At these points the complete fourth-order spectrum is determined by second-order quantities
+alone, namely the closed-form kernels of \S\ref{sec:fields} and the map of \S\ref{sec:obs}. In
+terms of Thm.~\ref{thm:logmap}, $\frac13\operatorname{Re}C_\ell[\theta,L_3]$, the term
+$\operatorname{Re}C_\ell[\theta,\theta L_2]$ and the $-C_\ell^2/2\pi$ part of $\mathcal N_\ell$
+all vanish there. What remains is
+$\frac14C_\ell[L_2,L_2]+\frac12\operatorname{Re}C_\ell[L_2,\theta^2]+\frac14C_\ell[\theta^2,\theta^2]$.
+\end{proposition}
+Near such a node a large ratio $C^{(22)}_\ell/C^{(11)}_\ell$ is expected: it is nonlinear power
+filling a linear spectral node. The condition $\eps^4C^{(22)}_\ell\ll\eps^2C^{(11)}_\ell$ is a
+condition for linear dominance in that multipole, not for the validity of the perturbative
+expansion. Exploratory values at the first nodes of $T_2$ and $T_3$ are listed in
+App.~\ref{app:numerics}.
 
 \paragraph{All sky integrals in closed form.} Every term of $\mathcal K_r$ has the form
 $c(\lambda,\ldots)\,\Pi(\nh)\,e^{i\nh\cdot V}$. Here $V=\sum_ak_a\lambda_a$ collects the
@@ -1415,7 +1500,7 @@ Literature-inspired gradient tests & \code{solution/check\_gradient\_modes.py}: 
 Log-map decomposition & \code{solution/check\_logmap\_decomposition.py} (about 2~min): \eqref{eq:logmap-decomposition} and the $3j$ lognormal term \eqref{eq:lognormal-term} for $\ell=1,\dots,4$, in a band-limited Gaussian sky with non-Gaussian $L_2,L_3$; exact sphere integrals and Gaussian moments\\
 Shell locality & \code{solution/check\_shell\_locality.py}: the local form of the shell first-order fields and of $\theta$; $\sigma^{(2)}=\frac12A_2'+\frac12(H_1^2)'+2gH_1'$ for generic matrices. Item~(3) of Prop.~\ref{prop:shell-local} is by inspection.\\
 Leading octupole; $\mathcal M_\ell$ cancellation & \code{solution/check\_gradient\_octupole.py}: the conformal identity $\nabla_{\langle a}R_{bc\rangle}=\frac f2[\partial^3f^2]_{\rm STF}$ for generic $\zeta$; the leading $T_\ell$ coefficient \eqref{eq:Tl-leading} for $\ell=2,\dots,7$; $\beta_3$; exact isotropic Wick moments giving \eqref{eq:octupole-resummed} and the shell ratios $148\sigma^2$, $27\sigma^2$; $\ens{\theta\theta L_2}=0$ at leading gradient order. The octupole map itself rests on the proof of Thm.~\ref{thm:octupole}.\\
-Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$\\
+Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$; superhorizon observer-centred kernels of Prop.~\ref{prop:obs-dilation} ($\mathcal K^c_2=-\tau^2\TF(kq+qk)_{nn}$, $\mathcal K^c_3(k,q,-q)=0$)\\
 Normalisation; Wick and Fourier measures & \code{verification/normalization\_expansion.py}; \code{validation/check\_algebra.py}\\
 \bottomrule
 \end{longtable}
@@ -1433,7 +1518,9 @@ Normalisation; Wick and Fourier measures & \code{verification/normalization\_exp
   as a reference rather than being embedded in the report. The literature-inspired
   \eqref{eq:soft-remainder} fixes the first two soft coefficients but does not determine the
   comparable-momentum remainder or the full cubic response. After the log-map decomposition
-  (Thm.~\ref{thm:logmap}), the unevaluated content is $C^{L,4}_\ell$ and $\mathcal M_\ell$.
+  (Thm.~\ref{thm:logmap}), the unevaluated content is $C^{L,4}_\ell$ and $\mathcal M_\ell$. At
+  zeros of $T_\ell(k_0)$ the cubic term drops out and the complete fourth-order spectrum is
+  $\frac14\eps^4C^{(22)}_\ell$, which needs second-order quantities only (Prop.~\ref{prop:nodes}).
   By Prop.~\ref{prop:shell-local}, their local--local parts are line-of-sight integrals of
   elementary functions; these are not evaluated. Only the terms with $A_2$, $A_3$ or $\nu_2$
   carry the angular and Green-function integrals.
@@ -1468,7 +1555,7 @@ finite $k_0$ that a later analytical argument might prove, so that readers can b
 By Thm.~\ref{thm:logmap}, every part of the fourth-order spectrum except
 $\frac13\operatorname{Re}C_\ell[\theta,L_3]$ needs only second-order quantities. Those parts
 are $\frac14C^{(22)}_\ell$, $\mathcal N_\ell$, $\mathcal M_\ell$ and $\frac14C_\ell[L_2,L_2]$.
-\path{solution/explore_fourth_order.py} evaluates them for $\ell=2$ on the shell ($k_0=1$,
+\path{solution/numerics/explore_fourth_order.py} evaluates them for $\ell=2$ on the shell ($k_0=1$,
 $\sigma=1$), at fixed $\bar t_o/\bar t_\star=3$ and $\bar t_I=\bar t_\star/2$. The ingredients
 are:
 \begin{itemize}
@@ -1490,13 +1577,31 @@ are:
   controls, dropping the ray terms or $A_2$ gives $O(1)$ failures. The clock and endpoint
   terms vanish in this limit and are not tested by it.
 \item The clock shift agrees with a direct root of the exact clock equation to eight digits.
-\item The results are stable to four or five digits under refinement of the $\mu$, sphere,
-  ray and field grids.
+\item The moving-emission endpoint term agrees, to all printed digits, with the mixed
+  $z_az_b$ coefficient obtained by solving the emission condition
+  $\ln t_e+\nu(t_e,X(t_e))=\ln\bar t_\star$ directly for real two-mode fields.
+\item $A_2'$ is computed analytically from the Green representation: the boundary terms of
+  the cumulative integrals cancel, $\nu_2''$ comes from the lapse equation, and
+  $c_{\rm Ham}'$ is differentiated symbolically. It agrees with a finite-difference
+  derivative to $10^{-4}$.
+\item Moving the early-time cutoff of the Green integrals from $10^{-3}\bar t_o$ to
+  $2\times10^{-5}\bar t_o$ changes the results in the seventh digit.
+\item The ray quadrature error scales as $n_t^{-2}$. The earlier $0.4\%$ discrepancy in $T_2$
+  at $x_o=12$ was this error. With $n_t=160\,x_o$, the first-order error is below
+  $10^{-4}$ for $x_o\le12$. Grid refinement in $\mu$, the sphere and the ray changes a node
+  value at $x_o\approx7.9$ only in the sixth digit.
 \item As $x_o\to0$, $\frac14C_2^{(22)}/\sigma^2C_2^{(11)}$ approaches $\frac{17}3$.
+\item At every node of $T_\ell$ below, the pipeline gives $C^{(11)}_\ell\sim10^{-12}$ and
+  $\operatorname{Re}C_\ell[\theta,\theta L_2]\sim10^{-6}$. Both vanish exactly there
+  (Prop.~\ref{prop:nodes}).
 \end{enumerate}
+The convergence tests were made at $x_o\le3$, at one node near $x_o=7.9$, and at $x_o=12$ on
+both trajectories, where $24\to40$ $\mu$ nodes and a $1.5\times$ finer ray grid change
+$\frac14C^{(22)}_2$ only in the sixth digit. The $x_o=16$ rows are not converged (see the note
+below the tables).
 
-\paragraph{Results} (absolute values; $\sigma=1$; the entries at $x_o\ge8$ carry about $1\%$
-error).
+\paragraph{Results.} Absolute values with $\sigma=1$ and $\ell=2$, along the fixed-ratio trajectory
+$x_\star=x_o/3$, $x_I=x_o/6$. The first-order error is at most $1.2\times10^{-4}$.
 \begin{center}
 \begin{tabular}{rrrrrr}
 \toprule
@@ -1509,34 +1614,244 @@ $x_o$ & $C_2^{(11)}$ & $\frac14C_2^{(22)}$ & $\frac14C_2[L_2,L_2]$ & $\mathcal M
 4   & 0.958   & 8.32    & 8.65    & $-2.10$   & $-0.048$\\
 6   & 0.0458  & 5.23    & 4.96    & $0.697$   & $0.126$\\
 8   & 0.00059 & 6.80    & 4.65    & $1.26$    & $0.746$\\
-12  & 0.00035 & 2.43    & 2.44    & $-0.057$  & $0.020$\\
+12  & 0.00036 & 2.43    & 2.44    & $-0.057$  & $0.020$\\
+16$^\dagger$ & 0.0533  & 1.25    & 1.29    & $0.267$   & $0.035$\\
 \bottomrule
 \end{tabular}
 \end{center}
+Fixed-emission trajectory, $x_\star=1$ and $x_I=\frac12$:
+\begin{center}
+\begin{tabular}{rrrrrr}
+\toprule
+$x_o$ & $C_2^{(11)}$ & $\frac14C_2^{(22)}$ & $\frac14C_2[L_2,L_2]$ & $\mathcal M_2$ & $\mathcal N_2$\\\midrule
+2  & 0.0340 & 2.12 & 2.14 & $-0.032$ & $-6.7\times10^{-5}$\\
+4  & 0.946  & 8.31 & 8.53 & $-1.98$  & $-0.028$\\
+8  & 0.0014 & 4.21 & 2.57 & $0.907$  & $0.563$\\
+12 & 0.0302 & 1.76 & 1.63 & $-0.304$ & $0.041$\\
+16$^\dagger$ & 0.00091 & 0.666 & 0.569 & $-0.032$ & $0.047$\\
+\bottomrule
+\end{tabular}
+\end{center}
+\noindent$^\dagger$\emph{Not converged.} At $x_o=16$, going from $24$ to $32$ $\mu$ nodes and from $n_t=2560$ to $3840$ changes
+$\frac14C_2^{(22)}$ from 0.666 to 0.787 (fixed emission) and from 1.251 to 1.287 (fixed ratio), while the first-order
+error stays below $10^{-4}$. Both refinements were made together, so the cause is not isolated. At $x_o=12$, by
+contrast, the same kind of refinement ($24\to40$ $\mu$ nodes, and $n_t$ from 1920 to 2880) changes $\frac14C^{(22)}_2$
+only in the sixth digit on both trajectories. A narrowing resonant layer would have to set in sharply between
+$x_o=12$ and $16$ to explain the change, so a numerical problem at $x_o=16$ is at least as likely. The $x_o=16$
+values should not be used until $\mu$ and $n_t$ are refined separately.
 
-\paragraph{Observations.}
+\emph{Complete fourth-order spectra at linear-transfer nodes} (Prop.~\ref{prop:nodes}). At
+these points $C_\ell=\eps^4\sigma^4\,c_\ell$ exactly through fourth order, with:
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+ & trajectory & nodes $x_o$ of $T_\ell$ & $c_\ell=\frac14C^{(22)}_\ell/\sigma^4$\\\midrule
+$\ell=2$ & $x_\star=x_o/3$ & 2.49867, 6.38035, 7.90609 & 5.686, 3.982, 7.285\\
+$\ell=2$ & $x_\star=1$     & 2.51338, 6.33088, 7.50682 & 5.538, 2.732, 6.222\\
+$\ell=3$ & $x_\star=x_o/3$ & 3.05037, 7.00073, 8.69752 & 3.886, 4.334, 2.353\\
+$\ell=3$ & $x_\star=1$     & 3.05208, 6.92329, 8.48546 & 3.920, 2.582, 1.156\\
+\bottomrule
+\end{tabular}
+\end{center}
+The node positions are roots of the entire-function $T_\ell$. Further nodes for $x_o\le14$
+are at 9.46677 and 11.96208 ($\ell=2$, fixed ratio), at 8.52178, 10.89081 and 13.06476
+($\ell=2$, $x_\star=1$), at 10.60041 and 13.04624 ($\ell=3$, fixed ratio), and at 9.38590,
+11.66731 and 13.83506 ($\ell=3$, $x_\star=1$).
+
+\paragraph{Observations.} The following are leads for analysis, not conclusions.
 \begin{enumerate}
-\item \emph{Hierarchy reversal inside the horizon.} $\frac14C_2^{(22)}$ stays $O(1)\sigma^4$
-  out to $x_o=12$, while $C_2^{(11)}$ decays and passes near zeros of $T_2$. Once
-  $x_o\gtrsim2$ the fourth-order term exceeds the first-order one unless
-  $\eps^2\sigma^2\ll10^{-2}$ (and $\ll10^{-4}$ near zeros of $T_2$). The small
-  renormalisation of \S\ref{sec:sh} is a superhorizon statement only.
+\item \emph{Linear dominance, not perturbative breakdown.} Inside the horizon,
+  $\frac14C_2^{(22)}$ stays $O(1)\sigma^4$ while $C_2^{(11)}$ is smaller and passes through
+  nodes of $T_2$. For $x_o\gtrsim2$ the first-order term dominates the quadrupole only if
+  $\eps^2\sigma^2\ll\frac14C_2^{(22)}/C_2^{(11)}$; at a node the first nonzero prediction is
+  the fourth-order one (Prop.~\ref{prop:nodes}). This is a statement about which order
+  dominates a given multipole. It does not establish breakdown of the expansion, which would
+  need the next order. Away from nodes, the missing $13$ term could still change the
+  fourth-order correction materially.
 \item \emph{Measurement nonlinearity.} $\mathcal N_2+\mathcal M_2$ is below about $5\%$ of
-  $\frac14C_2[L_2,L_2]$ for $x_o\le3$, but it reaches 25--45\% at $x_o=4$--8.
-\item \emph{The local/resonant split cancels.} At small $x_o$ almost all of
-  $\frac14C_2[L_2,L_2]$ comes from the $A_2$ part. At late times the local part, the $A_2$
-  part and their interference are each large and cancel: at $x_o=12$ they are 12.5, 17.4 and
-  $-27.5$, which sum to 2.4. Each piece belongs to a particular frame, and only the sum is
-  physical, so evaluating the pieces separately is not a simpler route.
-\item \emph{No simple momentum structure.} The $\mu$-integrand is smooth. It has no
-  singular feature at the sound cone $\mu=-\frac13$, and it peaks at total momentum
-  $K\approx0.8$--$1.0\,k_0$ rather than at $K\to0$. The density divided by $T_2(K)^2$ varies by
-  orders of magnitude with $x_o$, so the second-order sum mode does not behave like a
-  first-order mode of momentum~$K$.
+  $\frac14C_2[L_2,L_2]$ for $x_o\le3$, and 25--45\% at $x_o=4$--8.
+\item \emph{Large cancelling pieces.} At small $x_o$ almost all of $\frac14C_2[L_2,L_2]$
+  comes from the $A_2$ part. At larger $x_o$ the local part, the $A_2$ part and their
+  interference are each large and strongly anticorrelated: at $x_o=12$ (fixed ratio) they
+  are 12.5, 17.4 and $-27.5$, summing to 2.4. This suggests recombining
+  the amplitudes \emph{before} squaring. For example,
+  $\int A_{2,nn}'e^{iK\cdot\nh(\bar t_o-t)}\dd t=\big[A_{2,nn}e^{iK\cdot\nh(\bar t_o-t)}\big]_{\bar t_\star}^{\bar t_o}+iK\cdot\nh\int A_{2,nn}e^{iK\cdot\nh(\bar t_o-t)}\dd t$
+  turns the field term into endpoint pieces. Those could combine with the observer-frame, ray
+  and emission terms, before the separately squared norms are formed.
+\item \emph{Resonances.} The $\mu$-integrand is smooth at these finite times, as the
+  entire-function representation guarantees. It peaks at $K\approx0.8$--$1.0\,k_0$ in the
+  tested configurations. Neither fact settles the asymptotics. A resonant layer of width
+  $\propto1/t$ is regular at every finite time yet can dominate at late times, so a matched
+  asymptotic analysis in angle and time is needed before any late-time claim. In these runs,
+  $\frac14C^{(22)}$ divided by $T_2(K)^2$ is not universal in $x_o$.
+\item \emph{Two different limits.} The main table follows $x_\star=x_o/3$ and
+  $x_I=x_o/6$: increasing $k_0$ at fixed physical labels, which is the $k_0$-dependence the
+  problem asks for. The late-time limit of \S\ref{sec:limits} instead keeps $x_\star$ and
+  $x_I$ fixed. The second table follows that trajectory with $x_\star=1$, $x_I=\frac12$. The
+  two must not be conflated.
 \end{enumerate}
-The missing piece, $\frac13\operatorname{Re}C_2[\theta,L_3]$, needs a third-order solver. The
-late-time behaviour of $\frac14C^{(22)}_2$, which appears to approach a slowly varying
-$O(1)\sigma^4$, is the natural place to look for an asymptotic closed form.
+\paragraph{The cubic term and the complete fourth-order spectrum.}
+\path{solution/numerics/explore_third_order.py} evaluates the remaining piece,
+$\frac13\operatorname{Re}C_\ell[\theta,L_3]$, at $(k,q,-q)$. Its ingredients are:
+\begin{itemize}
+\item the exact third-order sources of \code{third\_order.py}, together with the
+  third-order Hamiltonian source, extracted for this purpose;
+\item the numerical second-order pair fields, with the exact $K=0$ kernel for the pair
+  $(q,-q)$;
+\item the Green formulas of \S\ref{sec:fields} for $A_3$.
+\end{itemize}
+The map is not taken from the hand-expanded formulas. It is solved from its definitions by a
+numerical multilinear engine: the ray equation, the fields at the displaced ray, the
+emission root, the clock equation, the composition with the random observation time, and
+the normalisation. The checks are:
+\begin{enumerate}
+\item The engine's second-order map reproduces the hand-formula evaluator above to
+  $1.2\times10^{-6}$, and its first-order map to $3\times10^{-9}$. These are two independent
+  implementations.
+\item The third-order dilation Ward identity
+  $\mathcal K_3(k,q,-q)\to(k\partial_k)^2\mathcal K_1$ holds at finite $k$ ($x_o=1.5$). The
+  residual is $3.3\times10^{-2}$ at $q=0.08$ and $8.2\times10^{-3}$ at $q=0.04$, i.e.\ $O(q^2)$.
+  Dropping $A_3$ gives a $46\%$ failure.
+\item Keeping only the scalar part of $A_3$ gives the same $\frac13\operatorname{Re}C_2[\theta,L_3]$
+  as keeping its vector and TT parts, to every printed digit. This confirms that the
+  contracted cubic response is purely scalar.
+\item As $x_o\to0$, $\frac13\operatorname{Re}C_2[\theta,L_3]/\sigma^2C_2^{(11)}$ is $3.720$ at
+  $x_o=0.15$ and $2.895$ at $0.3$; removing the $O(x_o^2)$ term extrapolates to $3.995$,
+  against the expected $4$ (\S\ref{sec:sh}).
+\item At the node $x_o=2.49867$ of $T_2$ the cubic term is $-2\times10^{-5}$, consistent with
+  its exact vanishing (Prop.~\ref{prop:nodes}).
+\end{enumerate}
+With $C^{(4)}_2\equiv\frac14C^{(22)}_2+\frac13\operatorname{Re}C^{(13)}_2$, assembled from
+Thm.~\ref{thm:logmap} as
+$\frac14C^{(22)}_2+\frac13\operatorname{Re}C_2[\theta,L_3]+\operatorname{Re}C_2[\theta,\theta L_2]-C_2^{(11)2}/2\pi$,
+the fixed-ratio trajectory gives ($\sigma=1$):
+\begin{center}
+\begin{tabular}{rrrrrr}
+\toprule
+$x_o$ & $C_2^{(11)}$ & $\frac14C_2^{(22)}$ & $\frac13\operatorname{Re}C_2[\theta,L_3]$ & $C^{(4)}_2$ & $C^{(4)}_2/C^{(11)}_2$\\\midrule
+0.15 & $2.209\times10^{-5}$ & $1.204\times10^{-4}$ & $8.22\times10^{-5}$ & $2.03\times10^{-4}$ & 9.17\\
+0.3  & $3.414\times10^{-4}$ & $1.653\times10^{-3}$ & $9.88\times10^{-4}$ & $2.64\times10^{-3}$ & 7.74\\
+0.6  & 0.00475 & 0.0135 & $-0.00084$ & 0.0127 & 2.67\\
+1    & 0.0258  & 0.0172 & $-0.159$   & $-0.141$ & $-5.5$\\
+1.5  & 0.0596  & 0.387  & $-0.804$   & $-0.420$ & $-7.0$\\
+2    & 0.0423  & 2.611  & $-0.581$   & 2.010    & 47.6\\
+3    & 0.116   & 6.264  & $-7.57$    & $-1.57$  & $-13.5$\\
+4    & 0.958   & 8.324  & $-38.7$    & $-32.2$  & $-33.6$\\
+\bottomrule
+\end{tabular}
+\end{center}
+The small-$x_o$ ratios approach $\frac{29}3=9.67$. Inside the horizon the $22$ and $13$
+contributions are of the same size and partly cancel, and the net fourth-order correction to
+the quadrupole changes sign several times. Away from nodes the cubic term is therefore
+essential, as the review anticipated; the second-order part alone would give the wrong sign
+at $x_o=1$--$1.5$ and at $3$--$4$. Convergence of the cubic term: at $x_o=3$ it is stable to five
+digits under $16\to24$ $\mu$ nodes and under a finer sphere ($20\to28$ polar nodes) and ray
+($300\to450$) grid. At $x_o=4$ it is stable to five digits under $16\to24$ $\mu$ nodes and to
+four digits under a finer sphere ($24\to32$) and ray ($400\to600$) grid.
+
+\paragraph{Amplitude-level recombination (exploratory).}
+To locate the cancellations, split the second-order log-map kernel into pieces $P_i$ and
+measure $\kappa=\sum_i\|P_i\|^2/\|\sum_iP_i\|^2$. The norm is the $\ell=2$ projection integrated
+over $\mu$. $\kappa\approx1$ means the pieces barely cancel; $\kappa\gg1$ means they cancel
+heavily. The pieces are:
+\begin{itemize}
+\item the local shear products, which split into the $e^{2\zeta}$ term $2(H_a'+H_b')$ and
+  the $H_aH_b$ term;
+\item the $A_2'$ term;
+\item the ray displacement $X\cdot\partial\sigma$ and the direction terms $\sigma(n,e)$;
+\item the emission endpoint and the clock.
+\end{itemize}
+The results:
+\begin{center}
+\begin{tabular}{lrrrr}
+\toprule
+grouping & $x_o=1$ & 3 & 6 & 12\\\midrule
+local $|$ $A_2$ $|$ ray $|$ endpoint $|$ clock & 11.8 & 1.01 & 12.6 & 21.8\\
+$\tilde\gamma$ ($=$ local $+A_2$) $|$ ray $|$ endpoint $|$ clock & 6.3 & 0.91 & 4.9 & 9.9\\
+$\tilde\gamma$ integrated by parts (observer, emission, bulk) $|$ ray $|\cdots$ & 6.6 & 6.0 & 43.7 & --\\
+$A_2+HH+e^{2\zeta}+$direction $|$ displacement $|$ endpoint $|$ clock & 1.78 & 1.24 & 3.8 & 10.3\\
+Eulerian: above field group $-\Psi\cdot\partial\sigma$ $|$ $(X+\Psi)\cdot\partial\sigma$ $|\cdots$ & 1.92 & 1.21 & 1.91 & 3.49\\
+\bottomrule
+\end{tabular}
+\end{center}
+Four observations follow.
+\begin{enumerate}
+\item The full second-order metric
+  $\tilde\gamma=A_2+\frac12(H_aH_b+H_bH_a)+2(H_a+H_b)$ (so that $\sigma^{(2)}=\frac12\partial_t\tilde\gamma$)
+  roughly halves the cancellation at every $x_o$. Part of it is an artefact of the
+  exponential parametrisation $\gamma=e^{2\zeta}e^H$.
+\item Grouping the $e^{2\zeta}$ shear term with the direction terms removes almost all
+  cancellation near horizon crossing ($\kappa=1.8$ at $x_o=1$). In orthonormal directions
+  $e^{\zeta}e$, the static conformal factor drops out of $\sigma(e,e)$.
+\item Integrating the field term by parts makes things worse inside the horizon: the observer
+  endpoint and the bulk term cancel.
+\item At late times the residual cancellation is between the field group and the photon
+  displacement $X\cdot\partial\sigma$. The first-order kernel tends to a static profile,
+  $Q\to6/k_0^2$ up to oscillations, so $H_1\to-\frac6{k_0^2}(\partial_i\partial_j-\frac13\delta_{ij}\nabla^2)g$.
+  This is a pure static relabelling of the fluid labels, $X\to X-\frac3{k_0^2}\nabla g$. Its
+  products appear both in $\tilde\gamma$ and in the ray displacement, and they must cancel in
+  the observable. This suggests removing the static part of $H_1$ by an explicit
+  relabelling before expanding. That would be the analogue of the cancellation of bulk
+  displacements in large-scale-structure perturbation theory.
+  A first test supports this. Write $\Psi_a=-\frac i2Q_a(t)\,k_ae^{ik_a\cdot X}$ for the
+  first-order fluid displacement that removes the scalar part of $H_1$; it tends to
+  $-\frac3{k_0^2}\nabla g$ at late times. Split the photon displacement term as
+  $X\cdot\partial\sigma=(X+\Psi)\cdot\partial\sigma-\Psi\cdot\partial\sigma$, and group
+  $-\Psi\cdot\partial\sigma$ with the field and direction terms. This lowers $\kappa$ from
+  3.8 to 1.9 at $x_o=6$ and from 10.3 to 3.5 at $x_o=12$, and leaves it unchanged near horizon
+  crossing (last row of the table). The test keeps only the first-order scalar displacement.
+  Including the full first-order relabelling does not change this. That relabelling is
+  $e=(1-\partial\Psi)(e^Y-v)$ with $v=\partial_t\Psi$, and it adds the Jacobian rotation of
+  $\sigma$ and the fluid-velocity term. Kept as separate groups, the new Jacobian and
+  direction pieces cancel each other (7.1 against 6.5 at $x_o=12$). Combined, they return the
+  same $\kappa=3.5$. The residual is between the Eulerian field group and the photon's
+  displacement relative to the fluid. A likely reason is that only space has been relabelled.
+  In the Eulerian spatial coordinates the conformal factor becomes $\zeta_Y=\zeta(1-Qk^2/6)$,
+  which still oscillates with $O(1)$ amplitude ($\to-g\cos x$) at late times. The
+  temperature-defined time slicing is also displaced, because the radiation temperature
+  oscillates with $O(1)$ amplitude inside the horizon. The natural next step is therefore a
+  full change to longitudinal gauge, including the time shift, in which the potentials decay
+  as $x^{-2}$ inside the horizon.
+\end{enumerate}
+The observer-centred decomposition $g=g(0)+[g-g(0)]$ was also tested. Exact dilation
+covariance, $\Theta[\zeta+c]$ with momenta rescaled by $e^{-c}$, implies two identities. The
+purely dilation parts of $\frac14C^{(22)}$ and $\frac13C^{(13)}$ combine exactly into
+$\frac12\sigma^2D^2C^{(11)}$, with $D=k_0\,\dd/\dd k_0$ at fixed times. The dilation--centred
+cross terms combine into a total derivative $-2D\operatorname{Re}X$, with
+$X=\int\!\!\int PP\,A^c_2A_1^*$. This generalises the superhorizon $8=4+4$. At finite $k_0$,
+however, $\frac12\sigma^2D^2C^{(11)}$ is not the dominant part of $C^{(4)}$: the remainder is
+$-8.3\,C^{(11)}$ at $x_o=1$ and $-67\,C^{(11)}$ at $x_o=3$. The cross term of
+Prop.~\ref{prop:obs-dilation} was then evaluated (\path{cross_term} in \path{solution/numerics/explore_fourth_order.py}), which
+determines the centred part $C^{c,4}_2=C^{(4)}_2-\frac12\sigma^2D^2C^{(11)}_2+2D_{k_0}X_2$. In units of
+$C^{(11)}_2$, fixed ratio:
+\begin{center}
+\begin{tabular}{rrrrr}
+\toprule
+$x_o$ & $C^{(4)}_2$ & dilation & cross & centred\\\midrule
+0.15 & 9.17 & 7.89 & $-0.25$ & 1.53\\
+0.3  & 7.74 & 7.54 & $-0.95$ & 1.15\\
+0.6  & 2.67 & 6.16 & $-3.30$ & $-0.19$\\
+1    & $-5.49$ & 2.79 & $-5.95$ & $-2.33$\\
+1.5  & $-7.05$ & $-4.03$ & $-0.18$ & $-2.83$\\
+2    & 47.6 & $-10.4$ & 28.0 & 30.0\\
+3    & $-13.5$ & 53.9 & $-168.5$ & 101.1\\
+\bottomrule
+\end{tabular}
+\end{center}
+The small-$x_o$ entries follow the proposition: the centred part tends to $\frac53$, and the
+cross term vanishes as $x_o^2$. Inside the horizon the three pieces are each large and
+cancel, as at $x_o=3$, so the observer-centred split relocates the cancellation rather
+than removing it. Its value is the exact superhorizon structure, not a simplification at
+finite $k_0$.
+
+The cubic term was evaluated by contraction, as follows. Only the
+$q$-contracted third-order field is needed, $\bar A_3(k,t)=\int_qP(q)A_3(k,q,-q;t)$. The
+third-order operator depends only on the total momentum $k$, and after the contraction $k$ is
+the only remaining direction. Hence
+$\bar A_{3,ij}=\bar h_3(k,t)(\hat k_i\hat k_j-\frac13\delta_{ij})$: the loop-averaged vector and
+TT responses vanish. The new third-order work is therefore a scalar problem (lapse plus
+scalar spatial part) with $q$-averaged sources. These sources, and the lower-order products in
+$L_3$, still contain the second-order vectors and tensors, which are kept.
 
 \begin{thebibliography}{99}
 \bibitem{MirbabayiZaldarriaga}

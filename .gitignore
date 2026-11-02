@@ -6,3 +6,7 @@ solution/results/.closed_second_order.pkl
 *.log
 *.toc
 
+*.out
+.DS_Store
+# regenerable numeric caches (rebuilt automatically from the exact sources on first use)
+solution/results/*_numeric.pkl

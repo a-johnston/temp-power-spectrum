@@ -72,8 +72,47 @@ def check_operator():
     print('[ok] Gaussian average of the dilation operator: exp(eps^2 m0 D^2/2) = e^{8 eps^2 m0} on degree 4')
 
 
+def check_centred_kernels():
+    """Superhorizon kernels of the observer-centred field (Prop. obs-dilation):
+    K2^c = K2 + D K1(k) + D K1(q) = -tau^2 TF(kq+qk)_nn  and  K3^c(k, q, -q) = 0."""
+    k = sp.Matrix(sp.symbols('k1:4', real=True))
+    q = sp.Matrix(sp.symbols('q1:4', real=True))
+    nv = sp.Matrix(n)
+    z = sp.symbols('z1:4')
+    lam = sp.Symbol('lam', positive=True)
+    def kernels(kv):
+        # leading map at X = 0 for zeta = sum_a z_a e^{i k_a.X}: zeta = sum z, zeta_i = i sum z k, zeta_ij = -sum z k k
+        zeta = sum(z)
+        zi = sp.I * sum((za * ka for za, ka in zip(z, kv)), sp.zeros(3, 1))
+        zij = -sum((za * ka * ka.T for za, ka in zip(z, kv)), sp.zeros(3))
+        TF = lambda M: M - sp.eye(3) * M.trace() / 3
+        th = -tau**2 * sp.exp(-2 * eps * zeta) * (nv.T * TF(eps * zij - eps**2 * zi * zi.T) * nv)[0]
+        th = sp.expand(sp.series(th, eps, 0, 4).removeO())
+        return th
+    th = kernels([k, q, -q])
+    coef = lambda mons: sp.expand(sp.Poly(th, *z, eps).coeff_monomial(mons))
+    z1, z2, z3 = z
+    K1k = coef(z1 * eps)
+    K1q = coef(z2 * eps)
+    K2kq = coef(z1 * z2 * eps**2)
+    K2kmq = coef(z1 * z3 * eps**2)
+    K2qmq = coef(z2 * z3 * eps**2)
+    K3 = coef(z1 * z2 * z3 * eps**3)
+    Dil = lambda e: sp.expand(sp.diff(e.subs({**{c: lam * c for c in k}, **{c: lam * c for c in q}}, simultaneous=True), lam).subs(lam, 1))
+    K1mq = K1q   # even in q
+    K2c = lambda K2, a, b: sp.expand(K2 + Dil(a) + Dil(b))
+    K2c_kq = K2c(K2kq, K1k, K1q)
+    target = -tau**2 * sp.expand((nv.T * ((k * q.T + q * k.T) - sp.eye(3) * 2 * (k.T * q)[0] / 3) * nv)[0])
+    assert sp.simplify(K2c_kq - target) == 0
+    K3c = sp.expand(K3 + Dil(K2c_kq) + Dil(K2c(K2kmq, K1k, K1mq)) + Dil(K2c(K2qmq, K1q, K1mq))
+                    - Dil(Dil(K1k)) - Dil(Dil(K1q)) - Dil(Dil(K1mq)))
+    assert sp.simplify(K3c) == 0
+    print('[ok] superhorizon centred kernels: K2^c = -tau^2 TF(kq+qk)_nn (pure gradient^2), K3^c(k,q,-q) = 0')
+
+
 if __name__ == '__main__':
     check_dilation()
     check_mean_factorisation()
     check_operator()
+    check_centred_kernels()
     print('DILATION FACTORISATION CHECKS PASSED (exact symbolic algebra)')

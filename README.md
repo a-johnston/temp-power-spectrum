@@ -1,40 +1,55 @@
-# Analytical CMB temperature power spectrum through fourth order (radiation-only universe)
+# The observed CMB temperature power spectrum through fourth order (radiation-only universe)
 
+Analytical solution of the problem in `problem_statement.tex`: the observed temperature anisotropy
+through third order and its angular power spectrum through fourth order in the primordial
+amplitude, for a flat radiation-only universe in general relativity, with Planck test photons
+emitted on a physical temperature surface and an observer on a fluid worldline.
+
+## Start here
+
+- **`report/temperature_spectrum_report.tex`** (and `.pdf`): the final report. It contains every
+  result, proof and evaluated limit, the verification ledger, what remains unevaluated, and an
+  appendix of exploratory (not-evidence) numerics. Build with `pdflatex` run three times in
+  `report/` (or `latexmk -pdf`).
 - `problem_statement.tex`: the task.
-- **`PLAN.md`**: the unified plan, merging the orange and purple branches. It is authoritative
-  where they differ.
-- **`derivations/UNIFIED_DERIVATION.md`**: the execution of the plan, through third order in the
-  map and fourth order in `C_ℓ`, with a status ledger. Each result is marked as evaluated, an
-  exact integral representation, or open.
-- **`report/temperature_spectrum_report.tex`**: the final report for the problem. It covers the
-  results, the proofs, the evaluated limits, the verification ledger, and what remains
-  unevaluated. The strengthened report includes a constraint-proof repair, an explicit
-  Fermi–Walker map correction, compact finite-time source/map/spectrum representations, and
-  an all-amplitude Gaussian average of the leading-gradient quadrupole (not a finite-wavelength
-  resummation). A comparison with Mirbabayi & Zaldarriaga, *CMB Anisotropies from a Gradient
-  Mode* (arXiv:1409.4777v2), adds an exact adiabatic-gradient null test and a finite-time
-  soft-gradient identity. It distinguishes a nonlinear coordinate mode from the physical
-  gradient-squared signal for the stated Gaussian seed. Matter-era transfer coefficients
-  are not used. The linear transfer function is now given for every ℓ in the same entire
-  kernels as the second-order fields, and the superhorizon spectrum is factorised into an
-  random observer dilation (part of the answer for the posed ensemble) and a curvature norm;
-  the leading octupole is a curvature-gradient multipole with a resummed spectrum. The fourth-order
-  spectrum is split exactly via the centred log-temperature map into its own spectrum, a
-  explicit lognormal 3j term and a collapsed bispectrum; on the monochromatic shell the
-  non-local (resonant) content is confined to A₂, A₃ and ν₂. The large expanded
-  kernels remain in the referenced ancillary files.
-  The report's repaired constraint proof and explicit frame completion supersede the
-  corresponding older derivation notes.
-  Build with `latexmk -pdf` in the devbox image, or run `pdflatex` twice in `report/`.
-- `solution/`: exact SymPy checks for the unified derivation. Run them with `solution/run_all.sh`.
-  The exact sources are in `solution/results/`.
 
-Earlier material, kept for provenance (the unified documents supersede it):
+Main results, in report order: the exact temperature-frame redshift formula; the triangular
+field solution with all ten equations proved; second-order kernels in closed form and
+third-order kernels as nested integrals; the complete map Θ⁽¹⁻³⁾; the entire-function closed form
+of the linear transfer function T_ℓ for every ℓ; the log-map and observer-dilation
+decompositions of the fourth-order spectrum; complete fourth-order spectra at zeros of T_ℓ; and
+the superhorizon quadrupole and octupole exact in ζ (fourth-order factors 1 + 29ε²σ²/3 and
+1 + 46ε²σ²).
 
-- orange: `APPROACH.md`, `derivations/{QUADRATIC,CUBIC}_INITIAL_DATA.md`, `OFFSHELL_VALIDATION.md`,
-  `reviews/`, and `validation/` (run with `python -B -m unittest discover -s validation -p 'check_*.py'`);
-- purple: `approach/approach.tex`, `approach/VALIDATION.md`, and `verification/` (run with
-  `verification/run_all.sh`).
+## Setup
+
+```
+uv sync            # creates .venv with sympy, mpmath, numpy (pyproject.toml, uv.lock)
+```
+
+## Reproduce
+
+- Exact checks (SymPy, no numerical evidence): `solution/run_all.sh` uses `.venv` by default
+  (override with `PYTHON=...`). The slow steps are listed in its header. Individual checks run
+  as `.venv/bin/python solution/<script>.py`; the table below says what each establishes.
+- Older layers, kept for provenance: `verification/run_all.sh` and
+  `python -B -m unittest discover -s validation -p 'check_*.py'`.
+- Exploratory numerics (report appendix; **not evidence**): see below.
+
+## Layout
+
+| Path | Contents |
+|---|---|
+| `report/` | the final report |
+| `solution/` | the exact SymPy checks behind the report (table below); `solution/results/` holds the exact expanded sources and kernels referenced by the report |
+| `solution/numerics/` | exploratory finite-k₀ numerics (below) |
+| `verification/` | exact lemmas, generic-jet field equations, first order in two gauges, the earlier Ci/Si transfer closed form |
+| `reviews/` | independent reviews and review notes (the report incorporates their accepted points) |
+| `arXiv-1409.4777v2/` | Mirbabayi & Zaldarriaga, *CMB Anisotropies from a Gradient Mode*, used for comparison |
+| `PLAN.md`, `derivations/UNIFIED_DERIVATION.md` | the unified plan and its execution notes; the report supersedes them where they differ |
+| `APPROACH.md`, `approach/`, `derivations/{QUADRATIC,CUBIC}_INITIAL_DATA.md`, `derivations/OFFSHELL_VALIDATION.md`, `validation/` | earlier (orange and purple) branches, kept for provenance |
+
+## Exact checks in `solution/`
 
 | `solution/` script | What it establishes |
 |---|---|
@@ -59,4 +74,18 @@ Earlier material, kept for provenance (the unified documents supersede it):
 | `check_logmap_decomposition.py` | exact check (~2 min) of the log-map decomposition `¼C⁽²²⁾ + ⅓Re C⁽¹³⁾ = C^{L,4} + N_ℓ[C] + M_ℓ` and of the explicit 3j lognormal term, in a band-limited Gaussian sky with non-Gaussian `L₂`, `L₃` |
 | `check_shell_locality.py` | on the monochromatic shell the first-order fields and θ are local in g; σ⁽²⁾ = ½A₂′ + ½(H₁²)′ + 2gH₁′, so A₂ is the only non-local second-order input to the map |
 | `check_gradient_octupole.py` | leading octupole: conformal identity ∇⟨aR_bc⟩ = (f/2)[∂³f²]_STF, leading T_ℓ coefficient (ℓ = 2..7), β₃, exact Wick moments of the resummed octupole spectrum and the shell ratios 148σ², 27σ²; ⟨θθL₂⟩ = 0 at leading gradient order (so M_ℓ = O(κ⁸)) |
-| `explore_fourth_order.py ward\|scan` | **exploratory numerics, not evidence** (report appendix): second-order part of the fourth-order spectrum at finite k₀; validated by the closed-form T₂, a finite-k Ward identity with negative controls, and grid convergence. Needs numpy: `uv run --no-project --with numpy --with sympy --with mpmath python explore_fourth_order.py scan` |
+
+## Exploratory numerics in `solution/numerics/` (not evidence)
+
+The problem forbids numerics in place of derivation. These scripts only look for structure at
+finite k₀, to be proved analytically; the report records them in an appendix.
+
+| Script | What it does |
+|---|---|
+| `explore_fourth_order.py ward\|harden\|scan` | second-order part of the fourth-order spectrum on the monochromatic shell from the exact sources and the report's Green and map formulas; validated by the closed-form T₂, a finite-k dilation Ward identity with negative controls, an independent emission-endpoint test, analytic A₂′, cutoff and grid convergence; complete fourth-order C_ℓ at nodes of T_ℓ; amplitude-level recombination diagnostics (`recombination`) and the observer-dilation cross term (`cross_term`) |
+| `explore_third_order.py check2\|ward3\|c13` | numerical multilinear engine that solves the map from its definitions through third order at (k, q, −q); reproduces the second-order map of the other script to 1e-6; third-order Ward identity with O(q²) residual and a negative control; superhorizon limit 4; node check; gives ⅓Re C[θ, L₃] and hence the complete fourth-order C₂ away from nodes |
+
+Run from `solution/numerics/`, e.g. `../../.venv/bin/python explore_fourth_order.py scan`. The
+numeric source caches `solution/results/*_numeric.pkl` are rebuilt automatically from
+`second_order.py` and `third_order.py` on first use and are not tracked. Large-x_o runs are
+memory-hungry (several GB at x_o = 16).
