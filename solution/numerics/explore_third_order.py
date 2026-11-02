@@ -276,7 +276,7 @@ def third_field(k, q, tg, pairs, scalar_only=False):
         hp = 2 / (K * tg**2) * (np.sin(K * tg) * Ic - np.cos(K * tg) * Is) - 2 / tg * (np.cos(K * tg) * Ic + np.sin(K * tg) * Is)
         A = A + KV[:, None, None] * w[None] + w[:, None] * KV[None, :, None] + h
         Ap = Ap + KV[:, None, None] * wp[None] + wp[:, None] * KV[None, :, None] + hp
-    return dict(A=np.moveaxis(A, -1, 0), Ap=np.moveaxis(Ap, -1, 0), nu=nu)
+    return dict(A=np.moveaxis(A, -1, 0), Ap=np.moveaxis(Ap, -1, 0), nu=nu, hSp=hSp, cN=cN, cH=cH, c3=c3)
 
 
 # ------------------------------------------------------------------ the map

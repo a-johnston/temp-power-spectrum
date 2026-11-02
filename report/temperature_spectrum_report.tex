@@ -227,6 +227,29 @@ $v_o=-\nh$ in the symmetric frame. The ray equation for $v$ still carries the sp
 connection, and the emission surface and clock are unchanged, so propagation effects are not
 removed; they are reorganised.
 
+The reorganisation applies to the whole map. Because $\sigma_{ij}e^ie^j=v^T\mathcal B v$
+holds exactly at the displaced point, the integrand coefficients $F_r$ of
+\S\ref{sec:obs} are given by the same multilinear formulas with
+\[
+\sigma_r\to\mathcal B_r,\qquad e_r\to v_r,\qquad
+\mathcal B_1=\tfrac12H_1',\quad\mathcal B_2=\tfrac12H_2',\quad
+\mathcal B_3=\tfrac12H_3'+\tfrac18\big[H_1,[H_1,H_1']\big],
+\]
+where $v_r$ are the Taylor coefficients of $e^{\zeta}e^{H/2}e$ along the ray and $\bar v=\bar e=-\nh$.
+In particular
+\[
+\boxed{F_2=\tfrac12H_{2,nn}'+X_1\!\cdot\!\partial H_{1,nn}'-2H_1'(n,v_1),}
+\]
+with no local products of first-order fields. The first-order orthonormal direction
+satisfies $v_1(t_o)=0$ and
+\[
+v_1'=P_\perp\big(\tfrac12H_1'n+\nabla\zeta_1\big)+\tfrac12\big[\nabla H_{1,nn}-(n\cdot\partial)(H_1n)\big],
+\qquad P_\perp=1-nn^T,
+\]
+which is transverse, $n\cdot v_1'=0$, so $v$ stays a unit vector at this order. The positions
+still follow $X'=e=e^{-\zeta}e^{-H/2}v$, because they are comoving labels. Both statements are
+checked exactly for generic fields in \path{solution/check_orthonormal_map.py}.
+
 \begin{remark}[Longitudinal-gauge form]\label{rem:longitudinal}
 The same measurement can be written exactly in longitudinal (Poisson) variables,
 $\dd s^2=a^2[-e^{2\Phi}\dd\eta^2+h_{ij}(\dd y^i+\beta^i\dd\eta)(\dd y^j+\beta^j\dd\eta)]$ with
@@ -609,6 +632,9 @@ F_1&=\sigma_{1,nn},\qquad F_2=\sigma_{2,nn}+2X_1\!\cdot\!\partial\sigma_{1,nn}-4
 F_3&=\sigma_{3,nn}+3X_1\!\cdot\!\partial\sigma_{2,nn}-6\sigma_2(n,e_1)+3X_2\!\cdot\!\partial\sigma_{1,nn}+3(X_1\!\cdot\!\partial)^2\sigma_{1,nn}\\
 &\quad-12(X_1\!\cdot\!\partial)\sigma_1(n,e_1)-6\sigma_1(n,e_2)+6\sigma_1(e_1,e_1).
 \end{align*}
+Equivalently, in the orthonormal directions of Prop.~\ref{prop:orthonormal}, replace
+$\sigma_r\to\mathcal B_r$ and $e_r\to v_r$. Then
+$F_2=\frac12H_{2,nn}'+X_1\cdot\partial H_{1,nn}'-2H_1'(n,v_1)$ contains no local products.
 
 \paragraph{Ray.} The displacements are
 \[
@@ -688,9 +714,13 @@ $Q_a=-6[2\sin x/x-\cos x-1]/k^2$:
 The second-order shear is
 $\sigma_{ab}=\frac12H_{ab}'+\frac14(H_aH_b+H_bH_a)'+H_a'+H_b'$, and
 \begin{align*}
-I_{ab}&=\int_{\bar t_\star}^{t_o}\!\dd t\,\big\{\sigma_{ab,nn}+i(k_b\!\cdot\!X_a)\sigma_{b,nn}+i(k_a\!\cdot\!X_b)\sigma_{a,nn}-2\sigma_b(n,e_a)-2\sigma_a(n,e_b)\big\}-[F_ad_b+F_bd_a]_{\bar t_\star},\\
+I_{ab}&=\int_{\bar t_\star}^{t_o}\!\dd t\,\big\{\sigma_{ab,nn}+i(k_b\!\cdot\!X_a)\sigma_{b,nn}+i(k_a\!\cdot\!X_b)\sigma_{a,nn}-2\sigma_b(n,e_a)-2\sigma_a(n,e_b)\big\}-[F_ad_b+F_bd_a]_{\bar t_\star}\\
+&=\int_{\bar t_\star}^{t_o}\!\dd t\,\big\{\tfrac12H_{ab,nn}'+i(k_b\!\cdot\!X_a)\sigma_{b,nn}+i(k_a\!\cdot\!X_b)\sigma_{a,nn}-H_b'(n,v_a)-H_a'(n,v_b)\big\}-[F_ad_b+F_bd_a]_{\bar t_\star},\\
 \Theta_{ab}&=I_aI_b-I_{ab}-\sky{I_a}I_b-\sky{I_b}I_a+2\sky{I_a}\sky{I_b}-\sky{I_aI_b}+\sky{I_{ab}}+D_a\partial\Theta_b+D_b\partial\Theta_a .
 \end{align*}
+In the second form, $v_a=e_a-(1+\frac12H_a)\nh\,e^{i\lambda k_a\cdot\nh}$ vanishes at the observer.
+The local shear products $\frac14(H_aH_b+H_bH_a)'+H_a'+H_b'$ cancel identically against
+$e_a-v_a$ (Prop.~\ref{prop:orthonormal}).
 A compact expression for \emph{all} map kernels is obtained by taking $\mathcal J_a$,
 $\mathcal J_{ab}$ and $\mathcal J_{abc}$ to be the centred-exponent kernels \emph{after}
 clock composition. In the symmetric frame, \eqref{eq:centred-map} polarises to
@@ -1339,6 +1369,61 @@ propagation products must be kept, and the uncontracted map $\Theta^{(3)}$ still
 three sectors. The exploratory evaluation in App.~\ref{app:numerics} confirms numerically that
 keeping only the scalar part reproduces the full result.
 
+The scalar problem need not be solved at all: its contribution to the observable passes
+through the Green operator onto the sources. Write
+$\mathcal T_\ell[h](s)=\frac12\int_{\max(s,\bar t_\star)}^{t_o}\partial_th(t)\,w_\ell(k_0(t_o-t))\,\dd t$
+for the partial transfer integral of a scalar metric profile $h$, so that
+$\mathcal T_\ell[h_{S1}](0)=T_\ell$ with $h_{S1}=Q_1k^2$. Let
+$\mathcal H[\nu]=\frac{3}{2K^2}(4K^2\nu+12\nu'/t+12\nu/t^2)$ be the lapse-to-metric map of the
+triangular scheme, and $c=k_0/\sqrt3$.
+
+\begin{proposition}[Adjoint form of the top-order cubic response]\label{prop:adjoint}
+On the shell, the part of $\frac13\operatorname{Re}C^{(13)}_\ell$ that is linear in the
+third-order field kernels is
+\[
+\boxed{\frac{\frac13\operatorname{Re}C^{(13)}_\ell\big|_{\rm top}}{\sigma^2C^{(11)}_\ell}
+=14+\frac1{T_\ell}\Big[\int_0^{t_o}\mathcal W_\ell(s)\,\bar c_N(s)\,\dd s
++\frac{3}{4k_0^2}\int_{\bar t_\star}^{t_o}w_\ell(k_0(t_o-t))\,\partial_t\bar c_{\rm Ham}(t)\,\dd t\Big],}
+\]
+where $\bar c=\frac12\int_{-1}^1\operatorname{Re}c^{(3)}(k,q,-q)\,\dd\mu$ are the
+shell-averaged third-order sources, $14=c_3/c_1$ is the regular-lapse ratio on the shell, and
+the adjoint kernel is
+\[
+\mathcal W_\ell(s)=-\frac1{3c}\Big[u_1(cs)\,\mathcal T_\ell[\mathcal H u_2](s)
+-u_2(cs)\,\mathcal T_\ell[\mathcal H u_1](s)\Big]
+-\frac{3}{k_0^2s}\,w_\ell(k_0(t_o-s))\,\mathbb 1_{s>\bar t_\star}.
+\]
+Here $\mathcal T_\ell[\mathcal Hu_1](s)=-\mathcal T_\ell[h_{S1}](s)$ is minus the partial
+first-order transfer function, and $\mathcal T_\ell[\mathcal Hu_2](s)$ is the same integral for
+the decaying lapse mode $u_2$. Both are constant for $s<\bar t_\star$. The adjoint kernel is
+thus the Wronskian of the growing- and decaying-mode partial transfer functions, plus a local
+term from the jump $\partial_tG_N(t,t)=-\frac13$ of the lapse Green function. No third-order
+field equation is solved.
+\end{proposition}
+\begin{proof}
+At order three the field kernels $(\nu_3,A_3)$ enter the map exactly as a first-order field of
+momentum $K=k$ would. They do not enter the emission or clock shifts at all: $d_3$ multiplies
+$F_0=0$ and $D_3$ multiplies $\partial_{t_o}\Theta_0=0$. They also do not enter the ray, since
+$X_3$ and $e_3$ multiply background derivatives that vanish. What remains is
+$-\int\frac12A'_{3,nn}e^{iK\cdot n\lambda}\dd t$. By Prop.~\ref{prop:contracted} only
+$h_{S3}$ survives the shell average, and it carries the first-order angular structure, so its
+$\ell$-projection relative to that of $\theta$ is $\mathcal T_\ell[h_{S3}](0)/T_\ell$. Insert
+$h_{S3}=\mathcal H[\nu_3]+\frac{3}{2K^2}c^{(3)}_{\rm Ham}$ and the Green formula for $\nu_3$ of
+\S\ref{sec:fields}. The homogeneous term $\frac{9c_3}{K^2}u_1$ gives $c_3/c_1$, because
+$\nu_1=-u_1$ and $\mathcal H[u_1]=6-h_{S1}$. In the particular term, $\partial_t\mathcal H$
+contains $\nu_3''$, whose Green function has the jump $-\frac13$; that produces the local term.
+Exchanging the $t$ and $s$ integrals (Fubini on $0<s<t<t_o$) gives the rest. The sources are
+local in time, so the $\mu$ average passes through.
+\end{proof}
+The proposition is checked against the direct third-order Green solution, and against the
+full numerical cubic map, in \path{solution/numerics/explore_adjoint.py}. The relative
+agreement is $3\times10^{-4}$ at $x_o=3$ (kernel level) and $4\times10^{-4}$ at $x_o=1.5$ (map
+level, $\ell=2$). At $x_o=1$ it is $1$--$2\times10^{-3}$, except at $\mu=0.9$, where the value
+is small and the agreement is $2\times10^{-2}$, decreasing under grid refinement. This is
+numerical evidence for an analytic identity. The identity reorganises the integrals without
+removing their cancellation: at $x_o=1$, $\mu=0.9$ the three terms $14$, $-73$ and $+58$ (in
+units of $T_\ell$) sum to $-0.24$. The rest of $C^{(13)}$, from products of lower-order fields in the map, is untouched.
+
 \begin{proposition}[Complete fourth order at linear-transfer nodes]\label{prop:nodes}
 On the shell, $C^{(13)}_\ell\propto T_\ell(k_0)$, and the cubic kernel is finite at finite
 times. Hence, at every nontrivial zero of $T_\ell(k_0)$, $C^{(11)}_\ell=C^{(13)}_\ell=0$ and
@@ -1887,7 +1972,8 @@ Leading octupole; $\mathcal M_\ell$ cancellation & \code{solution/check\_gradien
 Next superhorizon order & \path{solution/superhorizon_next.py kernels2|kernels3|spectrum}: map kernels through $O(\kappa^4)$ from the fast generator; $C^{(11)}_2$ at $O(k_0^6)$ checked against the transfer integral. \path{solution/check_quadrupole_next_hand.py --compare}: an independent hand-map calculation reproducing $C^{(11)}_2$ and $\frac14C^{(22)}_2$ at $O(k_0^6)$ and every component of the projected kernel; endpoint and clock pieces nonzero; negative controls\\
 Separated sky factors (Prop.~\ref{prop:translation}) & \path{solution/check_bessel_translation.py}: the translation form equals the Funk--Hecke form exactly through degree 10, $\ell\le4$, symbolic $\mu$; negative control\\
 Projector-free Cartesian solution (Prop.~\ref{prop:cartesian}) & \path{solution/check_cartesian_green.py}: eigenvalues of $\mathfrak B_K$ ($K^2$, $0$, $-K^2/3$); the Cartesian series, with coefficients polynomial in $K$, equals the projector-based kernels exactly through $O(t^7)$ for $(k,q)$, $(k,-q)$, the $K=0$ pair $(q,-q)$, and third order at $(k,q,-q)$\\
-Orthonormal redshift driver (Prop.~\ref{prop:orthonormal}) & \path{solution/check_orthonormal_driver.py}: $\frac12e^{-H/2}(e^H)'e^{-H/2}=\frac12H'+\frac1{48}[H,[H,H']]+O(\eps^4)$ for generic non-commuting matrices; the shell commutator vanishes\\
+Orthonormal redshift driver (Prop.~\ref{prop:orthonormal}) & \path{solution/check_orthonormal_driver.py}: $\frac12e^{-H/2}(e^H)'e^{-H/2}=\frac12H'+\frac1{48}[H,[H,H']]+O(\eps^4)$ for generic non-commuting matrices; the shell commutator vanishes. \path{solution/check_orthonormal_map.py}: the first-order orthonormal direction equation is transverse, and the second-order integrand in $v$ equals the original one (the local products cancel against $e-v$), for generic fields\\
+Adjoint top-order cubic response (Prop.~\ref{prop:adjoint}) & Proof by Fubini. Numerical only (exploratory engine): \path{solution/numerics/explore_adjoint.py kernel|map} agrees with the direct third-order Green solution and with the full numerical cubic map to $3$--$4\times10^{-4}$ at $x_o=1.5,3$\\
 Longitudinal-gauge redshift & \path{solution/check_longitudinal_redshift.py}: the ADM energy law with a shift on generic jets; exact equality with the temperature-frame exponent including the endpoint conformal and Doppler factors; $\Phi=\Psi$ and zero first-order scalar shift under the full time-and-space map; clock identity; negative controls\\
 Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$; superhorizon observer-centred kernels of Prop.~\ref{prop:obs-dilation} ($\mathcal K^c_2=-\tau^2\TF(kq+qk)_{nn}$, $\mathcal K^c_3(k,q,-q)=0$)\\
 Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
@@ -1919,11 +2005,13 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
   $O(k_0^6)$, and the $O(k_0^8)$ correction to $C_3$, are not yet computed.
 \item Further routes for the finite-$k_0$ integrals, not yet pursued:
   \begin{itemize}
-  \item the orthonormal-direction driver of Prop.~\ref{prop:orthonormal}, applied throughout the
-    map construction;
-  \item contracting and projecting the cubic sources and propagation products before solving,
-    with observable-weighted (adjoint) Green kernels, so that the integral over the line of
-    sight passes through the Green operator;
+  \item the orthonormal form of the cubic map ($F_3$ with $\mathcal B_r$, $v_r$) evaluated on the
+    shell. At second order it removes the local products and the near-horizon cancellation,
+    but not the late-time one (App.~\ref{app:numerics});
+  \item the adjoint form (Prop.~\ref{prop:adjoint}) handles the top-order cubic field. Still
+    open: the same treatment of the propagation products (ray, endpoint and clock terms built
+    from lower-order fields), and the shell-averaged sources $\bar c_N$, $\bar c_{\rm Ham}$ in
+    closed form;
   \item evaluating the Legendre moments of the field amplitudes left by the separated sky form
     (Prop.~\ref{prop:translation});
   \item shuffle identities for the ordered time integrals, for example $E_{ab}+E_{ba}=F_aF_b$
@@ -2175,6 +2263,8 @@ $\tilde\gamma$ ($=$ local $+A_2$) $|$ ray $|$ endpoint $|$ clock & 6.3 & 0.91 & 
 $\tilde\gamma$ integrated by parts (observer, emission, bulk) $|$ ray $|\cdots$ & 6.6 & 6.0 & 43.7 & --\\
 $A_2+HH+e^{2\zeta}+$direction $|$ displacement $|$ endpoint $|$ clock & 1.78 & 1.24 & 3.8 & 10.3\\
 Eulerian: above field group $-\Psi\cdot\partial\sigma$ $|$ $(X+\Psi)\cdot\partial\sigma$ $|\cdots$ & 1.92 & 1.21 & 1.91 & 3.49\\
+orthonormal: $A_2$ $|$ $-2\sigma(n,v)$ $|$ displacement $|$ endpoint $|$ clock & 1.73 & 0.99 & 6.2 & 13.9\\
+orthonormal: $A_2+$displacement $|$ $-2\sigma(n,v)$ $|$ endpoint $|$ clock & 1.23 & 0.86 & 3.45 & 3.99\\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -2188,7 +2278,16 @@ Four observations follow.
   cancellation near horizon crossing ($\kappa=1.8$ at $x_o=1$). In orthonormal directions
   $e^{\zeta}e$, the static conformal factor drops out of $\sigma(e,e)$. Prop.~\ref{prop:orthonormal} completes
   this analytically: in the fully orthonormal direction $e^{\zeta}e^{H/2}e$ the driver is
-  $\frac12H'$ through third order on the shell.
+  $\frac12H'$ through third order on the shell. In the map the local products, the
+  $e^{2\zeta}$ term and the $\sigma(n,e)$ terms combine exactly into the single piece
+  $-H_b'(n,v_a)-H_a'(n,v_b)$; the numerics reproduce this identity to quadrature accuracy.
+  That piece is small: its share of the norm is $0.13$, $0.04$, $0.76$ and $1.3$ at
+  $x_o=1,3,6,12$, against about 5 for each of its constituents. Its three constituents were
+  cancelling among themselves, not against the rest of the kernel. The orthonormal rows of the
+  table show what is left. Near horizon crossing almost nothing cancels, and grouping $A_2$
+  with the displacement gives $\kappa=1.23$ at $x_o=1$, the lowest of any grouping. The
+  late-time cancellation between $A_2$ and the displacement is untouched: orthonormal
+  directions do not address it (observation 4).
 \item Integrating the field term by parts makes things worse inside the horizon: the observer
   endpoint and the bulk term cancel.
 \item At late times the residual cancellation is between the field group and the photon

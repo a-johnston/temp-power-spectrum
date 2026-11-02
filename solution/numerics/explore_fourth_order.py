@@ -517,7 +517,12 @@ def kernel_pieces(S, a, b, A2data):
     jac = -2j * kna * sn(b["sig_n"], Psi_a) * b["ph"] - 2j * knb * sn(a["sig_n"], Psi_b) * a["ph"]
     vel = 2 * sn(b["sig_n"], v_a) * b["ph"] + 2 * sn(a["sig_n"], v_b) * a["ph"]
     dirE = (ray - rayX) - vel - jac
+    # orthonormal photon direction v = e^zeta e^{H/2} e:  v_a = e_a - (n + H_a n / 2) e^{i k_a.Xbar}
+    va = a["e"] - (n[:, None, :] + 0.5 * Qa[None, :, None] * a["Mn"][:, None, :]) * a["ph"][:, :, None]
+    vb = b["e"] - (n[:, None, :] + 0.5 * Qb[None, :, None] * b["Mn"][:, None, :]) * b["ph"][:, :, None]
+    dirV = -2 * sn(b["sig_n"], va) * b["ph"] - 2 * sn(a["sig_n"], vb) * a["ph"]  # -H_b'(n,v_a) - H_a'(n,v_b)
     P = dict(
+        dirV=-np.trapezoid(dirV, tr, axis=1),
         jac=-np.trapezoid(jac, tr, axis=1),
         vel=-np.trapezoid(vel, tr, axis=1),
         dirE=-np.trapezoid(dirE, tr, axis=1),
@@ -558,8 +563,12 @@ def recombination(xos=(1.0, 3.0, 6.0, 12.0), nmu=16, l=2):
         "jac",
         "vel",
         "dirE",
+        "dirV",
     ]
     splits = {
+        "ORTHONORMAL: A | -2 sigma(n,v) | displacement | end | clock": [["A"], ["dirV"], ["rayX"], ["end"], ["clk"]],
+        "ORTHONORMAL: A + displacement | -2 sigma(n,v) | end | clock": [["A", "rayX"], ["dirV"], ["end"], ["clk"]],
+        "ORTHONORMAL: A + -2 sigma(n,v) | displacement | end | clock": [["A", "dirV"], ["rayX"], ["end"], ["clk"]],
         "local | A2 | ray | end | clock": [["loc"], ["A"], ["ray"], ["end"], ["clk"]],
         "gamma~ (=loc+A) | ray | end | clock": [["loc", "A"], ["ray"], ["end"], ["clk"]],
         "IBP: obs | emit | bulk | ray | end | clock": [["g_obs"], ["g_emit"], ["g_bulk"], ["ray"], ["end"], ["clk"]],
@@ -625,6 +634,9 @@ def recombination(xos=(1.0, 3.0, 6.0, 12.0), nmu=16, l=2):
             P = kernel_pieces(S, a, b, second_order_A2(1.0, 1.0, mu, np.sqrt(1 - mu**2), S.t_o))
             lhs, rhs = P["loc"] + P["A"], P["g_obs"] + P["g_emit"] + P["g_bulk"]
             idcheck = max(idcheck, np.max(np.abs(lhs - rhs)) / np.max(np.abs(lhs)))
+            # orthonormal-direction identity: loc + (direction terms) = -2 sigma(n, v) terms
+            ocheck = np.max(np.abs(P["loc"] + P["raydir"] - P["dirV"])) / np.max(np.abs(P["dirV"]))
+            idcheck = max(idcheck, ocheck)
             for i, ni in enumerate(names):
                 for j, nj in enumerate(names):
                     if j >= i:

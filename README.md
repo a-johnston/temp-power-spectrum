@@ -51,7 +51,7 @@ part of the current tree.
 | Gauge invariance and Ward identities | `check_ward_dilation.py`, `check_ward_dilation3.py`, `observable_generator.py W2\|W3`, `foundations/check_first_order.py`, `first_order_engine_check.py`, `check_gradient_modes.py` |
 | The spectrum (transfer function, primary form `C_ℓ = 4πvT_ℓ² + v²[Q_ℓ + 4πT_ℓ Re R_ℓ]`, shell two-amplitude reduction, log-map and observer-dilation decompositions) | `transfer_entire.py`, `check_shell_reduction.py`, `check_logmap_decomposition.py`, `check_dilation_factorisation.py`, `check_shell_locality.py` |
 | Limits (superhorizon quadrupole and octupole, infrared) | `superhorizon.py`, `observable_generator.py SH`, `check_dilation_factorisation.py`, `check_gradient_octupole.py` |
-| Appendix: exploratory numerics | `numerics/explore_fourth_order.py`, `numerics/explore_third_order.py` |
+| Appendix: exploratory numerics | `numerics/explore_fourth_order.py`, `numerics/explore_third_order.py`, `numerics/explore_adjoint.py` |
 
 ## Setup and reproduction
 
@@ -109,6 +109,7 @@ and an independent CAS (Maxima).
 | `check_bessel_translation.py` | separated (translation) form of the mixed-time sky integrals: single-time Bessel functions, 3j weights and P_L(μ), checked exactly against the Funk–Hecke form through degree 10 |
 | `check_cartesian_green.py` | projector-free Cartesian form of the spatial field equation: eigenvalues of 𝔅_K and exact equality of its polynomial-in-K series with the projector-based kernels through O(t⁷) (pairs, the K = 0 pair, third order); hence the recombined kernels are analytic in K, continuous at K = 0 |
 | `check_orthonormal_driver.py` | in the orthonormal photon direction v = e^ζ e^{H/2} e the redshift driver is ½H′ + [H,[H,H′]]/48 + O(ε⁴) for non-commuting H, so the conformal and (H₁²)′ terms drop out; on the shell it is ½H′ through third order |
+| `check_orthonormal_map.py` | the map in orthonormal directions: the first-order equation for v is transverse, and the second-order integrand becomes ½H₂′ₙₙ + X₁·∂H₁′ₙₙ − 2H₁′(n, v₁), because the local shear products cancel identically against e − v |
 | `check_longitudinal_redshift.py` | exact longitudinal-gauge form of the redshift (shift, tensor shear, Doppler factors, displaced endpoints) and its equality with the temperature-frame exponent (derivation: `report/longitudinal_redshift.md`) |
 | `superhorizon.py` | exact superhorizon `C₂⁽¹¹⁾`, `C₂⁽²²⁾`, `C₂⁽¹³⁾` |
 | `transfer_entire.py L...` | closed form of the linear transfer function `T_ℓ` for every ℓ in the entire kernels `J_m` (no logs or Ci); coefficients are Laurent coefficients of two rational functions; proved exactly for each given ℓ (x*-derivative identity plus the value at x* = x_o); a printed high-precision comparison is supplementary |
@@ -131,6 +132,7 @@ finite k₀, to be proved analytically; the report records them in an appendix.
 |---|---|
 | `explore_fourth_order.py ward\|harden\|scan` | second-order part of the fourth-order spectrum on the monochromatic shell from the exact sources and the report's Green and map formulas; validated by the closed-form T₂, a finite-k dilation Ward identity with negative controls, an independent emission-endpoint test, analytic A₂′, cutoff and grid convergence; complete fourth-order C_ℓ at nodes of T_ℓ; amplitude-level recombination diagnostics (`recombination`) and the observer-dilation cross term (`cross_term`) |
 | `explore_third_order.py check2\|ward3\|c13` | numerical multilinear engine that solves the map from its definitions through third order at (k, q, −q); reproduces the second-order map of the other script to 1e-6; third-order Ward identity with O(q²) residual and a negative control; superhorizon limit 4; node check; gives ⅓Re C[θ, L₃] and hence the complete fourth-order C₂ away from nodes |
+| `explore_adjoint.py kernel\|map` | the adjoint form of the top-order cubic response (Prop. adjoint): a fixed kernel built from the growing- and decaying-mode partial transfer functions, integrated against the shell-averaged sources, with no third-order solve; checked against the direct Green solution and the full numerical map |
 
 Run from `solution/numerics/`, e.g. `../../.venv/bin/python explore_fourth_order.py scan`. The
 numeric source caches `solution/results/*_numeric.pkl` are rebuilt automatically from
