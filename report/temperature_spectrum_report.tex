@@ -1642,7 +1642,9 @@ The checks are of different kinds, and the ledger says which kind each one is:
 In particular, the assembled third-order kernel at $(k,q,-q)$ is checked by an exact series
 through $O(t^6)$ and by Ward identities in $\kappa$. It is not checked by substitution at
 arbitrary finite time. The exploratory numerics of App.~\ref{app:numerics} add finite-$k$
-Ward tests, but they are not evidence.
+Ward tests, but they are not evidence. At finite $k_0$ the exact checks verify the kernels and the integrands of
+$C^{(22)}_\ell$ and $C^{(13)}_\ell$; the remaining $\mu$ and time integrals are not evaluated
+analytically.
 
 \begin{longtable}{p{6.2cm}p{8.8cm}}
 \toprule
@@ -1651,7 +1653,7 @@ Lemmas L1--L5; generic field equations & \path{solution/foundations/check_exact_
 Gradient-expansion data \eqref{eq:grad} & \path{solution/foundations/check_initial_data_gradient.py} (exact in $\zeta$)\\
 Mixed trace-free form (T) & \code{solution/check\_evolution\_form.py} (generic 2-jets)\\
 First order, two gauges, all $\ell$ & \path{solution/foundations/check_first_order.py}; \code{solution/first\_order\_engine\_check.py}\\
-Entire-function $T_\ell$ (Prop.~\ref{prop:Tl}) & \code{solution/transfer\_entire.py 2 3 4 5 6}: the $x_\star$-derivative of \eqref{eq:Tl-entire} equals the integrand exactly, as an identity of exponential polynomials, and the representation vanishes at $x_\star=x_o$. A printed high-precision comparison is supplementary only.\\
+Entire-function $T_\ell$ (Prop.~\ref{prop:Tl}) & \code{solution/transfer\_entire.py 1 2 3 4 5 6} (\code{run\_all.sh} runs $\ell=1,2,3$; $\ell=4$--6 take about a minute more). The proof of the proposition is analytic for every $\ell$; the script checks it case by case: the $x_\star$-derivative of \eqref{eq:Tl-entire} equals the integrand exactly, as an identity of exponential polynomials, and the representation vanishes at $x_\star=x_o$. A printed high-precision comparison is supplementary only.\\
 Green functions, $K\to0$ & \code{solution/check\_green.py}\\
 2nd-order sources and operators & \code{solution/second\_order.py}\\
 2nd order, all 10 equations & \code{solution/second\_order\_consistency.py}: exact Taylor series through $O(t^8)$, general $K$ and $K=0$\\
