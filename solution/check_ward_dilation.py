@@ -57,3 +57,15 @@ lead = sp.series(nu12, t, 0, 3).removeO()
 assert sp.simplify(lead - 2 * p**2 * t**2 / 9) == 0
 assert all(sp.limit(e, t, 0) == 0 for e in H12)
 print("[ok] dilation Ward identity: K_2(k, 0) = -k.d_k K_1(k) solves every equation and the regular class")
+
+# Negative controls: perturbed predictions must leave a nonzero residual.
+for label, nu_bad, H_bad in (
+    ("lapse x 11/10", nu12 * sp.Rational(11, 10), H12),
+    ("tensor x 11/10", nu12, H12 * sp.Rational(11, 10)),
+):
+    nub = Field({frozenset([1]): nu1p, frozenset([1, 2]): nu_bad})
+    Hb = [[Field({frozenset([1]): H1p[i, j], frozenset([1, 2]): H_bad[i, j]}) for j in range(3)] for i in range(3)]
+    Eb = equations(nub, zeta, Hb)
+    comps = [Eb["N"].coeff(lab), Eb["Ham"].coeff(lab)] + [Eb["T"][i][j].coeff(lab) for i in range(3) for j in range(3)]
+    assert any(sp.simplify(sp.expand(c)) != 0 for c in comps), label
+print("[ok] negative controls: perturbed lapse or tensor predictions fail")

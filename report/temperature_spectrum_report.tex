@@ -124,7 +124,7 @@ Constrained initial data at every order & regular solution at any $t_i$; constra
 Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\ref{sec:fields}); 2nd order \st{closed form}; 3rd order \st{explicit nested integrals} \\
 Observer, clock, tetrad, emission surface & \S\ref{sec:obs}; explicit Fermi--Walker rotation, irrelevant to the spectrum at this order (Prop.~\ref{prop:frame}) \\
 Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks \\
-$C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}), proved for $\ell=2,\dots,6$ \\
+$C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}); the proof is analytic for every $\ell$, and the script checks $\ell=1,\dots,6$ \\
 $C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, organised as $C_\ell=4\pi vT_\ell^2+v^2[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell]$ (\eqref{eq:primary}); sky integrals evaluated (\S\ref{sec:spec}); shell metric reduced to two amplitudes, contracted cubic response scalar; existence proved for finite times and compactly supported spectra; log-map decomposition with the lognormal part \st{explicit} (convergent $3j$ series, or one Legendre integral of $\xi^2$; Thm.~\ref{thm:logmap}) \\
 Monochromatic, held-fixed quantity & $\ens{g^2}=\sigma^2$ fixed (\S\ref{sec:mono}) \\
 Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into the random observer dilation $\times$ a curvature norm (\eqref{eq:sh-dilation-factorised}); leading octupole \st{closed form} (\S\ref{sec:sh-octupole}); late time: \st{first order}; general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
@@ -418,6 +418,47 @@ control.
 This is an exact finite-time reduction. On the shell, the second-order metric is two scalar
 functions of $(t,\mu)$ instead of a component matrix.
 
+\paragraph{The tensor amplitude is the known radiation-era kernel plus a gauge correction.}
+With $x=k_0t/\sqrt3$, $s(x)=2\sin x/x-\cos x$, $K=k_0\sqrt{2(1+\mu)}$, $r=k_0/K$ and $X=Kt$,
+\begin{equation}\label{eq:FT-KT}
+\boxed{F_T(t,k_0,\mu)=\frac{1-\mu}{2(1+\mu)}\,I_{\rm RD}(r,r,X)
++\frac32(1-\mu)\Big[3\mu\big(s(x)-1\big)^2-s'(x)^2\Big].}
+\end{equation}
+Here $I_{\rm RD}$ is the unaveraged finite-time radiation-era induced-tensor kernel of
+Kohri and Terada \cite{KohriTerada}, and the bracket is an elementary gauge correction. The
+correction arises because $H$ is the matrix logarithm of the conformally rescaled spatial
+metric in temperature-frame coordinates, not the Newtonian metric tensor. For the first-order
+coordinate change $\eta=t+\alpha$, $y^i=X^i+\partial^i\beta$ (with $\beta=\frac3{k_0^2}[s(x)-1]g$
+and $\alpha=\dot\beta$), the mixed scalar--Hessian terms cancel only after all three steps: the
+pullback, division by the conformal factor, and the matrix logarithm. What remains is
+$H^{\rm TT}_{[2]}=\frac12h^{\rm KT}-\Lambda(\beta_{,ac}\beta_{,bc}+\alpha_{,a}\alpha_{,b})$.
+In entire functions, with $d=2r^2-3$ and $a_\pm=1\pm2r/\sqrt3$,
+\[
+I_{\rm RD}(r,r,X)=\frac{3}{4r^6X}\Big\{\mathcal E+d^2\big[\sin X\,\mathcal C+\cos X\,\mathcal S\big]\Big\},
+\]
+with $\mathcal C=\Cin(a_-X)+\Cin(a_+X)-2\Cin(X)$, $\mathcal S=\Si(a_-X)+\Si(a_+X)-2\Si(X)$, and
+\[
+\mathcal E=-4r^2d\sin X+\frac{24r^2\cos^2x}X-\frac{48\sqrt3\,r\cos x\sin x}{X^2}+\frac{12(6+dX^2)\sin^2x}{X^3}.
+\]
+At the resonance $\mu=-\frac13$ one has $a_-=0$, and $\Cin(0)=\Si(0)=0$.
+
+The proof has three parts.
+\begin{enumerate}
+\item \emph{The equation.} \eqref{eq:FT-KT} satisfies the same complete finite-time equation
+  $F_T''+\frac2tF_T'+K^2F_T=\mathcal S_T$ as our solution, for symbolic $t$ and $\mu$.
+\item \emph{The initial data.} It has the same regular initial data,
+  $F_T=k_0^2(1-\mu)t^2/6+O(t^4)$, with no constant and no decaying tensor.
+\item \emph{Uniqueness.} The difference of the two solves the homogeneous equation with zero
+  regular data, so it vanishes identically.
+\end{enumerate}
+The source $\mathcal S_T$ is rebuilt independently, and the TT part of this repository's own
+$c_T$ equals $-\frac12\mathcal S_T(vv-ww)$ identically. The derivation and its convention
+dictionary, which covers KT's $h/2$ metric normalisation, Fourier measure and polarisation
+norm, are in \path{report/tensor_newtonian_crosscheck.md}. The checks are
+\path{solution/check_tensor_newtonian.py} and \path{solution/check_shell_reduction.py}. This
+validates the analytical tensor solution, not every stored coefficient of the expanded kernel
+file. At $\mu=-1$ the forced homogeneous $K=0$ kernel is kept separately.
+
 \paragraph{Third order \st{explicit nested integrals}.} For $C^{(13)}$ only the configuration
 $(k,q,-q)$ is needed. The source $c^{(3)}$ is explicit
 (\code{solution/results/third\_order\_sources.txt}) in the first-order closed forms and in
@@ -604,8 +645,15 @@ must act as $\zeta\to\zeta+c\Leftrightarrow k\to e^{-c}k$. We verify this exactl
   solve every equation in closed form. Perturbed predictions fail.
 \item \emph{Observable:} $\Theta_{sL}=-\kappa\partial_\kappa\Theta_s$ and
   $\Theta_{sLL}=(\kappa\partial_\kappa)^2\Theta_s$ hold through $O(\kappa^4)$, where $\kappa$ scales
-  the momenta. At this order the ray deflection, time delay, emission shift, clock, frame and
-  normalisation all contribute.
+  the momenta. They are verified by the SymPy generator and, independently, by its fast exact
+  port (\path{solution/observable_fast.py}). These identities test the fields and the dilation
+  covariance of the map. They do \emph{not} test the ray deflection, emission shift, clock or
+  normalisation terms. A zero-momentum long mode neither deflects the ray nor shifts the
+  endpoint, and each piece of the map is separately covariant. Mutating any of those pieces
+  leaves the identities intact. Dropping the $e^{-\zeta}$ normalisation of the initial photon
+  direction, which breaks covariance, makes them fail. Those terms are verified instead by
+  \path{solution/check_observable_expansion.py}, which checks the map formulas against their
+  exact definitions for arbitrary fields.
 \item At first order, the result equals the independent Newtonian-gauge computation
   (SW, Doppler and ISW) for every~$\ell$.
 \end{itemize}
@@ -767,9 +815,11 @@ corroborates and what has \emph{not} been compared.
   $\Si/\mathrm{Ci}$ kernels for the second-order tensor sourced by two first-order scalars,
   including the monochromatic spectrum and its resonance at $K=2k_0/\sqrt3$. That resonance is
   the sound-cone surface $\mu=-1/3$ of \S\ref{sec:fields}, where the entire-function kernels
-  are manifestly finite. A term-by-term comparison of our TT kernel $h$ with theirs (which
-  needs a gauge map from Newtonian to temperature-frame variables) has \emph{not} been made. It
-  is the most direct external test available for the second-order field solution.
+  are manifestly finite. Our shell TT amplitude has been compared with the finite-time
+  (unaveraged) Kohri--Terada kernel $I_{\rm RD}$ through the nonlinear gauge map, and the two
+  agree exactly at all $t$ and $\mu$ (Prop.~\ref{prop:shell-two}, \eqref{eq:FT-KT}). The
+  comparison does not depend on this repository's source generators. The repository's own
+  source is then matched to the source used in the comparison.
 \end{itemize}
 
 %======================================================================
@@ -1132,6 +1182,28 @@ $Q_\ell$ and $R_\ell$ are built.
   nested times. The point $\mu=-1$ is a null set (Thm.~\ref{thm:exist}).
 \end{enumerate}
 
+\paragraph{Where the angular integral is non-elementary.} Substitute $\mu=2u^2-1$, so that
+$\dd\mu=4u\,\dd u$ with $u\in[0,1]$. On the shell $K=k_0\sqrt{2(1+\mu)}=2k_0u$ exactly.
+\begin{itemize}
+\item Every frequency in the field kernels ($k_0/\sqrt3$ and $K/\sqrt3$, $K$, and their
+  combinations) is then linear in $u$.
+\item The Green functions, such as $\sin K(t-s)/K$, and the projector factors $1/K^2$ are
+  elementary in $u$.
+\item The angular factors of the amplitudes are polynomial in $u$ and $\sqrt{1-u^2}$.
+\item In the sky integrals, terms whose two modes share one line-of-sight time have
+  $|V|=K\lambda=2k_0u\lambda$. This covers $\sigma_{ab}$, the emission endpoint and the clock,
+  and these become entire functions of $u$ as well.
+\end{itemize}
+The only factor that is not polynomial in $u$ inside entire functions comes from modes at
+\emph{different} line-of-sight times, in the ray-displacement terms and in the products
+$\theta_a\theta_b$. There
+\[
+|V|=k_0\big|\lambda_1\hat k+\lambda_2\hat q\big|=k_0\sqrt{(\lambda_1-\lambda_2)^2+4\lambda_1\lambda_2u^2},
+\]
+and it enters through $j_\ell(|V|)$. The open part of the finite-$k_0$ evaluation is therefore
+localised to these mixed-time sky factors. This is a structural statement, not an
+evaluation.
+
 \begin{proposition}[The contracted cubic response is scalar]\label{prop:contracted}
 For an isotropic spectrum, define the angle-averaged cubic metric response
 \[
@@ -1332,10 +1404,9 @@ This statement does not exchange an infinite amplitude series with the full nonl
 solution or its ensemble average.
 
 The independent generator confirms the formula at first and second order, at $(k,q)$ with
-general momenta. The corresponding third-order run at $(k,q,-q)$ was \emph{not completed}
-(\S\ref{sec:ledger}). At third order the formula rests on two things: the proof above, which uses
-only the gradient-expansion data \eqref{eq:grad} (exact in $\zeta$ and verified for arbitrary
-$\zeta$), and the generator's third-order Ward identity W3.
+general momenta. Its fast exact port (\path{solution/observable_fast.py SH3}) confirms it at third
+order at $(k,q,-q)$ with general momenta, in about 12 minutes. A negative control, which drops
+the $e^{-\zeta}$ normalisation of the initial direction, fails.
 \end{proof}
 
 \paragraph{Geometric form.}
@@ -1662,8 +1733,9 @@ Green functions, $K\to0$ & \code{solution/check\_green.py}\\
 3rd order, all 10 equations & \code{solution/fast\_series.py 8}: the pair kernels, including the exact $K=0$ pair, then the triple at $(k,q,-q)$ with general momenta. The \emph{full nonlinear} equations are recomputed with the solved kernels and vanish through $O(t^6)$. The arithmetic is exact (sparse polynomials over $\mathbb Q(i)$ with formal inverse momenta; denominators are cleared exactly at the zero test). Negative controls (a wrong $c_3$, a corrupted $K=0$ pair kernel) fail at the expected orders. The run takes about 70~s. \code{third\_order\_consistency.py} is the slower SymPy reference implementation of the same test.\\
 Dilation Ward identities (fields) & \code{solution/check\_ward\_dilation.py}, \code{check\_ward\_dilation3.py} (closed form; negative controls)\\
 Observable expansion formulas & \code{solution/check\_observable\_expansion.py} (arbitrary fields, general jets)\\
-Observable Ward identities & \code{solution/observable\_generator.py W2|W3} through $O(\kappa^4)$\\
-Superhorizon observable & \code{solution/observable\_generator.py SH}: orders 1 and 2, general $(k,q)$. \emph{Not completed:} \code{SH3} (third order at $(k,q,-q)$). Its fields are built by the fast engine in about 12~s, but the generator's SymPy assembly of the observable did not finish within 50~minutes. Porting the generator to the fast arithmetic would remove this; it was not done.\\
+Observable Ward identities & \code{solution/observable\_generator.py W2|W3} and the fast port \path{solution/observable_fast.py W2|W3 4}, through $O(\kappa^4)$. These test the fields and dilation covariance only: mutating the ray, endpoint or normalisation leaves them intact, and dropping $e^{-\zeta}$ in the initial direction makes them fail\\
+Superhorizon observable & \code{solution/observable\_generator.py SH} (orders 1 and 2, general $(k,q)$). Fast exact port \path{solution/observable_fast.py SH} (11~s) and \path{SH3} (third order at $(k,q,-q)$, general momenta, about 12~min), with an $e^{-\zeta}$ negative control. The port keeps the generator's definitions operation for operation and replaces only the arithmetic, using sparse polynomials over $\mathbb Q(i)$ with formal inverse momenta and times\\
+Tensor vs.\ Kohri--Terada & \path{solution/check_tensor_newtonian.py}: an independent Christoffel/Ricci reconstruction of the shell TT source; the quadratic gauge map (pullback, conformal factor, matrix logarithm); the exact identity $L_KF_T=\mathcal S_T$ at arbitrary $t$ and $\mu$; matching regular initial data; the entire-function KT kernel, including the resonance; negative controls. \path{solution/check_shell_reduction.py} matches the repository's own $c_T$ to $\mathcal S_T$. Derivation in \path{report/tensor_newtonian_crosscheck.md}\\
 Superhorizon $C_2$ & \code{solution/superhorizon.py}\\
 Report identities & \code{solution/check\_report\_identities.py}: background residual Bianchi identities and zero-mode constraint matching; conformal driver and cubic commutator shear; Fermi--Walker rotation; centred normalisation and polarised map kernels; the two-norm spectrum; general-moment and monochromatic leading-gradient resummation. These are exact symbolic identities, not an arbitrary-time cubic-observable verification.\\
 Gradient-mode tests & \code{solution/check\_gradient\_modes.py}: exact special-conformal Jacobian and flat seed; zero shear and hence zero map for the completed adiabatic profile; quadratic completion and its conversion to the convention of \cite{MirbabayiZaldarriaga}; nonzero uncompensated-gradient quadrupole; plane-wave soft generator and the leading-gradient check of \eqref{eq:gradient-ward}. The general finite-time Ward identity is proved by covariance, not by full-kernel substitution.\\
@@ -1699,8 +1771,6 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
   The next corrections are not computed: the $O(k_0^6)$ correction to $C_2$ at fourth order, and
   the $O(k_0^8)$ correction to $C_3$. They need the $O(t^4)$ gradient data and the
   $O(\kappa^4)$ map (ray deflection, endpoint, clock and nonlinear normalisation).
-\item The second-order tensor kernel has not been compared term by term with the
-  scalar-induced tensor kernels of \S\ref{sec:literature}.
 \item The late-time limit at fourth order (non-uniform at the resonances) is not evaluated.
 \item Ultraviolet convergence for spectra without compact support is established by power
   counting only, not by a rigorous bound.

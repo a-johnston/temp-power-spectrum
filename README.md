@@ -30,7 +30,9 @@ part of the current tree.
   - an exact observer-dilation decomposition;
   - complete fourth-order spectra at zeros of `T_ℓ`;
   - on the monochromatic shell, two exact symmetry reductions: the second-order metric is two
-    amplitudes with no vector part, and the angle-averaged cubic response is a single scalar.
+    amplitudes with no vector part, and the angle-averaged cubic response is a single scalar;
+  - the tensor amplitude equals the known radiation-era induced-GW kernel (Kohri–Terada) plus an
+    elementary gauge correction, verified independently.
 - **Superhorizon limit.** The quadrupole and the octupole are local curvature multipoles, exact
   in ζ. Their fourth-order factors are `1 + 29ε²σ²/3` and `1 + 46ε²σ²`. For any nonnegative
   spectrum the coefficients lie in `[8, 29/3]·m₀` and `[18, 46]·m₀`, and the monochromatic shell
@@ -44,8 +46,8 @@ part of the current tree.
 |---|---|
 | Exact framework (temperature frame, exact redshift, field equations) | `foundations/check_exact_lemmas.py`, `foundations/check_fw_conformal.py`, `foundations/check_exact_field_equations.py`, `foundations/check_field_equations_generic.py`, `check_evolution_form.py` |
 | Primordial state and initial data | `foundations/check_initial_data_gradient.py` |
-| Field solution at every order | `check_green.py`, `second_order.py`, `second_order_consistency.py`, `closed_forms.py`, `closed_second_order.py`, `third_order.py`, `fast_series.py`, `third_order_consistency.py`, `check_report_identities.py` |
-| The observable through third order | `check_observable_expansion.py`, `observable_generator.py`, `foundations/normalization_expansion.py`, `foundations/check_algebra.py` |
+| Field solution at every order | `check_tensor_newtonian.py`, `check_shell_reduction.py`, `check_green.py`, `second_order.py`, `second_order_consistency.py`, `closed_forms.py`, `closed_second_order.py`, `third_order.py`, `fast_series.py`, `third_order_consistency.py`, `check_report_identities.py` |
+| The observable through third order | `check_observable_expansion.py`, `observable_generator.py`, `observable_fast.py`, `foundations/normalization_expansion.py`, `foundations/check_algebra.py` |
 | Gauge invariance and Ward identities | `check_ward_dilation.py`, `check_ward_dilation3.py`, `observable_generator.py W2\|W3`, `foundations/check_first_order.py`, `first_order_engine_check.py`, `check_gradient_modes.py` |
 | The spectrum (transfer function, primary form `C_ℓ = 4πvT_ℓ² + v²[Q_ℓ + 4πT_ℓ Re R_ℓ]`, shell two-amplitude reduction, log-map and observer-dilation decompositions) | `transfer_entire.py`, `check_shell_reduction.py`, `check_logmap_decomposition.py`, `check_dilation_factorisation.py`, `check_shell_locality.py` |
 | Limits (superhorizon quadrupole and octupole, infrared) | `superhorizon.py`, `observable_generator.py SH`, `check_dilation_factorisation.py`, `check_gradient_octupole.py` |
@@ -74,7 +76,7 @@ and an independent CAS (Maxima).
 | Path | Contents |
 |---|---|
 | `problem_statement.tex` | the task |
-| `report/` | the report (`.tex` and built `.pdf`) |
+| `report/` | the report (`.tex` and built `.pdf`) and `tensor_newtonian_crosscheck.md` (derivation behind the tensor cross-check) |
 | `solution/` | exact checks for the field solution, observable, spectrum and limits |
 | `solution/foundations/` | exact checks of the framework: lemmas, generic-jet field equations, first order in two gauges, normalisation and Gaussian algebra (`gr.py` holds the shared tensor utilities) |
 | `solution/results/` | exact expanded sources and kernels referenced by the report |
@@ -100,6 +102,8 @@ and an independent CAS (Maxima).
 | `third_order_consistency.py N` | slower SymPy reference implementation of the same test |
 | `check_ward_dilation3.py` | third-order field dilation identity `K₃(k,0,0) = (k·∂_k)²K₁` |
 | `observable_generator.py W2\|W3\|SH\|SH3` | independent generator of Θ⁽¹⁻³⁾ from the exact definitions; observable Ward identities through `O(κ⁴)`; superhorizon closed form at orders 1–2 (`SH`). `SH3` (third order) did not complete within 50 min: the SymPy assembly of the observable is the bottleneck |
+| `observable_fast.py SH\|SH3\|W2\|W3 [KMAX] [mutation]` | fast exact port of the independent generator: same definitions, sparse-polynomial arithmetic over ℚ(i); SH in 11 s, W2/W3 through O(κ⁴), and SH3 (third-order superhorizon map at (k, q, −q), general momenta) in about 12 min; mutations show that the dilation Ward tests are blind to the ray, endpoint and normalisation terms but fail without e^{−ζ} in the initial direction |
+| `check_tensor_newtonian.py` | independent cross-check of the shell tensor amplitude against the finite-time Kohri–Terada induced-GW kernel through the nonlinear Newtonian → temperature-frame map (derivation: `report/tensor_newtonian_crosscheck.md`); `check_shell_reduction.py` ties it to this repo's `c_T` |
 | `superhorizon.py` | exact superhorizon `C₂⁽¹¹⁾`, `C₂⁽²²⁾`, `C₂⁽¹³⁾` |
 | `transfer_entire.py L...` | closed form of the linear transfer function `T_ℓ` for every ℓ in the entire kernels `J_m` (no logs or Ci); coefficients are Laurent coefficients of two rational functions; proved exactly for each given ℓ (x*-derivative identity plus the value at x* = x_o); a printed high-precision comparison is supplementary |
 | `check_dilation_factorisation.py` | the leading-gradient map is exactly covariant under ζ → ζ + c (= momentum dilation); the mean of ζ factors out as `⟨e^{−4ζ_o}⟩`; the invariant ratio `1 + (5/3)ε² m₂²/m₄`; Gaussian average of the dilation operator |

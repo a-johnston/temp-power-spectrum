@@ -50,8 +50,58 @@ def check():
     val = (KVoff[0] * cM[1] - KVoff[1] * cM[0]).subs(off)
     assert abs(complex(sp.N(val))) > 1e-6
     print("[ok] negative control: off the shell the vector source is nonzero")
-    print("SHELL REDUCTION CHECKS PASSED (exact symbolic algebra)")
+
+
+def check_tensor_source_against_literature_form():
+    """Ties the independent Kohri-Terada comparison (check_tensor_newtonian.py) to THIS repo's source:
+    the TT part of second_order.py's c_T on the shell equals -(1/2) S_T (v v - w w), with S_T the
+    independently derived shell tensor source, identically in t and mu."""
+    src = so.sources()
+    cT = src["T"]
+    shell = {p: 1, q: 1, b1: mu}
+    KV = sp.Matrix([1 + mu, b2, 0])
+    K2 = 2 + 2 * mu
+    Pm = sp.eye(3) - KV * KV.T / K2
+    C = cT.applyfunc(lambda e: e.subs(shell))
+    PMP = Pm * C * Pm
+    TT = PMP - Pm * PMP.trace() / 2
+    vv = sp.Matrix([1 - mu, -b2, 0])  # k1 - k2, |k1 - k2|^2 = 2 - 2 mu
+    eplus = vv * vv.T / (2 - 2 * mu) - sp.Matrix(3, 3, lambda i, j: 1 if i == j == 2 else 0)
+    amp = sum(TT[i, j] * eplus[i, j] for i in range(3) for j in range(3)) / 2  # TT = amp * e_plus
+    # independent source (report/tensor_newtonian_crosscheck.md, Sec. 5), k0 = 1
+    x = t / s3
+    s_ = 2 * sp.sin(x) / x - sp.cos(x)
+    B = 3 * (s_ - 1)
+    h = -2 * B
+    n = sp.cos(x) - sp.sin(x) / x
+    ST = (
+        (1 - mu)
+        / 36
+        * (
+            h**2 * (9 * mu**2 + 12 * mu + 1)
+            - 6 * h * (6 * mu * n + 3 * mu + 2)
+            - 36 * sp.diff(h, t) * sp.diff(n, t)
+            - 72 * n**2
+            + 36
+        )
+    )
+    diff = sp.expand(amp + ST / 2)
+    Pz = sp.Symbol("Pz")
+    e = sp.expand(diff.rewrite(sp.exp))
+    rep = {}
+    for f in e.atoms(sp.exp):
+        a = sp.nsimplify(sp.expand(f.args[0] / (sp.I * t / s3)))
+        assert a.is_integer, f
+        rep[f] = Pz ** int(a)
+    e = sp.expand(sp.together(e.xreplace(rep)))
+    num = sp.expand(sp.fraction(sp.together(e))[0])
+    poly = sp.Poly(num, b2)
+    red = sum(c * (b2 ** (m % 2)) * (1 - mu**2) ** (m // 2) for (m,), c in poly.terms())
+    assert sp.cancel(sp.expand(red)) == 0
+    print("[ok] repo c_T (second_order.py) has TT part -(1/2) S_T (v v - w w): matches the independent KT-comparison source")
 
 
 if __name__ == "__main__":
     check()
+    check_tensor_source_against_literature_form()
+    print("SHELL REDUCTION CHECKS PASSED (exact symbolic algebra)")
