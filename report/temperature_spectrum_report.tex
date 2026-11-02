@@ -366,6 +366,44 @@ $\lim_{t\to0}t^2f=0$, hence $b=0$. Finally $\operatorname{tr}B=f=0$ and $\TF B=0
 $B=0$. This completes the induction.
 \end{proof}
 
+\begin{proposition}[Projector-free Cartesian solution]\label{prop:cartesian}
+Define, on symmetric trace-free matrices,
+$\mathfrak B_KA=\TF[K^2A-K\otimes(AK)-(AK)\otimes K]$. Its eigenvalues are $K^2$ on TT tensors,
+$0$ on vector tensors $K\otimes w+w\otimes K$ ($w\perp K$), and $-K^2/3$ on $\TF(K\otimes K)$.
+The trace-free spatial equation at order $r$ is
+\[
+A_r''+\tfrac2tA_r'+\mathfrak B_KA_r=-4\TF(K\otimes K)\,\nu_r-2c_T^{(r)},
+\]
+and its unique regular solution with $A_r(0)=0$ is
+\[
+\boxed{\begin{aligned}
+A_r(t)&=\int_0^t\mathfrak G_K(t,s)\big[-4\TF(K\otimes K)\nu_r(s)-2c_T^{(r)}(s)\big]\dd s,\\
+\mathfrak G_K(t,s)&=\frac st\sum_{n\ge0}\frac{(-1)^n(t-s)^{2n+1}}{(2n+1)!}\mathfrak B_K^n.
+\end{aligned}}
+\]
+$\mathfrak G_K$ is an entire function of the Cartesian components of $K$, with no projectors.
+Hence, by induction on $r$ (the sources and $\nu_r$ are analytic in the momenta),
+$A_r$ is analytic in $K$ at fixed internal momenta, including at $K=0$. There it reduces to the
+exact $K=0$ kernel $-2\int_0^t\frac st(t-s)c_T^{(r)}\dd s$.
+\end{proposition}
+\begin{proof}
+The equation is $L_T+c_T=0$ with $\TF R_1[A]=\frac12\mathfrak B_KA$. In each eigen-sector with
+eigenvalue $\lambda$, the homogeneous solutions are $\sin(\sqrt\lambda t)/t$ and
+$\cos(\sqrt\lambda t)/t$. For $\lambda=0$ they are $1$ and $1/t$. None of these is both regular
+and zero at $t=0$, so the regular solution with $A_r(0)=0$ is unique. It is therefore the
+triangular solution, which satisfies the full trace-free equation (Thm.~\ref{thm:consistency})
+and has $H(0)=0$. \path{solution/check_cartesian_green.py} verifies the eigenvalues for generic
+$K$. It also verifies that the regular series of the Cartesian equation, whose coefficients
+are polynomial in the Cartesian $K$, equals the projector-based kernel coefficient by
+coefficient through $O(t^7)$. That holds for the pairs $(k,q)$ and $(k,-q)$, for the zero-momentum
+pair $(q,-q)$, and for the third-order kernel at $(k,q,-q)$. So no inverse power of $|K|$
+survives.
+\end{proof}
+The projector-based triangular scheme remains the efficient way to \emph{evaluate} the
+kernels, especially at large $Kt$, where the scalar sector's $\sinh$ behaviour makes the
+Cartesian series cancel strongly. The Cartesian form is the clean statement of their
+\emph{regularity}.
+
 \begin{remark}[Why initial constraint matching cannot be replaced by regularity]
 At linear order and $K=0$, take $\nu=\beta t^2$, $H=0$, $\zeta=0$ with arbitrary constant
 $\beta$. Then (N), (M) and (T) hold, but $(\mathrm{Ham})=36\beta$. The metric variables are
@@ -1407,12 +1445,12 @@ introduced by the projectors. These are handled sector by sector.
 \item \emph{Tensor.} The TT projector is bounded, and the Green function $\sin K(t-s)/K$ is
   entire and even in $K$.
 \end{enumerate}
-The projectors themselves depend on $\hat K$, so the recombined Cartesian kernel may depend
-on the direction of approach at $K=0$. This happens only at $\mu=-1$ on the shell, a null set,
-and boundedness is all that absolute convergence needs. Continuity of the full Cartesian
-kernel at $K=0$ is not claimed, and nothing uses it. Where an exact zero total momentum
-occurs inside the cubic sources, namely the pair $(q,-q)$, the separately constructed exact
-$K=0$ kernel is used, not a limit. The ray and line-of-sight integrals run over finite
+The projected sectors depend separately on $\hat K$, but their sum does not.
+Prop.~\ref{prop:cartesian} shows that the recombined Cartesian kernel $A_r$ is analytic in $K$,
+with the exact $K=0$ kernel as its limit. So the integrand is continuous on the whole compact
+domain, including $\mu=-1$, and not merely bounded. Where an exact zero total momentum occurs
+inside the cubic sources, namely the pair $(q,-q)$, the exact $K=0$ kernel is used; it is also
+the limit. The ray and line-of-sight integrals run over finite
 intervals, and the emission and observation times are positive.
 \end{proof}
 The theorem and the spectrum formulas therefore apply to finite times and to the
@@ -1821,6 +1859,7 @@ Shell two-amplitude form (Prop.~\ref{prop:shell-two}) & \code{solution/check\_sh
 Shell locality & \code{solution/check\_shell\_locality.py}: the local form of the shell first-order fields and of $\theta$; $\sigma^{(2)}=\frac12A_2'+\frac12(H_1^2)'+2gH_1'$ for generic matrices. Item~(3) of Prop.~\ref{prop:shell-local} is by inspection.\\
 Leading octupole; $\mathcal M_\ell$ cancellation & \code{solution/check\_gradient\_octupole.py}: the conformal identity $\nabla_{\langle a}R_{bc\rangle}=\frac f2[\partial^3f^2]_{\rm STF}$ for generic $\zeta$; the leading $T_\ell$ coefficient \eqref{eq:Tl-leading} for $\ell=2,\dots,7$; $\beta_3$; exact isotropic Wick moments giving \eqref{eq:octupole-resummed} and the shell ratios $148\sigma^2$, $27\sigma^2$; $\ens{\theta\theta L_2}=0$ at leading gradient order. The octupole map itself rests on the proof of Thm.~\ref{thm:octupole}.\\
 Next superhorizon order & \path{solution/superhorizon_next.py kernels2|kernels3|spectrum}: map kernels through $O(\kappa^4)$ from the fast generator; $C^{(11)}_2$ at $O(k_0^6)$ checked against the transfer integral. \path{solution/check_quadrupole_next_hand.py --compare}: an independent hand-map calculation reproducing $C^{(11)}_2$ and $\frac14C^{(22)}_2$ at $O(k_0^6)$ and every component of the projected kernel; endpoint and clock pieces nonzero; negative controls\\
+Projector-free Cartesian solution (Prop.~\ref{prop:cartesian}) & \path{solution/check_cartesian_green.py}: eigenvalues of $\mathfrak B_K$ ($K^2$, $0$, $-K^2/3$); the Cartesian series, with coefficients polynomial in $K$, equals the projector-based kernels exactly through $O(t^7)$ for $(k,q)$, $(k,-q)$, the $K=0$ pair $(q,-q)$, and third order at $(k,q,-q)$\\
 Orthonormal redshift driver (Prop.~\ref{prop:orthonormal}) & \path{solution/check_orthonormal_driver.py}: $\frac12e^{-H/2}(e^H)'e^{-H/2}=\frac12H'+\frac1{48}[H,[H,H']]+O(\eps^4)$ for generic non-commuting matrices; the shell commutator vanishes\\
 Longitudinal-gauge redshift & \path{solution/check_longitudinal_redshift.py}: the ADM energy law with a shift on generic jets; exact equality with the temperature-frame exponent including the endpoint conformal and Doppler factors; $\Phi=\Psi$ and zero first-order scalar shift under the full time-and-space map; clock identity; negative controls\\
 Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$; superhorizon observer-centred kernels of Prop.~\ref{prop:obs-dilation} ($\mathcal K^c_2=-\tau^2\TF(kq+qk)_{nn}$, $\mathcal K^c_3(k,q,-q)=0$)\\
@@ -1860,8 +1899,6 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
     sight passes through the Green operator;
   \item spherical-Bessel translation (Gegenbauer) formulas, which separate the mixed-time sky
     factors into products of single-time Bessel functions with Gaunt coefficients;
-  \item a projector-free Cartesian Green operator, which is analytic in $K$ and would give a
-    continuity statement at $K=0$;
   \item shuffle identities for the ordered time integrals, for example $E_{ab}+E_{ba}=F_aF_b$
     for the nested logarithmic kernels.
   \end{itemize}
