@@ -1339,7 +1339,14 @@ Three remarks place this result.
   \end{align*}
   At leading order the dilation and centred-$22$ coefficients are $8$ and $\frac53$ in units of
   $C^{(11)}$. Here they are $18$ and $\frac{28}3$ in units of the $k_0^6$ coefficient of $C^{(11)}_2$:
-  the centred $22$ part is still exactly proportional to the linear spectrum at this order. The
+  the centred $22$ part is still exactly proportional to the linear spectrum at this order. This
+does not continue. A numerical fit of the $k_0^8$ coefficients, using the validated forward map
+(\path{solution/numerics/centred22_ratio.py}, not evidence), gives the ratio $52.66$ at
+$(\bar t_\star,\bar t_o)=(1.2,3)$ and $52.29$ at $(0.8,3.5)$. These values are stable to $\le0.015$ under a
+change of the fit points, so the ratio depends on time at $k_0^8$. The fit reproduces $\frac53$ and
+$\frac{28}3$ to $3\times10^{-6}$. The simplest explanation also fails: the centred kernel is
+$\mathcal K^c_2=-[\mathcal K_1(k+q)-\mathcal K_1(k)-\mathcal K_1(q)]$ at leading order, but not beyond it
+(the mismatch grows like $k_0^2$). The
   observer-local $\iota^4$ dependence sits only in the centred $13$ part and the cross term. The four
   pieces sum to the known complete coefficient
   $-2\pi\delta(38856e^4-64640e^3o+48480e^2o^2-18601o^4-4095\iota^4)/1913625$, with $e=\bar t_\star$,

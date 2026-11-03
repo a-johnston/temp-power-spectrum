@@ -148,9 +148,13 @@ session; three passes), with no errors or undefined references and one negligibl
 
 **Status:** the κ⁴ step and the full O(k₀⁶) decomposition are done (see above). The
 finite-wavelength step remains open. Exact finite-wavelength statements so far: the dilation channel,
-the constraint-row combination and `rem:iota`. Next concrete idea: prove or refute that centred 22
-stays proportional to C⁽¹¹⁾ order by order (5/3 at k₀⁴, 28/3 at k₀⁶); test numerically first with
-the forward second-order map.
+the constraint-row combination and `rem:iota`. **Centred-22 proportionality, tested.** It does NOT persist: at k₀⁸ the ratio is 52.66 at
+(e,o)=(1.2,3) and 52.29 at (0.8,3.5), against a fit stability of ≤0.015
+(`solution/numerics/centred22_ratio.py`; set `KAPPAS` to change the fit points). The k₀⁶ ratio 28/3 is
+therefore a property of that order only. A natural explanation that also fails is
+K^c₂ = −[K₁(k+q)−K₁(k)−K₁(q)]: it is exact at leading order but off by O(κ²) beyond it. A possible
+analytic follow-up is to explain the k₀⁶ coincidence from the overlap of K^c₂^[4] with the
+leading TF(kq+qk) structure.
 
 
 The target is ⟨K^c₃(k,q,−q)⟩_q̂, the only genuinely cubic part of C⁽¹³⁾ after
