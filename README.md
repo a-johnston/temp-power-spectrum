@@ -194,6 +194,9 @@ of the linear and quadratic maps carries most of the cubic response (99% for a g
 for `(k,q,−q)`). `shell_c13.py` evaluates the shell ratio `(1/3)C₂⁽¹³⁾/σ²C₂⁽¹¹⁾` (App. A). The PDF
 in the repository has not been regenerated from the updated TeX.
 
+**Handoff.** The current state, a guide for reviewing the whole report, and the open follow-ups are in
+[`report/HANDOFF.md`](report/HANDOFF.md).
+
 ## Setup and reproduction
 
 ```
