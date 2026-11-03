@@ -1114,6 +1114,24 @@ sum is the principal part of $-3s'(x)w_\ell(\sqrt3(x_o-x))$, which is regular at
 $\operatorname{Re}$, and term-by-term integration gives \eqref{eq:Tl-entire}.
 \end{proof}
 
+\begin{remark}[The superhorizon series determines $T_\ell$]\label{rem:reconstruct}
+$T_\ell$ is entire in $k_0$ at fixed times, so its small-$k_0$ series fixes it at every $k_0$,
+including deep inside the horizon. If the function class is known, matching the series is
+linear algebra. \path{solution/reconstruct_transfer.py} does this for $\ell=2$ without using
+Prop.~\ref{prop:Tl}. The input is the superhorizon series computed from the defining
+integral \eqref{eq:linear-transfer}. The ansatz has $252$ unknown coefficients in
+$\mathbb Q(\sqrt3,i)$, multiplying $e^{ibx_o}x_o^jJ_m(a-b,\cdot)$ at $x_o$ and $x_\star$ and
+$e^{iax_o}x_o^jJ_m(b-a,x_o-x_\star)$, for $a=\pm1$, $b=\pm\sqrt3$. The frequencies, the
+pole orders and hence the ranges of $m$ and $j$ are read off the integrand alone. Matching
+through $O(k_0^{64})$ with $x_\star/x_o$ symbolic gives a unique solution (rank $252$). It
+predicts the orders $k_0^{65}$--$k_0^{72}$ exactly, and it agrees with the direct integral to
+twelve digits at $(x_o,x_\star)=(0.7,0.2)$, $(3,1)$, $(12,4)$ and $(40,10)$. That
+last comparison is a check of the identity, not evidence. Uniqueness needed about $64$
+orders for $252$ unknowns: each order adds only a few independent equations. This sets the
+scale for the same strategy at fourth order, where the gradient expansion would supply the
+series and the function class is not yet known.
+\end{remark}
+
 The representation has no logarithms, no $\mathrm{Ci}$ and no elementary remainder. It uses
 the same entire functions as the second-order kernels, and the only frequencies are the beats
 $\sqrt3\mp1$ between the photon and acoustic phases. Every term is manifestly finite as
@@ -2162,6 +2180,7 @@ Gradient-expansion data \eqref{eq:grad} & \path{solution/foundations/check_initi
 Mixed trace-free form (T) & \code{solution/check\_evolution\_form.py} (generic 2-jets)\\
 First order, two gauges, all $\ell$ & \path{solution/foundations/check_first_order.py}; \code{solution/first\_order\_engine\_check.py}\\
 Entire-function $T_\ell$ (Prop.~\ref{prop:Tl}) & \code{solution/transfer\_entire.py 1 2 3 4 5 6} (\code{run\_all.sh} runs $\ell=1,2,3$; $\ell=4$--6 take about a minute more). The proof of the proposition is analytic for every $\ell$; the script checks it case by case: the $x_\star$-derivative of \eqref{eq:Tl-entire} equals the integrand exactly, as an identity of exponential polynomials, and the representation vanishes at $x_\star=x_o$. A printed high-precision comparison is supplementary only.\\
+Reconstruction from the superhorizon series (Remark~\ref{rem:reconstruct}) & \path{solution/reconstruct_transfer.py 2 64}: exact linear algebra over $\mathbb Q(\sqrt3,i)$, unique solution, the orders $k_0^{65}$--$k_0^{72}$ predicted exactly; finite-$k_0$ agreement with the direct integral as a check (about 7 min; cached)\\
 Green functions, $K\to0$ & \code{solution/check\_green.py}\\
 2nd-order sources and operators & \code{solution/second\_order.py}\\
 2nd order, all 10 equations & \code{solution/second\_order\_consistency.py}: exact Taylor series through $O(t^8)$, general $K$ and $K=0$\\

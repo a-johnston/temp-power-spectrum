@@ -36,7 +36,7 @@ for s in check_evolution_form.py first_order_engine_check.py check_green.py seco
          "observable_generator.py SH 2" "observable_fast.py SH 2" "observable_fast.py W2 4" \
          "observable_fast.py W3 4" "observable_fast.py SH3 2" superhorizon.py \
          "superhorizon_next.py kernels2" "check_quadrupole_next_hand.py --compare" \
-         check_cubic_curvature_hand.py check_cubic_product_identity.py "curvature_kernels.py --spectrum"; do
+         check_cubic_curvature_hand.py check_cubic_product_identity.py "curvature_kernels.py --spectrum" "reconstruct_transfer.py 2 64"; do
   echo "=== $s"
   # shellcheck disable=SC2086
   $PY -B $s
