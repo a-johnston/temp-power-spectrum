@@ -141,7 +141,7 @@ Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an ind
 $C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}); the proof is analytic for every $\ell$, and the script checks $\ell=1,\dots,6$ \\
 $C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, organised as $C_\ell=4\pi vT_\ell^2+v^2[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell]$ (\eqref{eq:primary}); sky integrals evaluated (\S\ref{sec:spec}); shell metric reduced to two amplitudes, contracted cubic response scalar; existence proved for finite times and finite spectral measures of compact support in $0<k<\infty$; log-map decomposition with the lognormal part \st{explicit} (convergent $3j$ series, or one Legendre integral of $\xi^2$; Thm.~\ref{thm:logmap}) \\
 Monochromatic, held-fixed quantity & $\ens{g^2}=\sigma^2$ fixed (\S\ref{sec:mono}) \\
-Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into the random observer dilation $\times$ a curvature norm (\eqref{eq:sh-dilation-factorised}); leading octupole \st{closed form} (\S\ref{sec:sh-octupole}); complete fourth-order $C_2$ at the next gradient order $O(k_0^6)$: \st{closed form}, via three local curvature tensors (\eqref{eq:three-tensor}), checked by two independent routes; late time: \st{first order}; general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
+Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into the random observer dilation $\times$ a curvature norm (\eqref{eq:sh-dilation-factorised}); leading octupole \st{closed form} (\S\ref{sec:sh-octupole}); complete fourth-order $C_2$ at the next gradient order $O(k_0^6)$: \st{closed form}, via three local curvature tensors (\eqref{eq:three-tensor}), checked by two independent routes; late time: \st{first order}; subhorizon first order: \st{closed form}, Sachs--Wolfe $+$ Doppler (Prop.~\ref{prop:subhorizon}); general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
 Convergence for general spectra & finite spectral measure of compact support in $0<k<\infty$: \st{proved}; IR: leading cancellation \st{derived} from the Ward identities; UV: \st{power counting only} \\
 Verification & \S\ref{sec:ledger} (exact symbolic, generic-jet proofs) \\
 \bottomrule
@@ -2113,6 +2113,98 @@ angular integral without a uniform estimate or an explicit treatment of the reso
 Matched asymptotics in angle and time, or an analytically subtracted representation, would be
 legitimate routes. The evaluation is \st{open}.
 
+\subsection{Subhorizon limit, first order}\label{sec:subhorizon-first}
+The late-time proposition fixes $x_\star$. The subhorizon limit proper is $k_0\to\infty$ at
+fixed physical times, so emission is also deep inside the horizon.
+
+\begin{proposition}[Subhorizon transfer function]\label{prop:subhorizon}
+Let $x_o\to\infty$ with $x_\star=x_o/R$ for fixed $R=\bar t_o/\bar t_\star>1$, and put
+$y=\sqrt3(x_o-x_\star)=k_0(\bar t_o-\bar t_\star)$, the comoving distance to the emission
+surface in units of $1/k_0$. Then, for $\ell\ge2$,
+\[
+\boxed{T_\ell=-\big[\cos x_\star\,j_\ell(y)+\sqrt3\,\sin x_\star\,j_\ell'(y)\big]+O(x_o^{-2}),}
+\]
+and hence $C^{(11)}_\ell=4\pi\sigma^2T_\ell^2=O(k_0^{-2})$. All growing, constant and
+logarithmic terms cancel exactly. The observer enters first at $O(x_o^{-2})$, at its own
+acoustic frequency. For $\ell=2$ that term is exactly $2\cos x_o/x_o^2$, the local fluid shear
+($w_2(0)=\frac2{15}\neq0$). For $\ell>2$ it carries the constants $\pi$ and $\ln(2+\sqrt3)$.
+\end{proposition}
+\begin{proof}
+Start from \eqref{eq:Tl-entire}. The recursion
+$J_m=-t^{1-m}g_m/(m-1)+i\omega J_{m-1}/(m-1)$, with $g_m=e^{i\omega t}-\sum_{j<m}(i\omega t)^j/j!$,
+reduces every $J_m$ to $J_1$ and elementary terms. Exactly,
+$J_1(\omega,t)=-\mathrm{Ein}(-i\omega t)=-\gamma-\ln(|\omega|t)+\frac{i\pi}2\operatorname{sgn}\omega-E_1(-i\omega t)$.
+The only asymptotic input is the standard expansion of $E_1$ on the imaginary axis. Put
+$x_\star=x_o/R$ and collect by frequency. The result is a finite sum of phases
+$e^{i(\pm\sqrt3(x_o-x_\star)\pm x_\star)}$ and $e^{\pm ix_o}$, each with a Laurent series in $x_o$.
+The coefficients are exact elements of $\mathbb Q(\sqrt3,i)[R,\pi,\gamma,\log\ldots]$, and the
+cancellations and the leading term are identities among them. With
+$j_\ell(y)=\sin(y-\ell\pi/2)/y+O(y^{-2})$ and $j_\ell'(y)=\cos(y-\ell\pi/2)/y+O(y^{-2})$, the
+four emission phases combine into the boxed form.
+\path{solution/transfer_subhorizon.py} does this exactly and asserts the cancellations, the
+leading form for $\ell=2,3,4$, and the $\ell=2$ observer term.
+\end{proof}
+The leading term has the familiar acoustic structure, here derived rather than assumed. At
+emission the first-order temperature perturbation is $-\nu_1=\sin x_\star/x_\star-\cos x_\star\to-\cos x_\star$,
+the acoustic monopole. The $\sin x_\star$ term is its time derivative, the fluid-velocity
+phase. So the two terms correspond to the emission-surface Sachs--Wolfe term $\propto j_\ell$
+and the Doppler term $\propto j_\ell'$. The relative factor $\sqrt3=3c_s$ is the standard ratio
+of velocity to monopole amplitude for a radiation fluid. The identification is by
+structure; the formula itself does not depend on it. In the temperature frame both come out of the
+single line-of-sight integral $I$ through its emission endpoint. The observer end cancels at
+$O(1)$, the subhorizon form of the cancellation in the late-time proposition. The next order
+is not simply the same expression with the exact $s(x_\star)$, $s'(x_\star)$: tested
+numerically, that replacement does not improve the agreement systematically.
+
+As a spot check of the expansion, not as evidence, compare with Prop.~\ref{prop:Tl}
+evaluated at high precision. For $\ell=2$, $R=3$, the expansion through $O(x_o^{-3})$ differs
+in relative terms by $1.8\times10^{-2}$ at $x_o=40$, $3.5\times10^{-4}$ at $x_o=120$ and
+$7.6\times10^{-8}$ at $x_o=360$.
+
+\subsection{Follow-up: fourth order inside the horizon}\label{sec:followup-late}
+This is a proposed route, not a result. It is recorded because the pieces it needs are
+already in the report, and because the alternatives are worse.
+
+\paragraph{Why change variables.} In the temperature frame the individual terms of the
+fourth-order map stay $O(1)$ inside the horizon while their sum decays. The exploratory
+recombination (App.~\ref{app:numerics}, observation~4) localises the residual cancellation.
+It sits between the field terms and the photon displacement, and it has two likely sources: the
+static relabelling carried by $H_1\to-\frac6{k_0^2}(\partial\partial-\frac13\delta\nabla^2)g$,
+and the $O(1)$ oscillation of the temperature-defined slicing, since the radiation
+temperature itself oscillates inside the horizon. A purely spatial relabelling addresses the
+first but not the second, and lowers the cancellation measure only from $10.3$ to $3.5$ at
+$x_o=12$. In longitudinal variables both are removed at first order. The potentials
+$\Phi=\Psi=-2(\sin x/x-\cos x)/x^2$ decay as $x^{-2}$, there is no first-order scalar shift,
+and the $O(1)$ acoustic physics appears explicitly in the endpoint Sachs--Wolfe and Doppler
+factors (Remark~\ref{rem:longitudinal}). The change is exact: the longitudinal redshift and
+its identity with the temperature-frame exponent are already proved there.
+
+\paragraph{What has to be built.}
+\begin{enumerate}
+\item The second- and third-order gauge generators (time shift and spatial vector) from the
+  temperature frame to longitudinal gauge. At each order these solve linear equations with
+  sources from lower orders, so the triangular scheme of \S\ref{sec:fields} applies. The
+  existing field kernels supply the sources.
+\item The longitudinal fields $\Phi_r$, $\Psi_r$, $\beta_r$ and $M_r$ through third order,
+  obtained by transforming those kernels. Their late-time decay should be checked order by
+  order: the induced second-order potentials are not guaranteed to decay as fast as the
+  first-order ones.
+\item The late-time expansion of the shell-integrated spectrum, with the non-uniform angles
+  $\mu=\pm1$ (collinear) and $\mu=-\frac13$ (tensor sound cone) treated explicitly. Either
+  use matched asymptotics in $(\mu,x_o)$, or subtract the resonant behaviour analytically
+  before taking the limit. A pointwise limit followed by angular integration is not
+  justified (see above).
+\end{enumerate}
+
+\paragraph{Checks available.} The result must agree with the temperature-frame map, which
+is exact at finite times. It must reproduce the superhorizon coefficients of
+\S\ref{sec:sh-octupole} at small $x_o$, and its linear part must reproduce the first-order
+subhorizon law of \S\ref{sec:subhorizon-first}. The second-order part can be
+compared with the exploratory numerics, which reach $x_o=16$, as a consistency check. The
+natural first milestone is the second-order part $\frac14C^{(22)}$ alone. It needs only the
+second-order generator, and by Prop.~\ref{prop:nodes} it is the entire fourth-order answer at
+the zeros of $T_\ell$.
+
 \subsection{General spectra}
 
 \begin{theorem}[Infrared]\label{thm:ir}
@@ -2183,6 +2275,7 @@ Mixed trace-free form (T) & \code{solution/check\_evolution\_form.py} (generic 2
 First order, two gauges, all $\ell$ & \path{solution/foundations/check_first_order.py}; \code{solution/first\_order\_engine\_check.py}\\
 Entire-function $T_\ell$ (Prop.~\ref{prop:Tl}) & \code{solution/transfer\_entire.py 1 2 3 4 5 6} (\code{run\_all.sh} runs $\ell=1,2,3$; $\ell=4$--6 take about a minute more). The proof of the proposition is analytic for every $\ell$; the script checks it case by case: the $x_\star$-derivative of \eqref{eq:Tl-entire} equals the integrand exactly, as an identity of exponential polynomials, and the representation vanishes at $x_\star=x_o$. A printed high-precision comparison is supplementary only.\\
 Reconstruction from the superhorizon series (Remark~\ref{rem:reconstruct}) & \path{solution/reconstruct_transfer.py 2 64}: exact linear algebra over $\mathbb Q(\sqrt3,i)$, unique solution, the orders $k_0^{65}$--$k_0^{72}$ predicted exactly; finite-$k_0$ agreement with the direct integral as a check (about 7 min; cached)\\
+Subhorizon $T_\ell$ (Prop.~\ref{prop:subhorizon}) & \path{solution/transfer_subhorizon.py l order}: exact asymptotic expansion from Prop.~\ref{prop:Tl} with the $E_1$ series as the only asymptotic input; asserts exact cancellation of all growing, constant and logarithmic terms, the leading Sachs--Wolfe $+$ Doppler form for $\ell=2,3,4$, and the $\ell=2$ observer term; high-precision spot checks of the expansion\\
 Green functions, $K\to0$ & \code{solution/check\_green.py}\\
 2nd-order sources and operators & \code{solution/second\_order.py}\\
 2nd order, all 10 equations & \code{solution/second\_order\_consistency.py}: exact Taylor series through $O(t^8)$, general $K$ and $K=0$\\
@@ -2260,7 +2353,9 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
   \end{itemize}
 \item The late-time limit at fourth order (non-uniform at the resonances) is not evaluated. The
   exact longitudinal-gauge redshift formula (Remark~\ref{rem:longitudinal}) is the starting
-  point; the second- and third-order longitudinal generators are not solved.
+  point; the second- and third-order longitudinal generators are not solved. A plan, with
+  its justification and checks, is in \S\ref{sec:followup-late}. At first order the subhorizon
+  limit is evaluated (Prop.~\ref{prop:subhorizon}).
 \item Ultraviolet convergence for spectra without compact support is suggested by power
   counting only; it is not established.
 \item The infrared statement (Thm.~\ref{thm:ir}) assumes that the kernels are analytic in $q$ at

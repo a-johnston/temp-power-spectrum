@@ -28,7 +28,11 @@ part of the current tree.
 - **Map and spectrum.** The complete map Θ⁽¹⁻³⁾ includes the ray, emission surface, observer
   clock, tetrad and normalisation. In the spectrum, all sky integrals are done in closed form.
 - **Linear transfer function.** `T_ℓ` is given in closed form for every ℓ, in the same entire
-  functions as the second-order kernels.
+  functions as the second-order kernels. Its superhorizon series alone determines it (rebuilt
+  exactly for ℓ = 2). Inside the horizon it reduces to the Sachs–Wolfe + Doppler form
+  `T_ℓ ≈ −[cos x⋆ j_ℓ(y) + √3 sin x⋆ j_ℓ′(y)]`, with y = k₀(t_o − t⋆).
+- **Fourth order inside the horizon.** Not evaluated; the report sets out the proposed
+  longitudinal-gauge route and its checks.
 - **Structure of the fourth-order spectrum.**
   - an exact log-map decomposition: the log-temperature spectrum, plus a lognormal term, plus a
     collapsed bispectrum;
@@ -131,6 +135,7 @@ and an independent CAS (Maxima).
 | `check_adjoint_exact.py` | exact ingredients of the adjoint form of the top-order cubic response: lapse Green function and its jump, the factor 14, the source compatibility c_Ham′ − 4c_N/t = 2iK·c_M that removes the contact term, and the absence of d₃, D₃ |
 | `check_cubic_curvature_hand.py` | independent covariant-curvature calculation of the complete quadrupole at O(k₀⁶) (C⁽¹¹⁾, ¼C⁽²²⁾ and ⅓Re C⁽¹³⁾); no generator, field engine or cached kernel; verifies the three-tensor form and has negative controls; ~6 s |
 | `reconstruct_transfer.py [l N]` | rebuilds T_ℓ from its superhorizon series alone: an ansatz read off the integrand (252 unknowns for ℓ = 2), matched exactly through O(k₀⁶⁴); unique, predicts the next orders exactly, and agrees with the direct integral deep inside the horizon (~7 min, cached) |
+| `transfer_subhorizon.py [l order]` | subhorizon limit of T_ℓ (k₀ → ∞ at fixed times), derived exactly from Prop. Tl: T_ℓ = −[cos x⋆ j_ℓ(y) + √3 sin x⋆ j_ℓ′(y)] + O(x_o⁻²), the Sachs–Wolfe + Doppler form; all growing and logarithmic terms cancel; the observer first enters at O(x_o⁻²) |
 | `curvature_kernels.py --spectrum [--compare]` | cache-free complete map kernels through gradient degree four for general `(k,q,-q)`; all three general-moment quadrupole coefficients at degree six, separate leading octupole contributions, and the pure `m₂m₄` remainder after observer dilation. Optional exact comparison clears denominators in the **raw** saved generator output, not its simplified cache. Does not compute the six-/five-gradient map needed for the next quadrupole/octupole coefficient |
 | `check_cubic_product_identity.py` | generic non-commuting cubic orthonormal driver, ray pullback, and combined emission/clock identity, with omission controls; no numerical checks |
 | `check_longitudinal_redshift.py` | exact longitudinal-gauge form of the redshift (shift, tensor shear, Doppler factors, displaced endpoints) and its equality with the temperature-frame exponent (derivation: `report/longitudinal_redshift.md`) |
