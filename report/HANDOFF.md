@@ -140,9 +140,17 @@ session; three passes), with no errors or undefined references and one negligibl
 - **Remark `rem:k3`** (causal generation of superhorizon power; the answer to the author's question)
   is now in §"General spectra".
 
+- **Remark `rem:iota`** (exact, all orders, shell): ∂Θ/∂t̄_I = ∂_{t_o}Θ^coord · ∂t_o/∂t̄_I, with
+  ∂t_o/∂t̄_I = t̄_I[e^{−ν_I}/(1+t_Iν_I') − 1]/(t_o e^{ν_o}). This localises all observer-initial-event
+  dependence; use it to diagnose the 2.2% disagreement if it is ι-dependent.
+
 ### 2b. Simplify the observer-centred cubic kernel (analytic)
 
-**Status:** the κ⁴ step below is done (see above). The finite-wavelength step remains open.
+**Status:** the κ⁴ step and the full O(k₀⁶) decomposition are done (see above). The
+finite-wavelength step remains open. Exact finite-wavelength statements so far: the dilation channel,
+the constraint-row combination and `rem:iota`. Next concrete idea: prove or refute that centred 22
+stays proportional to C⁽¹¹⁾ order by order (5/3 at k₀⁴, 28/3 at k₀⁶); test numerically first with
+the forward second-order map.
 
 
 The target is ⟨K^c₃(k,q,−q)⟩_q̂, the only genuinely cubic part of C⁽¹³⁾ after
