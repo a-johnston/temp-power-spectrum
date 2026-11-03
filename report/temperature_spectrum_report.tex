@@ -72,7 +72,9 @@ cancels exactly in the normalised map. Further results:
   with an independent curvature calculation for arbitrary momentum triples. For one finite and two
   zero momenta the cubic transfer is exactly $(k\partial_k)^2T_\ell$. The Einstein constraints
   remove every hyperbolic scalar Green function from physical pair responses
-  (\S\ref{sec:constraint-rows}).
+  (\S\ref{sec:constraint-rows}). Combining the background blocks gives a representation in
+  which only the direct first-field measurement needs three time integrals
+  (Prop.~\ref{prop:combined}).
 \item The linear transfer function $T_\ell$ is given in closed form for every $\ell$, as a
   short sum of the same entire functions $J_m$ used at second order. The coefficients are
   Laurent coefficients of two explicit rational functions, with no logarithms or $\mathrm{Ci}$.
@@ -2340,7 +2342,7 @@ Direct cubic measurement & \path{solution/check_stationary_cubic.py}, \path{chec
 Angular closure; Green blocks & \path{solution/check_entire_sphere.py} (120 moments through rank seven), \path{check_quadrupole_angular_source.py} (Volterra signs, both normalisation products, frame commutator, homogeneous-pair covariance), \path{check_regular_field_green.py} and \path{check_quadrupole_green_source.py} (operator polynomial, evaluated convolutions and clock primitives, first-order hyperbolic cancellation, time arity). Quadrature in these scripts is labelled validation only\\
 Four-gradient cubic quadrupole & \path{solution/check_quadrupole_adjoint_expansion.py}; \path{check_stationary_quadrupole_four_gradients.py --symbolic}: the uncontracted cubic quadrupole equals the independent curvature reference as a polynomial in six momentum components, all five components, symbolic times; shell value \eqref{eq:stationary-four-gradient}; known $\frac13C_2^{(13)}$ through $O(k_0^6)$\\
 Dilation channel & \path{solution/check_dilation_ward.py}: source and initial-row identities with the engine at symbolic momentum and arbitrary profiles; phase identity at arbitrary momentum and times; algebraic stationary Ward fixture\\
-Constraint rows (Props.~\ref{prop:compat}--\ref{prop:shell-acoustic}) & \path{solution/check_constraint_rows.py}: \eqref{eq:compat-1}--\eqref{eq:compat-2} exactly for a physical pair at unequal momenta (failing off shell); projector and transpose; shell $\mathfrak m$, $c_r$, $\mathcal I$ and the local scalar identity; the evaluated kernel $\mathcal G$; \eqref{eq:shell-acoustic} against the hyperbolic Cartesian solution through $O(t^{16})$; $K\cdot A=V$ for an unequal pair through $O(t^{10})$, with a wrong-initial-row control\\
+Constraint rows (Props.~\ref{prop:compat}--\ref{prop:shell-acoustic}) & \path{solution/check_constraint_rows.py}: \eqref{eq:compat-1}--\eqref{eq:compat-2} exactly for a physical pair at unequal momenta (failing off shell); projector and transpose; shell $\mathfrak m$, $c_r$, $\mathcal I$ and the local scalar identity; the evaluated kernel $\mathcal G$; \eqref{eq:shell-acoustic} against the hyperbolic Cartesian solution through $O(t^{16})$; $K\cdot A=V$ for an unequal pair through $O(t^{10})$, with a wrong-initial-row control; at third order, with physical second-order fields, \eqref{eq:compat-1}--\eqref{eq:compat-2} and $K\cdot A_3=V_3$ through $O(t^{10})$ for noncoplanar unequal, zero-pair and near-zero-pair triples, with a control\\
 Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
 \bottomrule
 \end{longtable}
@@ -2393,8 +2395,9 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
     cancellation target. A finite nine-moment closure is not automatic in the presence of
     mixed-time phases;
   \item the stationary route of \S\ref{sec:stationary}: the surviving two- and three-time kernels
-    are not evaluated. Combining all cubic blocks before expansion, in the constraint rows of
-    \S\ref{sec:constraint-rows}, is the next step; it needs the momentum-row mixed variations. An
+    are not evaluated. The background blocks are combined (Prop.~\ref{prop:combined}); a
+    cancellation between $J_{111}$ and the Hessian terms on the second-order fields has not been
+    looked for. An
     independent finite-wavelength comparison of the cubic quadrupole (noncoplanar,
     unequal-frequency triples, including near-zero pair momenta) is also open
     (\S\ref{sec:stationary-open});

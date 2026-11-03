@@ -177,8 +177,13 @@ shell the scalar amplitude `S₂` becomes a single acoustic Green integral plus 
 and one `Cin`. This bypasses the nested hyperbolic moment kernel. The check is
 `solution/check_constraint_rows.py`. The background adjoint inside the first source is
 paired with an incompatible mixed residual. Its hyperbolic part cancels only when all cubic
-blocks are combined, which needs the momentum-row mixed variations; those are not yet
-derived. The PDF in the repository has not been regenerated from the updated TeX.
+blocks are combined. Prop. "Combined cubic response" does this: at third order the
+same compatibility holds (checked through `t¹⁰` for noncoplanar, zero- and near-zero-pair
+triples). The four background blocks therefore collapse to one acoustic/local/wave pairing
+with the full cubic source. The complete cubic response becomes
+`J₁₁₁ − Σ S_meas[y_bc] + J_lin[y₃]`, with closed-form second-order fields, no first field
+adjoint and no hyperbolic kernel. Only `J₁₁₁` still has three-time terms. The PDF in the
+repository has not been regenerated from the updated TeX.
 
 ## Setup and reproduction
 

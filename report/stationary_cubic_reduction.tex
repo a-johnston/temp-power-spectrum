@@ -355,7 +355,9 @@ variables of \S\ref{sec:fields} its time and space components are
 \eqref{eq:compat-1}--\eqref{eq:compat-2}. The script
 \path{solution/check_constraint_rows.py} verifies both identities exactly for a physical pair
 with $|k_1|\neq|k_2|$ at arbitrary angle, using only the first-order field equations; they fail
-off shell.
+off shell. At third order it verifies them, with physical second-order fields, through $O(t^{10})$
+for a noncoplanar unequal triple, a triple with zero pair momentum and one with near-zero pair
+momentum; corrupting one pair's initial row makes them fail.
 \end{proof}
 
 \begin{proposition}[Constraint-row response]\label{prop:constraint-response}
@@ -411,11 +413,11 @@ to $\mathcal S_a$ replaces it by acoustic kernels, one cumulative integral and t
 terms at $e$ and $o$ that carry \eqref{eq:first-adjoint-boundaries}. The \emph{background}
 adjoint inside $\mathcal S_a$ (total momentum) is paired with the mixed cubic residual, which is
 not compatible by itself. Only the sum of the direct third residual and the three field-variation
-parts is the full physical cubic source, to which the same replacement applies. Doing this
-inside the stationary functional requires the mixed variations of the momentum rows; these are
-not yet derived. So hyperbolic cancellation is established for each physical pair response and
-probe-momentum adjoint, and for the complete background pairing, but not for the separate
-background terms of \eqref{eq:stationary-field}.
+parts is the full physical cubic source, to which the same replacement applies
+(Prop.~\ref{prop:combined}). The separate background terms of \eqref{eq:stationary-field} keep
+hyperbolic parts that cancel only in that sum. The individual terms could be made hyperbolic-free
+only by rewriting the whole stationary functional in the momentum rows. That would require their
+mixed variations, which are not derived here and, by Prop.~\ref{prop:combined}, are not needed.
 
 \begin{proposition}[Acoustic form of the shell scalar amplitude]\label{prop:shell-acoustic}
 On the shell, $c_M\parallel K$ and the longitudinal source is the polynomial
@@ -456,16 +458,63 @@ the hyperbolic Cartesian solution coefficient by coefficient through $O(t^{16})$
 and $\mu$, and the local identity $J_S=\mathfrak m'+2\mathfrak m/t-2C_N-\frac12c_{\rm Ham}$ in closed
 form.
 
+\subsection{Combining the cubic blocks}\label{sec:combined}
+The four background pairings of \eqref{eq:stationary-field} (the direct third residual and the
+field-variation parts of the three single--pair sources) are one pairing with the complete
+physical cubic source. That source is compatible, so the constraint rows apply to it as a whole.
+
+\begin{proposition}[Combined cubic response]\label{prop:combined}
+For an arbitrary triple with $P=k_a+k_b+k_c\neq0$ and any harmonic weight,
+\begin{equation}\label{eq:combined}
+\boxed{J_{abc}=J_{111,abc}-\sum_{a|bc}S_{{\rm meas},a}[\nu_{bc},A_{bc}]+J_{\rm lin}[y_{abc}],}
+\end{equation}
+where $y_{bc}=(\nu_{bc},A_{bc})$ are the closed-form physical second-order fields
+(\S\ref{sec:fields}; the exact $K=0$ kernel for a zero pair momentum),
+$S_{\rm meas}$ is the no-probe-ray Hessian \eqref{eq:measurement-source}, and
+\begin{equation}\label{eq:combined-linear}
+\begin{split}
+ J_{\rm lin}[y_{abc}]={}&-3\int_e^o\ell_P(t)\Big(\nu_{abc}'-\frac{\nu_{abc}}t\Big)\dd t
+ -i\int_e^o\mathcal P_P^T[C_P(t)]\cdot c^{(3)}_M(t)\,\dd t
+ -\frac12\int_e^oC_P:h^{\rm TT\prime}_{abc}\,\dd t,
+\end{split}
+\end{equation}
+with $\ell_P=\hat P\cdot C_P\cdot\hat P$, $\nu_{abc}=c_{abc}v_P-\int_0^tG_N^+c^{(3)}_N$ the acoustic
+lapse and $h^{\rm TT}_{abc}$ the wave response to $\mathrm{TT}[c^{(3)}_T]$. The sources $c^{(3)}$ are
+local in the first- and second-order fields. No first field adjoint, second ray, third-order
+field or hyperbolic kernel appears.
+\end{proposition}
+\begin{proof}
+In \eqref{eq:stationary-polarised} write $\langle\lambda_a,D_bD_cF\rangle=-\mathcal S_a[y_{bc}]
+=-S_{{\rm meas},a}[y_{bc}]+\langle\Lambda_0,D_aE_y[y_{bc}]\rangle$. The background terms
+combine to $\langle\Lambda_0,D^3F+\sum D_aE_y[y_{bc}]\rangle-\Lambda_{c,0}c_{abc}=J_{\rm lin}[y_{abc}]$,
+because the combined source is the order-three source of \S\ref{sec:fields} with its initial row.
+By Prop.~\ref{prop:compat} it is compatible, so Prop.~\ref{prop:constraint-response} gives the
+non-TT part of $A_{abc}$. Contracting with
+$-\frac12C_P$ uses $\mathcal P_P^T[C_P]\cdot P=\frac32\ell_P$.
+\end{proof}
+
+The four background blocks carry hyperbolic $-P^2/3$ kernels individually and collapse, by the
+Bianchi compatibility, to one acoustic Wronskian, one \emph{local} momentum term and one wave term.
+The stationary route's three-time single--pair pairings are replaced by Hessian terms on
+closed-form fields. Counting as in \S\ref{sec:angular-green}, every term of \eqref{eq:combined} has
+at most two independent time integrations, \emph{except} the direct first-field measurement
+$J_{111}$, whose ray products have three. This holds for arbitrary triples and multipoles. On the
+shell, \eqref{eq:combined-linear} reduces to the top-order form of Prop.~\ref{prop:adjoint} and
+\eqref{eq:adjoint-nine-moment}, and with Prop.~\ref{prop:shell-acoustic} all of its moments are
+acoustic. The price is that the closed-form second-order fields enter explicitly, whereas the
+stationary route avoids them. The representation \eqref{eq:combined} is a regrouping of the exact
+response. It is checked through the constraint identities at third order (above) and, for its
+measurement part, by the off-shell assembly of \S\ref{sec:stationary}. It is not an evaluation
+of the remaining integrals.
+
 \subsection{What remains on this route}\label{sec:stationary-open}
 \begin{itemize}
-\item Combine, before expanding, the direct measurement, the direct cubic residual, the three
-  single--pair terms and the initial rows into one phase/time representation. This keeps the
-  boundary terms and products of separate sky means, and looks for cancellations between
-  matching phases and total derivatives. In the constraint rows of
-  \S\ref{sec:constraint-rows} every kernel of this sum is acoustic, wave or cumulative. The
-  momentum-row mixed variations needed for this are the next derivation. Arbitrary time-dependent
-  weights cannot be replaced by parameter derivatives; the resolvent identity
-  $\partial_aG=-G(\partial_aL)G$ applies only to dilation-type weights.
+\item The background blocks are combined (Prop.~\ref{prop:combined}). Still open is a search for
+  cancellations between the direct measurement $J_{111}$ and the Hessian terms
+  $S_{\rm meas}[y_{bc}]$: matching phases, total derivatives in time, and the products of separate
+  sky means. Only $J_{111}$ still has three-time terms. Arbitrary time-dependent weights cannot be
+  replaced by parameter derivatives; the resolvent identity $\partial_aG=-G(\partial_aL)G$
+  applies only to dilation-type weights.
 \item An independent finite-wavelength comparison of the assembled cubic quadrupole with a
   forward field-and-photon calculation, for noncoplanar unequal-frequency triples including
   zero and near-zero pair momenta. The four-gradient identity

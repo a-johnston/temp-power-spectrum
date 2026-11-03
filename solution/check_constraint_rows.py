@@ -23,6 +23,8 @@ Checks (exact symbolic algebra; the series test is an exact coefficient identity
   4. The evaluated acoustic kernel  int_r^t G_N^+(s,r)/s ds = (T_3 + r T_2)/(3 t r).
   5. The closed acoustic scalar amplitude S_2 agrees with the hyperbolic Cartesian solution
      coefficient by coefficient (symbolic k, mu), and K.A = V for a general unequal pair.
+  6. Third order: (C1), (C2) and K.A_3 = V_3 for noncoplanar unequal, zero-pair and near-zero-pair
+     triples with physical second-order fields (exact series), with a negative control.
 Run: .venv/bin/python -B solution/check_constraint_rows.py
 """
 
@@ -327,6 +329,96 @@ def check_general_pair_series(order=10):
     print("[ok] control: changing the initial Hamiltonian row breaks the equality")
 
 
+def _cut(e, n):
+    e = s.expand(e)
+    return s.Add(*[e.coeff(t, m) * t**m for m in range(-4, n + 1)])
+
+
+def _first_series(kv, n):
+    k2 = kv.dot(kv)
+    x = s.sqrt(k2) * t / s.sqrt(3)
+    a = _cut(s.series(s.cos(x) - s.sin(x) / x, t, 0, n + 1).removeO(), n)
+    b = _cut(s.series(-6 * (2 * s.sin(x) / x - s.cos(x) - 1), t, 0, n + 1).removeO(), n)
+    return a, b * (kv * kv.T / k2 - s.eye(3) / 3)
+
+
+def _cartesian_series(cN, cT, cH, K, n, shift=0):
+    """Regular Cartesian (hyperbolic-sector) series solution; c_r from the initial Hamiltonian row."""
+    K2 = K.dot(K)
+    nn = {2: _cut(cH, 0).coeff(t, 0) / -36 + shift}
+    for m in range(4, n + 1, 2):
+        nn[m] = s.expand((-cN.coeff(t, m - 2) - K2 * nn[m - 2]) / (3 * m * (m - 1) - 6))
+    nser = sum(c * t**m for m, c in nn.items())
+    QK = K * K.T - s.eye(3) * K2 / 3
+    rhs = (-4 * QK * nser - 2 * cT).applyfunc(s.expand)
+    Am = {}
+    for m in range(1, n + 1):
+        X = Am.get(m - 2, s.zeros(3, 3))
+        BX = X * K2 - K * (X * K).T - (X * K) * K.T + s.eye(3) * 2 * (K.T * X * K)[0] / 3
+        Am[m] = ((rhs.applyfunc(lambda e, m=m: e.coeff(t, m - 2)) - BX) / (m * (m + 1))).applyfunc(s.expand)
+    return nser, sum((Am[m] * t**m for m in Am), s.zeros(3, 3))
+
+
+def _series_sources(fields, labels, momenta, n):
+    Ctx.maxdeg, Ctx.momenta = len(labels), momenta
+    Ctx.trunc = lambda e: _cut(e, n)
+    nu, z = Field(), Field()
+    H = [[Field() for _ in range(3)] for _ in range(3)]
+    for key, (a, A) in fields.items():
+        nu += Field({key: a})
+        if len(key) == 1:
+            z += Field({key: s.Integer(1)})
+        for i in range(3):
+            for j in range(3):
+                H[i][j] += Field({key: A[i, j]})
+    E = equations(nu, z, H)
+    Ctx.trunc = None
+    L = frozenset(labels)
+
+    def get(F):
+        return _cut(F.d.get(L, 0), n)
+
+    return get(E["N"]), [get(c) for c in E["M"]], s.Matrix(3, 3, lambda i, j: get(E["T"][i][j])), get(E["Ham"])
+
+
+def third_order_case(ks, n=10, shift=0):
+    """Order-3 compatibility (C1),(C2) and K.A_3 = V_3 for a general triple, exact series in t.
+
+    All three pair fields are the physical regular second-order solutions (series); `shift`
+    corrupts the initial row of the (2,3) pair as a negative control."""
+    ks = [s.Matrix(k) for k in ks]
+    mom = {i + 1: tuple(k[j] for j in range(3)) for i, k in enumerate(ks)}
+    fields = {frozenset([i + 1]): _first_series(k, n + 4) for i, k in enumerate(ks)}
+    for a, b in ((1, 2), (1, 3), (2, 3)):
+        sub = {frozenset([c]): fields[frozenset([c])] for c in (a, b)}
+        cN, _, cT, cH = _series_sources(sub, (a, b), mom, n + 4)
+        sh = shift if (a, b) == (2, 3) else 0
+        fields[frozenset([a, b])] = _cartesian_series(cN, cT, cH, ks[a - 1] + ks[b - 1], n + 4, sh)
+    cN, cM, cT, cH = _series_sources(fields, (1, 2, 3), mom, n + 2)
+    K = ks[0] + ks[1] + ks[2]
+    bad = [_cut(cH.diff(t) - 4 * cN / t - 2 * I * sum(K[i] * cM[i] for i in range(3)), n - 1)]
+    for i in range(3):
+        KcT = sum(K[j] * cT[j, i] for j in range(3))
+        bad.append(_cut(cM[i].diff(t) + 2 * cM[i] / t - I * KcT + I * K[i] / 6 * (cH + 4 * cN), n - 1))
+    nser, A3 = _cartesian_series(cN, cT, cH, K, n)
+    for i in range(3):
+        V = s.integrate(_cut(4 * K[i] * (nser.diff(t) - s.expand(nser / t)) + 2 * I * cM[i], n - 1), (t, 0, t))
+        bad.append(_cut(sum(A3[i, j] * K[j] for j in range(3)) - V, n))
+    return all(s.simplify(x) == 0 for x in bad)
+
+
+def check_third_order(n=10):
+    R = s.Rational
+    generic = [(1, 0, 0), (R(1, 2), 1, 0), (0, R(-1, 3), 1)]
+    zero_pair = [(1, 0, 0), (R(1, 2), 1, R(1, 3)), (R(-1, 2), -1, R(-1, 3))]
+    near_zero = [(1, 0, 0), (R(1, 2), 1, R(1, 3)), (R(-1, 2), -1, R(-7, 30))]
+    for name, ks in (("noncoplanar unequal", generic), ("zero pair momentum", zero_pair), ("near-zero pair", near_zero)):
+        assert third_order_case(ks, n), name
+        print(f"[ok] third order, {name} triple: (C1), (C2) and K.A_3 = V_3 through t^{n}")
+    assert not third_order_case(generic, n, shift=R(1, 5)), "control: corrupted pair initial row"
+    print("[ok] control: corrupting one pair's initial row breaks third-order compatibility")
+
+
 if __name__ == "__main__":
     check_compatibility()
     check_projector()
@@ -334,4 +426,5 @@ if __name__ == "__main__":
     check_acoustic_kernel()
     check_shell_series()
     check_general_pair_series()
+    check_third_order()
     print("CONSTRAINT-ROW REPLACEMENT VERIFIED: no hyperbolic scalar kernel is needed for physical pair sources")
