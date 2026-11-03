@@ -1328,6 +1328,9 @@ Three remarks place this result.
   part is the $\frac53$, and the centred $13$ part and the cross term vanish. The
   decomposition \eqref{eq:obs-dilation} is the finite-$k_0$ extension of
   \eqref{eq:sh-dilation-factorised}.
+\item \emph{Next gradient order.} The first nonzero centred cubic coefficient is evaluated
+  exactly in \eqref{eq:centred-kappa4}. The centred $13$ part is therefore not zero beyond leading
+  order.
 \item \emph{Status.} No analytical statement is made here about the relative size of the
   three terms at finite $k_0$. In the sampled configurations of the exploratory appendix
   (App.~\ref{app:numerics}, not evidence), the dilation term is not dominant. Whether the
@@ -2237,6 +2240,28 @@ the zeros of $T_\ell$.
 
 \subsection{General spectra}
 
+\begin{remark}[Causal generation of superhorizon power]\label{rem:k3}
+\emph{Question:} can a process acting inside the horizon generate superhorizon modes whose
+dimensionless spectrum falls off more slowly than $k^3$? At any \emph{finite} time it cannot in
+this setup. The field equations are hyperbolic, with propagation speeds $1/\sqrt3$ and $1$. By
+Prop.~\ref{prop:cartesian} and induction, every regular order-$r$ kernel is an entire function of
+the Cartesian momenta; equivalently, its real-space kernel has compact support. For an order-$r$
+field $Y$ built from inputs with integrable correlations ($\int\xi^2\dd^3r<\infty$; for example a
+smooth spectrum supported away from $k=0$), $P_Y(K)$ is a smooth rotation-invariant function of the
+vector $K$. Hence $P_Y=P_Y(0)+O(K^2)$, and $\Delta^2_Y\propto K^3$ at most (white noise). Conservation
+laws can only steepen this. Two apparent exceptions are not counterexamples:
+\begin{itemize}
+\item \emph{An exactly monochromatic input.} Here $\xi\propto\sin(k_0r)/(k_0r)$ has long-range
+  correlations. Two shells overlap with Jacobian $2\pi k_0^2/K$, so a quadratic $P_Y\propto1/K$ and
+  $\Delta_Y^2\propto K^2$. This occurs here, because the zero-pair kernel (the homogeneous lapse, with
+  $c_{(q,-q)}=5q^2/9$) is nonzero. Any finite width $\Delta k$ restores $K^3$ for $K\ll\Delta k$, so the
+  shell's infrared tail must not be generalised.
+\item \emph{The late-time limit.} The limits $K\to0$ and $t\to\infty$ do not commute. Logarithmic
+  enhancements such as the $k^3\ln^2k$ tails of induced tensors arise only as $t\to\infty$.
+\end{itemize}
+This is an argument from the stated results, not a separately checked theorem.
+\end{remark}
+
 \begin{theorem}[Infrared]\label{thm:ir}
 For spectra smooth on $(0,\infty)$, consider the $q\to0$ region. By the Ward identities,
 $K_2(k,q)=-k\cdot\partial_kK_1(k)+O(q)$ and $K_3(k,q,-q)=(k\cdot\partial_k)^2K_1(k)+O(q^2)$.
@@ -2343,6 +2368,7 @@ Angular closure; Green blocks & \path{solution/check_entire_sphere.py} (120 mome
 Four-gradient cubic quadrupole & \path{solution/check_quadrupole_adjoint_expansion.py}; \path{check_stationary_quadrupole_four_gradients.py --symbolic}: the uncontracted cubic quadrupole equals the independent curvature reference as a polynomial in six momentum components, all five components, symbolic times; shell value \eqref{eq:stationary-four-gradient}; known $\frac13C_2^{(13)}$ through $O(k_0^6)$\\
 Dilation channel & \path{solution/check_dilation_ward.py}: source and initial-row identities with the engine at symbolic momentum and arbitrary profiles; phase identity at arbitrary momentum and times; algebraic stationary Ward fixture\\
 Constraint rows (Props.~\ref{prop:compat}--\ref{prop:shell-acoustic}) & \path{solution/check_constraint_rows.py}: \eqref{eq:compat-1}--\eqref{eq:compat-2} exactly for a physical pair at unequal momenta (failing off shell); projector and transpose; shell $\mathfrak m$, $c_r$, $\mathcal I$ and the local scalar identity; the evaluated kernel $\mathcal G$; \eqref{eq:shell-acoustic} against the hyperbolic Cartesian solution through $O(t^{16})$; $K\cdot A=V$ for an unequal pair through $O(t^{10})$, with a wrong-initial-row control; at third order, with physical second-order fields, \eqref{eq:compat-1}--\eqref{eq:compat-2} and $K\cdot A_3=V_3$ through $O(t^{10})$ for noncoplanar unequal, zero-pair and near-zero-pair triples, with a control\\
+Observer-centred cubic at $\kappa^4$ (\eqref{eq:centred-kappa4}) & \path{solution/check_observer_centred_kappa4.py}: exact; leading cancellation asserted; uses the independent four-gradient quadratic hand map\\
 Finite-wavelength cubic quadrupole (numerical validation, not evidence) & \path{solution/numerics/compare_cubic_quadrupole.py}: independent forward map (fields from (N),(T) only, Fermi--Walker triad, geodesic, roots, clock, normalisation) against \eqref{eq:combined} for noncoplanar unequal, zero-pair and near-zero-pair triples, agreement $\le3\times10^{-9}$; $J_{111}$ formula, Hessian, constraint rows and dilation channel separately; frame and clock controls. \path{observer_centred.py}, \path{shell_c13.py}: observer-centred split and shell ratios (App.~\ref{app:numerics})\\
 Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
 \bottomrule

@@ -121,7 +121,20 @@ session; three passes), with no errors or undefined references and one negligibl
 
 ## 2. Open follow-ups, in recommended order
 
+### Done after the first version of this handoff
+
+- **Exact first nonzero observer-centred shell coefficient** (eq. `centred-kappa4`, checked by
+  `solution/check_observer_centred_kappa4.py`):
+  `⟨K^c₃(k,q,−q)⟩ = k⁴[4(e−o)(12e³−8e²o+7eo²+7o³) + 5(o⁴−ι⁴)]/270 + O(k⁶)`.
+  The κ² term cancels identically. The result agrees with the numerical value at x_o=0.3. It splits
+  into a propagation part, which vanishes as e→o, and a pure observer-clock part, (o⁴−ι⁴)/54.
+- **Remark `rem:k3`** (causal generation of superhorizon power; the answer to the author's question)
+  is now in §"General spectra".
+
 ### 2b. Simplify the observer-centred cubic kernel (analytic)
+
+**Status:** the κ⁴ step below is done (see above). The finite-wavelength step remains open.
+
 
 The target is ⟨K^c₃(k,q,−q)⟩_q̂, the only genuinely cubic part of C⁽¹³⁾ after
 Prop. `prop:obs-dilation`. The dilation part is already `½σ²D²C⁽¹¹⁾` plus a total derivative.

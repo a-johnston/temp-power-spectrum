@@ -334,6 +334,23 @@ explicit entire function. This is a channel with two exactly zero momenta, not t
 nonzero-radius shell contraction, and implies nothing about exchanging soft limits with time or
 spectral integrals.
 
+\paragraph{The first nonzero observer-centred cubic coefficient.} On the shell, with the quadrupole
+weight aligned with $k$, the $\hat q$ averages of the $(q,-q)$ and single-$q$ dilation terms vanish.
+The identity of \S\ref{sec:obs-dilation} then reads
+$\ens{\mathcal K^c_3}=\overline J_{abc}+2\mathfrak D\ens{\mathcal K_2(k,q)}+\mathfrak D^2\mathcal K_1(k)$. Insert
+\eqref{eq:stationary-four-gradient}, the linear transfer, and the independent four-gradient
+quadratic hand map of \path{solution/check_quadrupole_next_hand.py}. The $\kappa^2$ term cancels
+identically, as stated in Prop.~\ref{prop:obs-dilation}, and
+\begin{equation}\label{eq:centred-kappa4}
+\boxed{\ens{\mathcal K^c_3(k,q,-q)}_{\hat q}=\frac{k^4}{270}\Big[4(e-o)(12e^3-8e^2o+7eo^2+7o^3)
++5(o^4-\iota^4)\Big]+O(k^6).}
+\end{equation}
+The first part vanishes with the photon path ($e\to o$); the second, $(o^4-\iota^4)/54$, is a pure
+observer-clock term. The centred contribution to $\frac13C^{(13)}_2$ at $O(k_0^6)$ is
+$\frac{4\pi}{25}\sigma^4\,\frac{(o^2-e^2)k_0^2}9\,\ens{\mathcal K^c_3}$. It agrees with the numerical
+observer-centred part at $x_o=0.3$ ($-0.194$ against $-0.195$ in units of $\mathcal K_1$; the
+difference is $O(k_0^6)$). The check is \path{solution/check_observer_centred_kappa4.py}.
+
 \subsection{Constraint rows remove the hyperbolic scalar Green family}\label{sec:constraint-rows}
 The Cartesian spatial operator has the eigenvalue $-K^2/3$ on $\TF(KK)$, so the scalar sector of
 \eqref{eq:spatial-green-poly}, and of every adjoint built from it, contains the hyperbolic tails
