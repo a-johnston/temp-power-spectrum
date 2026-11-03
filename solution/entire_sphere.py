@@ -65,20 +65,41 @@ def phase_moment(powers, K):
     )
 
 
-def sphere_reduce(expr, n):
-    """Canonical polynomial representative modulo n.n=1 (eliminate n_z^2)."""
-    return s.expand(
+def angular_polynomial(expr, n):
+    """Sphere polynomial with n-independent coefficients shielded from expansion.
+
+    In particular, already contracted Volterra/normalization factors must not
+    have their internals expanded just to collect powers of the sky direction.
+    The returned replacement map restores the exact coefficient expressions.
+    """
+    coefficients = {}
+
+    @lru_cache(None)
+    def shield(value):
+        if not value.has(*n) and (value.is_Function or isinstance(value, (s.Integral, s.Derivative, s.Subs))):
+            return coefficients.setdefault(value, s.Dummy("coefficient"))
+        return value.func(*(shield(arg) for arg in value.args)) if value.args else value
+
+    opaque = shield(s.sympify(expr))
+    reduced = s.expand(
         sum(
             coef * n[2] ** (m % 2) * (1 - n[0] ** 2 - n[1] ** 2) ** (m // 2)
-            for (m,), coef in s.Poly(s.expand(expr), n[2]).terms()
+            for (m,), coef in s.Poly(s.expand(opaque), n[2]).terms()
         )
     )
+    return s.Poly(reduced, *n), {value: key for key, value in coefficients.items()}
+
+
+def sphere_reduce(expr, n):
+    """Canonical sphere representative; scalar time coefficients stay factored."""
+    poly, restore = angular_polynomial(expr, n)
+    return poly.as_expr().xreplace(restore)
 
 
 def polynomial_rank(expr, n):
     if isinstance(expr, s.MatrixBase):
         return max((polynomial_rank(z, n) for z in expr), default=0)
-    poly = s.Poly(sphere_reduce(expr, n), *n)
+    poly, _ = angular_polynomial(expr, n)
     return 0 if poly.is_zero else int(poly.total_degree())
 
 
@@ -91,7 +112,12 @@ def phase_average(polynomial, n, K, weight=1, maximum_rank=None):
     """
     if isinstance(polynomial, s.MatrixBase):
         return polynomial.applyfunc(lambda z: phase_average(z, n, K, weight, maximum_rank))
-    poly = s.Poly(sphere_reduce(weight * polynomial, n), *n)
+    poly, restore = angular_polynomial(weight * polynomial, n)
+    return contract_angular_polynomial(poly, restore, K, maximum_rank)
+
+
+def contract_angular_polynomial(poly, restore, K, maximum_rank=None):
+    """Contract a prepared sphere polynomial without collecting it twice."""
     if poly.is_zero:
         return s.S.Zero
     rank = int(poly.total_degree())
@@ -104,4 +130,4 @@ def phase_average(polynomial, n, K, weight=1, maximum_rank=None):
         for r, remaining, count in moment_terms(tuple(map(int, powers))):
             coefficients.setdefault(r, []).append(scalar * count * s.prod(k**m for k, m in zip(K, remaining, strict=True)))
     z = sum(k * k for k in K)
-    return s.Add(*(s.Add(*terms) * RadialBessel(r, z) for r, terms in sorted(coefficients.items())))
+    return s.Add(*(s.Add(*terms) * RadialBessel(r, z) for r, terms in sorted(coefficients.items()))).xreplace(restore)

@@ -142,8 +142,18 @@ The first frame covector reduces exactly to a commutator with the known linear q
 Rotational covariance also removes the forced homogeneous tensor from the **entire**
 isotropically contracted cubic response, while its homogeneous lapse/initial row remains.
 `solution/entire_sphere.py` and `solution/quadrupole_angular_source.py` implement the closure.
-The remaining Green/time pairings and direct cubic multi-phase contractions are **not**
-evaluated. These working results are not additional completion claims for the main PDF.
+The remaining generic Green/time pairings are **not** evaluated.
+
+[`report/direct_cubic_phase_reduction.md`](report/direct_cubic_phase_reduction.md)
+assembles the complete direct cubic measurement as exact phase sectors, with physical
+endpoints, clock, frame and normalization. Its sole four-time ray term reduces exactly
+to six ordered three-time integrals. For one finite-momentum input and two exactly constant
+primordial inputs, spatial dilation covariance fixes the **complete physical** cubic response
+as `(p.partial_p)^2` of the linear response; the reduced first field adjoint is a derivative
+of the background adjoint as well. This is a special channel, not the nonzero-radius shell
+contraction. Dense generic standalone radial expansion is intentionally deferred so these
+sectors can be combined with adjoint terms first. These working results are not additional
+completion claims for the main PDF.
 
 ## Setup and reproduction
 
@@ -158,6 +168,9 @@ uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools
 .venv/bin/python -B solution/check_stationary_quadrupole_four_gradients.py --symbolic
 .venv/bin/python -B solution/check_entire_sphere.py
 .venv/bin/python -B solution/check_quadrupole_angular_source.py
+.venv/bin/python -B solution/check_phase_integral_contraction.py
+.venv/bin/python -B solution/check_direct_cubic_measurement.py
+.venv/bin/python -B solution/check_dilation_ward.py
 solution/run_all.sh         # the exact checks; uses .venv by default (override with PYTHON=...)
 .venv/bin/python -B solution/curvature_kernels.py --spectrum  # cache-free map + spectra, seconds
 .venv/bin/python -B solution/curvature_kernels.py --compare   # optional: needs saved legacy kernels
