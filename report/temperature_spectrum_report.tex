@@ -65,6 +65,14 @@ cancels exactly in the normalised map. Further results:
   their metric time derivatives from the bulk, with explicit boundaries. The shell emission
   part reduces to the same nine moments; mixed-time phases still obstruct that finite closure
   for the remaining propagation terms.
+\item A polarised stationary (adjoint) identity expresses the complete cubic response through
+  first-order states and first adjoints only, with all emission, clock, frame, normalisation and
+  initial-data terms (\S\ref{sec:stationary}). Its quadrupole needs at most three time integrals
+  per term, and its sky integrals close on entire phase moments. Through four gradients it agrees
+  with an independent curvature calculation for arbitrary momentum triples. For one finite and two
+  zero momenta the cubic transfer is exactly $(k\partial_k)^2T_\ell$. The Einstein constraints
+  remove every hyperbolic scalar Green function from physical pair responses
+  (\S\ref{sec:constraint-rows}).
 \item The linear transfer function $T_\ell$ is given in closed form for every $\ell$, as a
   short sum of the same entire functions $J_m$ used at second order. The coefficients are
   Laurent coefficients of two explicit rational functions, with no logarithms or $\mathrm{Ci}$.
@@ -144,9 +152,9 @@ the result, not merely computational details; see \S\ref{sec:open}.
 Requirement & Result (section; status) \\\midrule\endhead
 Gaussian variable; no higher-order modes & $\zeta=\frac16\ln\det\gamma_{ij}$, exactly conserved; Def.~\ref{def:ic} (\S\ref{sec:ic}) \\
 Constrained initial data at every order & regular solution at any $t_i$; constraints proved (Thm.~\ref{thm:consistency}); forced data nonzero \\
-Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\ref{sec:fields}); 2nd order \st{closed form}; 3rd order \st{explicit nested integrals}; contracted shell cubic sources: \st{nine moments, angle integrals evaluated} (\S\ref{sec:cubic-moments}) \\
+Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\ref{sec:fields}); 2nd order \st{closed form}; 3rd order \st{explicit nested integrals}; contracted shell cubic sources: \st{nine moments, angle integrals evaluated} (\S\ref{sec:cubic-moments}); scalar moments hyperbolic-free (Prop.~\ref{prop:shell-acoustic}) \\
 Observer, clock, tetrad, emission surface & \S\ref{sec:obs}; explicit Fermi--Walker rotation, irrelevant to the spectrum at this order (Prop.~\ref{prop:frame}) \\
-Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks; propagation adjoint removes the second-order-field ray response, with emission, clock and normalisation retained (\S\ref{sec:prop-adjoint}) \\
+Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks; propagation adjoint removes the second-order-field ray response, with emission, clock and normalisation retained (\S\ref{sec:prop-adjoint}); stationary form with no second/third state or second ray, cubic quadrupole \st{verified through four gradients at arbitrary triples}, dilation channel \st{closed form} (\S\ref{sec:stationary}) \\
 $C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}); the proof is analytic for every $\ell$, and the script checks $\ell=1,\dots,6$ \\
 $C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, organised as $C_\ell=4\pi vT_\ell^2+v^2[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell]$ (\eqref{eq:primary}); sky integrals evaluated (\S\ref{sec:spec}); shell metric reduced to two amplitudes, contracted cubic response scalar; existence proved for finite times and finite spectral measures of compact support in $0<k<\infty$; log-map decomposition with the lognormal part \st{explicit} (convergent $3j$ series, or one Legendre integral of $\xi^2$; Thm.~\ref{thm:logmap}) \\
 Monochromatic, held-fixed quantity & $\ens{g^2}=\sigma^2$ fixed (\S\ref{sec:mono}) \\
@@ -2265,6 +2273,8 @@ near $s\to0$ (where $|G_N|$ grows like $1/(K^3ts)$) against sources whose small-
 coefficients grow with $q$. The true large-$q$ behaviour for a scale-invariant spectrum,
 including possible cancellations, is \st{open}.
 
+\input{stationary_cubic_reduction.tex}
+
 %======================================================================
 \section{Verification ledger}\label{sec:ledger}
 %======================================================================
@@ -2324,6 +2334,13 @@ Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Th
 Propagation adjoint & \path{solution/check_propagation_adjoint.py}: mixed cubic driver from matrix exponentials and pulled-back orthonormal directions; general linear ray response; arbitrary plane-wave-jet duality and bulk integration by parts; moving-emission and physical-clock coefficients, centred normalisation, shell emission projection and factorials; boundary and longitudinal-displacement omission controls. The second-order ray is eliminated, not the full mixed-time angular response or its interference with the top-order field.\\
 Contracted cubic source reduction & \path{solution/check_shell_cubic_sources.py --compare-engine}: exact cubic lapse and longitudinal momentum sources for arbitrary time profiles and pair amplitudes; comparison with the original Christoffel-based engine at finite time; vanishing direct $111$ momentum source; homogeneous tensor cancellation; general-momentum lapse normal form; elementary quadratic sources; derivative-free momentum adjoint and boundary coefficients; Green equations and zero momentum; all-order angular-series coefficient identities and finite Laurent integration with at most $J_3$. The angle-free moment formulas follow by analytic substitution and Fubini, not by a new end-to-end spectrum implementation.\\
 Cubic products; fast curvature map & \path{solution/check_cubic_product_identity.py}: generic non-commuting driver, ray pullback and moving-boundary/clock composition, with omission controls. \path{solution/curvature_kernels.py}\ \code{--compare --spectrum}: regenerates the complete map kernels through four gradients without the field/ray engine; exact denominator-cleared comparison to the raw saved kernels at general $(k,q,-q)$; general-moment $C_2$ through degree six and the separate leading octupole contributions. Does not provide the six-/five-gradient maps needed for the next quadrupole/octupole spectrum coefficients.\\
+Stationary identity, normalisation adjoint & \path{solution/check_unified_adjoint.py}: polarised identity \eqref{eq:stationary-polarised} against recursive substitution in a nonsymmetric nonlinear system; background transpose with origin covector (dropping it fails); exact normalisation adjoint; leading-gradient map; a 15-variable root/clock/normalisation fixture with omission controls (not a radiation solution)\\
+First field-adjoint source & \path{solution/check_first_field_adjoint_source.py}: \eqref{eq:mixed-residuals} and all weak transposes against the independent Christoffel engine at general momenta, off shell; homogeneous and constant-shift controls; no-probe-ray Hessian; emission, clock and observer terms; frame generator; Green reconstruction, observer trace, emission jump and origin covector, exactly\\
+Direct cubic measurement & \path{solution/check_stationary_cubic.py}, \path{check_direct_cubic_measurement.py}, \path{check_phase_integral_contraction.py}: second-ray forcing on arbitrary jets; free-algebra temporal identities; polarisation conventions; the common fourth time; conserved-momentum off-shell comparison with noncommuting Fermi--Walker frame, physical roots and clock\\
+Angular closure; Green blocks & \path{solution/check_entire_sphere.py} (120 moments through rank seven), \path{check_quadrupole_angular_source.py} (Volterra signs, both normalisation products, frame commutator, homogeneous-pair covariance), \path{check_regular_field_green.py} and \path{check_quadrupole_green_source.py} (operator polynomial, evaluated convolutions and clock primitives, first-order hyperbolic cancellation, time arity). Quadrature in these scripts is labelled validation only\\
+Four-gradient cubic quadrupole & \path{solution/check_quadrupole_adjoint_expansion.py}; \path{check_stationary_quadrupole_four_gradients.py --symbolic}: the uncontracted cubic quadrupole equals the independent curvature reference as a polynomial in six momentum components, all five components, symbolic times; shell value \eqref{eq:stationary-four-gradient}; known $\frac13C_2^{(13)}$ through $O(k_0^6)$\\
+Dilation channel & \path{solution/check_dilation_ward.py}: source and initial-row identities with the engine at symbolic momentum and arbitrary profiles; phase identity at arbitrary momentum and times; algebraic stationary Ward fixture\\
+Constraint rows (Props.~\ref{prop:compat}--\ref{prop:shell-acoustic}) & \path{solution/check_constraint_rows.py}: \eqref{eq:compat-1}--\eqref{eq:compat-2} exactly for a physical pair at unequal momenta (failing off shell); projector and transpose; shell $\mathfrak m$, $c_r$, $\mathcal I$ and the local scalar identity; the evaluated kernel $\mathcal G$; \eqref{eq:shell-acoustic} against the hyperbolic Cartesian solution through $O(t^{16})$; $K\cdot A=V$ for an unequal pair through $O(t^{10})$, with a wrong-initial-row control\\
 Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
 \bottomrule
 \end{longtable}
@@ -2375,6 +2392,12 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
     expression with the propagation adjoint, physical endpoint and clock terms remains the key
     cancellation target. A finite nine-moment closure is not automatic in the presence of
     mixed-time phases;
+  \item the stationary route of \S\ref{sec:stationary}: the surviving two- and three-time kernels
+    are not evaluated. Combining all cubic blocks before expansion, in the constraint rows of
+    \S\ref{sec:constraint-rows}, is the next step; it needs the momentum-row mixed variations. An
+    independent finite-wavelength comparison of the cubic quadrupole (noncoplanar,
+    unequal-frequency triples, including near-zero pair momenta) is also open
+    (\S\ref{sec:stationary-open});
   \item the three-tensor reduction \eqref{eq:three-tensor} of the next gradient order, extended to
     $O(k_0^8)$ and to the octupole;
   \item evaluating the Legendre moments of the field amplitudes left by the separated sky form

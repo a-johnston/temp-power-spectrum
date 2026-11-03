@@ -1,0 +1,475 @@
+% Included as its own section, after the limits and before the verification ledger.
+%======================================================================
+\section{Stationary reduction of the complete cubic response}\label{sec:stationary}
+%======================================================================
+This section reorganises the complete third-order observable of \S\ref{sec:obs} without
+solving the second- or third-order state. It also collects the exact source, Green and angular
+reductions made along that route, and states which of them are evaluated. Nothing here replaces
+the constructions of \S\S\ref{sec:fields}--\ref{sec:spec}; it is an equivalent representation
+with fewer unknown responses. Throughout, $e=\bar t_\star$, $o=\bar t_o$ and
+$\iota=\bar t_I$ (the physical initial event), with $0<\iota<e<o$; $X_0=n(o-t)$ is the
+background ray. In this section $\mathsf C$ denotes a symmetric trace-free quadrupole covector,
+not an angular power spectrum, and the quadrupole weight is $w=\frac{15}{2}n^T\mathsf Cn$, so that
+$\sky{w}=0$ and $\sky{w\,\TF(nn)}=\mathsf C$. The derivations, with further detail, are in the working notes in the directory
+\path{report/}:
+\begin{itemize}
+\item \path{unified_adjoint_working_note.md}, \path{first_field_adjoint_source.md};
+\item \path{stationary_cubic_assembly.md};
+\item \path{quadrupole_adjoint_gradient_expansion.md};
+\item \path{exact_quadrupole_angular_source.md};
+\item \path{direct_cubic_phase_reduction.md}, \path{regular_green_time_reduction.md}.
+\end{itemize}
+
+\paragraph{Status.} \emph{Established:} the polarised stationary identity; the complete first
+field-adjoint source and its regular Green reconstruction; a second-ray-free direct cubic
+measurement; exact sky closure of the quadrupole first source; evaluated Green convolutions;
+a three-time bound for the complete cubic quadrupole; the physical cubic quadrupole through four
+gradients at arbitrary triples; the exact dilation channel $(k,0,0)$; and
+(\S\ref{sec:constraint-rows}) the removal of every hyperbolic scalar Green function from
+physical pair responses, by the Einstein constraints. \emph{Not established:} evaluation of the
+surviving two- and three-time kernels, an unrestricted finite-wavelength comparison of the cubic
+map, or a new evaluation of $C^{(13)}_\ell$ at finite $k_0$.
+
+\subsection{The polarised stationary identity}
+Write the complete independent residual system as $F(y,g)=0$, where $g$ is the primordial input
+and $y$ contains the fields, null paths, endpoints, clock, frame and normalisation. Let
+$A=F_y|_0$ have the regular inverse fixed by the regular branch and the physical boundary
+conditions. For a real angular test functional $J(y,g)$ define
+\[
+ L=J+\langle\lambda,F\rangle,\qquad A^*\lambda_0=-J_y|_0,\qquad
+ Ay_a=-F_g[g_a],\qquad A^*\lambda_a=-D_a(L_{0,y}),
+\]
+where $D_a$ differentiates along the \emph{frozen} first direction $(y_a,g_a)$ and the pairing
+includes all boundary residuals.
+
+\begin{proposition}[Polarised stationary identity]\label{prop:stationary}
+For three primordial directions,
+\begin{equation}\label{eq:stationary-polarised}
+\boxed{J_{abc}=D_aD_bD_cL_0+\langle\lambda_a,D_bD_cF\rangle+\langle\lambda_b,D_aD_cF\rangle
++\langle\lambda_c,D_aD_bF\rangle .}
+\end{equation}
+No second or third state response and no second adjoint appears. Each single--pair term has
+coefficient one; for a repeated direction the identity reads $J'''=D^3L_0+3\langle\lambda_1,D^2F\rangle$.
+\end{proposition}
+\begin{proof}
+Differentiate $J$ three times along the implicit solution and use $A^*\lambda_0=-J_y$ to remove
+$y_{abc}$. The remaining second-state terms are $\sum_{\rm cyc}\langle D_aL_{0,y},y_{bc}\rangle$,
+and $\langle D_aL_{0,y},y_{bc}\rangle=-\langle\lambda_a,Ay_{bc}\rangle
+=\langle\lambda_a,D_bD_cF\rangle$ since $Ay_{bc}=-D_bD_cF$.
+\end{proof}
+
+\paragraph{Field-reduced form.} Eliminating the rays, endpoints, clock, frame and normalisation
+into an exact reduced observable, and keeping as field rows the lapse equation (N), the five
+orthonormal trace-free rows $2e^{H/2}(T)e^{-H/2}$, and the initial row
+$\lim_{t\to0}\nu/t^2-c[g]$, gives
+\begin{equation}\label{eq:stationary-field}
+\begin{split}
+ J_{abc}={}&J_{111,abc}
+ +\int_0^o\dd t\Big[\Lambda_{N,0}C_{N,abc}+\Lambda_{H,0}:C_{H,abc}
+ +\sum_{a|bc}\big(\Lambda_{N,a}C_{N,bc}+\Lambda_{H,a}:C_{H,bc}\big)\Big]\\
+ &-\Lambda_{c,0}c_{abc}-\sum_{a|bc}\Lambda_{c,a}c_{bc}.
+\end{split}
+\end{equation}
+Here $J_{111}$ is the complete measurement on the first-field-only family
+$(\zeta,\nu,H)=\eps(g,a,h)$, $C_{N,H}$ are the direct residual derivatives along that family, and
+$c_{bc},c_{abc}$ are the report's initial kernels (\S\ref{sec:fields}). There are three
+partitions, each with coefficient one; the background adjoint uses the total momentum and the
+first adjoint the pair momentum $k_b+k_c$, which may vanish. The Hamiltonian and momentum
+constraints are \emph{not} added as further multiplier rows: they are consequences
+(Thm.~\ref{thm:consistency}), and adding them would make $A$ redundant
+(\S\ref{sec:constraint-rows} instead \emph{replaces} rows).
+
+\paragraph{Background transpose and the regular-origin covector.} At momentum $K$ the inverse
+of $L_K\nu=f_N$, $L_HH+4Q_K\nu=f_H$ is $\nu=b_cv_K+\int_0^tG_N^+f_N$ and
+$H=\int_0^t\mathfrak G_K[f_H-4Q_K\nu]$, with $v_K=\frac9{K^2}u_1(Kt/\sqrt3)$ and $G_N^+$ the
+retarded lapse kernel (opposite sign to the coefficient of $c_N$ in \S\ref{sec:fields}). Its
+transpose has an initial-data covector that does not vanish:
+\begin{equation}\label{eq:origin-covector}
+ \Lambda_c=9\lim_{s\to0}s\Lambda_N(s),
+\end{equation}
+from $\lim_{s\to0}9sG_N^+(t,s)=v_K(t)$. For the linear quadrupole objective,
+$J_{w,y}[\delta H]=-\frac12\int_e^oC_K:\delta H'\dd t$ with
+$C_K(t)=\int\dd\Omega\,w\,\TF(nn)e^{iK\cdot n(o-t)}$, and
+\[
+ \Lambda_{H,0}(s)=\tfrac12\int_{\max(s,e)}^o\partial_t\mathfrak G_K(t,s)[C_K(t)]\dd t,\quad
+ \Lambda_{N,0}(s)=-4\int_s^oG_N^+(t,s)Q_K:\Lambda_{H,0}(t)\dd t .
+\]
+The derivative acts on the kernel before any exchange of integrals, so the observer and emission
+boundaries are kept. The nonlinear initial matching contributes
+$-\Lambda_{c,0}c_{abc}-\sum\Lambda_{c,a}c_{bc}$ in \eqref{eq:stationary-field}; dropping these rows
+loses part of the physical answer (see the gradient check below).
+
+\paragraph{Exact normalisation adjoint.} With $F_Z=Z-e^{-I}$, $F_M=M-\sky{Z}$,
+$F_\Theta=M(1+\Theta)-Z$ and $\int w\,\dd\Omega=0$, the multiplier of the exponent is
+\begin{equation}\label{eq:normalisation-adjoint}
+ \lambda_I=(1+\Theta)\Big[w-\frac{J_w}{4\pi}\Big],\qquad
+ \lambda_{I,a}=w\Theta_a-\frac1{4\pi}\int w\Theta_a\,\dd\Omega,
+\end{equation}
+so $\int\lambda_I\,\dd\Omega=0$ exactly, and the random monopole has already cancelled from the
+first adjoint source. The emission and clock multipliers have first variations
+$\lambda_{{\rm em},a}=-e\,wF_a(e)$ and $\lambda_{{\rm clock},a}=-\partial_oJ^c_{w,a}/(a_1o)$; together
+they reproduce the second-order clock functional
+$\mathcal C[m]=-[\iota^2m(\iota,0)+\int_\iota^otm(t,0)\dd t]/o$.
+
+\paragraph{A physical check.} Applied to the leading-gradient map
+$\Theta_{\rm lead}=-\tau^2e^{-2\eps g}[\eps\mathsf A-\eps^2\mathsf B]$ of \S\ref{sec:sh}, with the
+nonlinear seed as a residual, the identity gives $\Theta^{(3)}_{\rm lead}=-12\tau^2(g^2\mathsf A+g\mathsf B)$,
+in agreement with direct differentiation. Omitting the seed residual loses part of the
+$g^2\mathsf A$ term.
+
+\subsection{The complete first field-adjoint source}\label{sec:first-source}
+The first field adjoint solves $A^*\Lambda_a=\mathcal S_a$, with
+$\mathcal S_a[b]=-D_aJ_{{\rm red},y}[b]-\langle\Lambda_0,D_aE_y[b]\rangle$, on an independent
+\emph{state} probe $b=(0,m(t),j(t))e^{iq\cdot X}$ (no primordial part). For the first input
+$(\zeta,\nu,H)=(z,a,h)e^{ip\cdot X}$, $G=2z\mathbf 1+h$, $P=p+q$, $d=p\cdot q$, the off-shell
+mixed residuals are
+\begin{equation}\label{eq:mixed-residuals}
+\begin{split}
+ C_N&=\big[-q^ThP-z(2q^2-d)+4da+12a/t^2\big]m-a\,p^TjP+\tfrac12h':j',\\
+ C_H&=2a'j'+2m'h'+2\TF\big[\mathcal R_{p,q}(G,j)-2\mathcal U-2am(pq^T+qp^T)\big],
+\end{split}
+\end{equation}
+with $\mathcal U=\frac12\{m[P(Gq)^T+(Gq)P^T-dG]+a[P(jp)^T+(jp)P^T-dj]\}$ and
+$\mathcal R_{p,q}$ the finite bilinear orthonormal Ricci coefficient (an explicit polynomial in
+the momenta; no denominators). There are no second time derivatives of the probe. Two exact
+controls: a homogeneous probe gives $C_N=12am/t^2$, $C_H=2m'h'$; a constant primordial shift
+gives $C_N=-2zq^2m$, $C_H=-2z\mathfrak B_qj-8zQ_qm$, the finite-wavelength dilation $e^{-2z}$.
+
+\paragraph{Measurement Hessian without a probe ray.} Let $\phi_q=e^{iq\cdot n(o-t)}$,
+$N_n=nn^T-\frac13$, $F_a=\frac12\phi_ph'_{nn}$, $U_a=\int_e^oF_a$, and let $X_a,v_a$ be the known
+fixed-coordinate-observer first ray, with propagation adjoints
+$R_a=\int_e^t\frac12\nabla(\phi_ph'_{nn})$, $K_a=\int_e^t(s_a-R_a)$, $s_a=-P_n\phi_ph'n$
+(as in Prop.~\ref{prop:propagation-adjoint}). With $\lambda_{I,a}$ from
+\eqref{eq:normalisation-adjoint}, the first clock shift $D_a=\mathcal C[a]$ and the sky-integrated
+$A_a=\int w\,\partial_oU_a\,\dd\Omega$,
+\begin{equation}\label{eq:measurement-source}
+\begin{split}
+ S_{{\rm meas},a}[m,j]={}&\int_e^o\!\dd t\!\int\!\dd\Omega\,\phi_q\Big\{wE_0:j
+ +\big[wE_1+\tfrac12\lambda_{I,a}N_n+\tfrac i2wD_a(q\cdot n)N_n\big]:j'\Big\}\\
+ &+\int\dd\Omega\,\phi_q(e)\Big[e\,wF_a(e)m(e)+\tfrac e2wa_eN_n:j'(e)\Big]
+ +\frac{D_a}2\int\dd\Omega\,wN_n:j'(o)\\
+ &-\frac{A_a}{o}\Big[\iota^2m(\iota)+\int_\iota^otm(t)\dd t\Big],
+\end{split}
+\end{equation}
+where $E_1=\frac i2(q\cdot X_a)N_n-\TF\operatorname{sym}(v_an^T)-\frac12\TF\operatorname{sym}((P_nK_a)n^T)$
+and $E_0=-\frac12\TF\operatorname{sym}(R_an^T)-\frac i2(q\cdot K_a)N_n
++\frac i2(q\cdot n)\TF\operatorname{sym}(K_an^T)$. The probe ray has been removed by the same
+duality as in \S\ref{sec:prop-adjoint}; its total derivative vanishes only by
+$R_a(e)=K_a(e)=0$ and $X_b(o)=v_b(o)=0$. The clock line lies on the observer worldline and is not
+integrated over the sky again. The complete source is
+$\mathcal S_a=S_{{\rm meas},a}-\int_0^o(V_\nu m+D_\nu m'+V_H:j+D_H:j')\dd t$, where
+$V_\nu,D_\nu,V_H,D_H$ are the finite weak transposes of \eqref{eq:mixed-residuals} against
+$\Lambda_{N,0},\Lambda_{H,0}$ at momentum $P$.
+
+\paragraph{Frame.} With $R=e^{g(0)}e^{H(t,0)/2}E_{\rm FW}$, $R'=\Omega R$ and
+$\Omega_{ab}=\frac18([h_a,h_b']+[h_b,h_a'])$, the first rotation vanishes, so the frame does not
+source the first \emph{field} adjoint. Its first adjoint is
+$\Lambda_{R,a}=-\mathcal K_a$, $\mathcal K_a=\int\dd\Omega\,\operatorname{skew}[w(\nabla_{S^2}\Theta_a)n^T]$,
+and the cubic frame pairing $\sum_{\rm cyc}\int_\iota^o\mathcal K_a:\Omega_{bc}\dd t$ is retained.
+It vanishes on the monochromatic shell, where $[h_a,h_b']=0$, but not for general triples.
+
+\paragraph{Regular reconstruction and its boundaries.} On the causal Green probes
+$\Phi_H=(0,\mathfrak G_q[B])$, $\Phi_N=(G_N^+,-4\int\mathfrak G_qQ_qG_N^+)$ and the origin probe
+$\Phi_c$, the first adjoint is $\Lambda_{H,a}(s):B=\mathcal S_a[\Phi_H]$,
+$\Lambda_{N,a}=\mathcal S_a[\Phi_N]$, $\Lambda_{c,a}=\mathcal S_a[\Phi_c]$. The point evaluations in
+\eqref{eq:measurement-source} force
+\begin{equation}\label{eq:first-adjoint-boundaries}
+ \Lambda_{H,a}(o^-)=\frac{D_a}2\int wN_n\,\dd\Omega,\qquad
+ \Lambda_{H,a}(e^-)-\Lambda_{H,a}(e^+)=\frac e2\int\dd\Omega\,wa_e\phi_q(e)N_n,
+\end{equation}
+and $\Lambda_{c,a}=9\lim_{s\to0}s\Lambda_{N,a}(s)$. Imposing zero terminal data or a continuous
+spatial adjoint would lose the physical clock and emission terms.
+
+\subsection{The direct first-field measurement without a second ray}
+For the first-field-only family write $v_2=u_2+n|v|^2$ with $n\cdot u_2=0$ (the radial part is
+fixed by normalisation). Then $X_2'=u_2+Q_X$ and $u_2'=Q_v$, where
+$Q_X=n|v|^2-Gv-\frac14G^2n+(X\cdot\nabla G)n$ and $Q_v$ is the explicit transverse forcing built
+from first fields and first rays (working note \path{stationary_cubic_assembly.md}, eq.~(6)).
+The same adjoints $R,K$ give the exact direct cubic line of sight
+\begin{equation}\label{eq:direct-U3}
+\boxed{U_3=\int_e^o\big[L_{111}-3R\cdot Q_X-3K\cdot Q_v\big]\dd t
+ -3K(o)\cdot R_{{\rm FW},2}\,n,\qquad
+ R_{{\rm FW},2}=\tfrac14\int_\iota^o[h(t,0),h'(t,0)]\dd t,}
+\end{equation}
+with the local remainder
+$L_{111}=\frac18[h,[h,h']]_{nn}+\frac32X^iX^j\partial_i\partial_jh'_{nn}-6v^T(X\cdot\nabla h')n
++3v^Th'v-3|v|^2h'_{nn}$. No second ray remains; the frame enters through the observer value
+$u_2(o)=-R_{{\rm FW},2}n$ and must not be added a second time through $\Lambda_R$. With the physical
+emission shifts $d_1=-ea_e$, $d_2=e[a_e^2-2X_e\cdot\nabla a_e-2d_1(D_ta)_e]$, the clock shift
+$D_1=\mathcal C[a]$ and
+\begin{equation}\label{eq:second-clock}
+ D_2=\frac{2\iota^3a(\iota,0)a'(\iota,0)-\int_\iota^ota(t,0)^2\dd t-2oa(o,0)D_1-D_1^2}{o},
+\end{equation}
+the exponent derivatives $I_{1,2,3}$ follow by composition (including
+$-6D_1[(\partial_oF_{1,e})d_1+F_{1,e}\partial_od_1]$), and the exact normalised map is
+$\Theta^{(3)}_{111}=P_0[-I_3+3ub-u^3+3\sky{u^2}u]$ with $u=I_1-\sky{I_1}$, $b=I_2-\sky{I_2}$.
+Along the same family $D^3\operatorname{tr}S^2=0$, and the temporal part of the direct cubic
+spatial residual is $\frac14[h,[h,h'']]+[h',[h,h']]+\frac1{2t}[h,[h,h']]$. \emph{On the
+monochromatic shell every temporal commutator here and in \eqref{eq:direct-U3} vanishes
+pointwise}, so the direct three-first-field Einstein source has no time derivatives of first
+fields; spatial nonlinearities and transport remain.
+
+\paragraph{The common fourth time.} The only four-time term,
+$-3\int_e^o(n\cdot R)|v|^2\dd t$, has its common time integrated exactly (its integrand depends on
+it only through the integration domain):
+\[
+ U_{3,R;abc}=-\sum_{S_3}\int_e^o\!\dd w\!\int_e^w\!\dd v\!\int_e^v\!\dd u\,(v-u)\,
+ (n\cdot r_a(u))\,[V_b(v)\cdot V_c(w)]\,e^{i[p_a(o-u)+p_b(o-v)+p_c(o-w)]\cdot n}.
+\]
+Every term of the direct cubic measurement then has at most three independent times.
+
+\paragraph{Independent measurement check.} In a spatially homogeneous anisotropic off-shell
+metric, canonical photon momentum is conserved and
+$e^{-I(n)}=[n^TR^Te^{H_o/2}e^{-H_e}e^{H_o/2}Rn]^{-1/2}$ at the physical roots. Expanding this
+exactly reproduces \eqref{eq:direct-U3}--\eqref{eq:second-clock} and, with prescribed nonzero
+$H_2,H_3,\nu_2$, the assembly $J_{\rm meas}^{(3)}=J_{111}-3S_{{\rm meas},1}[\nu_2,H_2]+J_{\rm lin}[H_3]$
+using the implemented first source. This tests the measurement algebra, not a radiation solution.
+
+\subsection{Exact angular closure and evaluated Green blocks}\label{sec:angular-green}
+\paragraph{Entire phase moments.} Let
+$F_r(z)={}_0F_1(;r+\frac32;-\frac z4)/(2r+1)!!$, so $F_r(x^2)=j_r(x)/x^r$ but with no
+division. For a monomial of degree $d=\sum m_i$,
+\begin{equation}\label{eq:phase-moments}
+ \sky{n_1^{m_1}n_2^{m_2}n_3^{m_3}e^{iK\cdot n}}
+ =i^d\sum_{0\le r_i\le m_i/2}(-1)^{r}F_{d-r}(K\cdot K)
+ \prod_{i=1}^3\frac{m_i!\,K_i^{m_i-2r_i}}{2^{r_i}r_i!\,(m_i-2r_i)!},\qquad r=\textstyle\sum r_i,
+\end{equation}
+valid for all phase vectors, including $K=0$. Substituting the Volterra forms of the first ray
+and adjoints, the \emph{entire measurement part} of the quadrupole first source becomes finite
+combinations of $F_0,\dots,F_7$ at the mixed-time phase $K_{tu}=(p+q)(o-t)+p(t-u)$, with no
+sky integral and no independently solved ray. The normalisation contribution contains, besides
+the combined-phase term, the two separated products
+$\frac14\mathcal U[h'_{nn};K_p]\mathcal A_C[N_n;K_q]+\frac14\mathcal A_C[h'_{nn};K_p]\mathcal U[N_n;K_q]$
+($\mathcal U$ the plain and $\mathcal A_C$ the $w$-weighted phase average); both are generically
+nonzero. Mixed-time phases mean this is \emph{not} a closure on the nine equal-time moments of
+\S\ref{sec:cubic-moments}.
+
+\paragraph{The frame covector is a commutator.} Since rotations preserve area,
+$\mathcal K_a=[S_a,\mathsf C]$ with $S_a=\frac{15}2\sky{\Theta_aN_n}$ the linear quadrupole tensor;
+for a scalar mode $S_a=-\frac{15}2T_2(|p|)Q_{\hat p}$. The same tensor gives $J_a=\mathsf C:S_a$ and
+$A_a=-\mathsf C:\partial_oS_a$.
+
+\paragraph{The forced homogeneous tensor drops out after isotropic contraction.} The exact pair
+residuals at $(\alpha,-\alpha)$ are $f_H(t,|\alpha|)Q_\alpha$ and $f_N(t,|\alpha|)$, so on the regular
+branch $H_{bc}=g_HQ_\alpha$. It enters the cubic response linearly, through a functional independent
+of $\hat\alpha$; since $\ens{Q_\alpha}_{\hat\alpha}=0$, it cancels from the \emph{entire} isotropically
+contracted cubic response, including measurement and boundary terms. The homogeneous lapse and
+its initial row $c_{(q,-q)}=5q^2/9$ do not cancel. The uncontracted map still contains the tensor.
+
+\paragraph{Evaluated Green kernels.} Let $\mathsf T_j(a,d)=\sum_{m\ge0}(-a)^md^{2m+j}/(2m+j)!$ (entire;
+$\mathsf T_0,\mathsf T_1$ are the entire cosine and sine-over-frequency). On STF matrices
+$\mathfrak B_q^3=\frac{2z}3\mathfrak B_q^2+\frac{z^2}3\mathfrak B_q$ ($z=q\cdot q$), and the retarded
+spatial inverse of $\partial_t^2+\frac2t\partial_t+\mathfrak B_q$ is the quadratic operator polynomial
+\begin{equation}\label{eq:spatial-green-poly}
+ \mathfrak G_q(t,s)=\frac st\Big[d\,\mathbf 1-\frac{\mathsf T_3(z,d)+3\mathsf T_3(-\frac z3,d)}4\mathfrak B_q
+ +\frac{3\mathsf T_5(z,d)+\mathsf T_5(-\frac z3,d)}4\mathfrak B_q^2\Big],\qquad d=t-s,
+\end{equation}
+which is the closed form of the series in Prop.~\ref{prop:cartesian}. With $a=z/3$,
+$G_N^+=\frac13[\mathsf T_1(a,d)+(d\mathsf T_2-\mathsf T_3)(a,d)/(ts)]$, and the previously nested
+lapse-to-spatial convolution is evaluated:
+$\int_s^t\frac ut\mathsf T_1(-a,t-u)G_N^+(u,s)\dd u=[s\mathcal A+\mathcal B+\mathcal D/s]/(3t)$ with
+$\mathcal A=\frac12[\mathsf T_3(a)+\mathsf T_3(-a)]$, $\mathcal B=\frac12[d\mathsf T_3(a)+\mathsf T_4(-a)-\mathsf T_4(a)]$,
+$\mathcal D=\frac12[d\mathsf T_4(a)-2\mathsf T_5(a)+\mathsf T_5(-a)]$ (all at $d$). The complete proper-clock
+pairing is evaluated too; for a physical first input $D_p=\frac{p^2}{9o}W_c$ with
+$W_c=P_c(o)-P_c(\iota)+\iota^2v_q(\iota)$, $P_c(T)=3[T\mathsf T_3(a,T)-2\mathsf T_4(a,T)]$; at zero momentum
+$W_c=(o^4+3\iota^4)/4$.
+
+For the physical first scalar mode, the direct primordial spatial forcing
+$-2Q\mathsf T_3(-a,t)/t$ and the initial-row column $c_1H_c$ ($c_1=-a/3$) combine to
+$H_1=-2Q[\mathsf T_2(a,t)-2\mathsf T_3(a,t)/t]$: all hyperbolic ($-a$) terms cancel between the source and
+the initial matching. \S\ref{sec:constraint-rows} shows why, and extends this to every physical
+pair.
+
+\paragraph{Time arity.} Counting independent integration variables after distributing products
+(a product of three one-time means counts as three): background adjoints need one time, first
+adjoints at most two, the single--pair pairings and the direct cubic measurement at most three,
+initial rows at most two. Hence the complete stationary cubic \emph{quadrupole} has at most three
+independent time integrations per distributed term, for arbitrary triples. This bounds the
+representation; it does not evaluate the surviving kernels.
+
+\subsection{Evaluated consequences}\label{sec:stationary-evaluated}
+\paragraph{The cubic quadrupole through four gradients.} Scale momenta by $\kappa$. The leading
+first spatial adjoint is evaluated in closed form, with observer trace
+$p^2(o^4+3\iota^4)\mathsf C/(72o)$ and emission jump $-p^2e^3\mathsf C/18$; its integral has no
+logarithms,
+\[
+ \overline\Lambda_{H,a}^{[2]}=\frac L3U+\tau^4V-\frac D{120}\rho_{p,q}
+ +\frac{p^2(3o^4+5\iota^4-8e^4)}{360}\mathsf C,\qquad
+ \Lambda^{[2]}_{c,a}=\frac{3o^4+5\iota^4-8e^4}{20}\mathsf C:Q_p+\frac D5(p+q)^T\mathsf Cq,
+\]
+with $\tau^2=(o^2-e^2)/6$, $D=o^4-e^4$, $L=\int_e^ot(o-t)^2\dd t$, and $U,V,\rho_{p,q}$ explicit
+quadratic tensors in $p,q,\mathsf C$ (note \path{quadrupole_adjoint_gradient_expansion.md}). Both
+initial-data pairings enter at four gradients, below the bulk lapse terms. For the shell
+($k=(1,0,0)$, $\mathsf C=Q_k$) the complete averaged cubic kernel is
+\begin{equation}\label{eq:stationary-four-gradient}
+ \overline J_{abc}=\kappa^2\frac{4(o^2-e^2)}9
+ +\frac{\kappa^4}{3402}\big[3984e^4-6256e^3o+4692e^2o^2-1853o^4-567\iota^4\big]+O(\kappa^6),
+\end{equation}
+of which the homogeneous-lapse partition alone is $-\frac{\kappa^4}{54}(3o^4+5\iota^4-8e^4)$; it does
+not cancel. The $\kappa^2$ term is the leading result $-12\tau^2(g^2\mathsf A+g\mathsf B)$. The
+\emph{uncontracted} cubic quadrupole through four gradients agrees with the independent
+Einstein--radiation curvature calculation (\path{solution/check_cubic_curvature_hand.py}) as a
+polynomial identity in six independent momentum components and all five quadrupole components,
+with symbolic $e,o,\iota$; the shell contraction reproduces the known weighted
+$\frac13C_2^{(13)}$ through $O(k_0^6)$, including both linear--cubic gradient orderings. This is an
+exact gradient-coefficient identity, not a finite-wavelength or all-multipole result.
+
+\paragraph{The exact dilation channel.} For one finite momentum and two exactly zero momenta,
+the coordinate change $Y=e^sX$ maps $g=s+\eps e^{ip\cdot X}$ to $\eps e^{ie^{-s}p\cdot Y}$ and
+preserves the whole experiment (observer at the origin, physical emission and initial
+temperatures, proper time, frame, the covariant initial matching with its $e^{-2g}$, and the
+normalisation). Uniqueness of the regular branch gives
+\begin{equation}\label{eq:dilation-channel}
+ \boxed{\Theta^{(3)}(p,0,0;n)=(p\cdot\partial_p)^2\Theta^{(1)}(p;n),\qquad
+ T^{(3)}_\ell(k,0,0)=(k\partial_k)^2T_\ell(k),}
+\end{equation}
+with the derivative acting on both the transfer profiles and the ray phase. The direct sources
+obey $C_{p00}=-2C_{p0}$, $c_{p00}=-4p^2/9=-2c_{p0}$, $C_{00}=0$, and the reduced constant-direction
+adjoints are $-p\cdot\partial_p$ of the background ones. By Prop.~\ref{prop:Tl} the right side is an
+explicit entire function. This is a channel with two exactly zero momenta, not the
+nonzero-radius shell contraction, and implies nothing about exchanging soft limits with time or
+spectral integrals.
+
+\subsection{Constraint rows remove the hyperbolic scalar Green family}\label{sec:constraint-rows}
+The Cartesian spatial operator has the eigenvalue $-K^2/3$ on $\TF(KK)$, so the scalar sector of
+\eqref{eq:spatial-green-poly}, and of every adjoint built from it, contains the hyperbolic tails
+$\mathsf T_j(-K^2/3)$; so do $G_S$ in \eqref{eq:moment-GST} and the nested kernel
+\eqref{eq:moment-V}. The physical state has no such growth. The mechanism is the Einstein
+constraint: for $K\neq0$ the scalar and vector trace-free rows can be \emph{replaced} by the
+momentum rows, used as identities, not added as extra adjoint equations.
+
+\begin{proposition}[Source compatibility]\label{prop:compat}
+Let $(c_N,c_M,c_T,c_{\rm Ham})$ be the order-$r$ sources of \S\ref{sec:fields} (top-order fields set
+to zero), with the normalisation $L_{\rm Ham}=4K^2\nu+12\nu'/t+12\nu/t^2-K\cdot A\cdot K$. If all
+lower orders solve the field equations, then
+\begin{align}
+ c_{\rm Ham}'-\tfrac4tc_N&=2iK\cdot c_M,\label{eq:compat-1}\\
+ c_M'+\tfrac2tc_M&=iK\cdot c_T-\tfrac{iK}6(c_{\rm Ham}+4c_N).\label{eq:compat-2}
+\end{align}
+\end{proposition}
+\begin{proof}
+The contracted Bianchi identity holds exactly, and matter conservation is built in
+(Lemma~\ref{lem:frame}). At order $r$ the residual is $\mathcal L_K[y_r]+c^{(r)}$; the background
+Bianchi operator annihilates $\mathcal L_K[y]$ for every $y$, so it annihilates $c^{(r)}$. In the
+variables of \S\ref{sec:fields} its time and space components are
+\eqref{eq:compat-1}--\eqref{eq:compat-2}. The script
+\path{solution/check_constraint_rows.py} verifies both identities exactly for a physical pair
+with $|k_1|\neq|k_2|$ at arbitrary angle, using only the first-order field equations; they fail
+off shell.
+\end{proof}
+
+\begin{proposition}[Constraint-row response]\label{prop:constraint-response}
+For $K\neq0$ and compatible sources, the regular solution of the Cartesian equation of
+Prop.~\ref{prop:cartesian} satisfies
+\begin{equation}\label{eq:constraint-response}
+ \boxed{K\cdot A(t)=V(t)=\int_0^t\big[4K(\nu'-\nu/s)+2ic_M\big]\dd s,\qquad
+ A-\mathrm{TT}[A]=\mathcal P_K[V],}
+\end{equation}
+where $\mathcal P_K[V]=\TF(K\otimes V+V\otimes K)/K^2-(K\cdot V)\TF(KK)/(2K^4)$ and $\nu$ is the
+acoustic lapse with regular coefficient $c_r$ fixed by the initial Hamiltonian row. Equivalently
+$h_S=6\nu-6\int_0^t\nu/s\,\dd s+\frac{3i}{K^2}\int_0^tK\cdot c_M$. Only the acoustic lapse kernel
+$G_N^+$ (frequency $K/\sqrt3$), the TT wave kernel (frequency $K$) and one cumulative integral occur.
+\end{proposition}
+\begin{proof}
+$\mathcal P_K[V]$ is trace free, has no TT part, and $K\cdot\mathcal P_K[V]=V$. Contract the
+Cartesian equation with $K$ and use $K\cdot\mathfrak B_K\mathcal P_K[V]=-\frac13(K\cdot V)K$. The
+transverse part is \eqref{eq:compat-2} transverse to $K$. In the longitudinal part use the lapse
+equation and $E\equiv12(\nu'/t+\nu/t^2)+c_{\rm Ham}$; by \eqref{eq:compat-1},
+$E'=-4K^2\nu/t+2iK\cdot c_M$, and $E(0)=36c_r+c_{\rm Ham}(0)=0$ is exactly the initial
+Hamiltonian row. The remaining terms are the longitudinal part of \eqref{eq:compat-2}. Thus
+$\mathcal P_K[V]$ solves the non-TT part of the Cartesian equation with zero regular data, and
+uniqueness (Prop.~\ref{prop:cartesian}) gives \eqref{eq:constraint-response}.
+\end{proof}
+The initial row is essential: with $c_r$ changed, $K\cdot A\neq V$ (a negative control in the
+check). At first order $c_M=0$ and \eqref{eq:constraint-response} reproduces the cancellation
+of \S\ref{sec:angular-green}. The price is the projector $\mathcal P_K$: the response is entire in
+$K$, but near $K=0$ this is a removable cancellation between $\nu/K^2$ and $K\cdot c_M/K^4$ rather
+than manifest. At $K=0$ use the Cartesian kernel $s(t-s)/t$, which has no hyperbolic part.
+
+\paragraph{The transpose, with its boundary terms.} Let a weak spatial functional be
+$W[j]=\int_0^o(\Omega_0:j+\Omega_1:j')\dd t+\Omega_e:j'(e)+\Omega_o:j'(o)$, plus lapse terms. On
+compatible sources at $K\neq0$, its non-TT part equals
+\begin{equation}\label{eq:constraint-transpose}
+\begin{gathered}
+ \int_0^oZ(s)\cdot\big[4K(\nu'-\nu/s)+2ic_M\big]\dd s
+ +\sum_{x=e,o}\mathcal P_K^T[\Omega_x]\cdot\big[4K(\nu'-\nu/t)+2ic_M\big]_{t=x},\\
+ Z(s)=\mathcal P_K^T\Big[\Omega_1(s)+\int_s^o\Omega_0\Big],
+\end{gathered}
+\end{equation}
+with $\mathcal P_K^T[\Omega]=\frac2{K^2}\Omega K-\frac{K\cdot\Omega\cdot K}{2K^4}K$. The lapse weights then
+pass through the acoustic transpose and its origin covector \eqref{eq:origin-covector}. No
+hyperbolic function occurs. For the linear quadrupole, $\Omega_1=-\frac12C_K\mathbf 1_{(e,o)}$ and the
+momentum-row weight is the \emph{local} $Z_0=-\frac12\mathcal P_K^T[C_K(t)]$. This has the
+structure of the momentum form of Prop.~\ref{prop:adjoint}: an acoustic lapse Wronskian plus a
+local momentum-source term.
+
+\paragraph{Application to the single--pair term.} Each pair source $D_bD_cF$ is a physical
+second-order source and so is compatible. Since
+$\langle\lambda_a,D_bD_cF\rangle=-\mathcal S_a[y_{bc}]$, the hyperbolic scalar part of the first adjoint
+at the probe momentum $k_b+k_c\neq0$ drops out exactly: \eqref{eq:constraint-transpose} applied
+to $\mathcal S_a$ replaces it by acoustic kernels, one cumulative integral and the explicit point
+terms at $e$ and $o$ that carry \eqref{eq:first-adjoint-boundaries}. The \emph{background}
+adjoint inside $\mathcal S_a$ (total momentum) is paired with the mixed cubic residual, which is
+not compatible by itself. Only the sum of the direct third residual and the three field-variation
+parts is the full physical cubic source, to which the same replacement applies. Doing this
+inside the stationary functional requires the mixed variations of the momentum rows; these are
+not yet derived. So hyperbolic cancellation is established for each physical pair response and
+probe-momentum adjoint, and for the complete background pairing, but not for the separate
+background terms of \eqref{eq:stationary-field}.
+
+\begin{proposition}[Acoustic form of the shell scalar amplitude]\label{prop:shell-acoustic}
+On the shell, $c_M\parallel K$ and the longitudinal source is the polynomial
+\[
+ \mathfrak m\equiv\frac{3iK\cdot c_M}{K^2}
+ =\mathsf b'\Big[(1-3\mu)\big(\tfrac32+\mathsf a\big)+\tfrac{3\mu^2-1}4\mathsf b\Big]-6\mathsf a\mathsf a'.
+\]
+With $a_K=K^2/3=2k^2(1+\mu)/3$, $c_r=k^2(4-\mu)/9$ and $C_N$ from \eqref{eq:moment-CN},
+\begin{equation}\label{eq:shell-acoustic}
+\boxed{\begin{aligned}
+ S_2(t,\mu)={}&18c_r\Big[\mathsf T_2(a_K,t)-\frac{2\mathsf T_3(a_K,t)}t\Big]
+ -\int_0^t\mathcal G(t,r)C_N(r,\mu)\dd r\\
+ &+(1-3\mu)\big[\tfrac32\mathsf b+3\mathsf a^2-6\mathcal I\big]+\tfrac{3\mu^2-1}8\mathsf b^2-3\mathsf a^2,
+\end{aligned}}
+\end{equation}
+\[
+ \mathcal G(t,r)=2\mathsf T_1(a_K,d)+\frac{2[(d-r)\mathsf T_2(a_K,d)-2\mathsf T_3(a_K,d)]}{tr},\qquad
+ \mathcal I=\tfrac12\Cin(2x)+\frac{\sin2x}{2x}-\frac{\sin^2x}{2x^2}-\frac12,
+\]
+with $d=t-r$, $x=k_0t/\sqrt3$ and $\mathcal I=\int_0^t\mathsf a^2/s\,\dd s$. In addition
+$S_2'=6(n_2'-n_2/t)+\mathfrak m$ is local in $n_2$.
+\end{proposition}
+\begin{proof}
+Insert $n_2=c_rv_K-\int G_N^+C_N$ into $h_S$ of Prop.~\ref{prop:constraint-response}. The inner
+integral is elementary,
+\[
+ \int_r^tG_N^+(s,r)s^{-1}\dd s=\frac{[\mathsf T_3+r\mathsf T_2](a_K,t-r)}{3tr},\qquad
+ 6v_K-6\int_0^t\frac{v_K}s\dd s=18\Big[\mathsf T_2-\frac{2\mathsf T_3}t\Big](a_K,t).
+\] Then $\int_0^t\mathfrak m$ is integrated using
+$\mathsf b'=6(\mathsf a'-\mathsf a/t)$.
+\end{proof}
+Every term in \eqref{eq:shell-acoustic} is entire in $\mu$ and oscillatory in time. The scalar
+moments $S_r$ therefore need one time integration and single-variable entire angular kernels of
+the same type as \eqref{eq:moment-N}, together with elementary moments of the polynomial part.
+This supersedes the hyperbolic $G_S$ term of \eqref{eq:moment-S} and the nested two-variable kernel
+\eqref{eq:moment-V}, which remain correct. The check verifies \eqref{eq:shell-acoustic} against
+the hyperbolic Cartesian solution coefficient by coefficient through $O(t^{16})$ at symbolic $k_0$
+and $\mu$, and the local identity $J_S=\mathfrak m'+2\mathfrak m/t-2C_N-\frac12c_{\rm Ham}$ in closed
+form.
+
+\subsection{What remains on this route}\label{sec:stationary-open}
+\begin{itemize}
+\item Combine, before expanding, the direct measurement, the direct cubic residual, the three
+  single--pair terms and the initial rows into one phase/time representation. This keeps the
+  boundary terms and products of separate sky means, and looks for cancellations between
+  matching phases and total derivatives. In the constraint rows of
+  \S\ref{sec:constraint-rows} every kernel of this sum is acoustic, wave or cumulative. The
+  momentum-row mixed variations needed for this are the next derivation. Arbitrary time-dependent
+  weights cannot be replaced by parameter derivatives; the resolvent identity
+  $\partial_aG=-G(\partial_aL)G$ applies only to dilation-type weights.
+\item An independent finite-wavelength comparison of the assembled cubic quadrupole with a
+  forward field-and-photon calculation, for noncoplanar unequal-frequency triples including
+  zero and near-zero pair momenta. The four-gradient identity
+  \eqref{eq:stationary-four-gradient} and the homogeneous fixtures do not substitute for it.
+\item Evaluation of the surviving shell time and momentum integrals, keeping the homogeneous
+  lapse and its initial row and combining both fourth-order spectrum contributions.
+\end{itemize}

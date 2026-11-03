@@ -78,7 +78,7 @@ part of the current tree.
 | Exact framework (temperature frame, exact redshift, field equations) | `foundations/check_exact_lemmas.py`, `foundations/check_fw_conformal.py`, `foundations/check_exact_field_equations.py`, `foundations/check_field_equations_generic.py`, `check_evolution_form.py` |
 | Primordial state and initial data | `foundations/check_initial_data_gradient.py` |
 | Field solution at every order | `check_shell_cubic_sources.py --compare-engine`, `check_tensor_newtonian.py`, `check_shell_reduction.py`, `check_green.py`, `second_order.py`, `second_order_consistency.py`, `closed_forms.py`, `closed_second_order.py`, `third_order.py`, `fast_series.py`, `third_order_consistency.py`, `check_report_identities.py` |
-| The observable through third order | `check_propagation_adjoint.py`, `check_observable_expansion.py`, `observable_generator.py`, `observable_fast.py`, `foundations/normalization_expansion.py`, `foundations/check_algebra.py` |
+| The observable through third order | `check_constraint_rows.py`, `check_propagation_adjoint.py`, `check_observable_expansion.py`, `observable_generator.py`, `observable_fast.py`, `foundations/normalization_expansion.py`, `foundations/check_algebra.py` |
 | Gauge invariance and Ward identities | `check_ward_dilation.py`, `check_ward_dilation3.py`, `observable_generator.py W2\|W3`, `foundations/check_first_order.py`, `first_order_engine_check.py`, `check_gradient_modes.py` |
 | The spectrum (transfer function, primary form `C_ℓ = 4πvT_ℓ² + v²[Q_ℓ + 4πT_ℓ Re R_ℓ]`, shell two-amplitude reduction, log-map and observer-dilation decompositions) | `transfer_entire.py`, `check_shell_reduction.py`, `check_logmap_decomposition.py`, `check_dilation_factorisation.py`, `check_shell_locality.py` |
 | Limits (superhorizon quadrupole and octupole, next gradient order, infrared) | `superhorizon.py`, `observable_generator.py SH`, `check_dilation_factorisation.py`, `check_gradient_octupole.py`, `superhorizon_next.py`, `check_quadrupole_next_hand.py`, `check_cubic_curvature_hand.py` |
@@ -153,8 +153,7 @@ primordial inputs, spatial dilation covariance fixes the **complete physical** c
 as `(p.partial_p)^2` of the linear response; the reduced first field adjoint is a derivative
 of the background adjoint as well. This is a special channel, not the nonzero-radius shell
 contraction. Dense generic standalone radial expansion is intentionally deferred so these
-sectors can be combined with adjoint terms first. These working results are not additional
-completion claims for the main PDF.
+sectors can be combined with adjoint terms first.
 
 [`report/regular_green_time_reduction.md`](report/regular_green_time_reduction.md)
 evaluates the coupled lapse-to-spatial Green kernel and the full proper-clock Green
@@ -164,7 +163,22 @@ adjoints now need one time integral, first adjoints at most two, and the complet
 cubic quadrupole at most **three independent time integrations per distributed term**.
 The bound is not an evaluation of the surviving kernels or spectrum. Implementation is
 `solution/regular_field_green.py`; construction is guarded against accidental deep symbolic
-integration before physical terms are combined. The main PDF remains unchanged.
+integration before physical terms are combined.
+
+**Report integration and constraint rows.** The results of these notes have been reviewed
+and are now in the main report as §"Stationary reduction of the complete cubic response"
+(`report/stationary_cubic_reduction.tex`). Its final subsection is new: the contracted
+Bianchi identities give exact source compatibilities for every physical pair. With them, the
+scalar/vector spatial response follows from the momentum constraint,
+`K.A = ∫[4K(ν'-ν/s) + 2i c_M]`, using only acoustic and wave kernels and one cumulative integral.
+No hyperbolic `-K²/3` Green function is needed. The same replacement applies to
+first-adjoint pairings with pair sources, with explicit observer and emission terms. On the
+shell the scalar amplitude `S₂` becomes a single acoustic Green integral plus elementary terms
+and one `Cin`. This bypasses the nested hyperbolic moment kernel. The check is
+`solution/check_constraint_rows.py`. The background adjoint inside the first source is
+paired with an incompatible mixed residual. Its hyperbolic part cancels only when all cubic
+blocks are combined, which needs the momentum-row mixed variations; those are not yet
+derived. The PDF in the repository has not been regenerated from the updated TeX.
 
 ## Setup and reproduction
 
@@ -184,6 +198,7 @@ uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools
 .venv/bin/python -B solution/check_dilation_ward.py
 .venv/bin/python -B solution/check_regular_field_green.py
 .venv/bin/python -B solution/check_quadrupole_green_source.py
+.venv/bin/python -B solution/check_constraint_rows.py
 solution/run_all.sh         # the exact checks; uses .venv by default (override with PYTHON=...)
 .venv/bin/python -B solution/curvature_kernels.py --spectrum  # cache-free map + spectra, seconds
 .venv/bin/python -B solution/curvature_kernels.py --compare   # optional: needs saved legacy kernels
