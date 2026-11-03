@@ -1,14 +1,16 @@
-# Derivations: adjoint cubic response, orthonormal F_2, and the three-tensor k_0^6 quadrupole
+# Derivations: adjoint cubic response, orthonormal map, and the curvature form of the next gradient order
 
-Supporting derivations for Prop. adjoint, the orthonormal-direction map (Prop. orthonormal), and the
-next-gradient-order quadrupole of the report (eq. three-tensor). The checks are
+Supporting derivations for Prop. adjoint, the orthonormal-direction map (Prop. orthonormal) and its
+cubic product identity (eqs. cubic-orthonormal, cubic-composed), the curvature form of the map through
+four gradients (eq. curvature-full-map), and the next-gradient-order spectra (eqs. three-tensor,
+general-next). The checks are
 
 ```sh
 .venv/bin/python -B solution/check_adjoint_exact.py
 .venv/bin/python -B solution/check_cubic_curvature_hand.py   # ~6 s; imports no generator or cached kernel
 ```
 
-These derivations come from an external correctness review; the full review is in the git history.
+These derivations come from two external correctness reviews; the reviews themselves are in the git history.
 
 ## 1. Adjoint form of the top-order cubic response
 
@@ -460,3 +462,145 @@ The initial-time dependence and the boundary terms are real. In particular, the 
 \]
 
 These are nonzero despite the absence of `d_3,D_3`. The script has negative controls for omitting the spatial Hessian, fourth-gradient field, emission term, clock term, or `K_1^[4] K_3^[2]` ordering. It separately verifies the contractions that vanish.
+
+## 4. Explicit cubic product identity
+
+The exact orthonormal driver is
+
+\[
+\mathcal B=\frac12e^{-H/2}(e^H)'e^{-H/2}
+=\frac12H'+\frac1{48}[H,[H,H']]+O(\epsilon^4).
+\]
+
+With factorial amplitude coefficients and the pulled-back direction `v = -n + epsilon v1 + epsilon² v2/2`, expansion gives
+
+\[
+\begin{aligned}
+F_3={}&\tfrac12H'_{3,nn}+\tfrac18[H_1,[H_1,H_1']]_{nn}
++\tfrac32X_1\cdot\partial H'_{2,nn}-3H_2'(n,v_1)\\
+&+\tfrac32X_2\cdot\partial H'_{1,nn}
++\tfrac32X_1^iX_1^j\partial_i\partial_jH'_{1,nn}
+-6(X_1\cdot\partial)H_1'(n,v_1)
+-3H_1'(n,v_2)+3H_1'(v_1,v_1).
+\end{aligned}
+\]
+
+The time derivative of `H` is taken before pullback; spatial derivatives act only on fields. The local conformal and quadratic matrix products have disappeared. The double commutator is zero on the shell, but generally nonzero off it. Unit norm also fixes `n·v2 = |v1|²`; its radial part is not optional.
+
+Let `Ur(o) = integral_e^o Fr(t;o) dt`. Clock composition of the moving-emission integral gives
+
+\[
+\begin{aligned}
+\widehat I_3={}&U_3-3[F_1d_2+F_2d_1+F_1'd_1^2]_e\\
+&+3D_1\partial_o\{U_2-2[F_1d_1]_e\}
++3D_2\partial_o U_1+3D_1^2\partial_o^2U_1.
+\end{aligned}
+\]
+
+The endpoint prime is the derivative along the background ray. In particular, the mixed clock–emission product `-6 D1 partial_o(F1 d1)` survives. Center this exponent and normalize once; do not apply a second clock correction afterwards.
+
+`solution/check_cubic_product_identity.py` proves the matrix identity for generic symmetric noncommuting matrices, checks the pulled-back coefficient rule, and checks the endpoint/clock composition on independent jets. Omission controls detect the commutator and six boundary/clock pieces. This closes the **algebraic** identity. It does not turn all lower-order propagation products into the top-order adjoint source, or evaluate their integrals.
+
+## 5. Full map through four gradients from local curvature
+
+Use the seed metric `gamma0 = exp(2 zeta) delta` and its orthonormal curvature tensors
+
+\[
+\mathfrak a=-R/36,\qquad \mathsf A=-R_{\rm TF}/3,\qquad
+\mathsf B=\frac3{20}(\nabla\nabla\mathfrak a)_{\rm TF}
++\frac3{20}(\mathsf A^2)_{\rm TF}-\frac7{10}\mathfrak a\mathsf A.
+\]
+
+Set `Delta=o²-e²`, `E=o⁴-e⁴`, `M=integral_e^o t(o-t)dt`, and `L=integral_e^o t(o-t)²dt`. The unprojected map through four gradients is
+
+\[
+\begin{aligned}
+\Theta=\mathsf P_0\bigg[&-\frac\Delta2\mathsf A_{nn}
+-M(\nabla_n\mathsf A)_{nn}-\frac L2(\nabla_n\nabla_n\mathsf A)_{nn}
+-\frac E2\mathsf B_{nn}\\
+&-\frac{\Delta^2}4(\mathsf A^2)_{nn}
++\frac{3\Delta^2}8\mathsf A_{nn}^2
++\left(\frac{o^4+3i^4}4-e^4\right)\mathfrak a\mathsf A_{nn}\bigg]
++O(\partial^5).
+\end{aligned}
+\]
+
+Section 3 already established the even part. The odd part is its first covariant Taylor term along the seed radial geodesic; it contains both the dipole and octupole. Terms from the time-dependent displacement first affect the driver at fifth gradient order. The direction response already contributes at fourth order and is retained above. Fermi–Walker rotation is beyond this gradient order.
+
+`solution/curvature_kernels.py` extracts nilpotent-label coefficients for general
+
+\[
+k=(p,0,0),\qquad q=(b_1,b_2,0),\qquad -q.
+\]
+
+It imports the independent local-curvature algebra, **not** the field engine or ray generator. The leading, third-gradient and fourth-gradient terms are centered and assembled into the full map. The resulting polynomial term counts are 37 for `K1`, 478 for `K2(k,q)` and 318 for `K3(k,q,-q)`.
+
+The optional comparison uses the **raw** saved legacy generator outputs, not their simplified SymPy cache. It groups terms by formal inverse-momentum powers and clears a common polynomial denominator over exact Gaussian rationals. Equality holds component by component at general momenta and symbolic emission, observation and initial times. Polynomial equality establishes the continuation across the removable denominator loci as well.
+
+Construction takes about 3 s; construction, raw comparison and all spectral contractions take roughly 12–15 s on a laptop. This replaces the approximately 13-hour run **for the full map through gradient degree four in this configuration**, not for arbitrary wavelengths or higher gradient orders. The legacy generator run remains an independent derivation. Its saved pickle files are ignored local artifacts, so `--compare` requires them; `--spectrum` and kernel construction are cache-free. `--output NEW_PATH` exports exact polynomial kernels without overwriting an existing file.
+
+## 6. General spectra at the next gradient order
+
+Define `mj = integral k^j Pcal(k) d ln k`, and let `[ ]_[6]` denote total gradient degree six at fixed times. The three-tensor quadrupole of Section 3.3 has time coefficients
+
+\[
+\beta_H=-\frac{11L}{14}-\frac{3E}{40},\qquad
+\beta_a=\frac{27L}{7}+\frac{7E}{20}+\frac{o^4+3i^4}4-e^4.
+\]
+
+The general-momentum contractions give
+
+\[
+\begin{aligned}
+[C_2^{(11)}]_{[6]}&=\frac{16\pi}{6075}\Delta\beta_H m_6,\\
+[\tfrac14C_2^{(22)}]_{[6]}&=\frac{32\pi}{18225}\Delta
+\{12\beta_Hm_0m_6+(18\beta_H-\beta_a)m_2m_4\},\\
+[\tfrac13\operatorname{Re}C_2^{(13)}]_{[6]}&=\frac{8\pi}{18225}\Delta
+\{60\beta_Hm_0m_6+(50\beta_H-9\beta_a)m_2m_4\}.
+\end{aligned}
+\]
+
+Consequently,
+
+\[
+\boxed{
+[C_2^{(4)}]_{[6]}=
+18m_0[C_2^{(11)}]_{[6]}
++\frac{8\pi}{18225}\Delta(122\beta_H-13\beta_a)m_2m_4.
+}
+\]
+
+**After removing observer dilation, only one spectral moment product remains.** The entire `m0 m6` term is precisely the degree-six dilation operator `D²/2 = 18`. The trace-free `A²` tensor drops out after the Gaussian contractions, not from the map. Setting `mj = sigma² k0^j` recovers the report's shell coefficients and the combination `230 betaH - 13 betaa`.
+
+For reproducibility, all sphere averages use
+
+\[
+\langle n_x^{2a}n_y^{2b}n_z^{2c}\rangle
+=\frac{(2a-1)!!(2b-1)!!(2c-1)!!}{(2a+2b+2c+1)!!},
+\]
+
+with odd moments zero, followed by `1/2 integral_-1^1 dmu` and exact radial moment substitution. Every degree-two map is pure quadrupole, so in the degree-six cross products its partner needs no explicit harmonic projection. Both `K1[2] K3[4]` and `K1[4] K3[2]` are included.
+
+The same construction independently reproduces the leading octupole. With `B3=16 pi beta3²/1225`,
+
+\[
+C_3^{(11)}=B_3m_6,\qquad
+\tfrac14C_3^{(22)}=B_3(9m_0m_6+28m_2m_4),\qquad
+\tfrac13\operatorname{Re}C_3^{(13)}=9B_3m_0m_6.
+\]
+
+The dipole is subtracted from the odd map before these contractions, and complex conjugation is retained. On the shell this yields `37 + 9 = 46`, equivalently the reported separate ratios `148` and `27` before the `1/4` and `1/3` factors.
+
+Compact spectral support justifies the gradient expansion under the integrals. Finiteness of the moments defines these coefficients more generally but does not by itself bound the remainder for arbitrary noncompact spectra.
+
+## 7. Reproduction
+
+```sh
+.venv/bin/python -B solution/check_cubic_product_identity.py
+.venv/bin/python -B solution/check_cubic_curvature_hand.py
+.venv/bin/python -B solution/curvature_kernels.py --spectrum
+# Optional independent comparison, when the legacy raw kernels are present:
+.venv/bin/python -B solution/curvature_kernels.py --compare --spectrum
+```
+
+These checks use exact arithmetic, not fitting, numerical evolution or quadrature. Runtimes above are performance observations, not evidence for a mathematical identity. The raw comparison is stronger than agreement of final spectrum coefficients, but is still restricted to the stated momentum configurations and gradient/amplitude orders.

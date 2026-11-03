@@ -12,8 +12,7 @@ The report is [`report/temperature_spectrum_report.pdf`](report/temperature_spec
 exact integral**, which the problem permits; it is not a closed-form evaluated spectrum.
 Analytical proofs and exact SymPy checks in `solution/` have different scopes. In particular,
 finite Taylor tests are not arbitrary-time substitutions of the complete cubic observable.
-The critical review and new derivations are in
-[`report/review_and_extensions.md`](report/review_and_extensions.md).
+Supporting derivations are in `report/` (see the layout table below).
 The earlier approaches, intermediate notes and reviews are kept in the git history and are not
 part of the current tree.
 
@@ -34,7 +33,7 @@ part of the current tree.
   - an exact log-map decomposition: the log-temperature spectrum, plus a lognormal term, plus a
     collapsed bispectrum;
   - an exact observer-dilation decomposition;
-  - complete fourth-order spectra at zeros of `T_ℓ`;
+  - at zeros of `T_ℓ`, a reduction of the fourth-order spectrum to its quadratic term alone (still an unevaluated integral);
   - on the monochromatic shell, two exact symmetry reductions: the second-order metric is two
     amplitudes with no vector part, and the angle-averaged cubic response is a single scalar;
   - the tensor amplitude equals the known radiation-era induced-GW kernel (Kohri–Terada) plus an
@@ -95,7 +94,7 @@ and an independent CAS (Maxima).
 | Path | Contents |
 |---|---|
 | `problem_statement.tex` | the task |
-| `report/` | the report (`.tex` and built `.pdf`), `review_and_extensions.md`, and four supporting derivations: `tensor_newtonian_crosscheck.md`, `quadrupole_next_hand_check.md`, `longitudinal_redshift.md`, `curvature_and_adjoint_derivations.md` |
+| `report/` | the report (`.tex` and built `.pdf`) and four supporting derivations: `tensor_newtonian_crosscheck.md`, `quadrupole_next_hand_check.md`, `longitudinal_redshift.md`, `curvature_and_adjoint_derivations.md` |
 | `solution/` | exact checks for the field solution, observable, spectrum and limits |
 | `solution/foundations/` | exact checks of the framework: lemmas, generic-jet field equations, first order in two gauges, normalisation and Gaussian algebra (`gr.py` holds the shared tensor utilities) |
 | `solution/results/` | exact expanded sources and kernels referenced by the report |
@@ -154,7 +153,7 @@ finite k₀, to be proved analytically; the report records them in an appendix.
 
 | Script | What it does |
 |---|---|
-| `explore_fourth_order.py ward\|harden\|scan` | second-order part of the fourth-order spectrum on the monochromatic shell from the exact sources and the report's Green and map formulas; validated by the closed-form T₂, a finite-k dilation Ward identity with negative controls, an independent emission-endpoint test, analytic A₂′, cutoff and grid convergence; complete fourth-order C_ℓ at nodes of T_ℓ; amplitude-level recombination diagnostics (`recombination`) and the observer-dilation cross term (`cross_term`) |
+| `explore_fourth_order.py ward\|harden\|scan` | second-order part of the fourth-order spectrum on the monochromatic shell from the exact sources and the report's Green and map formulas; validated by the closed-form T₂, a finite-k dilation Ward identity with negative controls, an independent emission-endpoint test, analytic A₂′, cutoff and grid convergence; exploratory fourth-order C_ℓ at nodes of T_ℓ; amplitude-level recombination diagnostics (`recombination`) and the observer-dilation cross term (`cross_term`) |
 | `explore_third_order.py check2\|ward3\|c13` | numerical multilinear engine that solves the map from its definitions through third order at (k, q, −q); reproduces the second-order map of the other script to 1e-6; third-order Ward identity with O(q²) residual and a negative control; superhorizon limit 4; node check; gives ⅓Re C[θ, L₃] and hence the complete fourth-order C₂ away from nodes |
 | `explore_adjoint.py kernel\|map` | the adjoint form of the top-order cubic response (Prop. adjoint): a fixed kernel built from the growing- and decaying-mode partial transfer functions, integrated against the shell-averaged sources, with no third-order solve; checked against the direct Green solution and the full numerical map |
 
