@@ -131,8 +131,19 @@ The complete cubic quadrupole through **four spatial gradients** agrees symbolic
 an independent Einstein–radiation curvature calculation at arbitrary input triples, before
 Wick contraction; the shell check also reproduces the known weighted C13 coefficient
 through sixth gradient order. This is **not** an unrestricted finite-wavelength or
-all-multipole result. The mixed-time integral reduction remains open. These working results
-are not additional completion claims for the main PDF.
+all-multipole result.
+
+[`report/exact_quadrupole_angular_source.md`](report/exact_quadrupole_angular_source.md)
+retains the exact finite-wavelength phases in the quadrupole first source. Its measurement
+part now has no sky integrals or independently solved first rays: finite combinations of
+eight entire radial function families give the mixed-time kernels, including zero phases,
+both random-mean normalization products, and all clock/emission/observer coefficients.
+The first frame covector reduces exactly to a commutator with the known linear quadrupole.
+Rotational covariance also removes the forced homogeneous tensor from the **entire**
+isotropically contracted cubic response, while its homogeneous lapse/initial row remains.
+`solution/entire_sphere.py` and `solution/quadrupole_angular_source.py` implement the closure.
+The remaining Green/time pairings and direct cubic multi-phase contractions are **not**
+evaluated. These working results are not additional completion claims for the main PDF.
 
 ## Setup and reproduction
 
@@ -145,6 +156,8 @@ uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools
 .venv/bin/python -B solution/check_stationary_cubic.py
 .venv/bin/python -B solution/check_quadrupole_adjoint_expansion.py
 .venv/bin/python -B solution/check_stationary_quadrupole_four_gradients.py --symbolic
+.venv/bin/python -B solution/check_entire_sphere.py
+.venv/bin/python -B solution/check_quadrupole_angular_source.py
 solution/run_all.sh         # the exact checks; uses .venv by default (override with PYTHON=...)
 .venv/bin/python -B solution/curvature_kernels.py --spectrum  # cache-free map + spectra, seconds
 .venv/bin/python -B solution/curvature_kernels.py --compare   # optional: needs saved legacy kernels

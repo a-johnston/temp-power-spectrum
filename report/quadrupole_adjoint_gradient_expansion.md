@@ -294,12 +294,12 @@ The symbolic comparison takes about 30 seconds locally. The default second check
 
 Both new check scripts, including default and symbolic modes, and eleven existing targeted regressions passed: stationary cubic assembly, first field source, unified adjoint, independent cubic curvature, propagation adjoint, Cartesian Green, observable expansion, report identities, shell cubic sources with `--compare-engine`, cubic product identities and the orthonormal driver. Repository-wide Ruff lint/format and type checking passed, along with shell syntax and whitespace checks. The independent curvature reference changed only by a type annotation permitting its already-configurable momentum fixture to contain arbitrary triples. The full long-running suite was not rerun.
 
-The next substantive step is to retain exact finite-wavelength phases in the quadrupole first source. Mixed-time angular factors have phase vector
+The subsequent `exact_quadrupole_angular_source.md` now retains exact finite-wavelength phases in the quadrupole first source and removes its sky integrals. The mixed-time angular factors have phase vector
 
 \[
  K=(p+q)(o-t)+p(t-u),
 \]
 
-not just one equal-time relative-angle polynomial. They can be reduced using Cartesian derivatives of the entire spherical phase average `j_0(|K|)`, preserving the zero-phase limits. This is not automatic nine-moment closure; the resulting time integrals and their cancellations still need to be analyzed.
+not just one equal-time relative-angle polynomial. The exact closure uses Cartesian moments of the entire spherical phase average `j_0(|K|)`, with regular zero-phase limits and both separated normalization products retained. The frame covector also reduces to a commutator with the linear quadrupole. This is not automatic nine-moment closure; the remaining time/Green pairings, direct cubic multi-phase contractions and their physical cancellations still need to be analyzed.
 
 No arbitrary-spectrum UV/IR convergence, late-time integral exchange, complete finite-wavelength cancellation or all-multipole cubic evaluation follows from the results above.

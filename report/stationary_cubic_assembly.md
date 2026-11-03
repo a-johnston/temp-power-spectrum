@@ -318,8 +318,8 @@ The new script and nine existing targeted checks passed: first field-adjoint sou
 
 Next steps:
 
-- retain exact finite-wavelength phases in the first field-adjoint reconstruction for the shell partitions, beyond the now-evaluated leading gradient coefficient;
+- insert the now-closed exact quadrupole angular source from `exact_quadrupole_angular_source.md` into the first field-adjoint Green pairing for the shell partitions;
 - extend the physical comparison beyond the quadrupole/four-gradient sector, preserving the homogeneous lapse, initial covectors and physical endpoint traces;
-- then look for cancellation between direct residuals, adjoint products and the explicit measurement term, and reduce the remaining mixed-time angular kernels.
+- assemble the direct cubic multi-phase measurement contractions and seek cancellation between direct residuals, adjoint products and measurement terms before evaluating the remaining time integrals.
 
 All results here are finite-time response identities. No late-time exchange or arbitrary-spectrum UV/IR convergence is claimed. The full finite-wavelength spectrum remains unevaluated by this route.

@@ -15,7 +15,9 @@ Everything below is at arbitrary finite time and general momenta. No shell restr
 
 **Evaluated gradient continuation:** `quadrupole_adjoint_gradient_expansion.md` gives the leading quadrupole adjoint in closed form, including the observer/emission traces and singular origin. Its integrated contribution has no logarithms, and the complete cubic quadrupole through four gradients agrees with an independent Einstein–radiation calculation at arbitrary symbolic triples.
 
-**Limits:** the unrestricted finite-wavelength reconstruction and all-multipole comparison remain open. In particular, this does not establish a full finite-wavelength cancellation or a newly evaluated spectrum.
+**Exact angular continuation:** `exact_quadrupole_angular_source.md` closes the finite-wavelength quadrupole measurement source on entire spherical phase moments, with no remaining sky integrals or independently solved first rays. It retains the complete normalization products and reduces the frame covector to a linear-quadrupole commutator.
+
+**Limits:** the unrestricted finite-wavelength Green/time reconstruction and all-multipole comparison remain open. In particular, this does not establish a full finite-wavelength cancellation or a newly evaluated spectrum.
 
 Implementation: `solution/unified_adjoint_source.py`.
 Exact checks: `solution/check_first_field_adjoint_source.py`.
@@ -492,4 +494,4 @@ There is no quadrature, finite time-series evidence or numerical physical model 
 
 The new script and ten existing targeted regressions passed, including `check_unified_adjoint.py`, the propagation/Cartesian Green/observable expansion checks, `check_shell_cubic_sources.py --compare-engine`, and `foundations/check_fw_conformal.py`. Ruff lint/format, project type checking, shell syntax and whitespace checks also passed. The full long-running repository suite was not rerun. These are working research notes; the main report PDF was not changed by this step.
 
-**Next:** retain exact finite-wavelength phases in the stationary functional and first field reconstruction beyond the quadrupole gradient sector now evaluated in `quadrupole_adjoint_gradient_expansion.md`. Keep the direct third residual and initial-data terms. The full finite-wavelength/all-multipole comparison and any further physical cancellation or angular-kernel reduction remain open.
+**Next:** insert the exact quadrupole angular coefficients from `exact_quadrupole_angular_source.md` into the first field Green reconstruction and stationary functional. Keep the direct third residual, direct cubic multi-phase measurement and initial-data terms. The full finite-wavelength/all-multipole comparison and further physical cancellations remain open.
