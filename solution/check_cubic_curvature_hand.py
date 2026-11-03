@@ -16,7 +16,7 @@ nx, ny, nz = s.symbols("nx ny nz", real=True)
 n = (nx, ny, nz)
 I = s.I
 SHELL_REDUCTION: bool = True  # curvature_kernels temporarily disables the unit-shell relation
-momenta = ((1, 0, 0), (mu, v, 0), (-mu, -v, 0))
+momenta: tuple[tuple[s.Expr | int, s.Expr | int, s.Expr | int], ...] = ((1, 0, 0), (mu, v, 0), (-mu, -v, 0))
 K = [tuple(sum(momenta[a][j] for a in range(3) if mask & (1 << a)) for j in range(3)) for mask in range(8)]
 
 

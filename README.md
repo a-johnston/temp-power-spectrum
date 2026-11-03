@@ -109,8 +109,8 @@ observer, clock and normalization terms. Its regular Green reconstruction has a 
 nonzero observer trace and an emission jump. The frame's first adjoint and cubic rotation
 pairing are kept separately. `solution/check_first_field_adjoint_source.py` checks the field
 coefficients against the independent Christoffel engine and the complete source/Green algebra.
-The reconstruction integrals and complete cubic spectrum are **not** yet evaluated by this
-route.
+The complete finite-wavelength reconstruction and cubic spectrum are **not** yet evaluated
+by this route.
 
 The continuation [`report/stationary_cubic_assembly.md`](report/stationary_cubic_assembly.md)
 assembles the arbitrary-triple stationary functional, including its direct first-field-only
@@ -120,9 +120,19 @@ normalization. The direct cubic temporal field commutators vanish pointwise on t
 monochromatic shell. `solution/stationary_cubic.py` implements the assembly;
 `solution/check_stationary_cubic.py` checks arbitrary local jets and independently compares
 the full cubic measurement with conserved-photon-momentum endpoint energies in an off-shell
-anisotropic metric. This is **not** a new Einstein–radiation spectrum evaluation: the full
-physical cubic comparison and mixed-time integral reduction remain open. These working
-results are not additional completion claims for the main PDF.
+anisotropic metric.
+
+[`report/quadrupole_adjoint_gradient_expansion.md`](report/quadrupole_adjoint_gradient_expansion.md)
+now evaluates the leading quadrupole field-adjoint response, including its physical boundary
+traces and singular-origin covector. Its integrated first-adjoint contribution at fourth
+gradient order is a polynomial: the intermediate logarithms cancel, while the homogeneous
+lapse remains nonzero. `solution/quadrupole_adjoint_expansion.py` implements these formulas.
+The complete cubic quadrupole through **four spatial gradients** agrees symbolically with
+an independent Einstein–radiation curvature calculation at arbitrary input triples, before
+Wick contraction; the shell check also reproduces the known weighted C13 coefficient
+through sixth gradient order. This is **not** an unrestricted finite-wavelength or
+all-multipole result. The mixed-time integral reduction remains open. These working results
+are not additional completion claims for the main PDF.
 
 ## Setup and reproduction
 
@@ -133,6 +143,8 @@ uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools
 .venv/bin/python -B solution/check_unified_adjoint.py
 .venv/bin/python -B solution/check_first_field_adjoint_source.py
 .venv/bin/python -B solution/check_stationary_cubic.py
+.venv/bin/python -B solution/check_quadrupole_adjoint_expansion.py
+.venv/bin/python -B solution/check_stationary_quadrupole_four_gradients.py --symbolic
 solution/run_all.sh         # the exact checks; uses .venv by default (override with PYTHON=...)
 .venv/bin/python -B solution/curvature_kernels.py --spectrum  # cache-free map + spectra, seconds
 .venv/bin/python -B solution/curvature_kernels.py --compare   # optional: needs saved legacy kernels

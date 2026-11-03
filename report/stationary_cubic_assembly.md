@@ -10,7 +10,7 @@ The general stationary cubic functional is now assembled with an explicit **dire
 Implementation: `solution/stationary_cubic.py`.
 Checks: `solution/check_stationary_cubic.py`.
 
-This is an organization of the exact finite-order response, not a claim that its remaining Green/sky integrals cancel or are evaluated. The measurement sector is independently cross-checked against conserved canonical photon momentum in a homogeneous anisotropic off-shell metric. The complete Einstein–radiation arbitrary-triple observable has **not** yet been compared or evaluated by the new assembly. The main report PDF is unchanged by this continuation.
+This is an organization of the exact finite-order response, not a claim that its remaining Green/sky integrals cancel or are evaluated. The measurement sector is independently cross-checked against conserved canonical photon momentum in a homogeneous anisotropic off-shell metric. The unrestricted finite-wavelength Einstein–radiation arbitrary-triple observable has **not** yet been evaluated by the new assembly. A subsequent physical comparison of its complete quadrupole through **four spatial gradients**, at arbitrary symbolic input triples, is now in `quadrupole_adjoint_gradient_expansion.md`; this is stronger than the off-shell fixture but remains a gradient expansion. The main report PDF is unchanged by these continuations.
 
 ## 1. The assembled functional and its polarization
 
@@ -312,14 +312,14 @@ This metric is not an Einstein–radiation solution. The test verifies the compl
 
 The script checks the arbitrary local ray identities, radial normalization, free-algebra temporal field identity, exact endpoint/clock composition, physical-input spatial field sources in the conformal sector at three arbitrary momenta, nonlinear initial data, both polarization conventions, the executable arbitrary-triple assembly, and the independent full measurement comparison above.
 
-The previous generic stationary-response proof establishes the field-response elimination in (1)–(2). The new field residual helper is a finite exact prescription, but a separate independent comparison of the **fully assembled Einstein–radiation** arbitrary-triple map is still required before making a new physical completion claim.
+The previous generic stationary-response proof establishes the field-response elimination in (1)–(2). The subsequent `quadrupole_adjoint_gradient_expansion.md` evaluates the leading first adjoint and establishes the complete physical cubic quadrupole comparison through four gradients for arbitrary triples. A full finite-wavelength/all-multipole evaluation is still required before making a new physical completion claim.
 
 The new script and nine existing targeted checks passed: first field-adjoint source, unified adjoint, cubic product identities, orthonormal driver, propagation adjoint, Cartesian Green, observable expansion, report identities and shell cubic sources with `--compare-engine`. Repository-wide Ruff lint/format and type checking also passed, as did shell syntax and whitespace checks. The full long-running test suite was not rerun.
 
 Next steps:
 
-- specialize the first field-adjoint Green reconstruction and (2) to the shell partitions `(k;q,-q)`, `(q;k,-q)` and `(-q;k,q)`;
-- compare with the existing independent cubic construction, preserving the homogeneous lapse, initial covectors and physical endpoint traces;
+- retain exact finite-wavelength phases in the first field-adjoint reconstruction for the shell partitions, beyond the now-evaluated leading gradient coefficient;
+- extend the physical comparison beyond the quadrupole/four-gradient sector, preserving the homogeneous lapse, initial covectors and physical endpoint traces;
 - then look for cancellation between direct residuals, adjoint products and the explicit measurement term, and reduce the remaining mixed-time angular kernels.
 
 All results here are finite-time response identities. No late-time exchange or arbitrary-spectrum UV/IR convergence is claimed. The full finite-wavelength spectrum remains unevaluated by this route.

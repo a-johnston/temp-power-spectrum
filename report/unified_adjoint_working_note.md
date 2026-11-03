@@ -18,7 +18,9 @@ Established here:
 
 **Cubic continuation:** `stationary_cubic_assembly.md` now specifies the full stationary functional and its direct first-field-only measurement term, eliminating the remaining second ray and preserving the physical frame boundary.
 
-**Not established:** evaluation of the reconstruction/sky integrals, an independent full Einstein–radiation cubic comparison, or a full finite-wavelength cancellation/newly evaluated spectrum. The fixture below is not a radiation solution and is not used as physical evidence.
+**Evaluated gradient continuation:** `quadrupole_adjoint_gradient_expansion.md` gives the leading field-adjoint coefficient and its integrated fourth-gradient contribution in closed form. It establishes the complete cubic quadrupole comparison through four gradients at arbitrary symbolic input triples, using an independent Einstein–radiation curvature calculation.
+
+**Not established:** the unrestricted finite-wavelength reconstruction, all-multipole cubic comparison, or a full finite-wavelength cancellation/newly evaluated spectrum. The fixture below is not a radiation solution and is not used as physical evidence.
 
 Checks for this initial stage: `solution/check_unified_adjoint.py`.
 
@@ -518,9 +520,9 @@ The stationary cubic response is compared with independent exact amplitude expan
 
 The first response-elimination milestone is established algebraically. The follow-up `first_field_adjoint_source.md` has now assembled the field-operator variation and complete measurement Hessian, with emission/observer/clock functionals and the separate frame sector. It also specifies the regular Green reconstruction. The remaining substantive work is:
 
-1. Specialize the explicit cubic functional now given in `stationary_cubic_assembly.md` and its first-adjoint Green terms to the shell partitions, retaining the direct third residual and nonlinear initial matching terms (8f).
-2. Compare the fully assembled Einstein–radiation cubic functional with the existing independent observable construction. The follow-up already checks the complete measurement sector against independent off-shell endpoint energies; that does not replace the physical field/observable comparison. Distinguish arbitrary-jet identities, finite-series tests and finite-wavelength results.
-3. Perform the shell contraction and angular integrals, keeping the homogeneous lapse and the physical boundary traces from the first adjoint.
+1. Retain exact finite-wavelength phases in the explicit cubic functional and shell first-adjoint reconstruction, beyond the leading coefficient now evaluated in `quadrupole_adjoint_gradient_expansion.md`. Keep the direct third residual and nonlinear initial terms (8f).
+2. Extend the independent physical comparison beyond the now-established arbitrary-triple cubic quadrupole through four spatial gradients. Distinguish exact gradient-coefficient identities from unrestricted finite-wavelength results.
+3. Reduce the mixed-time angular integrals beyond the evaluated gradient sector, keeping the homogeneous lapse and the physical boundary traces from the first adjoint.
 4. Determine whether the remaining Green integrals cancel or reduce. The first adjoint response can carry the same internal-momentum structure as a second-order state, so removing `y_2,y_3` does not by itself remove resonant dynamics or mixed-time phases.
 
 The full finite-wavelength cancellation remains open. The first field source is now explicit, but its integral reconstruction and the stationary cubic functional have not yet replaced the report's evaluated/nested-integral answer.

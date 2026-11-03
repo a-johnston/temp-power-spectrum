@@ -13,7 +13,9 @@ Everything below is at arbitrary finite time and general momenta. No shell restr
 
 **Continuation:** `stationary_cubic_assembly.md` now assembles the arbitrary-triple stationary functional, including the direct first-field-only measurement contribution and its explicit frame boundary.
 
-**Limits:** the reconstruction integrals have not been evaluated into new closed angular/time kernels, and an independent full Einstein–radiation cubic comparison remains open. In particular, this does not establish a full finite-wavelength cancellation or a newly evaluated spectrum.
+**Evaluated gradient continuation:** `quadrupole_adjoint_gradient_expansion.md` gives the leading quadrupole adjoint in closed form, including the observer/emission traces and singular origin. Its integrated contribution has no logarithms, and the complete cubic quadrupole through four gradients agrees with an independent Einstein–radiation calculation at arbitrary symbolic triples.
+
+**Limits:** the unrestricted finite-wavelength reconstruction and all-multipole comparison remain open. In particular, this does not establish a full finite-wavelength cancellation or a newly evaluated spectrum.
 
 Implementation: `solution/unified_adjoint_source.py`.
 Exact checks: `solution/check_first_field_adjoint_source.py`.
@@ -490,4 +492,4 @@ There is no quadrature, finite time-series evidence or numerical physical model 
 
 The new script and ten existing targeted regressions passed, including `check_unified_adjoint.py`, the propagation/Cartesian Green/observable expansion checks, `check_shell_cubic_sources.py --compare-engine`, and `foundations/check_fw_conformal.py`. Ruff lint/format, project type checking, shell syntax and whitespace checks also passed. The full long-running repository suite was not rerun. These are working research notes; the main report PDF was not changed by this step.
 
-**Next:** specialize and evaluate the polarized stationary functional now specified in `stationary_cubic_assembly.md`, using this first field source and retaining the direct third residual and initial-data terms. Its complete measurement sector has an independent off-shell cubic check, but comparison of the full Einstein–radiation observable and any further physical cancellation or angular-kernel reduction remain open.
+**Next:** retain exact finite-wavelength phases in the stationary functional and first field reconstruction beyond the quadrupole gradient sector now evaluated in `quadrupole_adjoint_gradient_expansion.md`. Keep the direct third residual and initial-data terms. The full finite-wavelength/all-multipole comparison and any further physical cancellation or angular-kernel reduction remain open.
