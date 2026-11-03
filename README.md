@@ -142,7 +142,8 @@ The first frame covector reduces exactly to a commutator with the known linear q
 Rotational covariance also removes the forced homogeneous tensor from the **entire**
 isotropically contracted cubic response, while its homogeneous lapse/initial row remains.
 `solution/entire_sphere.py` and `solution/quadrupole_angular_source.py` implement the closure.
-The remaining generic Green/time pairings are **not** evaluated.
+The remaining generic source/time pairings are **not** evaluated; the follow-up below
+now evaluates the internal lapse/spatial and clock Green convolutions.
 
 [`report/direct_cubic_phase_reduction.md`](report/direct_cubic_phase_reduction.md)
 assembles the complete direct cubic measurement as exact phase sectors, with physical
@@ -154,6 +155,16 @@ of the background adjoint as well. This is a special channel, not the nonzero-ra
 contraction. Dense generic standalone radial expansion is intentionally deferred so these
 sectors can be combined with adjoint terms first. These working results are not additional
 completion claims for the main PDF.
+
+[`report/regular_green_time_reduction.md`](report/regular_green_time_reduction.md)
+evaluates the coupled lapse-to-spatial Green kernel and the full proper-clock Green
+pairing in entire, projector-free form. The exact angular source is inserted into this
+transpose, retaining the emission jump, observer trace and origin covector. Background
+adjoints now need one time integral, first adjoints at most two, and the complete stationary
+cubic quadrupole at most **three independent time integrations per distributed term**.
+The bound is not an evaluation of the surviving kernels or spectrum. Implementation is
+`solution/regular_field_green.py`; construction is guarded against accidental deep symbolic
+integration before physical terms are combined. The main PDF remains unchanged.
 
 ## Setup and reproduction
 
@@ -171,6 +182,8 @@ uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools
 .venv/bin/python -B solution/check_phase_integral_contraction.py
 .venv/bin/python -B solution/check_direct_cubic_measurement.py
 .venv/bin/python -B solution/check_dilation_ward.py
+.venv/bin/python -B solution/check_regular_field_green.py
+.venv/bin/python -B solution/check_quadrupole_green_source.py
 solution/run_all.sh         # the exact checks; uses .venv by default (override with PYTHON=...)
 .venv/bin/python -B solution/curvature_kernels.py --spectrum  # cache-free map + spectra, seconds
 .venv/bin/python -B solution/curvature_kernels.py --compare   # optional: needs saved legacy kernels

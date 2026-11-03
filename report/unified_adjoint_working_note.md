@@ -22,7 +22,9 @@ Established here:
 
 **Exact angular continuation:** `exact_quadrupole_angular_source.md` eliminates the sky integrals and first-ray unknowns from the finite-wavelength quadrupole measurement source. Its frame covector is a commutator with the known linear quadrupole.
 
-**Not established:** the unrestricted finite-wavelength Green/time reconstruction, all-multipole cubic comparison, or a full finite-wavelength cancellation/newly evaluated spectrum. The fixture below is not a radiation solution and is not used as physical evidence.
+**Evaluated Green continuation:** `regular_green_time_reduction.md` evaluates the coupled lapse/spatial and clock Green kernels and inserts the complete exact quadrupole angular source. Background/first field covectors have at most one/two time integrations, and the whole stationary cubic quadrupole has time arity at most three per distributed term.
+
+**Not established:** evaluation of the remaining unrestricted finite-wavelength source/time pairings, the all-multipole cubic comparison, or a full finite-wavelength cancellation/newly evaluated spectrum. The fixture below is not a radiation solution and is not used as physical evidence.
 
 Checks for this initial stage: `solution/check_unified_adjoint.py`.
 
@@ -522,9 +524,9 @@ The stationary cubic response is compared with independent exact amplitude expan
 
 The first response-elimination milestone is established algebraically. The follow-up `first_field_adjoint_source.md` has now assembled the field-operator variation and complete measurement Hessian, with emission/observer/clock functionals and the separate frame sector. It also specifies the regular Green reconstruction. The remaining substantive work is:
 
-1. Insert the exact finite-wavelength quadrupole angular source from `exact_quadrupole_angular_source.md` into the first-adjoint Green pairing. Keep the direct third residual, direct cubic multi-phase measurement and nonlinear initial terms (8f).
+1. Combine the now-inserted exact angular/Green source from `regular_green_time_reduction.md` with the direct phase sectors, direct third residual and nonlinear initial terms (8f), seeking cancellation before expanding the surviving three-time kernels.
 2. Extend the independent physical comparison beyond the now-established arbitrary-triple cubic quadrupole through four spatial gradients. Distinguish exact gradient-coefficient identities from unrestricted finite-wavelength results.
-3. Reduce the mixed-time angular integrals beyond the evaluated gradient sector, keeping the homogeneous lapse and the physical boundary traces from the first adjoint.
+3. Evaluate the remaining mixed-time source kernels beyond the gradient sector; angular contraction and the internal lapse/spatial Green convolution are now explicit. Keep the homogeneous lapse and the physical boundary traces from the first adjoint.
 4. Determine whether the remaining Green integrals cancel or reduce. The first adjoint response can carry the same internal-momentum structure as a second-order state, so removing `y_2,y_3` does not by itself remove resonant dynamics or mixed-time phases.
 
 The full finite-wavelength cancellation remains open. The first field source is now explicit, but its integral reconstruction and the stationary cubic functional have not yet replaced the report's evaluated/nested-integral answer.

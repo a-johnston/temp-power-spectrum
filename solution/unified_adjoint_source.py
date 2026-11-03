@@ -19,11 +19,13 @@ import sympy as s
 
 
 def inner(A, B):
-    return s.trace(A.T * B)
+    # sympy.trace(Matrix(...)) calls Matrix.doit(deep=True), inadvertently
+    # attempting every definite Green integral stored in the coefficients.
+    return sum(A[i, j] * B[i, j] for i in range(A.rows) for j in range(A.cols))
 
 
 def stf(A):
-    return (A + A.T) / 2 - s.eye(3) * s.trace(A) / 3
+    return (A + A.T) / 2 - s.eye(3) * sum(A[i, i] for i in range(3)) / 3
 
 
 def sym_outer(a, b):
@@ -36,7 +38,7 @@ def christoffel(k, G):
 
 
 def ricci_linear(k, G):
-    return (k.dot(k) * G + s.trace(G) * k * k.T - k * (G * k).T - (G * k) * k.T) / 2
+    return (k.dot(k) * G + sum(G[i, i] for i in range(3)) * k * k.T - k * (G * k).T - (G * k) * k.T) / 2
 
 
 def ricci_mixed(p, q, G, j):

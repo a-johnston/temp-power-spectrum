@@ -147,19 +147,25 @@ class QuadrupoleAngularSource:
     def frame_covector(self, h, u):
         return integrate(self.frame_density(h.diff(u), u), u, self.e, self.o)
 
-    def assemble(self, z, h, a, t, u):
+    def assemble(self, z, h, a, t, u, *, clock_shift=None):
         """Complete angularly integrated measurement source, with known h(u),a(u).
 
         The remaining integrals have explicit fixed/Volterra limits. z is the
         time-independent primordial amplitude; the probe has delta zeta=0.
         Combine through .with_field(...), whose sky operation is IDENTITY.
+        clock_shift may supply an independently evaluated exact first clock;
+        omitting it preserves the general off-shell clock functional.
         """
         assert t != u and s.diff(s.sympify(z), u) == 0
         h = s.Matrix(h)
         a = s.sympify(a)
         hp = h.diff(u)
         b = self.blocks(z, h, hp, t, u)
-        D = -(self.initial**2 * a.subs(u, self.initial) + integrate(u * a, u, self.initial, self.o)) / self.o
+        D = (
+            -(self.initial**2 * a.subs(u, self.initial) + integrate(u * a, u, self.initial, self.o)) / self.o
+            if clock_shift is None
+            else s.sympify(clock_shift)
+        )
         A = inner(self.C, hp.subs(u, self.o)) / 2
         A += integrate(
             self.weighted(s.I * self.p.dot(self.n) * self.n.dot(hp * self.n) / 2, self.p * (self.o - u)), u, self.e, self.o

@@ -318,7 +318,7 @@ The new script and nine existing targeted checks passed: first field-adjoint sou
 
 Next steps:
 
-- insert the now-closed exact quadrupole angular source from `exact_quadrupole_angular_source.md` into the first field-adjoint Green pairing for the shell partitions;
+- use the now-inserted exact angular/Green source from `regular_green_time_reduction.md` for the shell partitions. That continuation evaluates the internal coupled and clock Green kernels and bounds the complete cubic quadrupole by three time integrations per distributed term; the surviving source pairings remain to be evaluated;
 - extend the physical comparison beyond the quadrupole/four-gradient sector, preserving the homogeneous lapse, initial covectors and physical endpoint traces;
 - combine the direct cubic phase sectors now assembled in `direct_cubic_phase_reduction.md` with the adjoint products and direct field/initial terms before evaluating the remaining time integrals. That continuation evaluates the common fourth ray time and fixes the complete physical `(p,0,0)` channel by dilation covariance; it does not evaluate the unrestricted cubic map.
 

@@ -17,7 +17,9 @@ Everything below is at arbitrary finite time and general momenta. No shell restr
 
 **Exact angular continuation:** `exact_quadrupole_angular_source.md` closes the finite-wavelength quadrupole measurement source on entire spherical phase moments, with no remaining sky integrals or independently solved first rays. It retains the complete normalization products and reduces the frame covector to a linear-quadrupole commutator.
 
-**Limits:** the unrestricted finite-wavelength Green/time reconstruction and all-multipole comparison remain open. In particular, this does not establish a full finite-wavelength cancellation or a newly evaluated spectrum.
+**Evaluated Green continuation:** `regular_green_time_reduction.md` evaluates the internal lapse/spatial convolution and complete proper-clock Green pairing, inserts this angular source in an entire Cartesian transpose, and bounds the complete cubic quadrupole by three independent time integrations per distributed term. The physical observer/emission traces and initial covector remain.
+
+**Limits:** evaluation of the remaining unrestricted finite-wavelength source/time pairings and the all-multipole physical comparison remain open. In particular, this does not establish a full finite-wavelength cancellation or a newly evaluated spectrum.
 
 Implementation: `solution/unified_adjoint_source.py`.
 Exact checks: `solution/check_first_field_adjoint_source.py`.
@@ -438,7 +440,7 @@ Then the complete first field adjoint and its initial-data covector are specifie
 
 Five trace-free test matrices reconstruct `Lambda_H,a` explicitly via the same finite dual-basis operation used in §2. Derivatives in (15) act on the causal Green probes before any integral exchange; endpoint traces use the corresponding one-sided Volterra prescription. No new arbitrary homogeneous constants are allowed.
 
-The source is no longer unspecified: substituting (7), (12)–(14) into (20) defines only integrals of known first-order objects and regular Green kernels. This does not mean those integrals have been evaluated or that their mixed-time phases have canceled.
+The source is no longer unspecified: substituting (7), (12)–(14) into (20) defines only integrals of known first-order objects and regular Green kernels. The subsequent `regular_green_time_reduction.md` now evaluates the internal convolution in (19) and the clock Green pairing, and implements the remaining weak source integrals explicitly; it does not evaluate every source pairing. This does not mean those integrals have been evaluated or that their mixed-time phases have canceled.
 
 ### New boundary diagnostics
 
