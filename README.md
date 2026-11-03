@@ -56,6 +56,18 @@ part of the current tree.
 - **Cubic products.** An explicit orthonormal cubic integrand and combined emission/clock
   identity retain all lower-order products, including the mixed clock–emission term.
   This removes redundant local products, not the remaining propagation integrals.
+- **Contracted cubic source reduction (§5.3).** The shell-averaged cubic field sources need
+  only nine second-order angular moments and the forced homogeneous lapse. The direct `111`
+  longitudinal momentum source vanishes pointwise; the homogeneous tensor cancels after
+  averaging. A lapse normal form removes second-order response derivatives. All required
+  relative-angle moments are evaluated in the existing entire functions, with at most `J₃`;
+  their time integrals remain. The top-order adjoint includes explicit boundary terms.
+- **Propagation adjoint (§6.1).** All cubic products linear in second-order fields can be
+  written without the ray response driven by `H₂`. Their bulk contains no time derivatives
+  of `H₂`; emission, physical clock and random-monopole normalization remain explicit. The
+  shell emission contraction uses the same nine moments. Mixed-time phases prevent assuming
+  that finite moment closure for the remaining propagation terms. No full cubic cancellation
+  is claimed.
 - **Open.** What remains unevaluated is listed in the report's section "What remains
   unevaluated". An appendix records exploratory finite-k₀ numerics, which are not evidence.
 
@@ -65,17 +77,49 @@ part of the current tree.
 |---|---|
 | Exact framework (temperature frame, exact redshift, field equations) | `foundations/check_exact_lemmas.py`, `foundations/check_fw_conformal.py`, `foundations/check_exact_field_equations.py`, `foundations/check_field_equations_generic.py`, `check_evolution_form.py` |
 | Primordial state and initial data | `foundations/check_initial_data_gradient.py` |
-| Field solution at every order | `check_tensor_newtonian.py`, `check_shell_reduction.py`, `check_green.py`, `second_order.py`, `second_order_consistency.py`, `closed_forms.py`, `closed_second_order.py`, `third_order.py`, `fast_series.py`, `third_order_consistency.py`, `check_report_identities.py` |
-| The observable through third order | `check_observable_expansion.py`, `observable_generator.py`, `observable_fast.py`, `foundations/normalization_expansion.py`, `foundations/check_algebra.py` |
+| Field solution at every order | `check_shell_cubic_sources.py --compare-engine`, `check_tensor_newtonian.py`, `check_shell_reduction.py`, `check_green.py`, `second_order.py`, `second_order_consistency.py`, `closed_forms.py`, `closed_second_order.py`, `third_order.py`, `fast_series.py`, `third_order_consistency.py`, `check_report_identities.py` |
+| The observable through third order | `check_propagation_adjoint.py`, `check_observable_expansion.py`, `observable_generator.py`, `observable_fast.py`, `foundations/normalization_expansion.py`, `foundations/check_algebra.py` |
 | Gauge invariance and Ward identities | `check_ward_dilation.py`, `check_ward_dilation3.py`, `observable_generator.py W2\|W3`, `foundations/check_first_order.py`, `first_order_engine_check.py`, `check_gradient_modes.py` |
 | The spectrum (transfer function, primary form `C_ℓ = 4πvT_ℓ² + v²[Q_ℓ + 4πT_ℓ Re R_ℓ]`, shell two-amplitude reduction, log-map and observer-dilation decompositions) | `transfer_entire.py`, `check_shell_reduction.py`, `check_logmap_decomposition.py`, `check_dilation_factorisation.py`, `check_shell_locality.py` |
 | Limits (superhorizon quadrupole and octupole, next gradient order, infrared) | `superhorizon.py`, `observable_generator.py SH`, `check_dilation_factorisation.py`, `check_gradient_octupole.py`, `superhorizon_next.py`, `check_quadrupole_next_hand.py`, `check_cubic_curvature_hand.py` |
 | Appendix: exploratory numerics | `numerics/explore_fourth_order.py`, `numerics/explore_third_order.py`, `numerics/explore_adjoint.py` |
 
+The new derivations are included directly in the main report from
+`report/cubic_source_reduction.tex`, `report/cubic_adjoint_reduction.tex`, and
+`report/propagation_adjoint.tex`. The initial review and fuller source-reduction discussion
+are in `report/critical_review_and_cubic_reduction.md`.
+
+## Further cancellation research
+
+The four proposed directions are preserved in
+[`report/future_cancellation_directions.md`](report/future_cancellation_directions.md).
+Work on the first, a unified constrained adjoint for the whole experiment, is in
+[`report/unified_adjoint_working_note.md`](report/unified_adjoint_working_note.md).
+The polarized stationary cubic identity replaces explicit second-/third-order state responses
+with first state and first adjoint responses. The note also gives the background field Green
+transpose and its regular-origin covector, the exact normalization adjoint, and the endpoint,
+clock and ray blocks. `solution/check_unified_adjoint.py` checks the identities, the physical
+leading-gradient map and a separate algebraic boundary/measurement fixture.
+
+The complete first field-adjoint source is now in
+[`report/first_field_adjoint_source.md`](report/first_field_adjoint_source.md), implemented by
+`solution/unified_adjoint_source.py`. It combines the off-shell field-operator variation with
+the full measurement Hessian, eliminates the independent probe ray, and retains emission,
+observer, clock and normalization terms. Its regular Green reconstruction has a generally
+nonzero observer trace and an emission jump. The frame's first adjoint and cubic rotation
+pairing are kept separately. `solution/check_first_field_adjoint_source.py` checks the field
+coefficients against the independent Christoffel engine and the complete source/Green algebra.
+The reconstruction integrals and complete cubic spectrum are **not** yet evaluated by this
+route. These working results are not additional completion claims for the main PDF.
+
 ## Setup and reproduction
 
 ```
 uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools (pyproject.toml, uv.lock)
+.venv/bin/python -B solution/check_shell_cubic_sources.py --compare-engine
+.venv/bin/python -B solution/check_propagation_adjoint.py
+.venv/bin/python -B solution/check_unified_adjoint.py
+.venv/bin/python -B solution/check_first_field_adjoint_source.py
 solution/run_all.sh         # the exact checks; uses .venv by default (override with PYTHON=...)
 .venv/bin/python -B solution/curvature_kernels.py --spectrum  # cache-free map + spectra, seconds
 .venv/bin/python -B solution/curvature_kernels.py --compare   # optional: needs saved legacy kernels

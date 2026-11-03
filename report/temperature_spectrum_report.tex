@@ -18,6 +18,7 @@
 \newcommand{\sky}[1]{\langle #1\rangle_{\Omega}}
 \newcommand{\ens}[1]{\langle #1\rangle}
 \newcommand{\T}{\mathcal{T}}
+\newcommand{\mathscr}{\mathcal} % Standard font; no additional script-font dependency.
 \newcommand{\TF}{\operatorname{TF}}
 \newcommand{\Cin}{\operatorname{Cin}}
 \newcommand{\Si}{\operatorname{Si}}
@@ -53,9 +54,17 @@ cancels exactly in the normalised map. Further results:
 \item All second-order field kernels are given in closed form for general momenta, in the
   entire functions $\Si$, $\Cin$ and $\Ephi_m$. This makes every resonance surface manifestly
   regular.
-\item Third-order kernels are explicit nested integrals.
+\item Third-order kernels are explicit nested integrals. On the monochromatic shell the
+  contracted cubic field sources reduce to nine second-order angular moments and the forced
+  homogeneous lapse. Their relative-angle integrals are evaluated in entire functions; a
+  lapse normal form and momentum adjoint remove derivatives of second-order responses.
+  The direct three-first-order-field longitudinal momentum source cancels exactly.
 \item The complete map $\Theta^{(1,2,3)}$ is constructed. It retains photon propagation,
-  emission surface, observer clock, tetrad and normalisation terms.
+  emission surface, observer clock, tetrad and normalisation terms. An adjoint eliminates the
+  second-order ray response from the cubic products linear in second-order fields and removes
+  their metric time derivatives from the bulk, with explicit boundaries. The shell emission
+  part reduces to the same nine moments; mixed-time phases still obstruct that finite closure
+  for the remaining propagation terms.
 \item The linear transfer function $T_\ell$ is given in closed form for every $\ell$, as a
   short sum of the same entire functions $J_m$ used at second order. The coefficients are
   Laurent coefficients of two explicit rational functions, with no logarithms or $\mathrm{Ci}$.
@@ -135,9 +144,9 @@ the result, not merely computational details; see \S\ref{sec:open}.
 Requirement & Result (section; status) \\\midrule\endhead
 Gaussian variable; no higher-order modes & $\zeta=\frac16\ln\det\gamma_{ij}$, exactly conserved; Def.~\ref{def:ic} (\S\ref{sec:ic}) \\
 Constrained initial data at every order & regular solution at any $t_i$; constraints proved (Thm.~\ref{thm:consistency}); forced data nonzero \\
-Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\ref{sec:fields}); 2nd order \st{closed form}; 3rd order \st{explicit nested integrals} \\
+Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\ref{sec:fields}); 2nd order \st{closed form}; 3rd order \st{explicit nested integrals}; contracted shell cubic sources: \st{nine moments, angle integrals evaluated} (\S\ref{sec:cubic-moments}) \\
 Observer, clock, tetrad, emission surface & \S\ref{sec:obs}; explicit Fermi--Walker rotation, irrelevant to the spectrum at this order (Prop.~\ref{prop:frame}) \\
-Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks \\
+Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks; propagation adjoint removes the second-order-field ray response, with emission, clock and normalisation retained (\S\ref{sec:prop-adjoint}) \\
 $C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}); the proof is analytic for every $\ell$, and the script checks $\ell=1,\dots,6$ \\
 $C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, organised as $C_\ell=4\pi vT_\ell^2+v^2[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell]$ (\eqref{eq:primary}); sky integrals evaluated (\S\ref{sec:spec}); shell metric reduced to two amplitudes, contracted cubic response scalar; existence proved for finite times and finite spectral measures of compact support in $0<k<\infty$; log-map decomposition with the lognormal part \st{explicit} (convergent $3j$ series, or one Legendre integral of $\xi^2$; Thm.~\ref{thm:logmap}) \\
 Monochromatic, held-fixed quantity & $\ens{g^2}=\sigma^2$ fixed (\S\ref{sec:mono}) \\
@@ -599,6 +608,8 @@ integrals with closed-form inner integrals. Three levels should be distinguished
   a substitution of the assembled cubic kernel at arbitrary times.
 \end{itemize}
 
+\input{cubic_source_reduction.tex}
+
 %======================================================================
 \section{The observable through third order}\label{sec:obs}
 %======================================================================
@@ -805,6 +816,8 @@ the exact definitions} by fixed-point iteration in the multilinear algebra: the 
 emission root, the clock equation and the sky normalisation. It uses no hand-expanded formula,
 and it passes the Ward identities and the superhorizon check of \S\ref{sec:gauge} and
 \S\ref{sec:sh}.
+
+\input{propagation_adjoint.tex}
 
 %======================================================================
 \section{Gauge invariance and Ward identities}\label{sec:gauge}
@@ -1363,8 +1376,10 @@ $Q_\ell$ and $R_\ell$ are built.
   \begin{itemize}
   \item The new third-order field enters linearly through
     $\sigma^{(3)}\ni\frac12A_3'$. Only its $\hat q$-average is needed, and by
-    Prop.~\ref{prop:contracted} that average is a single scalar function. It is obtained from the
-    lapse and Hamiltonian Green formulas with the $\hat q$-averaged cubic sources.
+    Prop.~\ref{prop:contracted} that average is a single scalar function. The sources reduce to
+    nine second-order moments and the homogeneous lapse (\S\ref{sec:cubic-moments}). Their
+    relative-angle integrals are evaluated; \eqref{eq:adjoint-nine-moment} gives the transfer
+    without constructing the cubic field or differentiating a second-order response.
   \item Everything else is a product of lower-order fields: $\sigma^{(3)}$ products, $X_2$, $e_2$,
     the emission shift $d_2$, the clock $D_2$ and the normalisation. These contain the
     second-order tensor and $\nu_2$, which are kept in full.
@@ -1372,8 +1387,10 @@ $Q_\ell$ and $R_\ell$ are built.
   \end{itemize}
 \item \emph{Sky integrals.} Every term has the form $c\,\Pi(\nh)e^{i\nh\cdot V}$, and the sky
   integrals are evaluated in closed form below.
-\item \emph{Remaining integrals.} What is left is the integral over $\mu\in[-1,1]$ and the
-  nested times. The point $\mu=-1$ is a null set (Thm.~\ref{thm:exist}).
+\item \emph{Remaining integrals.} In general, relative-angle and nested time integrals remain.
+  The relative-angle integral of the top-order cubic field is evaluated in
+  \S\ref{sec:cubic-moments}; lower-order propagation products still require additional work.
+  The point $\mu=-1$ is a null set (Thm.~\ref{thm:exist}).
 \end{enumerate}
 
 \paragraph{Where the angular integral is non-elementary.} Substitute $\mu=2u^2-1$, so that
@@ -1444,7 +1461,8 @@ symmetric trace-free tensor built from $\hat k$ and $\delta$ alone is proportion
 $\hat k\hat k-\delta/3$.
 \end{proof}
 The new cubic field work for $C^{(13)}$ is therefore one scalar problem with averaged
-sources. Two caveats: the lower-order tensor contributions inside the cubic sources and
+sources, now reduced explicitly to the angle-evaluated nine-moment construction of
+\S\ref{sec:cubic-moments}. Two caveats: the lower-order tensor contributions inside the cubic sources and
 propagation products must be kept, and the uncontracted map $\Theta^{(3)}$ still needs all
 three sectors. The exploratory evaluation in App.~\ref{app:numerics} confirms numerically that
 keeping only the scalar part reproduces the full result.
@@ -1510,8 +1528,8 @@ $c_N(s)=O(s^2)$, so the integrand is $O(s)$ near $s=0$. The rest of the domain i
 regular, which justifies Fubini. The sources are local in time, so the $\mu$ average passes
 through.
 \end{proof}
-The operator identities, the jump, the factor $14$, the source compatibility and the
-endpoint/clock combinatorics are verified exactly in \path{solution/check_adjoint_exact.py}.
+Exact checks of the operators, diagonal jump, factor $14$, source compatibility and endpoint
+combinatorics are in \path{solution/check_adjoint_exact.py}.
 Numerically (\path{solution/numerics/explore_adjoint.py}, not evidence), the momentum form
 agrees with the direct third-order Green solution to a few parts in $10^{6}$ at $x_o=1$ and $3$. The
 equivalent form with a contact term and $\partial_t\bar c_{\rm Ham}$ in place of the momentum
@@ -1521,6 +1539,8 @@ The identity reorganises the integrals without removing their cancellation: at $
 $\mu=0.9$ the homogeneous, $c_N$ and $c_{\rm Ham}$ terms of the contact form are $14$, $-73$ and
 $+58$ (in units of $T_\ell$) and sum to $-0.24$. The rest of $C^{(13)}$, from products of
 lower-order fields in the map, is not covered.
+
+\input{cubic_adjoint_reduction.tex}
 
 \begin{proposition}[At linear-transfer nodes, fourth order reduces to the quadratic term]\label{prop:nodes}
 On the shell, $C^{(13)}_\ell\propto T_\ell(k_0)$, and the cubic kernel is finite at finite
@@ -2301,6 +2321,8 @@ Orthonormal redshift driver (Prop.~\ref{prop:orthonormal}) & \path{solution/chec
 Adjoint top-order cubic response (Prop.~\ref{prop:adjoint}) & \path{solution/check_adjoint_exact.py}: the lapse Green function, its diagonal jump and the contact coefficient, the factor $14$, the source compatibility $c_{\rm Ham}'-4c_N/t=2iK\cdot c_M$, and the absence of $d_3$, $D_3$ with $d_1,d_2,D_1,D_2$ retained, all exact. Fubini by the estimate in the proof. Numerical comparison (exploratory, \path{solution/numerics/explore_adjoint.py}) with the direct solve and the full map\\
 Longitudinal-gauge redshift & \path{solution/check_longitudinal_redshift.py}: the ADM energy law with a shift on generic jets; exact equality with the temperature-frame exponent including the endpoint conformal and Doppler factors; $\Phi=\Psi$ and zero first-order scalar shift under the full time-and-space map; clock identity; negative controls\\
 Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$; superhorizon observer-centred kernels of Prop.~\ref{prop:obs-dilation} ($\mathcal K^c_2=-\tau^2\TF(kq+qk)_{nn}$, $\mathcal K^c_3(k,q,-q)=0$)\\
+Propagation adjoint & \path{solution/check_propagation_adjoint.py}: mixed cubic driver from matrix exponentials and pulled-back orthonormal directions; general linear ray response; arbitrary plane-wave-jet duality and bulk integration by parts; moving-emission and physical-clock coefficients, centred normalisation, shell emission projection and factorials; boundary and longitudinal-displacement omission controls. The second-order ray is eliminated, not the full mixed-time angular response or its interference with the top-order field.\\
+Contracted cubic source reduction & \path{solution/check_shell_cubic_sources.py --compare-engine}: exact cubic lapse and longitudinal momentum sources for arbitrary time profiles and pair amplitudes; comparison with the original Christoffel-based engine at finite time; vanishing direct $111$ momentum source; homogeneous tensor cancellation; general-momentum lapse normal form; elementary quadratic sources; derivative-free momentum adjoint and boundary coefficients; Green equations and zero momentum; all-order angular-series coefficient identities and finite Laurent integration with at most $J_3$. The angle-free moment formulas follow by analytic substitution and Fubini, not by a new end-to-end spectrum implementation.\\
 Cubic products; fast curvature map & \path{solution/check_cubic_product_identity.py}: generic non-commuting driver, ray pullback and moving-boundary/clock composition, with omission controls. \path{solution/curvature_kernels.py}\ \code{--compare --spectrum}: regenerates the complete map kernels through four gradients without the field/ray engine; exact denominator-cleared comparison to the raw saved kernels at general $(k,q,-q)$; general-moment $C_2$ through degree six and the separate leading octupole contributions. Does not provide the six-/five-gradient maps needed for the next quadrupole/octupole spectrum coefficients.\\
 Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
 \bottomrule
@@ -2312,10 +2334,12 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
 \begin{enumerate}
 \item For general $k_0$, $C_\ell^{(22)}$ and $C_\ell^{(13)}$ are given as exact absolutely
   convergent integrals: over $\mu$ and the nested times, with closed-form integrands, and with
-  all sky integrals evaluated. The compact source, map and two-norm representations retain
-  these same integrals. No further general cancellation or smaller evaluated closed form has
-  been established; this is not a proof that none exists. The integrals are \emph{not}
-  evaluated beyond the superhorizon limit. The expanded ancillary equations remain available
+  all sky integrals evaluated. The top-order cubic field is now reduced to nine second-order
+  moments and the homogeneous lapse, with its relative-angle integrals evaluated and its
+  response derivatives removed (\S\ref{sec:cubic-moments}, \eqref{eq:adjoint-nine-moment}).
+  The complete finite-wavelength spectrum is \emph{not} evaluated: the lower-order propagation
+  products have not been shown to cancel against that field contribution, and nested time
+  integrals remain. No general cancellation of the full cubic response is established. The expanded ancillary equations remain available
   as a reference rather than being embedded in the report. The literature-inspired
   \eqref{eq:soft-remainder} fixes the first two soft coefficients but does not determine the
   comparable-momentum remainder or the full cubic response. After the log-map decomposition
@@ -2336,14 +2360,21 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
   needs the five-gradient octupole map. Squaring the existing map is not sufficient.
 \item Further routes for the finite-$k_0$ integrals, with current progress and limitations:
   \begin{itemize}
-  \item the cubic orthonormal integrand and combined ray/emission/clock identity are now
-    explicit in \eqref{eq:cubic-orthonormal}--\eqref{eq:cubic-composed}. They remove local
-    conformal and matrix-product redundancies, but do not evaluate the remaining propagation
-    integrals or establish cancellation of their finite-wavelength contribution;
-  \item the adjoint form (Prop.~\ref{prop:adjoint}) handles the top-order cubic field. Still
-    open: the same treatment of the propagation products (ray, endpoint and clock terms built
-    from lower-order fields), and the shell-averaged sources $\bar c_N$, $\overline{iK\cdot c_M}$ in
-    closed form;
+  \item the cubic orthonormal and moving-boundary identities
+    \eqref{eq:cubic-orthonormal}--\eqref{eq:cubic-composed} retain all products. The propagation
+    adjoint in \S\ref{sec:prop-adjoint} now eliminates the ray response driven by $H_2$ and
+    removes its time derivatives from the bulk. Its emission contraction is evaluated in
+    \eqref{eq:prop-emission-moments}; the clock and normalisation terms are explicit in
+    \eqref{eq:prop-complete-sector}--\eqref{eq:prop-normalized-sector}. Their remaining time
+    and mixed-phase angular integrals are not evaluated, and cancellation against the
+    top-order field response is not established;
+  \item the top-order cubic sources now have the explicit nine-moment reduction of
+    \S\ref{sec:cubic-moments}; all its relative-angle integrations are evaluated using the
+    existing entire functions, and \eqref{eq:adjoint-nine-moment} is derivative-free in the
+    second-order responses. Their remaining time integrals are not evaluated. Combining this
+    expression with the propagation adjoint, physical endpoint and clock terms remains the key
+    cancellation target. A finite nine-moment closure is not automatic in the presence of
+    mixed-time phases;
   \item the three-tensor reduction \eqref{eq:three-tensor} of the next gradient order, extended to
     $O(k_0^8)$ and to the octupole;
   \item evaluating the Legendre moments of the field amplitudes left by the separated sky form

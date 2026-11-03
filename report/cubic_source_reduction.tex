@@ -1,0 +1,211 @@
+% Included within Section 5.3, after the general cubic construction.
+\subsubsection{Nine-moment reduction of the contracted cubic fields}\label{sec:cubic-moments}
+The general observable is constructed before making the following shell specialisation.
+For its $13$ contraction, the intermediate field equations admit a stronger reduction than
+constructing the component kernel $A_3$ and subsequently averaging it. Put
+\[
+ k=k_0,\quad c=k/\sqrt3,\quad x=ct,\qquad
+ \mathsf a=\cos x-\frac{\sin x}{x},\qquad
+ \mathsf b=-6\left(\frac{2\sin x}{x}-\cos x-1\right).
+\]
+Here $\mathsf a,\mathsf b$ are dimensionless first-order profiles, not the background scale
+factor. For a shell mode $p$, $\nu_p=\mathsf a$ and
+$H_p=\mathsf b(\hat p\hat p-\delta/3)$, and exactly
+\begin{equation}\label{eq:cubic-profile-identities}
+ L_k\mathsf a=0,\qquad L_k=3\partial_t^2+k^2-6/t^2,\qquad
+ \mathsf b'=6(\mathsf a'-\mathsf a/t).
+\end{equation}
+Write $n_2(t,\mu)=\nu_2(k,q)$, $S_2=F_S$, $T_2=F_T$, and
+$n_h(t)=\nu_2(q,-q)$ for the exact homogeneous lapse. Define
+\[
+ \langle f\rangle_\mu=\tfrac12\int_{-1}^1f(\mu)\dd\mu,\qquad
+ q_S=(1+3\mu)/6,\quad q_T=(1-\mu)/2,
+\]
+\[
+ N_r=\langle\mu^r n_2\rangle_\mu,\qquad
+ S_r=\langle\mu^r S_2\rangle_\mu,\qquad
+ T_r=\langle\mu^r T_2\rangle_\mu,\qquad r=0,1,2.
+\]
+The moment subscripts here are angular powers, not perturbative orders.
+
+\begin{proposition}[Reduced cubic sources]\label{prop:cubic-moments}
+On the shell, the longitudinal cubic momentum source has no contribution made solely of
+three first-order fields, pointwise in $\mu$ and at arbitrary finite time. The homogeneous
+second-order tensor cancels from both angle-averaged cubic scalar sources; $n_h$ does not.
+Those sources require only the nine moments above, their first time derivatives and $n_h$:
+\begin{align}
+ \bar c_N={}&B_0+\frac{12\mathsf a}{t^2}n_h
+ +2\left\langle D_0n_2+\mathsf a k^2\left(\frac{3+\mu}{6}S_2-q_TT_2\right)
+ +\frac{\mathsf b'}2(q_SS_2'+q_TT_2')\right\rangle_\mu,\label{eq:cubic-source-N}\end{align}
+\begin{equation}\label{eq:cubic-source-M}
+ \bar m\equiv\overline{ik\cdot c_M}
+ =-2\mathsf a k^2 n_h'
+ +2k^2\left\langle\alpha_SS_2'+\alpha_TT_2'+2\mu\mathsf a n_2'
+ +\beta_SS_2+\beta_TT_2+\beta_n n_2\right\rangle_\mu,
+\end{equation}
+where
+\[
+ B_0=\mathsf a k^2(16+8\mathsf a+2\mathsf b^2/9)-24\mathsf a^3/t^2,\qquad
+ D_0=12\mathsf a/t^2-k^2(1+\mu)[5+4\mathsf a+\mathsf b(\mu-1/3)],
+\]
+\begin{align*}
+ \alpha_S&=(3/2+\mathsf a)(3+\mu)/6-\mu\mathsf b q_S/4,&
+ \alpha_T&=-(3/2+\mathsf a)q_T-\mu\mathsf b q_T/4,\\
+ \beta_S&=(1+\mu)\mathsf b'q_S/4,&
+ \beta_T&=(1+\mu)\mathsf b'q_T/4,\\
+ \beta_n&=-(1+\mu)[\mathsf b'(\mu-1/3)+2\mathsf a'].
+\end{align*}
+The factor two counts the pairs $(k,q)$ and $(k,-q)$ after $\mu\mapsto-\mu$; it is not an
+additional Wick or factorial normalisation.
+\end{proposition}
+\begin{proof}
+For $M=e^H$, let $C_i=M^{-1}\partial_iM$. Since $\det M=1$ and $\operatorname{tr}S=0$,
+\[
+ D_jS^j{}_i=\partial_jS^j{}_i+3\zeta_{,j}S^j{}_i-\tfrac12\operatorname{tr}(C_iS).
+\]
+On the shell $H_1=\mathsf b(t)B(X)$, so $[H_1,H_1']=0$. The quadratic mixed-shear
+commutator and the purely first-order cubic double commutator vanish. The remaining cubic
+first--second-order commutator is antisymmetric, so its contraction with $k_ik_j$ vanishes.
+The quadratic commutator in $C_i$ has zero trace against the symmetric first-order shear.
+This removes every direct $111$ term in the longitudinal momentum source, without assuming
+$[H_1,H_2]=0$. For the homogeneous tensor, the scalar contractions are proportional to
+$\mu^2-1/3$, whose mean is zero. The remaining contractions give
+\eqref{eq:cubic-source-N}--\eqref{eq:cubic-source-M}. All weights have degree at most two.
+The check \path{solution/check_shell_cubic_sources.py --compare-engine} rebuilds these identities
+for arbitrary time profiles and arbitrary pair amplitudes, and compares them with the original
+Christoffel-based field engine at arbitrary finite time. It uses no time expansion or quadrature.
+\end{proof}
+
+\paragraph{Derivative-free lapse normal form.}
+Set
+\begin{equation}\label{eq:cubic-normal-form}
+ \Upsilon=\mathsf a\langle q_SS_2+q_TT_2\rangle_\mu,\qquad
+ \eta_3=\bar\nu_3+\Upsilon,\qquad L_k\eta_3=-\bar r_N.
+\end{equation}
+Then
+\begin{equation}\label{eq:cubic-reduced-source}
+\begin{split}
+ \bar r_N={}&B_R+\frac{12\mathsf a}{t^2}n_h\\
+ &+2\left\langle D_R n_2+\frac{\mathsf a k^2}{6}(2-3\mu-3\mu^2)S_2
+ +\frac{\mathsf a k^2}{2}(2+\mu-3\mu^2)T_2\right\rangle_\mu,\\
+ D_R={}&12\mathsf a/t^2-k^2(1+\mu)[5+2\mathsf a-6\mathsf a\mu+\mathsf b(\mu-1/3)],\\
+ B_R={}&k^2(8\mathsf a-8\mathsf a^2-\tfrac83\mathsf a^2\mathsf b+\tfrac49\mathsf a\mathsf b^2)
+ +4\mathsf a\mathsf a'\mathsf b'-24\mathsf a^3/t^2.
+\end{split}
+\end{equation}
+There are no derivatives of any second-order response in this source.
+Since $\Upsilon=O(t^4)$, the constrained regular $t^2$ coefficient is unchanged.
+The second-order equations used to obtain this normal form are
+\begin{equation}\label{eq:moment-pair-equations}
+ L_Kn_2=-C_N,\quad
+ S_2''+2S_2'/t-K^2S_2/3=-4K^2n_2+J_S,\quad
+ T_2''+2T_2'/t+K^2T_2=J_T,
+\end{equation}
+with $K^2=2k^2(1+\mu)$ and the complete elementary sources
+\begin{align}
+ C_N={}&k^2[\tfrac23\mathsf a\mathsf b-4\mathsf a
+ +\mu(4\mathsf a^2-\tfrac43\mathsf a\mathsf b+2\mathsf a)-2\mu^2\mathsf a\mathsf b]
+ +\tfrac12\mathsf b'^2(\mu^2-1/3)+12\mathsf a^2/t^2,\label{eq:moment-CN}\\
+ J_S={}&k^2\big[2(3+\mu)\mathsf a^2+(15\mu^2+13\mu-8)\mathsf a\mathsf b/3
+ +16(1+\mu)\mathsf a\nonumber\\
+ &\qquad+(5-5\mu-15\mu^2-9\mu^3)\mathsf b^2/36
+ +(-10+7\mu+15\mu^2)\mathsf b/6+5+7\mu\big]
+ -(1+3\mu)\mathsf a'\mathsf b',\label{eq:moment-JS}\\
+ J_T={}&\frac{1-\mu}{36}\big\{k^2[\mathsf b^2(9\mu^2+12\mu+1)
+ -6\mathsf b(6\mu\mathsf a+3\mu+2)-72\mathsf a^2+36]-36\mathsf a'\mathsf b'\big\}.
+ \label{eq:moment-JT}
+\end{align}
+In particular
+\[
+ \langle q_SJ_S+q_TJ_T\rangle_\mu
+ =\tfrac2{27}[k^2(12\mathsf a\mathsf b+72\mathsf a-\mathsf b^2+36)-18\mathsf a'\mathsf b'],
+\]
+which evaluates the elementary forcing part in $B_R$.
+
+The derivative cancellation also holds at general momenta. For a partition $p|(q,r)$,
+put $P=q+r$, $K=p+P$, $Q_p=pp-\delta p^2/3$, $J=H_{qr}$ and
+$\phi_{p|qr}=\nu_p Q_p:J/(2p^2)$. The metric-dependent source
+$-\nu_pK_iJ_{ij}p_j+\tfrac12H_p':J'$ equals $L_K\phi_{p|qr}$ plus
+\[
+ -\nu_pK_iJ_{ij}p_j-\frac{\nu_p}{2p^2}
+ [(K^2-p^2)Q_p:J+3Q_p:(J''+2J'/t)].
+\]
+Use the second-order spatial equation for the acceleration and sum the three partitions.
+There is then no derivative of $J$. At $p=0$ use the regular continuation of
+$\nu_p/p^2$, since the regular scalar has $\nu_p=O(p^2)$ at fixed time.
+The change of variable must be undone when reconstructing the observable.
+
+\paragraph{Evaluated relative-angle moments.}
+No cubic kernel is needed to compute the nine functions. Put $y=(1+\mu)/2$ and
+$F_\beta(z)={}_0F_1(;\beta;z)$. The regular Green kernels, with $d=t-s$, are
+\begin{align}
+ G_N(t,s;y)&=-\tfrac13[dF_{3/2}(-c^2d^2y)+d^3F_{5/2}(-c^2d^2y)/(3ts)],\label{eq:moment-GN}\\
+ G_S(t,s;y)&=(s/t)dF_{3/2}(c^2d^2y),\qquad
+ G_T(t,s;y)=(s/t)dF_{3/2}(-k^2d^2y).\label{eq:moment-GST}
+\end{align}
+The positive argument in $G_S$ is the scalar eigenvalue $-K^2/3$ of the Cartesian operator;
+the lapse forcing must be retained for its cancellations. At $y=0$,
+$G_N=-(t^3-s^3)/(9ts)$, exactly the homogeneous-momentum Green kernel.
+Expand the explicit polynomials above after $\mu=2y-1$ as
+\begin{gather*}
+ C_N=\sum_{j=0}^2\mathfrak c_j(t)y^j,\qquad
+ J_S=\sum_{j=0}^3\mathfrak s_j(t)y^j,\qquad
+ J_T=\sum_{j=0}^3\mathfrak t_j(t)y^j,\\
+ c_2^{\rm init}=d_0+d_1y,\qquad(d_0,d_1)=(5k^2/9,-2k^2/9).
+\end{gather*}
+Define entire universal functions
+\begin{equation}\label{eq:moment-entire}
+ \mathscr A_m^\beta(z)=\frac{{}_1F_2(m+1;\beta,m+2;z)}{m+1},\qquad
+ \mathscr B_m^{\beta,\delta}(z,w)=\sum_{r,h\ge0}
+ \frac{z^rw^h}{(\beta)_r(\delta)_h r!h!(m+r+h+1)}.
+\end{equation}
+For $m=0,1,2$, the complete angle-free representations are
+\begin{align}
+ \mathcal N_m(t)={}&t^2\sum_{j=0}^1d_j\mathscr A_{m+j}^{5/2}(-c^2t^2)\nonumber\\
+ &+\int_0^t\dd s\sum_{j=0}^2\mathfrak c_j(s)
+ \left[-\frac{t-s}{3}\mathscr A_{m+j}^{3/2}(-c^2(t-s)^2)
+ -\frac{(t-s)^3}{9ts}\mathscr A_{m+j}^{5/2}(-c^2(t-s)^2)\right],\label{eq:moment-N}\\
+ \mathcal T_m(t)={}&\int_0^t\dd s\,\frac{s(t-s)}t
+ \sum_{j=0}^3\mathfrak t_j(s)\mathscr A_{m+j}^{3/2}(-k^2(t-s)^2),\label{eq:moment-T}\\
+ \mathcal S_m(t)={}&\int_0^t\dd s\,\frac{s(t-s)}t
+ \sum_{j=0}^3\mathfrak s_j(s)\mathscr A_{m+j}^{3/2}(c^2(t-s)^2)
+ -16k^2\int_0^t\dd s\,\frac{s(t-s)}t\mathcal V_m(t,s),\label{eq:moment-S}
+\end{align}
+where $z=c^2(t-s)^2$ and
+\begin{equation}\label{eq:moment-V}
+\begin{split}
+ \mathcal V_m(t,s)={}&s^2\sum_{j=0}^1d_j\mathscr B_{m+1+j}^{3/2,5/2}(z,-c^2s^2)\\
+ &+\int_0^s\dd r\sum_{j=0}^2\mathfrak c_j(r)
+ \left[-\frac{s-r}{3}\mathscr B_{m+1+j}^{3/2,3/2}(z,-c^2(s-r)^2)
+ -\frac{(s-r)^3}{9sr}\mathscr B_{m+1+j}^{3/2,5/2}(z,-c^2(s-r)^2)\right].
+\end{split}
+\end{equation}
+Then $N_r=\sum_{m=0}^r\binom{r}{m}2^m(-1)^{r-m}\mathcal N_m$, and likewise for
+$S_r,T_r$. The separately retained homogeneous lapse is
+\begin{equation}\label{eq:moment-homogeneous}
+ n_h=5k^2t^2/9-\int_0^t\frac{t^3-s^3}{9ts}C_N(s,-1)\dd s.
+\end{equation}
+These formulas follow by substituting the Green representations and integrating powers of
+$y$ times one or two $F_\beta$ factors. All required universal indices are at most five.
+
+The hypergeometric notation is optional. With $\alpha^2=-4z$,
+\[
+ F_{3/2}(-\alpha^2u^2/4)=\frac{\sin\alpha u}{\alpha u},\qquad
+ F_{5/2}(-\alpha^2u^2/4)=\frac{3(\sin\alpha u-\alpha u\cos\alpha u)}{\alpha^3u^3}.
+\]
+Set $y=u^2$, multiply by $2u^{2m+1}$, and expand the sines and cosines. The result is a finite
+Laurent-exponential sum. Nonnegative powers integrate to $\Ephi_p(i\omega)$; powers $u^{-M}$
+integrate to $J_M(\omega,1)$. The discarded principal parts sum to zero. The largest pole is
+$u^{-3}$, so only $J_1,J_2,J_3$ are needed, also for imaginary frequencies in $G_S$.
+For example
+\[
+ \mathscr B_0^{3/2,3/2}(-\alpha^2/4,-\gamma^2/4)
+ =\frac{\Cin(\alpha+\gamma)-\Cin(\alpha-\gamma)}{\alpha\gamma}.
+\]
+Every apparent zero-argument division is defined by the entire series
+\eqref{eq:moment-entire}. At finite times those series converge locally uniformly and
+absolutely; $C_N(s,\mu)=O(s^2)$ uniformly in $\mu$, while $J_S,J_T=O(1)$.
+Thus the $1/s$ and $1/r$ factors are integrable and all angular/time exchanges above are
+justified. No late-time exchange is asserted. The relative-angle integrals for the
+\emph{top-order cubic fields} are evaluated; the displayed time integrals and the
+lower-order propagation products in the full map are not.

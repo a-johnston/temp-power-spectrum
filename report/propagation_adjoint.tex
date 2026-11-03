@@ -1,0 +1,140 @@
+% Included at the end of Section 6, after the complete observable construction.
+\subsection{Adjoint reduction of the second-order-field propagation products}\label{sec:prop-adjoint}
+The next cancellation target is the combination of \eqref{eq:adjoint-nine-moment} with the
+lower-order products in the cubic map. A first exact step is possible without solving the
+second-order ray. This subsection isolates \emph{all terms linear in the second-order fields}
+$H_2$ and $\nu_2$, excluding the top-order fields $H_3,\nu_3$ and the remaining products made
+only of first-order fields. It is a decomposition of the already complete map, not an omission
+or a new initial-state assumption. The adjoint below holds at general momenta and finite times.
+
+Write $h=H_1$, $j=H_2$, $m=\nu_2$, $P=1-nn^T$, $e=\bar t_\star$, $o=\bar t_o$,
+$\bar X=n(o-t)$. In this subsection $h',j'$ denote partial time derivatives before pullback;
+derivatives of ray and adjoint variables are total derivatives along $\bar X$.
+Spatial derivatives act only on the fields. Let $X=X_1$, $v=v_1$ be the known first-order
+orthonormal ray, and let $X_j,v_j$ denote only the part of $X_2,v_2$ linear in $j$.
+Since $\zeta^{(2)}=0$, their equations and observer data are
+\begin{equation}\label{eq:prop-linear-ray}
+ X_j'=v_j+\tfrac12jn,\qquad
+ v_j'=G_j=\tfrac12Pj'n+\tfrac12[\nabla j_{nn}-(n\cdot\partial)(jn)],\qquad
+ X_j(o)=v_j(o)=0.
+\end{equation}
+The lapse $m$ does not deflect conformal null rays; it enters this sector only through the
+physical emission surface and observer clock. Put
+\begin{equation}\label{eq:prop-bilinear}
+ \mathfrak B[h,j]=\int_e^o\left[
+ \tfrac12X\cdot\nabla j'_{nn}-j'(n,v)
+ +\tfrac12X_j\cdot\nabla h'_{nn}-h'(n,v_j)\right]\dd t.
+\end{equation}
+The cubic bulk contribution linear in $j$ is $3\mathfrak B[h,j]$ in the full-field Taylor
+convention. Kernel polarisation instead gives the sum over its three single--pair partitions,
+with no extra factor three.
+
+\begin{proposition}[Propagation adjoint]\label{prop:propagation-adjoint}
+Define first-order-only functions
+\begin{gather*}
+ r=\tfrac12\nabla h'_{nn},\qquad s=-Ph'n,\qquad W=v+\tfrac12P\boldsymbol K,\\
+ \boldsymbol R(t)=\int_e^t r(u)\dd u,\qquad
+ \boldsymbol K(t)=\int_e^t[s(u)-\boldsymbol R(u)]\dd u.
+\end{gather*}
+Then the unknown second-order ray can be eliminated exactly:
+\begin{equation}\label{eq:prop-adjoint-first}
+ \mathfrak B[h,j]=\int_e^o\left[
+ \tfrac12X\cdot\nabla j'_{nn}-j'(n,v)
+ -\tfrac12\boldsymbol R\cdot jn-\boldsymbol K\cdot G_j\right]\dd t.
+\end{equation}
+A further integration by parts removes all partial time derivatives of $j$ from the bulk:
+\begin{equation}\label{eq:prop-adjoint-bulk}
+\boxed{\begin{aligned}
+ \mathfrak B[h,j]={}&
+ [\tfrac12X\cdot\nabla j_{nn}-W\cdot jn]_e^o\\
+ &+\int_e^o\left\{
+ \tfrac12X\cdot\nabla(n\cdot\partial)j_{nn}
+ -\tfrac12(X'+P\boldsymbol K)\cdot\nabla j_{nn}\right.\\
+ &\hspace{19mm}\left.-v\cdot(n\cdot\partial)(jn)
+ +(W'-\tfrac12\boldsymbol R)\cdot jn\right\}\dd t.
+\end{aligned}}
+\end{equation}
+Only first-order ray and adjoint functions and the second-order metric remain. In particular,
+$\boldsymbol R$ must not be projected transversely in its coupling to $jn$: the coordinate
+displacement has a longitudinal part even though $v_j$ is transverse.
+\end{proposition}
+\begin{proof}
+Differentiate $\boldsymbol R\cdot X_j+\boldsymbol K\cdot v_j$ and use
+\eqref{eq:prop-linear-ray}. Its derivative is
+$r\cdot X_j+s\cdot v_j+\boldsymbol R\cdot jn/2+\boldsymbol K\cdot G_j$.
+Its endpoint values vanish, because the adjoints vanish at $e$ and the ray responses at $o$.
+This proves \eqref{eq:prop-adjoint-first}. In the remaining $j'$ terms use
+$\partial_tj=\dd j/\dd t+(n\cdot\partial)j$ on the background ray. The longitudinal
+$\boldsymbol K$ pieces cancel between the two spatial-derivative terms, leaving
+\eqref{eq:prop-adjoint-bulk}. The resulting metric boundary is \emph{not} zero:
+at $o$, $X=v=0$ but $W=P\boldsymbol K/2$ need not vanish.
+\end{proof}
+
+\paragraph{Emission, physical clock and normalisation.}
+Define $F_h=h'_{nn}/2$, $F_j=j'_{nn}/2$,
+$U_h=\int_e^oF_h\dd t$, $U_j=\int_e^oF_j\dd t$ and
+\[
+ \mathcal C[m]=\frac{-\bar t_I^2m(\bar t_I,0)-\int_{\bar t_I}^otm(t,0)\dd t}{o}.
+\]
+This is the part of $D_2$ linear in $m$, not an additional clock correction.
+The complete composed-exponent contribution of this sector is
+\begin{equation}\label{eq:prop-complete-sector}
+ \widehat I_3\big|_{2}=3\mathfrak D_2,\qquad
+ \mathfrak D_2=\mathfrak B[h,j]
+ +[eF_hm-F_jd_1]_e+D_1\partial_oU_j+\mathcal C[m]\partial_oU_h.
+\end{equation}
+Here $d_1=-e\nu_1(e,\bar X_e)$, and $D_1$ is the original physical-clock coefficient.
+The $\partial_o$ derivatives include all background-ray and upper-limit dependence, with
+$e$ fixed. After centring, the corresponding full normalised-map contribution is
+\begin{equation}\label{eq:prop-normalized-sector}
+ \Theta^{(3)}\big|_2=3\mathsf P_0\left[
+ -\mathfrak D_2+(U_h-\sky{U_h})(U_j-\sky{U_j})\right].
+\end{equation}
+Thus the second-order-map normalisation product cannot be discarded. The dipole is still
+retained in that product. All terms made only of first-order fields, including the mixed
+clock--emission product in \eqref{eq:cubic-composed}, remain outside this isolated sector and
+must be added as before. The Fermi--Walker correction is also first-order-field-only at this
+map order; it does not add a $j$-dependent term here.
+
+\paragraph{An evaluated shell emission contraction.}
+The emission part of this sector already fits the nine-moment construction. Let
+$\mathcal C_S(t)=\langle q_SS_2+q_TT_2\rangle_\mu$ (so $\Upsilon=\mathsf a\mathcal C_S$),
+$Q_k=\hat k\hat k-\delta/3$. After polarising the full cubic expression and averaging over
+$\hat q$, the emission-exponent kernel is exactly
+\begin{equation}\label{eq:prop-emission-moments}
+ \overline{\mathcal I_{3,e}\big|_2}(k;n)
+ =\frac e2\left[
+ \mathsf b'(n_h+3N_2-N_0)+3\mathsf a\mathcal C_S'
+ \right]_e Q_{k,nn}\,e^{ik\cdot n(o-e)}.
+\end{equation}
+Indeed the two mixed partitions share one emission time, so their phases combine to the
+external phase. The azimuthal averages are
+$\overline{Q_q}=P_2(\mu)Q_k$ and
+$\overline{H_2(k,q)}=\tfrac32(q_SS_2+q_TT_2)Q_k$.
+The homogeneous tensor averages to zero and the homogeneous lapse remains.
+For $\ell\ge2$, its temperature-transfer contribution is
+\[
+ \mathcal A_{\ell,e}\big|_2
+ =\frac e2 w_\ell(k(o-e))
+ [\mathsf b'(n_h+3N_2-N_0)+3\mathsf a\mathcal C_S']_e.
+\]
+The sign follows from $\Theta=-I$ at linear order in an exponent kernel and the
+$Q_{k,nn}$ Funk--Hecke projection. This contribution can be added to the explicit emission
+boundary of \eqref{eq:adjoint-nine-moment}; no identity setting their sum to zero is asserted.
+
+\paragraph{What this does and does not settle.}
+The bulk reduction and complete sector \eqref{eq:prop-complete-sector} are checked exactly
+in \path{solution/check_propagation_adjoint.py}: matrix-exponential driver, arbitrary
+plane-wave jets, ray duality, boundary and clock coefficients, centring algebra and shell
+emission projections, with omission controls. It does not evaluate the full propagated
+$13$ response. In a mixed-time product, for example,
+\[
+ (k+q)\cdot n(o-t)-q\cdot n(o-u)
+ =k\cdot n(o-t)+q\cdot n(u-t).
+\]
+The second phase is present unless $u=t$. Consequently the finite nine polynomial moments
+proved for the top-order fields and shared-time emission terms cannot simply be assumed to
+close the remaining propagation integrals. No cancellation of the full cubic response or
+late-time limit is proved. The new target is the combination of
+\eqref{eq:adjoint-nine-moment}, \eqref{eq:prop-adjoint-bulk}, the clock terms and the remaining
+first-order-only products, with the displayed physical boundaries retained.
