@@ -311,7 +311,11 @@ not cancel. The $\kappa^2$ term is the leading result $-12\tau^2(g^2\mathsf A+g\
 Einstein--radiation curvature calculation (\path{solution/check_cubic_curvature_hand.py}) as a
 polynomial identity in six independent momentum components and all five quadrupole components,
 with symbolic $e,o,\iota$; the shell contraction reproduces the known weighted
-$\frac13C_2^{(13)}$ through $O(k_0^6)$, including both linear--cubic gradient orderings. This is an
+$\frac13C_2^{(13)}$ through $O(k_0^6)$, including both linear--cubic gradient orderings. Independently of every analytic route, the validated forward map of
+\S\ref{sec:stationary-validation} reproduces both coefficients of \eqref{eq:stationary-four-gradient}:
+$\kappa^2$ to $1.3\times10^{-9}$ and $\kappa^4$ to $1.6\times10^{-7}$, at $\iota=0.5$ and $\iota=1$. Their
+difference confirms the observer-local $-567\iota^4/3402$ term to $10^{-6}$
+(\path{solution/numerics/check_kappa4_shell.py}; numerical, not evidence). This is an
 exact gradient-coefficient identity, not a finite-wavelength or all-multipole result.
 
 \paragraph{The exact dilation channel.} For one finite momentum and two exactly zero momenta,
@@ -507,6 +511,44 @@ response. It is checked through the constraint identities at third order (above)
 measurement part, by the off-shell assembly of \S\ref{sec:stationary}. It is not an evaluation
 of the remaining integrals.
 
+\subsection{Finite-wavelength validation (numerical, not evidence)}\label{sec:stationary-validation}
+The analytical statements above do not rest on numerics. To test the assembled representation
+away from the gradient expansion, \path{solution/numerics/compare_cubic_quadrupole.py} compares
+\eqref{eq:combined} with an independent forward calculation
+(\path{solution/numerics/forward_cubic.py}) at $\bar t_\star=1.2$, $\bar t_o=3$, $\bar t_I=0.5$,
+$|k|\simeq1$, so that $|k|\bar t_o\approx3$.
+\begin{itemize}
+\item \emph{Forward side.} The fields are solved through third order from (N) and the Cartesian (T)
+  rows with the initial row. The constraint rows are not used. The Fermi--Walker triad is
+  transported with $\dd E/\dd t=-SE$, and the photon geodesic is integrated by multilinear Picard
+  iteration. The emission and clock roots and the exact normalisation follow. Time integrals are
+  spectral and sky averages use Gauss quadrature.
+\item \emph{Assembled side.} $J_{111}$ is the repository's second-ray-free direct measurement,
+  with its nested integrals evaluated by quadrature. $S_{\rm meas}$ is
+  \eqref{eq:measurement-source}, and $J_{\rm lin}$ is \eqref{eq:combined-linear}.
+\end{itemize}
+For three triples the two sides of \eqref{eq:combined} agree to $\le3\times10^{-9}$:
+a noncoplanar triple with unequal frequencies, a triple with an exactly zero pair momentum, and
+one with $|k_b+k_c|=0.05$. The pieces themselves are of order one to ten. In addition:
+\begin{itemize}
+\item $J_{111}$ agrees with the forward first-field-only map to $\le3\times10^{-8}$;
+\item $J_{\rm lin}$ in constraint rows agrees with the Cartesian third-order field to $4\times10^{-14}$;
+\item the forward map reproduces the exact channel \eqref{eq:dilation-channel} to $4\times10^{-8}$;
+\item the no-probe-ray Hessian alone matches the forward mixed response to $10^{-9}$.
+\end{itemize}
+Two controls are resolved: replacing the Fermi--Walker triad by the symmetric one changes the
+generic-triple value by $9\times10^{-5}$, and dropping the clock changes it by $0.24$.
+
+\paragraph{What survives the observer dilation.} With the exact observer-centred identity of
+\S\ref{sec:obs-dilation}, $\mathcal K_3=\mathcal K^c_3-\sum_{\rm pairs}\mathfrak D\mathcal K_2
+-\sum_a\mathfrak D^2\mathcal K_1$, the same code isolates the genuinely cubic observer-centred kernel.
+For the noncoplanar triple it is $0.9\%$ of $\mathcal K_3$: $+0.063$ of $-6.759$. For the
+configuration $(k,q,-q)$ that enters $C^{(13)}$ it is $33\%$: $-2.29$ of $-6.89$. So at finite
+wavelength the dilation of the linear and quadratic maps carries most of the cubic response, but
+not all of the part that enters the spectrum. Prop.~\ref{prop:obs-dilation} converts that dilation
+part into $\frac12\sigma^2D^2C^{(11)}$ and a total derivative. The shell values are in
+App.~\ref{app:numerics}.
+
 \subsection{What remains on this route}\label{sec:stationary-open}
 \begin{itemize}
 \item The background blocks are combined (Prop.~\ref{prop:combined}). Still open is a search for
@@ -515,10 +557,11 @@ of the remaining integrals.
   sky means. Only $J_{111}$ still has three-time terms. Arbitrary time-dependent weights cannot be
   replaced by parameter derivatives; the resolvent identity $\partial_aG=-G(\partial_aL)G$
   applies only to dilation-type weights.
-\item An independent finite-wavelength comparison of the assembled cubic quadrupole with a
-  forward field-and-photon calculation, for noncoplanar unequal-frequency triples including
-  zero and near-zero pair momenta. The four-gradient identity
-  \eqref{eq:stationary-four-gradient} and the homogeneous fixtures do not substitute for it.
-\item Evaluation of the surviving shell time and momentum integrals, keeping the homogeneous
-  lapse and its initial row and combining both fourth-order spectrum contributions.
+\item An analytical (not numerical) finite-wavelength comparison of \eqref{eq:combined} with the
+  forward map beyond four gradients. The numerical comparison of
+  \S\ref{sec:stationary-validation} is validation only.
+\item Analytical evaluation of the surviving shell time and momentum integrals. By
+  Prop.~\ref{prop:obs-dilation} and \S\ref{sec:stationary-validation}, the target is the
+  observer-centred part, including the homogeneous lapse and its initial row; the dilation part
+  is already a derivative of $C^{(11)}$ and of the quadratic map.
 \end{itemize}

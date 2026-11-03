@@ -182,8 +182,17 @@ same compatibility holds (checked through `t¹⁰` for noncoplanar, zero- and ne
 triples). The four background blocks therefore collapse to one acoustic/local/wave pairing
 with the full cubic source. The complete cubic response becomes
 `J₁₁₁ − Σ S_meas[y_bc] + J_lin[y₃]`, with closed-form second-order fields, no first field
-adjoint and no hyperbolic kernel. Only `J₁₁₁` still has three-time terms. The PDF in the
-repository has not been regenerated from the updated TeX.
+adjoint and no hyperbolic kernel. Only `J₁₁₁` still has three-time terms.
+
+**Finite-wavelength validation (numerical, not evidence).**
+`solution/numerics/compare_cubic_quadrupole.py` compares this assembled cubic quadrupole with an
+independent forward calculation. The forward side solves the fields from the evolution equations
+alone and transports the photon and Fermi–Walker triad, with physical roots, clock and exact
+normalisation. Agreement is `≤3e-9` for noncoplanar, zero-pair and near-zero-pair triples at
+`|k|t̄_o ≈ 3` (about 10 minutes). `observer_centred.py` shows that at finite wavelength the dilation
+of the linear and quadratic maps carries most of the cubic response (99% for a generic triple, 67%
+for `(k,q,−q)`). `shell_c13.py` evaluates the shell ratio `(1/3)C₂⁽¹³⁾/σ²C₂⁽¹¹⁾` (App. A). The PDF
+in the repository has not been regenerated from the updated TeX.
 
 ## Setup and reproduction
 

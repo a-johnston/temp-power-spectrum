@@ -2343,6 +2343,7 @@ Angular closure; Green blocks & \path{solution/check_entire_sphere.py} (120 mome
 Four-gradient cubic quadrupole & \path{solution/check_quadrupole_adjoint_expansion.py}; \path{check_stationary_quadrupole_four_gradients.py --symbolic}: the uncontracted cubic quadrupole equals the independent curvature reference as a polynomial in six momentum components, all five components, symbolic times; shell value \eqref{eq:stationary-four-gradient}; known $\frac13C_2^{(13)}$ through $O(k_0^6)$\\
 Dilation channel & \path{solution/check_dilation_ward.py}: source and initial-row identities with the engine at symbolic momentum and arbitrary profiles; phase identity at arbitrary momentum and times; algebraic stationary Ward fixture\\
 Constraint rows (Props.~\ref{prop:compat}--\ref{prop:shell-acoustic}) & \path{solution/check_constraint_rows.py}: \eqref{eq:compat-1}--\eqref{eq:compat-2} exactly for a physical pair at unequal momenta (failing off shell); projector and transpose; shell $\mathfrak m$, $c_r$, $\mathcal I$ and the local scalar identity; the evaluated kernel $\mathcal G$; \eqref{eq:shell-acoustic} against the hyperbolic Cartesian solution through $O(t^{16})$; $K\cdot A=V$ for an unequal pair through $O(t^{10})$, with a wrong-initial-row control; at third order, with physical second-order fields, \eqref{eq:compat-1}--\eqref{eq:compat-2} and $K\cdot A_3=V_3$ through $O(t^{10})$ for noncoplanar unequal, zero-pair and near-zero-pair triples, with a control\\
+Finite-wavelength cubic quadrupole (numerical validation, not evidence) & \path{solution/numerics/compare_cubic_quadrupole.py}: independent forward map (fields from (N),(T) only, Fermi--Walker triad, geodesic, roots, clock, normalisation) against \eqref{eq:combined} for noncoplanar unequal, zero-pair and near-zero-pair triples, agreement $\le3\times10^{-9}$; $J_{111}$ formula, Hessian, constraint rows and dilation channel separately; frame and clock controls. \path{observer_centred.py}, \path{shell_c13.py}: observer-centred split and shell ratios (App.~\ref{app:numerics})\\
 Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
 \bottomrule
 \end{longtable}
@@ -2634,6 +2635,32 @@ at $x_o=1$--$1.5$ and at $3$--$4$. Convergence of the cubic term: at $x_o=3$ it 
 digits under $16\to24$ $\mu$ nodes and under a finer sphere ($20\to28$ polar nodes) and ray
 ($300\to450$) grid. At $x_o=4$ it is stable to five digits under $16\to24$ $\mu$ nodes and to
 four digits under a finer sphere ($24\to32$) and ray ($400\to600$) grid.
+
+\paragraph{Independent recomputation of the cubic term.} The validated forward map of
+\S\ref{sec:stationary-validation}, in \path{solution/numerics/shell_c13.py}, recomputes the
+shell ratio
+\[
+ \frac{\frac13\operatorname{Re}C^{(13)}_2}{\sigma^2C^{(11)}_2}=\frac{\ens{\mathcal K_3(k,q,-q)}_{\hat q}}{\mathcal K_1(k)}
+\]
+on the fixed-ratio trajectory. Unlike the calculation above, it keeps all three sectors of $A_3$,
+the Fermi--Walker frame, and fields solved without the Hamiltonian-algebraic scalar. It gives:
+\begin{center}
+\begin{tabular}{rrrrr}
+\toprule
+$x_o$ & $\mu$ nodes & $\frac13\operatorname{Re}C^{(13)}_2/\sigma^2C^{(11)}_2$ & table above & observer-centred part\\\midrule
+0.3 & 8  & $2.8955$  & $2.895$ & $-0.195$\\
+1   & 12 & $-6.156$  & $-6.13$ & $-2.96$\\
+3   & 10 & $-67.29$  & $-67.5$ & ---\\
+\bottomrule
+\end{tabular}
+\end{center}
+The table-above column is derived from the rounded entries $(C^{(4)}_2-\frac14C^{(22)}_2)/C^{(11)}_2$.
+Its linear quadrupole reproduces $C^{(11)}_2=\frac{4\pi}{25}\mathcal K_1^2$ ($0.0258$ and $0.116$). The two
+independent implementations agree to the printed precision. The last column is
+$\ens{\mathcal K^c_3}/\mathcal K_1$ from Prop.~\ref{prop:obs-dilation}; the rest is the dilation part. It grows
+from $7\%$ of the cubic term at $x_o=0.3$ to about half at $x_o=1$. This is consistent with
+$\mathcal K^c_3(k,q,-q)=0$ at leading gradient order and quantifies its breakdown inside the
+horizon. As before, these are numbers, not analytical evaluations.
 
 \paragraph{Amplitude-level recombination (exploratory).}
 To locate the cancellations, split the second-order log-map kernel into pieces $P_i$ and
