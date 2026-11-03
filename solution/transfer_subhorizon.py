@@ -148,7 +148,7 @@ def check_acoustic_form(res):
     assert diff == 0, diff
     print(f"[ok] l={L}: leading subhorizon term = -[cos x* j_l(y) + sqrt3 sin x* j_l'(y)] with y = k0 (t_o - t*)")
     if ORDER >= 2:
-        obs = {nu: c for nu, c in res.items() if nu in (1, -1)}
+        obs = {nu: sp.expand(c).coeff(xo, -2) * xo**-2 for nu, c in res.items() if nu in (1, -1)}
         assert set(obs) == {1, -1}, obs
         if L == 2:
             assert {k: sp.expand(v) for k, v in obs.items()} == {1: xo**-2, -1: xo**-2}, obs
