@@ -128,6 +128,15 @@ session; three passes), with no errors or undefined references and one negligibl
   `⟨K^c₃(k,q,−q)⟩ = k⁴[4(e−o)(12e³−8e²o+7eo²+7o³) + 5(o⁴−ι⁴)]/270 + O(k⁶)`.
   The κ² term cancels identically. The result agrees with the numerical value at x_o=0.3. It splits
   into a propagation part, which vanishes as e→o, and a pure observer-clock part, (o⁴−ι⁴)/54.
+- **Complete observer-dilation decomposition at O(ε⁴k₀⁶)** (`check_observer_dilation_k6.py`,
+  Prop. `obs-dilation` remark "Next gradient order"):
+  - the dilation term is 18 C₂⁽¹¹⁾[k₀⁶] and centred 22 is (28/3) C₂⁽¹¹⁾[k₀⁶] (against 8 and 5/3 at
+    leading order);
+  - centred 13 is (4π/25)(δ/9)⟨K^c₃⟩;
+  - the cross term is −8πδ(204e⁴−280e³o+210e²o²−89o⁴−45ι⁴)/91125;
+  - the four pieces sum exactly to the known coefficient. The ι⁴ (observer-local) dependence lives
+    only in centred 13 and the cross term, which is where to look for the 2.2% disagreement in the
+    other agents' report.
 - **Remark `rem:k3`** (causal generation of superhorizon power; the answer to the author's question)
   is now in §"General spectra".
 

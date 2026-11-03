@@ -1328,9 +1328,22 @@ Three remarks place this result.
   part is the $\frac53$, and the centred $13$ part and the cross term vanish. The
   decomposition \eqref{eq:obs-dilation} is the finite-$k_0$ extension of
   \eqref{eq:sh-dilation-factorised}.
-\item \emph{Next gradient order.} The first nonzero centred cubic coefficient is evaluated
-  exactly in \eqref{eq:centred-kappa4}. The centred $13$ part is therefore not zero beyond leading
-  order.
+\item \emph{Next gradient order.} Every term of \eqref{eq:obs-dilation} is evaluated exactly at
+  $O(\eps^4k_0^6)$ for $\ell=2$ (shell, $\sigma=k_0=1$, $\delta=\bar t_o^2-\bar t_\star^2$). The
+  inputs are the four-gradient hand map, the linear transfer and \eqref{eq:centred-kappa4}:
+  \begin{align*}
+   \tfrac{\sigma^2}2D^2C^{(11)}_2&=18\,C^{(11)}_2\big|_{k_0^6},\qquad
+   C^{c,22}_2=\tfrac{28}3\,C^{(11)}_2\big|_{k_0^6},\\
+   C^{c,13}_2&=\tfrac{4\pi}{25}\,\tfrac{\delta}{9}\,\ens{\mathcal K^c_3}_{k_0^4},\qquad
+   -2D_{k_0}X_2=-\tfrac{8\pi\delta}{91125}\big(204e^4-280e^3o+210e^2o^2-89o^4-45\iota^4\big).
+  \end{align*}
+  At leading order the dilation and centred-$22$ coefficients are $8$ and $\frac53$ in units of
+  $C^{(11)}$. Here they are $18$ and $\frac{28}3$ in units of the $k_0^6$ coefficient of $C^{(11)}_2$:
+  the centred $22$ part is still exactly proportional to the linear spectrum at this order. The
+  observer-local $\iota^4$ dependence sits only in the centred $13$ part and the cross term. The four
+  pieces sum to the known complete coefficient
+  $-2\pi\delta(38856e^4-64640e^3o+48480e^2o^2-18601o^4-4095\iota^4)/1913625$, with $e=\bar t_\star$,
+  $o=\bar t_o$, $\iota=\bar t_I$ (check: \path{solution/check_observer_dilation_k6.py}).
 \item \emph{Status.} No analytical statement is made here about the relative size of the
   three terms at finite $k_0$. In the sampled configurations of the exploratory appendix
   (App.~\ref{app:numerics}, not evidence), the dilation term is not dominant. Whether the
@@ -2368,7 +2381,7 @@ Angular closure; Green blocks & \path{solution/check_entire_sphere.py} (120 mome
 Four-gradient cubic quadrupole & \path{solution/check_quadrupole_adjoint_expansion.py}; \path{check_stationary_quadrupole_four_gradients.py --symbolic}: the uncontracted cubic quadrupole equals the independent curvature reference as a polynomial in six momentum components, all five components, symbolic times; shell value \eqref{eq:stationary-four-gradient}; known $\frac13C_2^{(13)}$ through $O(k_0^6)$\\
 Dilation channel & \path{solution/check_dilation_ward.py}: source and initial-row identities with the engine at symbolic momentum and arbitrary profiles; phase identity at arbitrary momentum and times; algebraic stationary Ward fixture\\
 Constraint rows (Props.~\ref{prop:compat}--\ref{prop:shell-acoustic}) & \path{solution/check_constraint_rows.py}: \eqref{eq:compat-1}--\eqref{eq:compat-2} exactly for a physical pair at unequal momenta (failing off shell); projector and transpose; shell $\mathfrak m$, $c_r$, $\mathcal I$ and the local scalar identity; the evaluated kernel $\mathcal G$; \eqref{eq:shell-acoustic} against the hyperbolic Cartesian solution through $O(t^{16})$; $K\cdot A=V$ for an unequal pair through $O(t^{10})$, with a wrong-initial-row control; at third order, with physical second-order fields, \eqref{eq:compat-1}--\eqref{eq:compat-2} and $K\cdot A_3=V_3$ through $O(t^{10})$ for noncoplanar unequal, zero-pair and near-zero-pair triples, with a control\\
-Observer-centred cubic at $\kappa^4$ (\eqref{eq:centred-kappa4}) & \path{solution/check_observer_centred_kappa4.py}: exact; leading cancellation asserted; uses the independent four-gradient quadratic hand map\\
+Observer-centred cubic at $\kappa^4$ (\eqref{eq:centred-kappa4}) & \path{solution/check_observer_centred_kappa4.py}: exact; leading cancellation asserted; uses the independent four-gradient quadratic hand map. \path{solution/check_observer_dilation_k6.py}: all four terms of \eqref{eq:obs-dilation} at $O(k_0^6)$, summing to the known complete coefficient\\
 Finite-wavelength cubic quadrupole (numerical validation, not evidence) & \path{solution/numerics/compare_cubic_quadrupole.py}: independent forward map (fields from (N),(T) only, Fermi--Walker triad, geodesic, roots, clock, normalisation) against \eqref{eq:combined} for noncoplanar unequal, zero-pair and near-zero-pair triples, agreement $\le3\times10^{-9}$; $J_{111}$ formula, Hessian, constraint rows and dilation channel separately; frame and clock controls. \path{observer_centred.py}, \path{shell_c13.py}: observer-centred split and shell ratios (App.~\ref{app:numerics})\\
 Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
 \bottomrule
