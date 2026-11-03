@@ -16,7 +16,9 @@ Established here:
 
 **Follow-up:** the complete first field-adjoint source is now assembled in [`first_field_adjoint_source.md`](first_field_adjoint_source.md), with finite matrix coefficients and a specified regular Green reconstruction. Its implementation is `solution/unified_adjoint_source.py`, checked by `solution/check_first_field_adjoint_source.py`. The first spatial adjoint has an explicit observer trace and emission jump; the frame's cubic contribution is retained separately.
 
-**Not established:** evaluation of those reconstruction integrals, assembly of the complete cubic observable by this route, or a full finite-wavelength cancellation/newly evaluated spectrum. The fixture below is not a radiation solution and is not used as physical evidence.
+**Cubic continuation:** `stationary_cubic_assembly.md` now specifies the full stationary functional and its direct first-field-only measurement term, eliminating the remaining second ray and preserving the physical frame boundary.
+
+**Not established:** evaluation of the reconstruction/sky integrals, an independent full Einstein–radiation cubic comparison, or a full finite-wavelength cancellation/newly evaluated spectrum. The fixture below is not a radiation solution and is not used as physical evidence.
 
 Checks for this initial stage: `solution/check_unified_adjoint.py`.
 
@@ -516,8 +518,8 @@ The stationary cubic response is compared with independent exact amplitude expan
 
 The first response-elimination milestone is established algebraically. The follow-up `first_field_adjoint_source.md` has now assembled the field-operator variation and complete measurement Hessian, with emission/observer/clock functionals and the separate frame sector. It also specifies the regular Green reconstruction. The remaining substantive work is:
 
-1. Substitute this first field adjoint, together with the geometric and measurement adjoints, into the polarized cubic identity (5). Retain the direct third residual and nonlinear initial matching terms (8f), not just the single–pair terms.
-2. Compare the assembled cubic functional with the existing independent observable construction, clearly distinguishing arbitrary-jet identities, finite-series tests and finite-wavelength results.
+1. Specialize the explicit cubic functional now given in `stationary_cubic_assembly.md` and its first-adjoint Green terms to the shell partitions, retaining the direct third residual and nonlinear initial matching terms (8f).
+2. Compare the fully assembled Einstein–radiation cubic functional with the existing independent observable construction. The follow-up already checks the complete measurement sector against independent off-shell endpoint energies; that does not replace the physical field/observable comparison. Distinguish arbitrary-jet identities, finite-series tests and finite-wavelength results.
 3. Perform the shell contraction and angular integrals, keeping the homogeneous lapse and the physical boundary traces from the first adjoint.
 4. Determine whether the remaining Green integrals cancel or reduce. The first adjoint response can carry the same internal-momentum structure as a second-order state, so removing `y_2,y_3` does not by itself remove resonant dynamics or mixed-time phases.
 

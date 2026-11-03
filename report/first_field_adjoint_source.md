@@ -11,7 +11,9 @@ This continues `unified_adjoint_working_note.md`. The previously unassembled fir
 
 Everything below is at arbitrary finite time and general momenta. No shell restriction or time expansion is used. All spatial coefficient operations are finite polynomials in the momenta; homogeneous probes are included without projectors. The regular Green map gives a fully specified integral reconstruction of the first field adjoint in §6.
 
-**Limits:** the reconstruction integrals have not been evaluated into new closed angular/time kernels, and the complete cubic observable has not yet been assembled by this route. In particular, this does not establish a full finite-wavelength cancellation or a newly evaluated spectrum.
+**Continuation:** `stationary_cubic_assembly.md` now assembles the arbitrary-triple stationary functional, including the direct first-field-only measurement contribution and its explicit frame boundary.
+
+**Limits:** the reconstruction integrals have not been evaluated into new closed angular/time kernels, and an independent full Einstein–radiation cubic comparison remains open. In particular, this does not establish a full finite-wavelength cancellation or a newly evaluated spectrum.
 
 Implementation: `solution/unified_adjoint_source.py`.
 Exact checks: `solution/check_first_field_adjoint_source.py`.
@@ -488,4 +490,4 @@ There is no quadrature, finite time-series evidence or numerical physical model 
 
 The new script and ten existing targeted regressions passed, including `check_unified_adjoint.py`, the propagation/Cartesian Green/observable expansion checks, `check_shell_cubic_sources.py --compare-engine`, and `foundations/check_fw_conformal.py`. Ruff lint/format, project type checking, shell syntax and whitespace checks also passed. The full long-running repository suite was not rerun. These are working research notes; the main report PDF was not changed by this step.
 
-**Next:** evaluate the polarized stationary cubic functional using this first field source and the already identified geometric/measurement adjoint blocks, retain the direct third residual and initial-data terms, and compare the result with the independent cubic observable construction. The source assembly is now complete; any further physical cancellation or angular-kernel reduction remains to be demonstrated.
+**Next:** specialize and evaluate the polarized stationary functional now specified in `stationary_cubic_assembly.md`, using this first field source and retaining the direct third residual and initial-data terms. Its complete measurement sector has an independent off-shell cubic check, but comparison of the full Einstein–radiation observable and any further physical cancellation or angular-kernel reduction remain open.

@@ -110,7 +110,19 @@ nonzero observer trace and an emission jump. The frame's first adjoint and cubic
 pairing are kept separately. `solution/check_first_field_adjoint_source.py` checks the field
 coefficients against the independent Christoffel engine and the complete source/Green algebra.
 The reconstruction integrals and complete cubic spectrum are **not** yet evaluated by this
-route. These working results are not additional completion claims for the main PDF.
+route.
+
+The continuation [`report/stationary_cubic_assembly.md`](report/stationary_cubic_assembly.md)
+assembles the arbitrary-triple stationary functional, including its direct first-field-only
+measurement term, with no second physical fields or second ray responses. It retains the
+frame boundary, physical roots, second clock, mixed clock–emission products and exact
+normalization. The direct cubic temporal field commutators vanish pointwise on the
+monochromatic shell. `solution/stationary_cubic.py` implements the assembly;
+`solution/check_stationary_cubic.py` checks arbitrary local jets and independently compares
+the full cubic measurement with conserved-photon-momentum endpoint energies in an off-shell
+anisotropic metric. This is **not** a new Einstein–radiation spectrum evaluation: the full
+physical cubic comparison and mixed-time integral reduction remain open. These working
+results are not additional completion claims for the main PDF.
 
 ## Setup and reproduction
 
@@ -120,6 +132,7 @@ uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools
 .venv/bin/python -B solution/check_propagation_adjoint.py
 .venv/bin/python -B solution/check_unified_adjoint.py
 .venv/bin/python -B solution/check_first_field_adjoint_source.py
+.venv/bin/python -B solution/check_stationary_cubic.py
 solution/run_all.sh         # the exact checks; uses .venv by default (override with PYTHON=...)
 .venv/bin/python -B solution/curvature_kernels.py --spectrum  # cache-free map + spectra, seconds
 .venv/bin/python -B solution/curvature_kernels.py --compare   # optional: needs saved legacy kernels
