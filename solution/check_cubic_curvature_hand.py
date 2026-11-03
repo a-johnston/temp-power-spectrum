@@ -15,11 +15,14 @@ o, e, ti = s.symbols("o e ti", real=True)
 nx, ny, nz = s.symbols("nx ny nz", real=True)
 n = (nx, ny, nz)
 I = s.I
+SHELL_REDUCTION: bool = True  # curvature_kernels temporarily disables the unit-shell relation
 momenta = ((1, 0, 0), (mu, v, 0), (-mu, -v, 0))
 K = [tuple(sum(momenta[a][j] for a in range(3) if mask & (1 << a)) for j in range(3)) for mask in range(8)]
 
 
 def simp(x):
+    if not SHELL_REDUCTION:
+        return s.expand(x)
     return s.Poly(s.expand(x), v).rem(s.Poly(v * v + mu * mu - 1, v)).as_expr().expand()
 
 
@@ -102,7 +105,8 @@ def qaverage(x):
     return s.integrate(x, (mu, -1, 1)) / 2
 
 
-def main():
+def geometry():
+    """Build local curvature jets, independently of the Fourier/ray engines."""
     g = J({1: s.S.One, 2: s.S.One, 4: s.S.One})
     dg = [g.d(i) for i in range(3)]
     lapg = sum(g.d(i).d(i) for i in range(3))
@@ -174,6 +178,13 @@ def main():
         "[ok] local fourth-gradient field and Cotton identities from direct covariant derivatives, through cubic amplitude",
         flush=True,
     )
+    return C, DC, DDC, A, A2, aA, B, HessaTF, A2TF
+
+
+def map_pieces(data):
+    """Unprojected map through four gradients; coefficients exact in amplitude."""
+    C, DC, DDC, A, A2, aA, B, HessaTF, A2TF = data
+    em4 = expg(-4)
     DnnA = em4 * sum(
         n[k] * n[l] * n[i] * n[j] * DDC[k][l][i][j] for k in range(3) for l in range(3) for i in range(3) for j in range(3)
     )
@@ -189,6 +200,20 @@ def main():
         "clock": ((o**4 + 3 * ti**4) / 4, nn(aA)),
     }
     leading = nn(A) * (-Delta / 2)
+    # Covariant Taylor term along the seed radial geodesic. It contains both
+    # dipole and octupole; retain the dipole until the complete map is built.
+    Jtime = o**3 / 6 - o * e**2 / 2 + e**3 / 3
+    odd = -Jtime * expg(-3) * sum(n[k] * n[i] * n[j] * DC[k][i][j] for k in range(3) for i in range(3) for j in range(3))
+    return leading, odd, pieces
+
+
+def main():
+    data = geometry()
+    _, _, _, _, _, _, _, HessaTF, A2TF = data
+    aA = data[5]
+    leading, _, pieces = map_pieces(data)
+    Delta = o * o - e * e
+    L = o**4 / 12 - o * o * e * e / 2 + 2 * o * e**3 / 3 - e**4 / 4
     # The whole even-sky map reduces, in the quadrupole, to only three
     # fourth-gradient tensors. Verify all tensor components for every mask.
     compact4 = (

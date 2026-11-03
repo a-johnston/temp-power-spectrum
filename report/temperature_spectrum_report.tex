@@ -26,7 +26,7 @@
 \newcommand{\code}[1]{\texttt{#1}}
 
 \title{The observed temperature power spectrum through fourth order\\
-in a radiation-only universe: final report}
+in a radiation-only universe: analytical representation and evaluated limits}
 \author{Opus 5.5, Astra 6, Sol 6.1, Meatbag Operator}
 \date{2026-10-31}
 
@@ -34,10 +34,13 @@ in a radiation-only universe: final report}
 \maketitle
 
 \begin{abstract}
-We compute the observed temperature anisotropy through third order, and the angular power
-spectrum through fourth order, in the primordial amplitude~$\eps$. The setting is a flat
-radiation-only universe in general relativity, with Planck test photons emitted on
-$T_{\rm phys}=T_\star$ and an observer on a fluid worldline.
+We construct an analytical integral representation of the observed temperature anisotropy
+through third order and of its angular power spectrum through fourth order in the primordial
+amplitude~$\eps$. The general finite-wavelength fourth-order spectrum is \emph{not evaluated
+in closed form}. Evaluated results include the linear transfer, second-order field kernels,
+and specified long-wavelength coefficients. The setting is a flat radiation-only universe in
+general relativity, with Planck test photons emitted on $T_{\rm phys}=T_\star$ and an observer
+on a fluid worldline.
 
 The calculation uses the fluid's velocity potential and comoving labels as coordinates
 (\emph{temperature frame}). In these coordinates the observed temperature is an exact line
@@ -114,6 +117,17 @@ The physical model is a perfect radiation fluid with $P=\rho/3$, $\rho=\alpha T_
 and $\Lambda=0$, with Gaussian adiabatic primordial perturbations and no independent
 higher-order modes. The calculation must be analytical and keep every term, with all
 normalisations fixed. A monochromatic specialisation is to be made only at the end.
+
+\paragraph{How to read the completion claims.}
+The problem explicitly permits exact definite-integral answers. In that sense the
+finite-time construction below is an analytical answer, not a numerical surrogate.
+It is not a closed-form evaluation of the general fourth-order spectrum. The general
+cubic map is specified by a finite coefficient-extraction prescription; only the
+$(k,q,-q)$ configuration has an expanded ancillary implementation. Proofs of covariance
+and constraint propagation are distinct from independent substitution tests of that
+implementation. The latter have finite series depth. Late-time fourth order and
+noncompact-spectrum convergence are not established. These qualifications are part of
+the result, not merely computational details; see \S\ref{sec:open}.
 
 \begin{center}
 \begin{longtable}{p{6.4cm}p{8.6cm}}
@@ -703,6 +717,49 @@ Compose with $t_o=\bar t_o+\eps D_1+\eps^2D_2/2+\cdots$:
 All right-hand sides are evaluated at $t_o=\bar t_o$. Equivalently, compose $I$ with this
 same random time first, centre the resulting exponent, and use \eqref{eq:centred-map} once.
 These are alternative procedures, not two clock corrections to be applied successively.
+
+\paragraph{Cubic product identity, before any angular average.}
+In orthonormal directions the full third-order integrand is
+\begin{equation}\label{eq:cubic-orthonormal}
+\begin{split}
+F_3={}&\tfrac12H'_{3,nn}+\tfrac18[H_1,[H_1,H_1']]_{nn}
++\tfrac32X_1\cdot\partial H'_{2,nn}-3H_2'(n,v_1)\\
+&+\tfrac32X_2\cdot\partial H'_{1,nn}
++\tfrac32X_1^iX_1^j\partial_i\partial_jH'_{1,nn}
+-6(X_1\cdot\partial)H_1'(n,v_1)
+-3H_1'(n,v_2)+3H_1'(v_1,v_1).
+\end{split}
+\end{equation}
+Here $H_r'$ is a partial time derivative before pullback; spatial derivatives act on fields
+only. The direction coefficients are those of the \emph{pulled-back} $v$, so the displaced
+frame is already included. Unit norm gives $n\cdot v_1=0$, $n\cdot v_2=|v_1|^2$; thus the
+last two terms can also be written
+$-3H_1'(n,v_{2\perp})+3[H_1'(v_1,v_1)-H'_{1,nn}|v_1|^2]$.
+On the shell the double commutator is zero, but not at general momenta.
+
+For a compact identity including both moving boundaries, set
+$e=\bar t_\star$, $o=\bar t_o$, $U_r(o)=\int_e^oF_r(t;o)\dd t$, and let
+$\widehat I$ be the exponent after clock composition. Then
+\begin{equation}\label{eq:cubic-composed}
+\boxed{\begin{aligned}
+\widehat I_1={}&U_1,\\
+\widehat I_2={}&U_2-2[F_1d_1]_e+2D_1\partial_oU_1,\\
+\widehat I_3={}&U_3-3[F_1d_2+F_2d_1+F_1'd_1^2]_e\\
+&+3D_1\partial_o\{U_2-2[F_1d_1]_e\}
++3D_2\partial_oU_1+3D_1^2\partial_o^2U_1.
+\end{aligned}}
+\end{equation}
+The boundary prime is the total derivative along the background ray. The $\partial_o$
+derivatives include the upper integration limit and every dependence on the background
+observation time, with $e$ fixed; they do not differentiate the clock coefficients outside
+the braces. Centre $\widehat I$ and apply \eqref{eq:centred-map} once. In particular the
+mixed clock--emission product $-6D_1\partial_o[F_1d_1]_e$ must not be omitted.
+These identities hold at finite times and arbitrary momenta. They follow by expanding the
+exact orthonormal driver and composing the moving-lower-limit integral, and are checked in
+\path{solution/check_cubic_product_identity.py} with generic non-commuting matrices and
+independent boundary jets, including omission controls. They close the algebraic cubic
+product identity, not the harder problem of evaluating or cancelling its remaining time
+integrals. The Fermi--Walker term \eqref{eq:fw-map} is still added for a general spectrum.
 
 \paragraph{Fourier dictionary.} For a single mode $a$, with phase $e^{i\lambda k\cdot\nh}$ and
 $\lambda=t_o-t$, $\mu_a=\hat k\cdot\nh$, and
@@ -1313,15 +1370,17 @@ $\dd\mu=4u\,\dd u$ with $u\in[0,1]$. On the shell $K=k_0\sqrt{2(1+\mu)}=2k_0u$ e
   $|V|=K\lambda=2k_0u\lambda$. This covers $\sigma_{ab}$, the emission endpoint and the clock,
   and these become entire functions of $u$ as well.
 \end{itemize}
-The only factor that is not polynomial in $u$ inside entire functions comes from modes at
+A further complication comes from modes at
 \emph{different} line-of-sight times, in the ray-displacement terms and in the products
 $\theta_a\theta_b$. There
 \[
 |V|=k_0\big|\lambda_1\hat k+\lambda_2\hat q\big|=k_0\sqrt{(\lambda_1-\lambda_2)^2+4\lambda_1\lambda_2u^2},
 \]
-and it enters through $j_\ell(|V|)$. The open part of the finite-$k_0$ evaluation is therefore
-localised to these mixed-time sky factors. This is a structural statement, not an
-evaluation.
+and it enters through $j_\ell(|V|)$. These mixed-time sky factors are one obstruction,
+not the only unevaluated part: angular moments of the field amplitudes and nested time
+integrals remain even for single-time sky factors. Entire dependence on a variable proves
+regularity, not existence of an elementary antiderivative. The following separation is a
+structural reorganisation, not an evaluation.
 
 \begin{proposition}[Separated form of the mixed-time sky factors]\label{prop:translation}
 For $V=\lambda_1k+\lambda_2q$ with $\hat k=\hat z$, $\hat k\cdot\hat q=\mu$ and $|k|=|q|=k_0$,
@@ -1372,7 +1431,7 @@ propagation products must be kept, and the uncontracted map $\Theta^{(3)}$ still
 three sectors. The exploratory evaluation in App.~\ref{app:numerics} confirms numerically that
 keeping only the scalar part reproduces the full result.
 
-The scalar problem need not be solved at all: its contribution to the observable passes
+The scalar third-order field need not be solved explicitly: its contribution to the observable passes
 through the Green operator onto the sources. Write
 $\mathcal T_\ell[h](s)=\frac12\int_{\max(s,\bar t_\star)}^{t_o}\partial_th(t)\,w_\ell(k_0(t_o-t))\,\dd t$
 for the partial transfer integral of a scalar metric profile $h$, so that
@@ -1384,9 +1443,12 @@ triangular scheme, and $c=k_0/\sqrt3$.
 On the shell, the part of $\frac13\operatorname{Re}C^{(13)}_\ell$ that is linear in the
 third-order field kernels is
 \[
-\boxed{\tfrac13\operatorname{Re}C^{(13)}_\ell\big|_{\rm top}=4\pi\sigma^4\,T_\ell\,\mathcal A_\ell,\qquad
-\mathcal A_\ell=14\,T_\ell+\int_0^{t_o}\mathcal W^0_\ell(s)\,\bar c_N(s)\,\dd s
-+\frac{3}{2k_0^2}\int_{\bar t_\star}^{t_o}w_\ell(k_0(t_o-t))\,\overline{iK\cdot c_M}(t)\,\dd t,}
+\boxed{\begin{aligned}
+\tfrac13\operatorname{Re}C^{(13)}_\ell\big|_{\rm top}
+&=4\pi\sigma^4\,T_\ell\,\mathcal A_\ell,\\
+\mathcal A_\ell&=14\,T_\ell+\int_0^{t_o}\mathcal W^0_\ell(s)\,\bar c_N(s)\,\dd s\\
+&\quad+\frac{3}{2k_0^2}\int_{\bar t_\star}^{t_o}w_\ell(k_0(t_o-t))\,\overline{iK\cdot c_M}(t)\,\dd t.
+\end{aligned}}
 \]
 where $\bar c=\frac12\int_{-1}^1\operatorname{Re}c^{(3)}(k,q,-q)\,\dd\mu$ are the
 shell-averaged third-order sources (for the momentum source, the real part of
@@ -1836,11 +1898,14 @@ parallels the quadrupole:
 map kernels through $O(\kappa^4)$ with symbolic times; the script is
 \path{solution/superhorizon_next.py}. Write $o=\bar t_o$, $e=\bar t_\star$, $i=\bar t_I$ and $\Delta=o^2-e^2$. On the shell,
 \begin{align*}
-C^{(11)}_2&=\frac{4\pi}{2025}\sigma^2k_0^4\Delta^2-\frac{4\pi}{637875}\sigma^2k_0^6(o-e)^2(o+e)
+C^{(11)}_2&=\frac{4\pi}{2025}\sigma^2k_0^4\Delta^2\\
+&\quad-\frac{4\pi}{637875}\sigma^2k_0^6(o-e)^2(o+e)
 \big(59o^3+59o^2e-106oe^2+114e^3\big)+O(k_0^8),\\
-\tfrac14C^{(22)}_2&=\frac{68\pi}{6075}\sigma^4k_0^4\Delta^2-\frac{8\pi}{637875}\sigma^4k_0^6\Delta
+\tfrac14C^{(22)}_2&=\frac{68\pi}{6075}\sigma^4k_0^4\Delta^2\\
+&\quad-\frac{8\pi}{637875}\sigma^4k_0^6\Delta
 \big(105i^4+719o^4-1920o^2e^2+2560oe^3-1464e^4\big)+O(k_0^8),\\
-\tfrac13\operatorname{Re}C^{(13)}_2&=\frac{16\pi}{2025}\sigma^4k_0^4\Delta^2-\frac{2\pi}{1913625}\sigma^4k_0^6\Delta
+\tfrac13\operatorname{Re}C^{(13)}_2&=\frac{16\pi}{2025}\sigma^4k_0^4\Delta^2\\
+&\quad-\frac{2\pi}{1913625}\sigma^4k_0^6\Delta
 \big(2835i^4+9973o^4-25440o^2e^2+33920oe^3-21288e^4\big)+O(k_0^8).
 \end{align*}
 The leading ratios $\frac14C^{(22)}/C^{(11)}=\frac{17}3\sigma^2$ and
@@ -1857,8 +1922,38 @@ $\nabla^b\mathsf A_{ab}=2\nabla_a\mathfrak a$, and
 \[
 \mathsf B=\tfrac3{20}(\nabla\nabla\mathfrak a)_{\rm TF}+\tfrac3{20}(\mathsf A^2)_{\rm TF}-\tfrac7{10}\mathfrak a\mathsf A .
 \]
-Then, exactly in $\zeta$ and through fourth gradient order, the quadrupole is a combination of
-only three local tensors at the observer:
+There is a useful stronger statement before multipole projection. Put
+$M=\int_e^ot(o-t)\dd t=3\beta_3$, $L=\int_e^ot(o-t)^2\dd t$ and $E=o^4-e^4$.
+In a seed-orthonormal frame at the observer the full map through four gradients is
+\begin{equation}\label{eq:curvature-full-map}
+\begin{split}
+\Theta=\mathsf P_0\bigg[&-\tfrac\Delta2\mathsf A_{nn}
+-M(\nabla_n\mathsf A)_{nn}-\tfrac L2(\nabla_n\nabla_n\mathsf A)_{nn}
+-\tfrac E2\mathsf B_{nn}\\
+&-\tfrac{\Delta^2}{4}(\mathsf A^2)_{nn}
++\tfrac{3\Delta^2}{8}\mathsf A_{nn}^2
++\left(\tfrac{o^4+3i^4}{4}-e^4\right)\mathfrak a\mathsf A_{nn}\bigg]
++O(\partial^5).
+\end{split}
+\end{equation}
+This retains the dipole until the final projection. Covariant Taylor expansion along the
+seed radial geodesic gives the $M,L$ terms; the time-dependent direction response gives
+the $\mathsf A^2$ terms, with exponentiation contributing to $\mathsf A_{nn}^2$; the last
+coefficient retains the physical clock and emission surface. This is exact in amplitude
+at the stated gradient order, not at general wavelength.
+
+\path{solution/curvature_kernels.py} now extracts the complete kernels from this local
+formula in about 3~s, with no ray or field-engine import. At general momenta
+$k=(p,0,0)$, $q=(b_1,b_2,0)$, it reproduces \emph{every} sky component of the raw saved
+$K_1$, $K_2(k,q)$ and $K_3(k,q,-q)$ through gradient degree four. The comparison clears
+formal inverse-momentum denominators in an exact polynomial ring; it does not rely on a
+simplified cache or numerical sampling. Construction, raw comparison and the spectral
+contractions below take about 12~s in the review run. Thus the roughly 13~h cubic-kernel
+run is no longer needed to obtain these coefficients. It remains an independent reference,
+not evidence about higher gradient orders or a general cubic momentum triple.
+
+Projecting \eqref{eq:curvature-full-map}, exactly in $\zeta$ and through fourth gradient
+order, the quadrupole is a combination of only three local correction tensors:
 \begin{equation}\label{eq:three-tensor}
 \boxed{\Theta_{\ell=2}=Q_{ab}n^an^b,\qquad
 Q=-\tfrac\Delta2\mathsf A+\beta_H(\nabla\nabla\mathfrak a)_{\rm TF}+\beta_S(\mathsf A^2)_{\rm TF}
@@ -1879,7 +1974,7 @@ a Gaussian Hessian with a trace-free gradient square, which vanish. So two time 
 determine every $k_0^6$ term:
 \[
 \boxed{\begin{aligned}
-[C_2^{(11)}]_{k_0^6}&=\tfrac{16\pi}{6075}\sigma^2k_0^6\Delta\,\beta_H,&
+{}[C_2^{(11)}]_{k_0^6}&=\tfrac{16\pi}{6075}\sigma^2k_0^6\Delta\,\beta_H,&
 [\tfrac14C_2^{(22)}]_{k_0^6}&=\tfrac{32\pi}{18225}\sigma^4k_0^6\Delta\,(30\beta_H-\beta_a),\\
 [\tfrac13\operatorname{Re}C_2^{(13)}]_{k_0^6}&=\tfrac{8\pi}{18225}\sigma^4k_0^6\Delta\,(110\beta_H-9\beta_a),&
 [C_2^{(4)}]_{k_0^6}&=\tfrac{8\pi}{18225}\sigma^4k_0^6\Delta\,(230\beta_H-13\beta_a).
@@ -1896,7 +1991,7 @@ The observer-dilation part $\frac12\sigma^2D^2C^{(11)}_2$ is $18\sigma^2C^{(11)}
 (against $8$ at leading order), that is $\frac{8\pi}{18225}\sigma^4k_0^6\Delta\cdot108\beta_H$.
 What remains after subtracting it is $\frac{8\pi}{18225}\sigma^4k_0^6\Delta(122\beta_H-13\beta_a)$.
 The derivation is in \path{report/curvature_and_adjoint_derivations.md}.
-Five features of these results:
+Four features of these results:
 \begin{itemize}
 \item \emph{Observer clock.} The initial event $\bar t_I$ first enters at this order, through
   the observer clock.
@@ -1906,7 +2001,7 @@ Five features of these results:
   are $\frac{8\pi}{2025}\sigma^4k_0^6\Delta e^4$ and $-\frac{2\pi}{2025}\sigma^4k_0^6\Delta(o^4+3i^4)$.
   The third-order shifts $d_3$, $D_3$ do not enter, but the lower-order ones do.
 \item \emph{Checks.} $C^{(11)}_2$ agrees with the small-$k$ expansion of the transfer integral.
-  Both lines are reproduced by an independent hand calculation, which builds its own $O(t^4)$
+  The linear and quadratic lines are reproduced by an independent hand calculation, which builds its own $O(t^4)$
   field data and uses the explicit ray, endpoint and clock formulas of \S\ref{sec:obs}. It
   agrees component by component with the projected quadrupole kernel
   (\path{report/quadrupole_next_hand_check.md}, \path{solution/check_quadrupole_next_hand.py}). This
@@ -1925,6 +2020,35 @@ Five features of these results:
   familiar from Poisson gauge do not arise.
 \end{itemize}
 
+\paragraph{General spectra at the next gradient order.}
+The curvature construction does not require a shell. With
+$m_j=\int k^j\mathcal P(k)\dd\ln k$, write $[\cdot]_{[6]}$ for the coefficient of total
+gradient degree six when all momenta are scaled together at fixed times. Exact sphere
+moments followed by Wick contraction give
+\begin{equation}\label{eq:general-next}
+\boxed{\begin{aligned}
+{}[C_2^{(11)}]_{[6]}&=\tfrac{16\pi}{6075}\Delta\,\beta_H m_6,\\
+[\tfrac14C_2^{(22)}]_{[6]}&=\tfrac{32\pi}{18225}\Delta
+\big[12\beta_H m_0m_6+(18\beta_H-\beta_a)m_2m_4\big],\\
+[\tfrac13\operatorname{Re}C_2^{(13)}]_{[6]}&=\tfrac{8\pi}{18225}\Delta
+\big[60\beta_H m_0m_6+(50\beta_H-9\beta_a)m_2m_4\big],\\
+[C_2^{(4)}]_{[6]}&=18m_0[C_2^{(11)}]_{[6]}
++\tfrac{8\pi}{18225}\Delta(122\beta_H-13\beta_a)m_2m_4.
+\end{aligned}}
+\end{equation}
+The entire $m_0m_6$ term is the observer dilation, since $D^2/2=18$ at degree six.
+After subtracting it, only one spectral shape moment, $m_2m_4$, remains. This is a
+simplification of the \emph{general-spectrum} result, not just a factorisation on the shell.
+The $\beta_S$ contraction vanishes here too. Substituting $m_j=\sigma^2k_0^j$ recovers all
+three shell coefficients above. The same unprojected map independently gives the leading
+octupole contributions $C_3^{(22)}/4=B_3(9m_0m_6+28m_2m_4)$ and
+$\operatorname{Re}C_3^{(13)}/3=9B_3m_0m_6$, where $B_3=16\pi\beta_3^2/1225$.
+These polynomial contractions are derived and checked by
+\path{solution/curvature_kernels.py}\ \code{--spectrum}. Compact spectral support justifies taking
+the expansion inside the integrals. Finiteness of the displayed moments defines the formal
+coefficients more generally; it is not by itself a uniform remainder estimate for
+unbounded spectra.
+
 \paragraph{Bounds for general spectra.} For any nonnegative spectrum with finite, nonzero
 moments, the leading-gradient fourth-order factors are
 \[
@@ -1942,8 +2066,11 @@ variance, the shell therefore maximises both relative leading-gradient correctio
 ends are approached by very broad spectra, for which only the observer dilation survives.
 
 This evaluates the leading $O(k_0^6)$ octupole only, not the finite-wavelength spectrum, and
-the exponential resums the leading-gradient expression only. The cross-check by the
-independent ray generator (\code{observable\_generator.py}) was not run at this order.
+the exponential resums the leading-gradient expression only. The full odd map through
+cubic amplitude is now compared exactly with the saved independent ray-generator output
+by \path{solution/curvature_kernels.py}\ \code{--compare}; its separate octupole $22$ and $13$
+contributions are also checked by \code{--spectrum}. This does not test the all-amplitude
+resummation beyond the displayed amplitude orders.
 
 \subsection{Late time, first order}
 
@@ -2060,6 +2187,7 @@ Orthonormal redshift driver (Prop.~\ref{prop:orthonormal}) & \path{solution/chec
 Adjoint top-order cubic response (Prop.~\ref{prop:adjoint}) & \path{solution/check_adjoint_exact.py}: the lapse Green function, its diagonal jump and the contact coefficient, the factor $14$, the source compatibility $c_{\rm Ham}'-4c_N/t=2iK\cdot c_M$, and the absence of $d_3$, $D_3$ with $d_1,d_2,D_1,D_2$ retained, all exact. Fubini by the estimate in the proof. Numerical comparison (exploratory, \path{solution/numerics/explore_adjoint.py}) with the direct solve and the full map\\
 Longitudinal-gauge redshift & \path{solution/check_longitudinal_redshift.py}: the ADM energy law with a shift on generic jets; exact equality with the temperature-frame exponent including the endpoint conformal and Doppler factors; $\Phi=\Psi$ and zero first-order scalar shift under the full time-and-space map; clock identity; negative controls\\
 Dilation factorisation & \code{solution/check\_dilation\_factorisation.py}: $\Theta_{\rm lead}[\zeta+c]=e^{-2c}\Theta_{\rm lead}[\zeta]$ exactly in $\zeta$ and scaling for a generic cubic seed; mean shift $\equiv$ dilation of the moments; invariant ratio \eqref{eq:sh-invariant-ratio}; Gaussian average of $e^{-\zeta_oD}$; superhorizon observer-centred kernels of Prop.~\ref{prop:obs-dilation} ($\mathcal K^c_2=-\tau^2\TF(kq+qk)_{nn}$, $\mathcal K^c_3(k,q,-q)=0$)\\
+Cubic products; fast curvature map & \path{solution/check_cubic_product_identity.py}: generic non-commuting driver, ray pullback and moving-boundary/clock composition, with omission controls. \path{solution/curvature_kernels.py}\ \code{--compare --spectrum}: regenerates the complete map kernels through four gradients without the field/ray engine; exact denominator-cleared comparison to the raw saved kernels at general $(k,q,-q)$; general-moment $C_2$ through degree six and the separate leading octupole contributions. Does not provide the six-/five-gradient maps needed for the next quadrupole/octupole spectrum coefficients.\\
 Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
 \bottomrule
 \end{longtable}
@@ -2085,14 +2213,18 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
   carry the angular and Green-function integrals.
 \item The leading superhorizon quadrupole ($O(k_0^4)$) and octupole ($O(k_0^6)$) are evaluated.
   At the next order the complete fourth-order $C_2$ is evaluated at $O(k_0^6)$
-  (\S\ref{sec:sh-octupole}). Its $C^{(11)}_2$ and $\frac14C^{(22)}_2$ parts are checked
-  independently; the cubic part comes from the generator alone. The $O(k_0^8)$ correction to
-  $C_3$ is not computed.
-\item Further routes for the finite-$k_0$ integrals, not yet pursued:
+  (\S\ref{sec:sh-octupole}), now also for general spectral moments. All three contributions
+  are reproduced by the independent curvature route. Its full map through four gradients
+  agrees with the raw saved generator kernels at general $(k,q,-q)$, not merely after Wick
+  averaging. The $O(k_0^8)$ corrections to $C_2$ and $C_3$ are not computed: the former needs
+  the six-gradient quadrupole map as well as the square of the four-gradient map; the latter
+  needs the five-gradient octupole map. Squaring the existing map is not sufficient.
+\item Further routes for the finite-$k_0$ integrals, with current progress and limitations:
   \begin{itemize}
-  \item the orthonormal form of the cubic map ($F_3$ with $\mathcal B_r$, $v_r$) evaluated on the
-    shell. At second order it removes the local products and the near-horizon cancellation,
-    but not the late-time one (App.~\ref{app:numerics});
+  \item the cubic orthonormal integrand and combined ray/emission/clock identity are now
+    explicit in \eqref{eq:cubic-orthonormal}--\eqref{eq:cubic-composed}. They remove local
+    conformal and matrix-product redundancies, but do not evaluate the remaining propagation
+    integrals or establish cancellation of their finite-wavelength contribution;
   \item the adjoint form (Prop.~\ref{prop:adjoint}) handles the top-order cubic field. Still
     open: the same treatment of the propagation products (ray, endpoint and clock terms built
     from lower-order fields), and the shell-averaged sources $\bar c_N$, $\overline{iK\cdot c_M}$ in
@@ -2107,8 +2239,8 @@ Normalisation; Wick and Fourier measures & \path{solution/foundations/normalizat
 \item The late-time limit at fourth order (non-uniform at the resonances) is not evaluated. The
   exact longitudinal-gauge redshift formula (Remark~\ref{rem:longitudinal}) is the starting
   point; the second- and third-order longitudinal generators are not solved.
-\item Ultraviolet convergence for spectra without compact support is established by power
-  counting only, not by a rigorous bound.
+\item Ultraviolet convergence for spectra without compact support is suggested by power
+  counting only; it is not established.
 \item The infrared statement (Thm.~\ref{thm:ir}) assumes that the kernels are analytic in $q$ at
   $q=0$ at fixed finite times. This holds for the integral representations by construction, but
   the uniformity of the expansion in $k$ over unbounded spectra is not proved.

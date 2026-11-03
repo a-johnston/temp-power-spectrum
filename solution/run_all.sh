@@ -8,8 +8,9 @@
 # DEPTH sets the second-order Taylor depth (6 -> O(t^4); 10 -> O(t^8)).
 # SLOW=1 also regenerates the cubic superhorizon kernels (superhorizon_next.py kernels3, ~13 h on a
 # laptop). Without it, `superhorizon_next.py spectrum` assembles from the saved kernels if present
-# (~25 min the first time, seconds once cached); the cubic O(k0^6) coefficient is reproduced
-# independently and quickly by check_cubic_curvature_hand.py.
+# (~25 min the first time, seconds once cached). curvature_kernels.py regenerates the FULL
+# map through four gradients in seconds, without caches, and computes the general-moment
+# spectrum. The 13 h run is now only an independent legacy cross-check.
 set -euo pipefail
 cd "$(dirname "$0")"
 VENV_PY="$(cd .. && pwd)/.venv/bin/python"
@@ -35,7 +36,7 @@ for s in check_evolution_form.py first_order_engine_check.py check_green.py seco
          "observable_generator.py SH 2" "observable_fast.py SH 2" "observable_fast.py W2 4" \
          "observable_fast.py W3 4" "observable_fast.py SH3 2" superhorizon.py \
          "superhorizon_next.py kernels2" "check_quadrupole_next_hand.py --compare" \
-         check_cubic_curvature_hand.py; do
+         check_cubic_curvature_hand.py check_cubic_product_identity.py "curvature_kernels.py --spectrum"; do
   echo "=== $s"
   # shellcheck disable=SC2086
   $PY -B $s
@@ -43,6 +44,12 @@ done
 if [ "${SLOW:-0}" = 1 ]; then
   echo "=== superhorizon_next.py kernels3 (slow)"
   $PY -B superhorizon_next.py kernels3
+fi
+if [ -f results/superhorizon_kernels_2.pkl ] && [ -f results/superhorizon_kernels_3.pkl ]; then
+  echo "=== curvature_kernels.py --compare (raw independent kernels)"
+  $PY -B curvature_kernels.py --compare
+else
+  echo "SKIP raw generator/curvature comparison: saved kernels absent; curvature spectrum above is cache-free"
 fi
 echo "=== superhorizon_next.py spectrum"
 $PY -B superhorizon_next.py spectrum

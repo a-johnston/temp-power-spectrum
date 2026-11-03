@@ -1,13 +1,19 @@
 # The observed CMB temperature power spectrum through fourth order (radiation-only universe)
 
-An analytical solution of the problem in [`problem_statement.tex`](problem_statement.tex). The
+An analytical integral representation and evaluated long-wavelength results for the problem in
+[`problem_statement.tex`](problem_statement.tex). The
 problem is a flat, radiation-only universe in general relativity, with Planck test photons
 emitted on a physical temperature surface and an observer on a fluid worldline. It asks for the
 observed temperature map through third order, and its angular power spectrum through fourth
 order, in the primordial amplitude.
 
-The full solution is the report, [`report/temperature_spectrum_report.pdf`](report/temperature_spectrum_report.pdf)
-(source `.tex`). Every analytical step in it is backed by an exact SymPy check in `solution/`.
+The report is [`report/temperature_spectrum_report.pdf`](report/temperature_spectrum_report.pdf)
+(source `.tex`). The general finite-wavelength fourth-order spectrum remains an **unevaluated
+exact integral**, which the problem permits; it is not a closed-form evaluated spectrum.
+Analytical proofs and exact SymPy checks in `solution/` have different scopes. In particular,
+finite Taylor tests are not arbitrary-time substitutions of the complete cubic observable.
+The critical review and new derivations are in
+[`report/review_and_extensions.md`](report/review_and_extensions.md).
 The earlier approaches, intermediate notes and reviews are kept in the git history and are not
 part of the current tree.
 
@@ -38,6 +44,15 @@ part of the current tree.
   spectrum the coefficients lie in `[8, 29/3]·m₀` and `[18, 46]·m₀`, and the monochromatic shell
   attains both upper bounds. The complete fourth-order quadrupole is also given at the next
   gradient order, O(k₀⁶), with symbolic emission, observation and initial times.
+- **Fast curvature route.** `solution/curvature_kernels.py` regenerates the **full map** through
+  four gradients at general `(k,q,-q)` in about 3 s, versus the legacy 13 h cubic run.
+  `--compare --spectrum` checks every component against the raw saved generator output and
+  derives the general-moment quadrupole and leading octupole spectra in about 12 s.
+  After subtracting observer dilation, the degree-six quadrupole correction is proportional
+  to just `m₂m₄(122β_H − 13β_a)`. These are gradient coefficients, not finite-wavelength results.
+- **Cubic products.** An explicit orthonormal cubic integrand and combined emission/clock
+  identity retain all lower-order products, including the mixed clock–emission term.
+  This removes redundant local products, not the remaining propagation integrals.
 - **Open.** What remains unevaluated is listed in the report's section "What remains
   unevaluated". An appendix records exploratory finite-k₀ numerics, which are not evidence.
 
@@ -59,7 +74,9 @@ part of the current tree.
 ```
 uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools (pyproject.toml, uv.lock)
 solution/run_all.sh         # the exact checks; uses .venv by default (override with PYTHON=...)
-SLOW=1 solution/run_all.sh  # also regenerates the cubic superhorizon kernels (~13 h)
+.venv/bin/python -B solution/curvature_kernels.py --spectrum  # cache-free map + spectra, seconds
+.venv/bin/python -B solution/curvature_kernels.py --compare   # optional: needs saved legacy kernels
+SLOW=1 solution/run_all.sh  # also runs the independent legacy cubic generator (~13 h)
 cd report && pdflatex temperature_spectrum_report.tex   # three times, or latexmk -pdf
 ```
 
@@ -78,7 +95,7 @@ and an independent CAS (Maxima).
 | Path | Contents |
 |---|---|
 | `problem_statement.tex` | the task |
-| `report/` | the report (`.tex` and built `.pdf`) and four supporting derivations: `tensor_newtonian_crosscheck.md`, `quadrupole_next_hand_check.md`, `longitudinal_redshift.md`, `curvature_and_adjoint_derivations.md` |
+| `report/` | the report (`.tex` and built `.pdf`), `review_and_extensions.md`, and four supporting derivations: `tensor_newtonian_crosscheck.md`, `quadrupole_next_hand_check.md`, `longitudinal_redshift.md`, `curvature_and_adjoint_derivations.md` |
 | `solution/` | exact checks for the field solution, observable, spectrum and limits |
 | `solution/foundations/` | exact checks of the framework: lemmas, generic-jet field equations, first order in two gauges, normalisation and Gaussian algebra (`gr.py` holds the shared tensor utilities) |
 | `solution/results/` | exact expanded sources and kernels referenced by the report |
@@ -114,6 +131,8 @@ and an independent CAS (Maxima).
 | `check_orthonormal_map.py` | the map in orthonormal directions: the first-order equation for v is transverse, and the second-order integrand becomes ½H₂′ₙₙ + X₁·∂H₁′ₙₙ − 2H₁′(n, v₁), because the local shear products cancel identically against e − v |
 | `check_adjoint_exact.py` | exact ingredients of the adjoint form of the top-order cubic response: lapse Green function and its jump, the factor 14, the source compatibility c_Ham′ − 4c_N/t = 2iK·c_M that removes the contact term, and the absence of d₃, D₃ |
 | `check_cubic_curvature_hand.py` | independent covariant-curvature calculation of the complete quadrupole at O(k₀⁶) (C⁽¹¹⁾, ¼C⁽²²⁾ and ⅓Re C⁽¹³⁾); no generator, field engine or cached kernel; verifies the three-tensor form and has negative controls; ~6 s |
+| `curvature_kernels.py --spectrum [--compare]` | cache-free complete map kernels through gradient degree four for general `(k,q,-q)`; all three general-moment quadrupole coefficients at degree six, separate leading octupole contributions, and the pure `m₂m₄` remainder after observer dilation. Optional exact comparison clears denominators in the **raw** saved generator output, not its simplified cache. Does not compute the six-/five-gradient map needed for the next quadrupole/octupole coefficient |
+| `check_cubic_product_identity.py` | generic non-commuting cubic orthonormal driver, ray pullback, and combined emission/clock identity, with omission controls; no numerical checks |
 | `check_longitudinal_redshift.py` | exact longitudinal-gauge form of the redshift (shift, tensor shear, Doppler factors, displaced endpoints) and its equality with the temperature-frame exponent (derivation: `report/longitudinal_redshift.md`) |
 | `superhorizon.py` | exact superhorizon `C₂⁽¹¹⁾`, `C₂⁽²²⁾`, `C₂⁽¹³⁾` |
 | `transfer_entire.py L...` | closed form of the linear transfer function `T_ℓ` for every ℓ in the entire kernels `J_m` (no logs or Ci); coefficients are Laurent coefficients of two rational functions; proved exactly for each given ℓ (x*-derivative identity plus the value at x* = x_o); a printed high-precision comparison is supplementary |
