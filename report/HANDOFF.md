@@ -158,7 +158,22 @@ K^c₂ = −[K₁(k+q)−K₁(k)−K₁(q)]: it is exact at leading order but of
 **Still open:** why the projection obeys −½𝔇; test it at κ⁶ (needs the six-gradient quadratic map),
 or numerically by projecting the forward K^c₂ onto δK₁.
 
-## 4. Report structure (assessment requested by the user; not yet acted on)
+## 4. Report structure
+
+**Done (last session):**
+- §1 now opens with "Results at a glance", seven items with links.
+- The verification ledger moved to the appendix, so the main text ends at "What remains
+  unevaluated".
+- The finite-wavelength validation is its own appendix (`report/validation_appendix.tex`,
+  label `app:validation`), with a one-sentence pointer left in §stationary.
+- The PDF is 74 pages, including about 2 pages of new summary.
+
+**Still to do:** items 2–4 below. In particular, trim the per-subsection "established / not
+established" status text in §stationary and §spectrum into one sentence each, move fixture and
+check descriptions out of proofs into the ledger, and merge the two numerics appendices. The
+user prefers the existing verbiage and structure; keep the voice, cut process.
+
+### Original assessment
 
 The PDF is 72 pages. The first pages (abstract, status table, open list) give a usable summary. The
 weaker point is that the main text interleaves results with process: "established / not
