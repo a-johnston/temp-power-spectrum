@@ -2,33 +2,24 @@
 %======================================================================
 \section{Stationary reduction of the complete cubic response}\label{sec:stationary}
 %======================================================================
-This section reorganises the complete third-order observable of \S\ref{sec:obs} without
-solving the second- or third-order state. It also collects the exact source, Green and angular
-reductions made along that route, and states which of them are evaluated. Nothing here replaces
-the constructions of \S\S\ref{sec:fields}--\ref{sec:spec}; it is an equivalent representation
-with fewer unknown responses. Throughout, $e=\bar t_\star$, $o=\bar t_o$ and
-$\iota=\bar t_I$ (the physical initial event), with $0<\iota<e<o$; $X_0=n(o-t)$ is the
-background ray. In this section $\mathsf C$ denotes a symmetric trace-free quadrupole covector,
-not an angular power spectrum, and the quadrupole weight is $w=\frac{15}{2}n^T\mathsf Cn$, so that
-$\sky{w}=0$ and $\sky{w\,\TF(nn)}=\mathsf C$. The derivations, with further detail, are in the working notes in the directory
-\path{report/}:
-\begin{itemize}
-\item \path{unified_adjoint_working_note.md}, \path{first_field_adjoint_source.md};
-\item \path{stationary_cubic_assembly.md};
-\item \path{quadrupole_adjoint_gradient_expansion.md};
-\item \path{exact_quadrupole_angular_source.md};
-\item \path{direct_cubic_phase_reduction.md}, \path{regular_green_time_reduction.md}.
-\end{itemize}
+The cubic map of \S\ref{sec:obs} is assembled from second- and third-order fields and a
+second-order photon ray. This section shows that none of these needs to be solved. The tool is
+stationarity: if the observable is extended by Lagrange multipliers for every equation of the
+experiment, its third derivative needs only first-order states and first-order multipliers
+(Prop.~\ref{prop:stationary}). Making this explicit for the whole experiment, with its emission
+surface, clock, frame and normalisation, gives the first adjoint source and a second-ray-free
+direct measurement (\S\S\ref{sec:first-source}ff.). Two exact consequences follow: the cubic
+quadrupole through four gradients and a closed dilation channel (\S\ref{sec:stationary-evaluated}).
+The Einstein constraints then remove every hyperbolic Green function (\S\ref{sec:constraint-rows}).
+Combining the blocks gives the compact representation of Prop.~\ref{prop:combined}, which is
+where the section is heading. What it does not do is evaluate the remaining two- and three-time
+integrals.
 
-\paragraph{Status.} \emph{Established:} the polarised stationary identity; the complete first
-field-adjoint source and its regular Green reconstruction; a second-ray-free direct cubic
-measurement; exact sky closure of the quadrupole first source; evaluated Green convolutions;
-a three-time bound for the complete cubic quadrupole; the physical cubic quadrupole through four
-gradients at arbitrary triples; the exact dilation channel $(k,0,0)$; and
-(\S\ref{sec:constraint-rows}) the removal of every hyperbolic scalar Green function from
-physical pair responses, by the Einstein constraints. \emph{Not established:} evaluation of the
-surviving two- and three-time kernels, an unrestricted finite-wavelength comparison of the cubic
-map, or a new evaluation of $C^{(13)}_\ell$ at finite $k_0$.
+\emph{Notation.} $e=\bar t_\star$, $o=\bar t_o$, $\iota=\bar t_I$ (the physical initial event), with
+$0<\iota<e<o$; $X_0=n(o-t)$ is the background ray. $\mathsf C$ is a symmetric trace-free quadrupole
+covector (not a spectrum), with weight $w=\frac{15}2n^T\mathsf Cn$, so that $\sky{w}=0$ and
+$\sky{w\,\TF(nn)}=\mathsf C$. Longer derivations are in the working notes in \path{report/} (the
+seven \path{*.md} files listed in \path{report/HANDOFF.md}).
 
 \subsection{The polarised stationary identity}
 Write the complete independent residual system as $F(y,g)=0$, where $g$ is the primordial input
