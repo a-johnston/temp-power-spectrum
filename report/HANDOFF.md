@@ -1,266 +1,231 @@
-# Handoff: state of the cubic/fourth-order work and the open follow-ups
+# Handoff: reviewed report and next analytical targets
 
-Branch: `claude/magical-fermat-ufand5`. Commits from this session, after `ae83458`:
+## Current delivery state
 
-| Commit | Content |
+The final-review corrections and structural revision have been applied. The report is
+`report/temperature_spectrum_report.pdf`, rebuilt from the current TeX: **73 pages**.
+The abstract/problem are on page 1, the linked results summary and reading paths on page 2,
+and the contents follow. The main text ends with “What remains unevaluated” on page 46;
+the appendices begin on page 47. Length was not reduced by deleting exploratory mathematics:
+most of the reduction in the main text comes from moving detailed machinery and verification.
+
+`report/FINAL_REVIEW.md` records the findings against the pre-revision source; its old line/page
+numbers are historical. This handoff describes the revised state. The earlier session history
+and handoff are available in git (the preceding tip was `de9ac7d`).
+
+### Corrections applied
+
+- **Degree-six signs:** the cross term and total in the observer-dilation subsection now use
+  `delta = o^2 - e^2`, not `(e-o)(e+o)`, with the corresponding positive prefactors. They agree
+  with the independently derived limits section. New equation labels are `eq:obs-cross-six`
+  and `eq:obs-total-six`.
+- **Sky weights:** the canonical convention is `w = (15/2) n.C.n`, `W = w/(4pi)`, and
+  `J = <w Theta> = integral W Theta dOmega`. Full-solid-angle adjoints use **W**, not w.
+  The source, normalization multiplier, frame covector and boundary traces were changed together.
+  Older working notes may use different measures; do not copy their weights implicitly.
+- **Initial-event identity:** the derivative with a `-1` term holds at fixed background
+  observation time `bar t_o`; at fixed elapsed proper time it has no `-1`. The shell
+  Fermi–Walker map agrees with the symmetric-frame clock-composition identity through cubic
+  amplitude, not to all orders. Multipole norms remain invariant under frame rotation exactly.
+- **Generated infrared power:** the remark now assumes regular short-mode input (smooth compact
+  spectral support away from zero) and uses bounded convolution integrals at fixed finite time.
+  It does not infer compact real-space support from entireness or arbitrary-order regularity
+  from `integral xi^2 < infinity`. The monochromatic shell-overlap exception is retained,
+  explicitly exemplified by the lapse rather than every observable.
+- **Higher-order projection claims:** the factor-two identities are exact through the displayed
+  orders. Numerical fits suggesting failure beyond them are confined to the numerical appendix
+  and are not promoted to analytical conclusions.
+- **Numerical comparison:** the shell recomputation is compatible with the older table's rounding
+  intervals, not equal to every printed digit. The newer `x_o=3` mu quadrature has no separate
+  refinement test recorded.
+
+### Report layout and authoritative sources
+
+| Content | Source |
 |---|---|
-| `d87b201` | Review of 5cdf048..ae83458; new report section §"Stationary reduction of the complete cubic response" (`report/stationary_cubic_reduction.tex`); constraint rows remove hyperbolic Green kernels (`solution/check_constraint_rows.py`) |
-| `93a7565` | Third-order constraint compatibility; Prop. "Combined cubic response" |
-| `3281705` | Finite-wavelength forward/assembled validation code (`solution/numerics/`) |
-| `33b64d5` | Report text for the validation, observer-centred split, shell C13 recomputation (appendix), κ⁴ numerical check |
+| Experiment, fields, map, spectra, curvature multipoles and limits | `temperature_spectrum_report.tex` |
+| Contracted cubic sources and preferred acoustic scalar amplitude | `cubic_source_reduction.tex`, `shell_acoustic.tex` |
+| Top-order nine-moment adjoint | `cubic_adjoint_reduction.tex` |
+| Combined cubic formula first, constraints, stationary identity, evaluated consequences | `stationary_cubic_reduction.tex` |
+| Requirements/status checklist | `requirements_appendix.tex` |
+| Alternative entire-function Cartesian moment formulas | `scalar_moment_appendix.tex` |
+| Detailed field adjoints, normalization, frame, boundary traces, Green blocks | `cubic_technical_appendix.tex`, including `propagation_adjoint.tex` |
+| Prospective longitudinal-gauge route | `research_directions.tex` |
+| Exact verification ledger | Appendix in `temperature_spectrum_report.tex` |
+| Unified numerical appendix | `numerical_appendix.tex`, including `validation_appendix.tex` |
 
-The PDF in the repo was **not** regenerated. The TeX compiles with `pdflatex` (installed ad hoc in the
-session; three passes), with no errors or undefined references and one negligible 0.3 pt overfull line.
+The next-gradient quadrupole now has its own subsection, `sec:next-gradient`, rather than being
+nested under the leading octupole. Existing mathematical labels have been retained where possible.
 
-## 1. What a final reviewer of the whole report should know
+## Validation of the revision
 
-### 1.1 Review of the earlier agent's work (5cdf048..ae83458)
+Added `solution/check_report_final_review.py`, also called by `solution/run_all.sh`. It:
 
-- **Checks:** all 14 new exact checks pass; they are listed in `README.md` and `solution/run_all.sh`.
-- **Identities re-derived by hand:**
-  - the polarised stationary identity (the 2n+1 rule);
-  - the normalisation adjoint;
-  - the leading cubic coefficient −12τ²(g²A + gB) and the shell value 4(o²−e²)/9;
-  - the spatial Green operator polynomial (all three eigenvalues);
-  - the clock primitive, `W_c = (o⁴+3ι⁴)/4`, and the observer trace;
-  - the first-order cancellation of hyperbolic terms;
-  - the factors in the dilation channel;
-  - the initial kernels `c₂`, `c₃`.
-- **Outcome:** no errors found. Their markdown notes (`report/*.md`) are condensed into the new report
-  section.
+1. Reads the two printed degree-six formulas from TeX and compares their actual signs and
+   coefficients with the hand-map reference; sign-flip controls fail.
+2. Checks generic STF sphere moments, conversion between w and W, the quadrupole objective and
+   the normalization multiplier; an unconverted full-angle weight fails.
+3. Differentiates both fixed-label clock conventions exactly.
+4. Verifies both background Bianchi identities on arbitrary off-shell lapse and STF spatial
+   fields. This resolves the specific off-shell linear-operator concern in the earlier handoff.
+5. Checks the report input graph, duplicate/missing labels, the summary-before-contents ordering,
+   and the independently navigable next-gradient subsection.
 
-### 1.2 Results added in this session (all in `report/stationary_cubic_reduction.tex`)
+The following **17 exact checks passed** in the revision session:
 
-1. **Source compatibility.** This is Prop. `prop:compat`, consisting of eqs. `compat-1`, `compat-2`. It
-   follows from the contracted Bianchi identity:
-   - `c_Ham' − 4c_N/t = 2iK·c_M`;
-   - `c_M' + 2c_M/t = iK·c_T − (iK/6)(c_Ham+4c_N)`.
+```
+check_report_final_review.py
+check_report_identities.py
+check_observer_centred_kappa4.py
+check_observer_dilation_k6.py
+check_centred22_mechanism.py
+check_cubic_curvature_hand.py
+curvature_kernels.py --spectrum
+check_constraint_rows.py
+check_propagation_adjoint.py
+check_unified_adjoint.py
+check_first_field_adjoint_source.py
+check_stationary_cubic.py
+check_stationary_quadrupole_four_gradients.py --symbolic
+check_shell_cubic_sources.py --compare-engine
+check_observable_expansion.py
+check_gradient_octupole.py
+check_logmap_decomposition.py
+```
 
-   It is verified in two ways:
-   - exactly, at second order, for unequal |k₁|≠|k₂| at arbitrary angle (the identity fails off shell);
-   - by exact series through t¹⁰, at third order with physical second-order fields, for noncoplanar,
-     zero-pair and near-zero-pair triples (with a negative control).
-2. **Constraint-row response** (Prop. `prop:constraint-response`). For K≠0,
-   `K·A = V = ∫₀ᵗ[4K(ν'−ν/s) + 2i c_M]`, with non-TT(A) = 𝒫_K[V]. Only acoustic lapse kernels, the TT
-   wave kernel and one cumulative integral appear; there are **no hyperbolic (−K²/3) kernels**. The
-   initial Hamiltonian row is essential. The trade-off: a removable 1/K⁴ projector near K=0, where the
-   Cartesian form is used instead.
-3. **Constraint-row transpose** (eq. `constraint-transpose`), with explicit observer and emission point
-   terms. It applies to the single-pair stationary terms at the probe momentum.
-4. **Acoustic shell scalar amplitude** (Prop. `prop:shell-acoustic`):
-   - `S₂ = 18c_r[T₂−2T₃/t] − ∫𝒢 C_N + (1−3μ)[3𝖻/2+3𝖺²−6ℐ] + (3μ²−1)𝖻²/8 − 3𝖺²`;
-   - `ℐ = ½Cin(2x) + sin2x/(2x) − sin²x/(2x²) − ½`.
+The new script passes Ruff and ty checks. The PDF builds in three `pdflatex` passes with no
+LaTeX warnings, undefined references or overfull boxes. Opening pages were rendered and inspected;
+internal PDF link destinations were checked. Temporary build/check logs are under
+`/tmp/david-report-revision/` and are not repository artifacts.
 
-   This supersedes the hyperbolic `G_S` and the nested 𝒱_m in eqs. `moment-S`/`moment-V`, which remain
-   correct. It is checked against the hyperbolic solution through t¹⁶.
-5. **Combined cubic response** (Prop. `prop:combined`):
-   - **Formula:** `J_abc = J₁₁₁ − Σ_{a|bc} S_meas,a[y_bc] + J_lin[y_abc]`.
-   - **What combines:** the four background blocks (the direct third residual and three field-variation
-     parts) collapse, by compatibility, into one pairing with the full cubic source.
-   - **J_lin in constraint rows:** acoustic Wronskian + local momentum term + TT wave term.
-   - **What it removes:** first field adjoints, the second ray, the third-order field and hyperbolic
-     kernels. Closed-form second-order fields enter instead.
-   - **Time arity:** at most 2 except J₁₁₁, which has 3.
-6. **Finite-wavelength validation** (§`sec:stationary-validation`; numerical, labelled not evidence).
-   - **Forward code:** `solution/numerics/forward_cubic.py` and `cubic_fields.py`. Fields come from (N)
-     and the Cartesian (T) rows only; it includes the Fermi–Walker triad, geodesic, roots, clock and
-     normalisation.
-   - **Assembled side:** `assembled_cubic.py` evaluates eq. `combined` and uses the repository's own
-     `direct_cubic_measurement.first_only_exponent_triple` for J₁₁₁.
-   - **Agreement:** ≤3e-9 for three triples (noncoplanar unequal, zero pair, |k_b+k_c|=0.05) at |k|t̄_o≈3.
-   - **Pieces checked separately:** J₁₁₁ (3e-8); constraint vs Cartesian J_lin (4e-14); the dilation
-     channel (4e-8); the Hessian alone (1e-9).
-   - **Controls:** the FW triad changes the value by 9e-5 and the clock by 0.24.
-7. **κ⁴ shell coefficient** (eq. `stationary-four-gradient`). It is confirmed numerically by
-   `check_kappa4_shell.py`: κ² to 1.3e-9, κ⁴ to 1.6e-7 at ι=0.5 and 1. The observer-local −567ι⁴/3402
-   term is confirmed to 1e-6.
-8. **Observer-centred split** (exact identity of §`sec:obs-dilation`):
-   `K₃ = K^c₃ − Σ_pairs 𝔇K₂ − Σ_a 𝔇²K₁`.
-   - Generic noncoplanar triple: K^c₃ is 0.9% of K₃.
-   - (k,q,−q): 33%.
-   - Shell average ⟨K^c₃⟩/K₁: −0.195 at x_o=0.3, against a total of 2.8955; −2.96 at x_o=1, against
-     −6.156.
-9. **Appendix.** An independent recomputation of (1/3)C₂⁽¹³⁾/σ²C₂⁽¹¹⁾ gives 2.8955, −6.156 and −67.29
-   at x_o = 0.3, 1 and 3. The old exploratory table gives 2.895, −6.13 and −67.5, so they agree to the
-   table's precision. C₂⁽¹¹⁾ = (4π/25)K₁² reproduces 0.0258 and 0.116.
+**Not rerun:** the full long-duration `run_all.sh`, legacy cubic generation, finite-wavelength
+numerical evolution or quadrature-refinement studies. Existing numerical values in the appendix
+are retained results, not new runs. No finite-wavelength spectrum evaluation was added by this
+editorial revision.
 
-### 1.3 Things to scrutinise in a final check
+## Established results relevant to the next investigation
 
-- **Prop. `prop:compat`, proof.** "The background Bianchi operator annihilates 𝓛_K[y] for every y" is
-  argued, not separately checked off shell. The identities themselves are checked at orders 2 and 3.
-- **Prop. `prop:combined`, step "the combined source is the order-three source with its initial
-  row".** This relies on the stationary-identity duality. It is numerically confirmed (item 6) but not
-  re-derived symbolically end to end.
-- **Sign conventions.** S_meas is evaluated with averaged sky weights in `assembled_cubic.py`; the
-  report uses full-dΩ weights (W = w/4π). Both conventions agree; see the comment in the code.
-- **Convergence of the numerics.** Spectral time grids (44–64 nodes), a sky of 18×36 or 26×52 Gauss
-  nodes, and five-point stencils for the clock composition (h=0.02). x_o=3 used 10 μ nodes, not
-  convergence-tested separately; the κ⁴ fit uses κ = 0.04…0.1.
-- **README and table.** `README.md` (section "Further cancellation research") and the report's status
-  table were updated; check that they are consistent with the abstract.
+### Combined cubic response
 
-### 1.4 External questions raised during the session
+For any triple with nonzero total momentum,
 
-- **"A 2.2% disagreement in the k₀⁶ coefficient of the 13 term, observer-local" (another agents'
-  report).** On our side the coefficient is checked by three exact symbolic routes and now numerically
-  to 1.6e-7, including the ι⁴ term. The ι⁴ term is about 0.03% of the κ⁴ coefficient at typical times,
-  so it cannot produce 2.2%. The likely causes are a convention difference: the physical initial event
-  versus coordinate time, the clock composition, monopole normalisation, or the observer dilation. Our
-  reference expression, from `check_stationary_quadrupole_four_gradients.py`, is
-  `(4π/25)[J₁^[2]J₃^[4] + J₁^[4]J₃^[2]] = −2π(o²−e²)(2835ι⁴ + 9973o⁴ − 25440o²e² + 33920oe³ − 21288e⁴)/1913625`.
-  Compare the time dependence term by term.
-- **"Can a subhorizon process generate superhorizon modes falling off slower than k³?"** At finite
-  times, no: kernels are entire in the Cartesian K (finite propagation speed), so P(K→0) is a constant
-  and Δ² ∝ K³ for inputs with integrable correlations. There are two apparent exceptions, neither a
-  counterexample:
-  - an exactly monochromatic input, whose ξ ∝ sin(k₀r)/(k₀r), gives quadratic P ∝ 1/K (shell overlap),
-    so Δ² ∝ K²; in this setup the homogeneous lapse kernel is nonzero;
-  - the non-commuting late-time limit (k³ ln²k induced-tensor tails).
+```
+J_abc = J_111,abc - sum_{a|bc} S_meas,a[y_bc] + J_lin[y_abc].
+```
 
-  This is not yet written into the report; it could become a remark in §"Limits" or §"General spectra".
+The second-order fields are closed form. `J_lin` is an acoustic lapse-source pairing, a local
+momentum-source term and a TT wave-source pairing. Third-order field symbols denote explicit
+source integrals, not an independent field solve. No first field adjoint or second ray is
+needed. Every distributed term has at most two independent times except `J_111`, which has three.
+At total zero momentum use the regular Cartesian zero-momentum kernel.
 
-## 2. Open follow-ups, in recommended order
+Source compatibility follows from the Bianchi identity with lower orders on shell:
 
-### Done after the first version of this handoff
+```
+c_Ham' - 4 c_N/t = 2 i K.c_M
+c_M' + 2 c_M/t = i K.c_T - (i K/6)(c_Ham + 4 c_N).
+```
 
-- **Exact first nonzero observer-centred shell coefficient** (eq. `centred-kappa4`, checked by
-  `solution/check_observer_centred_kappa4.py`):
-  `⟨K^c₃(k,q,−q)⟩ = k⁴[4(e−o)(12e³−8e²o+7eo²+7o³) + 5(o⁴−ι⁴)]/270 + O(k⁶)`.
-  The κ² term cancels identically. The result agrees with the numerical value at x_o=0.3. It splits
-  into a propagation part, which vanishes as e→o, and a pure observer-clock part, (o⁴−ι⁴)/54.
-- **Complete observer-dilation decomposition at O(ε⁴k₀⁶)** (`check_observer_dilation_k6.py`,
-  Prop. `obs-dilation` remark "Next gradient order"):
-  - the dilation term is 18 C₂⁽¹¹⁾[k₀⁶] and centred 22 is (28/3) C₂⁽¹¹⁾[k₀⁶] (against 8 and 5/3 at
-    leading order);
-  - centred 13 is (4π/25)(δ/9)⟨K^c₃⟩;
-  - the cross term is −8πδ(204e⁴−280e³o+210e²o²−89o⁴−45ι⁴)/91125;
-  - the four pieces sum exactly to the known coefficient. The ι⁴ (observer-local) dependence lives
-    only in centred 13 and the cross term, which is where to look for the 2.2% disagreement in the
-    other agents' report.
-- **Remark `rem:k3`** (causal generation of superhorizon power; the answer to the author's question)
-  is now in §"General spectra".
+The scalar/vector response uses the momentum constraint; the initial Hamiltonian row is essential.
+The shell scalar amplitude is a single acoustic Green integral, elementary terms and one Cin.
+The forced homogeneous tensor cancels from the entire isotropically contracted cubic response;
+the homogeneous lapse and its initial row do not.
 
-- **Remark `rem:iota`** (exact, all orders, shell): ∂Θ/∂t̄_I = ∂_{t_o}Θ^coord · ∂t_o/∂t̄_I, with
-  ∂t_o/∂t̄_I = t̄_I[e^{−ν_I}/(1+t_Iν_I') − 1]/(t_o e^{ν_o}). This localises all observer-initial-event
-  dependence; use it to diagnose the 2.2% disagreement if it is ι-dependent.
+### Observer-centred shell coefficient and degree-six split
 
-### 2b. Simplify the observer-centred cubic kernel (analytic)
+The exact identity is
 
-**Status:** the κ⁴ step and the full O(k₀⁶) decomposition are done (see above). The
-finite-wavelength step remains open. Exact finite-wavelength statements so far: the dilation channel,
-the constraint-row combination and `rem:iota`. **Centred-22 proportionality, tested.** It does NOT persist: at k₀⁸ the ratio is 52.66 at
-(e,o)=(1.2,3) and 52.29 at (0.8,3.5), against a fit stability of ≤0.015
-(`solution/numerics/centred22_ratio.py`; set `KAPPAS` to change the fit points). The k₀⁶ ratio 28/3 is
-therefore a property of that order only. A natural explanation that also fails is
-K^c₂ = −[K₁(k+q)−K₁(k)−K₁(q)]: it is exact at leading order but off by O(κ²) beyond it. **Explanation found, partly:** the overlap of K^c₂^[4] with
-δK₁^[2] equals that of −2δK₁^[4], i.e. −(𝔇/2)δK₁ in that projection. So centred 22 at k₀⁶ =
-2⟨δK₁^[2]δK₁^[4]⟩, which is linear-transfer only (asserted in `check_observer_dilation_k6.py`).
-**Tested (numerically):** the −½𝔇 projection relation is NOT exact. The relative mismatch is
-≈1.3κ⁴ (1.3e-4 at κ=0.1, 2.4e-3 at 0.2; `solution/numerics/half_dilation_projection.py`). So it
-holds through O(k₀⁴) only. **Mechanism at k₀⁶ (exact, asserted in `check_observer_dilation_k6.py`):** the endpoint, clock,
-normalisation and dilation-subtraction pieces are orthogonal to δK₁^[2]. The field, position and
-direction pieces individually have overlap ratios with different time dependence, e.g. field =
-7(33e³−7e²o+23eo²+23o³)/(2·poly), position = 5(e−o)²(3e+o)/(2·poly) and direction =
-35(e−o)²(3e+o)/poly, with poly = 114e³−106e²o+59eo²+59o³; they sum to exactly 2. **Refined (exact, `check_centred22_mechanism.py`):** the
-projection splits by time structure into two separate factor-2 identities:
-- the local four-gradient shear (∝ δ·D) equals 2× the polarised local t³ transfer correction;
-- field phase + ray position + direction (∝ δ·A, in ratio 7:1:14) equals 2× the polarised
-  free-streaming phase.
+```
+K3c = K3 + sum_pairs D K2 + sum_a D^2 K1.
+```
 
-Still open: a derivation of each factor 2. A natural guess is a Leibniz or symmetric-pairing
-identity for the polarisation of a degree-4 homogeneous structure. Check it at the next order
-with a six-gradient hand map. A
-plausible start is the leading-gradient locality of K^c₂ (pure gradient-squared) together with the
-first correction to the linear transfer.
+Its shell quadrupole average starts at degree four:
 
-## 4. Report structure
+```
+<K3c(k,q,-q)> = k^4 [4(e-o)(12e^3 - 8e^2 o + 7e o^2 + 7o^3)
+                    + 5(o^4-iota^4)]/270 + O(k^6).
+```
 
-**Done (last session):**
-- §1 now opens with "Results at a glance", seven items with links.
-- The verification ledger moved to the appendix, so the main text ends at "What remains
-  unevaluated".
-- The finite-wavelength validation is its own appendix (`report/validation_appendix.tex`,
-  label `app:validation`), with a one-sentence pointer left in §stationary.
-- The abstract is rewritten as one paper-style paragraph. The old bullet abstract's details all
-  live in their sections, linked from "Results at a glance".
-- The opening of §stationary is rewritten as a roadmap, which drops an outdated status list.
-- The PDF is 72 pages.
+The degree-two term vanishes identically. The first bracket is propagation; the second is the
+observer-clock contribution. The full degree-six spectrum splits into dilation (`18` times the
+linear degree-six coefficient), centred 22 (`28/3` times it), centred 13, and the cross term.
+The initial-event dependence occurs only in centred 13 and the cross term.
 
-**Still to do:** items 2–4 below. In particular, trim the per-subsection "established / not
-established" status text in §stationary and §spectrum into one sentence each, move fixture and
-check descriptions out of proofs into the ledger, and merge the two numerics appendices. The
-user prefers the existing verbiage and structure; keep the voice, cut process.
+The projected degree-four centred quadratic kernel equals the projection of
+`-(D/2) deltaK1`, where `deltaK1 = K1(k+q)-K1(k)-K1(q)`. Its mechanism is exact:
 
-### Original assessment
+- endpoint, clock, normalization and dilation-subtraction pieces are orthogonal to the
+  degree-two polarization template;
+- local four-gradient shear and the local linear-transfer correction give one factor-two identity;
+- field phase, ray position and direction, in overlap ratio **7:1:14**, give the other for
+  free streaming.
 
-The PDF is 72 pages. The first pages (abstract, status table, open list) give a usable summary. The
-weaker point is that the main text interleaves results with process: "established / not
-established" disclaimers, and validation narratives inside the derivations (§stationary especially).
-That buries the core line of argument. Suggested restructure for a final pass:
-1. A two-page "Results at a glance": the observable, T_ℓ, the 29/3 resummation, the k₀⁶ decomposition,
-   the constraint-row reduction and the combined cubic formula, with links.
-2. A main text that reads as a lecture: frame → fields → observable → spectrum → limits. Move the
-   stationary/adjoint machinery to one "Reduced representation of the cubic response" section of
-   statements and proofs only.
-3. Move every check, numeric validation and fixture description into the ledger and appendices, and
-   keep one status sentence per section.
-4. Fold the appendix of exploratory numerics and the validation subsection together, clearly
-   labelled as numerics.
+These identities are independently checked by `check_centred22_mechanism.py`. A conceptual
+geometric/polarization derivation is still missing. Numerical fits suggest that neither the
+proportionality nor the projected relation extends indefinitely, but their next analytical
+failure has not been computed. Do not assume the squared four-gradient map supplies degree eight:
+it also needs the two-/six-gradient interference.
 
+## Recommended next analytical targets
 
-The target is ⟨K^c₃(k,q,−q)⟩_q̂, the only genuinely cubic part of C⁽¹³⁾ after
-Prop. `prop:obs-dilation`. The dilation part is already `½σ²D²C⁽¹¹⁾` plus a total derivative.
+1. **Explain the two factor-two identities structurally.** Start from leading-gradient locality
+   (`K2c` is pure gradient-squared), the polarized degree-four linear transfer, and the split into
+   local shear versus free streaming. A Leibniz/symmetric-pairing identity is a possible mechanism,
+   not an established explanation. Preserve both time structures separately.
+2. **Reduce the finite-wavelength observer-centred cubic shell average.** Insert the combined
+   formula into the exact dilation identity. Compare phases and boundary terms before expanding
+   radial functions. Derivatives of the linear/quadratic response are resolvent derivatives,
+   which may combine with `J_lin` and `S_meas`. The exact dilation channel with two zero momenta
+   supplies controls, not the full nonzero-radius shell contraction.
+3. **Evaluate the shell-averaged direct measurement `J_111`.** The internal angular average of
+   two opposite shell phases is `sin(k(w-v))/(k(w-v))`. The shell's temporal commutators and frame
+   term vanish, leaving a concrete low-dimensional integral target. Keep emission, clock and
+   separate random-monopole products when combining it with the Hessian sector.
+4. **Compute degree-eight quadrupole / next octupole coefficients.** Extend the curvature map
+   to six/five gradients, respectively, or the stationary gradient expansion. Use these to test
+   the projection mechanism analytically rather than inferring coefficients from fits.
+5. **Longitudinal-gauge late-time route and noncompact-spectrum bounds.** These remain larger
+   projects; see the report's open section and the prospective-route appendix. Resonant angles
+   require uniform estimates or matched asymptotics before taking late-time limits.
 
-- **Leading gradient.** K^c₃ = 0 (checked by hand in this session from K^c₂ = −τ²TF(kq+qk)_nn: the
-  terms are (8/3 − 16/3 + 8/3)τ² = 0).
-- **Next step (cheap, exact).** Compute ⟨K^c₃⟩ at κ⁴ analytically:
-  `J̄₃^[4] + 4Σ_±⟨K₂^[4](k,±q)⟩ + 16K₁^[4](k)`. Use eq. `stationary-four-gradient` for J̄₃^[4]; take J14
-  for K₁^[4] from `check_stationary_quadrupole_four_gradients.py`; take the four-gradient quadratic map
-  K₂^[4] from `curvature_kernels.py` / `check_cubic_curvature_hand.py`. Check it against
-  `observer_centred.py` at small κ. If it vanishes or is a pure boundary term, that is a real
-  cancellation result.
-- **Finite wavelength.** Insert eq. `combined` into the K^c₃ identity. The dilation terms
-  𝔇K₂ and 𝔇²K₁ are resolvent derivatives (∂_aG = −G ∂_aL G) of the linear and quadratic maps, so they
-  may cancel analytically against parts of J_lin and S_meas. The natural decomposition is by soft legs:
-  write y_bc = y_bc^(0) + (y_bc − y_bc^(0)), where y_bc^(0) is the response with one leg at zero momentum.
-  Use the dilation source identities `C_{p0} = −D̂_pF₁` (direct cubic phase note) to identify which
-  blocks are exactly dilations.
+### Numerical targets, supplementary only
 
-### 4. Evaluate the remaining shell spectrum pairings (analytic)
+The forward/assembled comparison reported agreement at the 3e-9 level for three sampled triples
+(noncoplanar unequal, exact zero pair, near-zero pair) at `|k| o` around 3. The shell ratios
+`(C13/3)/(sigma^2 C11)` are about `2.8955`, `-6.156`, `-67.29` at `x_o=0.3,1,3` on the appendix's
+fixed-ratio trajectory. The centred parts at the first two points are `-0.195` and `-2.96`.
+Use these as numerical comparisons after deriving an expression, not substitutes for derivation.
 
-- **Already reduced.**
-  - The top-order shell part is eq. `adjoint-nine-moment` with acoustic S moments
-    (Prop. `prop:shell-acoustic`): two-time integrals of entire functions.
-  - The S_meas[y_bc] shell part is the propagation adjoint of §`sec:prop-adjoint`, with its emission
-    part evaluated in eq. `prop-emission-moments`.
-  - J₁₁₁ on the shell has no temporal commutators and no frame term.
-- **Suggested concrete targets.**
-  - **(a) The shell-averaged J₁₁₁.** The q̂ average of e^{iq·n(o−v)}e^{−iq·n(o−w)} is
-    sin(k(w−v))/(k(w−v)), which is elementary, so ⟨J₁₁₁⟩ should reduce to explicit low-dimensional
-    integrals of elementary functions, possibly closed form.
-  - **(b) The next superhorizon order.** C₂ at O(k₀⁸) needs the six-gradient quadrupole map and the
-    square of the four-gradient map. The stationary route plus `quadrupole_adjoint_expansion.py`,
-    extended one order, is the most direct path. Validate against `shell_c13.py` at small x_o.
-  - **(c) Analytic values to check against.** Any analytic shell result can be tested against the
-    numerical table in the appendix: 2.8955, −6.156 and −67.29, and the observer-centred parts.
+### External coefficient discrepancy
 
-### Also open
+An earlier external calculation reported a 2.2% difference in the observer-local degree-six
+13 coefficient. The reference remains the exact expression in the limits section and in
+`check_stationary_quadrupole_four_gradients.py`, including both gradient orderings. Compare the
+`iota^4` term, the physical initial event, clock composition, normalization and dilation
+conventions term by term. The initial-event remark now makes the held-fixed labels explicit;
+it should not be used as an all-orders equality of the Fermi–Walker and symmetric maps.
 
-- Write the answer to the k³ question into the report, if desired.
-- Regenerate the PDF.
-- Run the full `solution/run_all.sh` (long; never run end to end in this session). The new
-  `check_constraint_rows.py` (about 2.5 min) is included in it.
-
-## 3. How to reproduce
+## Reproduction
 
 ```bash
 uv sync
-.venv/bin/python -B solution/check_constraint_rows.py                   # ~2.5 min, exact
-.venv/bin/python -B solution/numerics/compare_cubic_quadrupole.py        # ~10 min, numerical validation
-.venv/bin/python -B solution/numerics/observer_centred.py                # ~20 min
-.venv/bin/python -B solution/numerics/shell_c13.py 1.0 12                # ~25 min per x_o (with split)
-.venv/bin/python -B solution/numerics/check_kappa4_shell.py 0.5          # ~15 min
+.venv/bin/python -B solution/check_report_final_review.py
+.venv/bin/python -B solution/check_observer_dilation_k6.py
+.venv/bin/python -B solution/check_centred22_mechanism.py
+.venv/bin/python -B solution/curvature_kernels.py --spectrum
+.venv/bin/python -B solution/check_constraint_rows.py
+solution/run_all.sh                  # full exact suite; long
+cd report
+pdflatex -interaction=nonstopmode -halt-on-error temperature_spectrum_report.tex
+pdflatex -interaction=nonstopmode -halt-on-error temperature_spectrum_report.tex
+pdflatex -interaction=nonstopmode -halt-on-error temperature_spectrum_report.tex
 ```
 
-The 14 earlier checks are listed in `README.md`; all passed in this session, the slowest being
-`check_quadrupole_green_source.py` at about 3 min.
+Optional numerical runs (typically 10–25 minutes, depending on grids):
+
+```bash
+.venv/bin/python -B solution/numerics/compare_cubic_quadrupole.py
+.venv/bin/python -B solution/numerics/observer_centred.py
+.venv/bin/python -B solution/numerics/shell_c13.py 1.0 12
+.venv/bin/python -B solution/numerics/check_kappa4_shell.py 0.5
+```

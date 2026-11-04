@@ -12,9 +12,16 @@ The report is [`report/temperature_spectrum_report.pdf`](report/temperature_spec
 exact integral**, which the problem permits; it is not a closed-form evaluated spectrum.
 Analytical proofs and exact SymPy checks in `solution/` have different scopes. In particular,
 finite Taylor tests are not arbitrary-time substitutions of the complete cubic observable.
-Supporting derivations are in `report/` (see the layout table below).
-The earlier approaches, intermediate notes and reviews are kept in the git history and are not
-part of the current tree.
+Supporting derivations and working notes are in `report/` (see the layout table below).
+The PDF is rebuilt from the current sources. Start with **Results at a glance** on pages 1–2;
+for the nonlinear physics follow **Limits → Next-gradient quadrupole and general spectra**, then
+**Reduced representation of the complete cubic response**. Detailed adjoints, alternative moment
+representations, verification scopes and numerical observations are in the appendices.
+
+The final-review findings are in [`report/FINAL_REVIEW.md`](report/FINAL_REVIEW.md), with the
+revision status and research follow-ups in [`report/HANDOFF.md`](report/HANDOFF.md). The report's
+explicit convention `J = <w Θ> = ∫W Θ dΩ`, `W = w/(4π)`, supersedes implicit weight switches in
+older working notes.
 
 ## Main results
 
@@ -53,6 +60,11 @@ part of the current tree.
   derives the general-moment quadrupole and leading octupole spectra in about 12 s.
   After subtracting observer dilation, the degree-six quadrupole correction is proportional
   to just `m₂m₄(122β_H − 13β_a)`. These are gradient coefficients, not finite-wavelength results.
+- **Combined cubic response.** `J₃ = J₁₁₁ − Σ S_meas[y₂] + J_lin[y₃]` uses closed-form
+  second-order fields and explicit cubic-source integrals, with no independent third-order field
+  solve, second ray or first field adjoint. Constraint compatibility removes hyperbolic Green
+  kernels. Only the direct first-field measurement has three-time terms; the other terms have at
+  most two. This is a reduced representation, not a closed-form evaluation of the spectrum.
 - **Cubic products.** An explicit orthonormal cubic integrand and combined emission/clock
   identity retain all lower-order products, including the mixed clock–emission term.
   This removes redundant local products, not the remaining propagation integrals.
@@ -62,14 +74,15 @@ part of the current tree.
   averaging. A lapse normal form removes second-order response derivatives. All required
   relative-angle moments are evaluated in the existing entire functions, with at most `J₃`;
   their time integrals remain. The top-order adjoint includes explicit boundary terms.
-- **Propagation adjoint (§6.1).** All cubic products linear in second-order fields can be
+- **Propagation adjoint (technical appendix).** All cubic products linear in second-order fields can be
   written without the ray response driven by `H₂`. Their bulk contains no time derivatives
   of `H₂`; emission, physical clock and random-monopole normalization remain explicit. The
   shell emission contraction uses the same nine moments. Mixed-time phases prevent assuming
   that finite moment closure for the remaining propagation terms. No full cubic cancellation
   is claimed.
 - **Open.** What remains unevaluated is listed in the report's section "What remains
-  unevaluated". An appendix records exploratory finite-k₀ numerics, which are not evidence.
+  unevaluated". The numerical appendix records implementation comparisons and exploratory
+  observations, not used in the analytical derivation.
 
 ## Walkthrough: report sections and their checks
 
@@ -84,12 +97,20 @@ part of the current tree.
 | Limits (superhorizon quadrupole and octupole, next gradient order, infrared) | `superhorizon.py`, `observable_generator.py SH`, `check_dilation_factorisation.py`, `check_gradient_octupole.py`, `superhorizon_next.py`, `check_quadrupole_next_hand.py`, `check_cubic_curvature_hand.py` |
 | Appendix: exploratory numerics | `numerics/explore_fourth_order.py`, `numerics/explore_third_order.py`, `numerics/explore_adjoint.py` |
 
-The new derivations are included directly in the main report from
-`report/cubic_source_reduction.tex`, `report/cubic_adjoint_reduction.tex`, and
-`report/propagation_adjoint.tex`. The initial review and fuller source-reduction discussion
-are in `report/critical_review_and_cubic_reduction.md`.
+The main report includes `report/cubic_source_reduction.tex`, `report/shell_acoustic.tex`,
+`report/cubic_adjoint_reduction.tex`, and `report/stationary_cubic_reduction.tex`.
+`report/cubic_technical_appendix.tex` includes the propagation adjoint and retains the full
+first-adjoint source, physical boundaries and evaluated Green kernels.
+`report/scalar_moment_appendix.tex` retains the alternative Cartesian moment construction.
+The two numerical appendices are now one: `report/numerical_appendix.tex`, which includes
+`report/validation_appendix.tex`. The initial source-reduction review is
+`report/critical_review_and_cubic_reduction.md`.
 
-## Further cancellation research
+## Supporting derivations and further research
+
+The following notes preserve the derivations behind the final representation, rather than
+constituting a sequence the report reader must follow. Current open targets are summarized in
+`report/HANDOFF.md` and in the report's **What remains unevaluated** section.
 
 The four proposed directions are preserved in
 [`report/future_cancellation_directions.md`](report/future_cancellation_directions.md).
@@ -166,8 +187,9 @@ The bound is not an evaluation of the surviving kernels or spectrum. Implementat
 integration before physical terms are combined.
 
 **Report integration and constraint rows.** The results of these notes have been reviewed
-and are now in the main report as §"Stationary reduction of the complete cubic response"
-(`report/stationary_cubic_reduction.tex`). Its final subsection is new: the contracted
+and are in the main report as §"Reduced representation of the complete cubic response"
+(`report/stationary_cubic_reduction.tex`), with detailed machinery in the technical appendix.
+The contracted
 Bianchi identities give exact source compatibilities for every physical pair. With them, the
 scalar/vector spatial response follows from the momentum constraint,
 `K.A = ∫[4K(ν'-ν/s) + 2i c_M]`, using only acoustic and wave kernels and one cumulative integral.
@@ -184,15 +206,17 @@ with the full cubic source. The complete cubic response becomes
 `J₁₁₁ − Σ S_meas[y_bc] + J_lin[y₃]`, with closed-form second-order fields, no first field
 adjoint and no hyperbolic kernel. Only `J₁₁₁` still has three-time terms.
 
-**Finite-wavelength validation (numerical, not evidence).**
+**Finite-wavelength validation (not used in the analytical derivation).**
 `solution/numerics/compare_cubic_quadrupole.py` compares this assembled cubic quadrupole with an
 independent forward calculation. The forward side solves the fields from the evolution equations
 alone and transports the photon and Fermi–Walker triad, with physical roots, clock and exact
 normalisation. Agreement is `≤3e-9` for noncoplanar, zero-pair and near-zero-pair triples at
-`|k|t̄_o ≈ 3` (about 10 minutes). `observer_centred.py` shows that at finite wavelength the dilation
-of the linear and quadratic maps carries most of the cubic response (99% for a generic triple, 67%
-for `(k,q,−q)`). `shell_c13.py` evaluates the shell ratio `(1/3)C₂⁽¹³⁾/σ²C₂⁽¹¹⁾` (App. A). The PDF
-in the repository has not been regenerated from the updated TeX.
+`|k|t̄_o ≈ 3` (about 10 minutes). In the sampled triples of `observer_centred.py`, dilation
+carries most of the cubic response (99% for one generic triple, 67% for one `(k,q,−q)` triple).
+These fractions are not general bounds. `shell_c13.py` evaluates the shell ratio
+`(1/3)C₂⁽¹³⁾/σ²C₂⁽¹¹⁾`; the numerical appendix distinguishes rounded-table compatibility from
+convergence tests. Fits suggesting higher-order failure of the centred-22 proportionality
+remain numerical observations, not analytical results.
 
 **Handoff.** The current state, a guide for reviewing the whole report, and the open follow-ups are in
 [`report/HANDOFF.md`](report/HANDOFF.md).
@@ -216,6 +240,7 @@ uv sync                     # .venv with sympy, mpmath, numpy, and the dev tools
 .venv/bin/python -B solution/check_regular_field_green.py
 .venv/bin/python -B solution/check_quadrupole_green_source.py
 .venv/bin/python -B solution/check_constraint_rows.py
+.venv/bin/python -B solution/check_report_final_review.py  # printed signs, weights, clock labels, Bianchi, references
 solution/run_all.sh         # the exact checks; uses .venv by default (override with PYTHON=...)
 .venv/bin/python -B solution/curvature_kernels.py --spectrum  # cache-free map + spectra, seconds
 .venv/bin/python -B solution/curvature_kernels.py --compare   # optional: needs saved legacy kernels
@@ -238,7 +263,7 @@ and an independent CAS (Maxima).
 | Path | Contents |
 |---|---|
 | `problem_statement.tex` | the task |
-| `report/` | the report (`.tex` and built `.pdf`) and four supporting derivations: `tensor_newtonian_crosscheck.md`, `quadrupole_next_hand_check.md`, `longitudinal_redshift.md`, `curvature_and_adjoint_derivations.md` |
+| `report/` | report sources and rebuilt PDF; technical/numerical appendix inputs; supporting derivations and working notes; `HANDOFF.md` and `FINAL_REVIEW.md` |
 | `solution/` | exact checks for the field solution, observable, spectrum and limits |
 | `solution/foundations/` | exact checks of the framework: lemmas, generic-jet field equations, first order in two gauges, normalisation and Gaussian algebra (`gr.py` holds the shared tensor utilities) |
 | `solution/results/` | exact expanded sources and kernels referenced by the report |
@@ -258,6 +283,7 @@ and an independent CAS (Maxima).
 | `third_order.py` | exact third-order sources at `(k, q, −q)` (written to `results/`); operators identical to second order |
 | `check_observable_expansion.py` | ray, emission root, moving endpoint, clock and composition formulas through third order, for arbitrary fields |
 | `check_report_identities.py` | exact residual Bianchi identities and homogeneous constraint counterexample; factored conformal driver and cubic matrix shear; FW rotation; centred/polarised map; two-norm spectrum; general-moment and shell leading-gradient resummation. Fast, read-only, no numerical checks. |
+| `check_report_final_review.py` | reads the two printed degree-six formulas and checks their signs and coefficients against the hand-map reference; exact sky-weight conversion and normalization adjoint, both fixed-label clock derivatives, generic off-shell linear Bianchi identities, and the TeX input/reference graph |
 | `check_gradient_modes.py` | exact special-conformal null seed and quadratic completion; comparison of the primordial profile with arXiv:1409.4777v2; nonzero uncompensated-gradient quadrupole; soft generator and leading-gradient Ward check, with a negative control. The arbitrary-time Ward identity is proved by covariance in the report, not by full-kernel substitution. |
 | `closed_forms.py`, `closed_second_order.py` | second-order kernels in closed form in entire functions (Si, Cin, 𝔢_m), regular on every resonance; every antiderivative verified by exact differentiation; `--check N` substitutes into the lapse equation (passes); `--check all` (hours) also substitutes into (M) and (T) |
 | `fast_series.py N` | third-order implementation test, fast and exact: the full nonlinear equations at `(k, q, −q)`, including the exact `K = 0` pair, vanish through `O(t^{N−2})`; `N = 8` takes about 70 s; negative controls `mutate-c3`, `mutate-K2` |

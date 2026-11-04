@@ -1,0 +1,45 @@
+\section{A prospective longitudinal-gauge route}\label{app:research-route}
+\subsection{Follow-up: fourth order inside the horizon}\label{sec:followup-late}
+This is a proposed route, not an evaluated fourth-order asymptotic result. Its starting
+point is the exact longitudinal-redshift identity already derived in the report.
+
+\paragraph{Why change variables.} The sampled finite-wavelength maps have large cancelling
+contributions in the temperature frame. No fourth-order decay law is established. The exploratory recombination in App.~\ref{app:numerics} suggests where
+the residual cancellation occurs.
+It sits between the field terms and the photon displacement, and it has two likely sources: the
+static relabelling carried by $H_1\to-\frac6{k_0^2}(\partial\partial-\frac13\delta\nabla^2)g$,
+and the $O(1)$ oscillation of the temperature-defined slicing, since the radiation
+temperature itself oscillates inside the horizon. A purely spatial relabelling addresses the
+first but not the second, and lowers the cancellation measure only from $10.3$ to $3.5$ at
+$x_o=12$. In longitudinal variables both are removed at first order. The potentials
+$\Phi=\Psi=-2(\sin x/x-\cos x)/x^2$ decay as $x^{-2}$, there is no first-order scalar shift,
+and the $O(1)$ acoustic physics appears explicitly in the endpoint Sachs--Wolfe and Doppler
+factors (Remark~\ref{rem:longitudinal}). The change is exact: the longitudinal redshift and
+its identity with the temperature-frame exponent are already proved there.
+
+\paragraph{What has to be built.}
+\begin{enumerate}
+\item The second- and third-order gauge generators (time shift and spatial vector) from the
+  temperature frame to longitudinal gauge. At each order these solve linear equations with
+  sources from lower orders, so the triangular scheme of \S\ref{sec:fields} applies. The
+  existing field kernels supply the sources.
+\item The longitudinal fields $\Phi_r$, $\Psi_r$, $\beta_r$ and $M_r$ through third order,
+  obtained by transforming those kernels. Their late-time decay should be checked order by
+  order: the induced second-order potentials are not guaranteed to decay as fast as the
+  first-order ones.
+\item The late-time expansion of the shell-integrated spectrum, with the non-uniform angles
+  $\mu=\pm1$ (collinear) and $\mu=-\frac13$ (tensor sound cone) treated explicitly. Either
+  use matched asymptotics in $(\mu,x_o)$, or subtract the resonant behaviour analytically
+  before taking the limit. A pointwise limit followed by angular integration is not
+  justified (see above).
+\end{enumerate}
+
+\paragraph{Checks available.} The result must agree with the temperature-frame map, which
+is exact at finite times. It must reproduce the superhorizon coefficients of
+\S\ref{sec:next-gradient} at small $x_o$, and its linear part must reproduce the first-order
+subhorizon law of \S\ref{sec:subhorizon-first}. The second-order part can be
+compared with the exploratory numerics, which reach $x_o=16$, as a consistency check. The
+natural first milestone is the second-order part $\frac14C^{(22)}$ alone. It needs only the
+second-order generator, and by Prop.~\ref{prop:nodes} it is the entire fourth-order answer at
+the zeros of $T_\ell$.
+

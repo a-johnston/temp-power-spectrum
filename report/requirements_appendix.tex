@@ -1,0 +1,20 @@
+\section{Requirements and scope}\label{app:requirements}
+\begin{center}
+\begin{longtable}{p{6.4cm}p{8.6cm}}
+\toprule
+Requirement & Result (section; status) \\\midrule\endhead
+Gaussian variable; no higher-order modes & $\zeta=\frac16\ln\det\gamma_{ij}$, exactly conserved; Def.~\ref{def:ic} (\S\ref{sec:ic}) \\
+Constrained initial data at every order & regular solution at any $t_i$; constraints proved (Thm.~\ref{thm:consistency}); forced data nonzero \\
+Field solution through $\eps^3$ incl.\ vectors/tensors & triangular scheme (\S\ref{sec:fields}); 2nd order \st{closed form}; 3rd order \st{explicit nested integrals}; contracted shell cubic sources: \st{nine moments, angle integrals evaluated} (\S\ref{sec:cubic-moments}); scalar moments hyperbolic-free (Prop.~\ref{prop:shell-acoustic}) \\
+Observer, clock, tetrad, emission surface & \S\ref{sec:obs}; explicit Fermi--Walker rotation, irrelevant to the spectrum at this order (Prop.~\ref{prop:frame}) \\
+Complete $\Theta^{(1)},\Theta^{(2)},\Theta^{(3)}$ & \S\ref{sec:obs}, with an independent generator and Ward checks; propagation adjoint removes the second-order-field ray response, with emission, clock and normalisation retained (\S\ref{sec:prop-adjoint}); combined form with no independent third-order field solve, second ray or first field adjoint (Prop.~\ref{prop:combined}); cubic quadrupole \st{verified through four gradients at arbitrary triples}, dilation channel \st{closed form} (\S\ref{sec:stationary}) \\
+$C_\ell^{(11)}$ & \st{closed form, every $\ell$}: entire-function $T_\ell$ (Prop.~\ref{prop:Tl}); the proof is analytic for every $\ell$, and the script checks $\ell=1,\dots,6$ \\
+$C_\ell^{(22)}$, $C_\ell^{(13)}$ & \st{exact finite-dimensional integrals}, organised as $C_\ell=4\pi vT_\ell^2+v^2[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell]$ (\eqref{eq:primary}); sky integrals evaluated (\S\ref{sec:spec}); shell metric reduced to two amplitudes, contracted cubic response scalar; existence proved for finite times and finite spectral measures of compact support in $0<k<\infty$; log-map decomposition with the lognormal part \st{explicit} (convergent $3j$ series, or one Legendre integral of $\xi^2$; Thm.~\ref{thm:logmap}) \\
+Monochromatic, held-fixed quantity & $\ens{g^2}=\sigma^2$ fixed (\S\ref{sec:mono}) \\
+Asymptotic limits & superhorizon: \st{closed form}, including an all-amplitude Gaussian average of the leading-gradient map, factorised into the random observer dilation $\times$ a curvature norm (\eqref{eq:sh-dilation-factorised}); leading octupole \st{closed form} (\S\ref{sec:sh-octupole}); complete fourth-order $C_2$ at the next gradient order $O(k_0^6)$: \st{closed form}, via three local curvature tensors (\eqref{eq:three-tensor}), checked by two independent routes; late time: \st{first order}; subhorizon first order: \st{closed form}, Sachs--Wolfe $+$ Doppler (Prop.~\ref{prop:subhorizon}); general $k_0$ at fourth order: \st{unevaluated integrals} (\S\ref{sec:limits}) \\
+Convergence for general spectra & finite spectral measure of compact support in $0<k<\infty$: \st{proved}; IR: leading cancellation \st{derived} from the Ward identities; UV: \st{power counting only} \\
+Verification & \S\ref{sec:ledger} (exact symbolic, generic-jet proofs) \\
+\bottomrule
+\end{longtable}
+\end{center}
+
