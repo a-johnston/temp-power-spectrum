@@ -155,8 +155,11 @@ therefore a property of that order only. A natural explanation that also fails i
 K^c₂ = −[K₁(k+q)−K₁(k)−K₁(q)]: it is exact at leading order but off by O(κ²) beyond it. **Explanation found, partly:** the overlap of K^c₂^[4] with
 δK₁^[2] equals that of −2δK₁^[4], i.e. −(𝔇/2)δK₁ in that projection. So centred 22 at k₀⁶ =
 2⟨δK₁^[2]δK₁^[4]⟩, which is linear-transfer only (asserted in `check_observer_dilation_k6.py`).
-**Still open:** why the projection obeys −½𝔇; test it at κ⁶ (needs the six-gradient quadratic map),
-or numerically by projecting the forward K^c₂ onto δK₁.
+**Tested (numerically):** the −½𝔇 projection relation is NOT exact. The relative mismatch is
+≈1.3κ⁴ (1.3e-4 at κ=0.1, 2.4e-3 at 0.2; `solution/numerics/half_dilation_projection.py`). So it
+holds through O(k₀⁴) only. Still open: a structural reason why it holds for exactly two orders. A
+plausible start is the leading-gradient locality of K^c₂ (pure gradient-squared) together with the
+first correction to the linear transfer.
 
 ## 4. Report structure
 
