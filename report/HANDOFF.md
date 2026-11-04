@@ -157,7 +157,12 @@ K^c₂ = −[K₁(k+q)−K₁(k)−K₁(q)]: it is exact at leading order but of
 2⟨δK₁^[2]δK₁^[4]⟩, which is linear-transfer only (asserted in `check_observer_dilation_k6.py`).
 **Tested (numerically):** the −½𝔇 projection relation is NOT exact. The relative mismatch is
 ≈1.3κ⁴ (1.3e-4 at κ=0.1, 2.4e-3 at 0.2; `solution/numerics/half_dilation_projection.py`). So it
-holds through O(k₀⁴) only. Still open: a structural reason why it holds for exactly two orders. A
+holds through O(k₀⁴) only. **Mechanism at k₀⁶ (exact, asserted in `check_observer_dilation_k6.py`):** the endpoint, clock,
+normalisation and dilation-subtraction pieces are orthogonal to δK₁^[2]. The field, position and
+direction pieces individually have overlap ratios with different time dependence, e.g. field =
+7(33e³−7e²o+23eo²+23o³)/(2·poly), position = 5(e−o)²(3e+o)/(2·poly) and direction =
+35(e−o)²(3e+o)/poly, with poly = 114e³−106e²o+59eo²+59o³; they sum to exactly 2. Still open: a
+structural (Lie-derivative or shift) reason for the field+ray sum, and why it fails at the next order. A
 plausible start is the leading-gradient locality of K^c₂ (pure gradient-squared) together with the
 first correction to the linear transfer.
 

@@ -1319,7 +1319,13 @@ projection, and the proportionality is lost. The identity is checked in
 $\TF(\hat k\hat q+\hat q\hat k)$, the numerically projected forward kernels give a relative mismatch
 of $1.3\,k_0^4$: $1.3\times10^{-4}$ at $k_0=0.1$ and $2.4\times10^{-3}$ at $0.2$
 (\path{solution/numerics/half_dilation_projection.py}, not evidence). So it holds through
-$O(k_0^4)$ only, consistent with the loss of proportionality at $k_0^8$. The
+$O(k_0^4)$ only, consistent with the loss of proportionality at $k_0^8$. \emph{Mechanism at $k_0^6$
+(exact).} Split $\mathcal K^c_2|_{k_0^4}$ into the hand map's pieces. The emission endpoint, the clock, the
+sky normalisation and the dilation subtraction are all orthogonal to $\delta\mathcal K_1|_{k_0^2}$. The
+bulk pieces each carry a different time dependence: the local field shear, the ray displacement and
+the ray direction. Only their sum is $2\times$ the polarisation overlap. The exact $\frac{28}3$ is
+therefore a cancellation between field and ray propagation, and it explains why that coefficient is
+independent of $\bar t_I$. The
   observer-local $\iota^4$ dependence sits only in the centred $13$ part and the cross term. The four
   pieces sum to the known complete coefficient
   $-2\pi\delta(38856e^4-64640e^3o+48480e^2o^2-18601o^4-4095\iota^4)/1913625$, with $e=\bar t_\star$,

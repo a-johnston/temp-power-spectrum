@@ -66,6 +66,16 @@ def main():
 
     assert s.simplify(c22_6 - 2 * overlap(pol2, pol4)) == 0, "centred 22 at k0^6 = twice the polarisation overlap"
     print("[ok] k0^6 centred 22 = 2 <deltaK1^[2] deltaK1^[4]>: fixed by the linear transfer alone")
+    # Mechanism: observer-local pieces and the dilation subtraction are orthogonal to the leading
+    # structure; the bulk field and the two first-order ray pieces sum to the factor 2.
+    ref = overlap(pol2, pol4)
+    for name in ("endpoint", "clock", "normalization"):
+        assert overlap(pol2, parts[name]) == 0, name
+    assert overlap(pol2, s.expand(4 * (lp4 + lq4))) == 0
+    bulk = sum(overlap(pol2, parts[x]) for x in ("field", "position", "direction"))
+    assert s.simplify(bulk - 2 * ref) == 0
+    assert all(s.simplify(overlap(pol2, parts[x]) / ref).has(e) for x in ("field", "position", "direction"))
+    print("[ok] mechanism: endpoint/clock/normalisation/dilation are orthogonal; field + position + direction = 2")
     C11_6 = 2 * norm * J12 * J14
     assert s.simplify(c22_6 - s.Rational(28, 3) * C11_6) == 0, "centred 22 at k0^6 is 28/3 C11[k0^6]"
     assert s.simplify(dilation - 18 * C11_6) == 0
