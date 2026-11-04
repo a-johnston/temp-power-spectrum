@@ -152,9 +152,27 @@ the constraint-row combination and `rem:iota`. **Centred-22 proportionality, tes
 (e,o)=(1.2,3) and 52.29 at (0.8,3.5), against a fit stability of ≤0.015
 (`solution/numerics/centred22_ratio.py`; set `KAPPAS` to change the fit points). The k₀⁶ ratio 28/3 is
 therefore a property of that order only. A natural explanation that also fails is
-K^c₂ = −[K₁(k+q)−K₁(k)−K₁(q)]: it is exact at leading order but off by O(κ²) beyond it. A possible
-analytic follow-up is to explain the k₀⁶ coincidence from the overlap of K^c₂^[4] with the
-leading TF(kq+qk) structure.
+K^c₂ = −[K₁(k+q)−K₁(k)−K₁(q)]: it is exact at leading order but off by O(κ²) beyond it. **Explanation found, partly:** the overlap of K^c₂^[4] with
+δK₁^[2] equals that of −2δK₁^[4], i.e. −(𝔇/2)δK₁ in that projection. So centred 22 at k₀⁶ =
+2⟨δK₁^[2]δK₁^[4]⟩, which is linear-transfer only (asserted in `check_observer_dilation_k6.py`).
+**Still open:** why the projection obeys −½𝔇; test it at κ⁶ (needs the six-gradient quadratic map),
+or numerically by projecting the forward K^c₂ onto δK₁.
+
+## 4. Report structure (assessment requested by the user; not yet acted on)
+
+The PDF is 72 pages. The first pages (abstract, status table, open list) give a usable summary. The
+weaker point is that the main text interleaves results with process: "established / not
+established" disclaimers, and validation narratives inside the derivations (§stationary especially).
+That buries the core line of argument. Suggested restructure for a final pass:
+1. A two-page "Results at a glance": the observable, T_ℓ, the 29/3 resummation, the k₀⁶ decomposition,
+   the constraint-row reduction and the combined cubic formula, with links.
+2. A main text that reads as a lecture: frame → fields → observable → spectrum → limits. Move the
+   stationary/adjoint machinery to one "Reduced representation of the cubic response" section of
+   statements and proofs only.
+3. Move every check, numeric validation and fixture description into the ledger and appendices, and
+   keep one status sentence per section.
+4. Fold the appendix of exploratory numerics and the validation subsection together, clearly
+   labelled as numerics.
 
 
 The target is ⟨K^c₃(k,q,−q)⟩_q̂, the only genuinely cubic part of C⁽¹³⁾ after

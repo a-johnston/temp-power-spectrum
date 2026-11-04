@@ -50,6 +50,22 @@ def main():
     tot22 = -8 * pi * (o**2 - e**2) * (105 * ti**4 + 719 * o**4 - 1920 * o**2 * e**2 + 2560 * o * e**3 - 1464 * e**4) / 637875
     tot13 = norm * (J12 * J3_4.subs(sub) + J14 * J3_2.subs(sub))
     assert s.simplify(total - (tot22 + tot13)) == 0, "decomposition must reproduce the known k0^6 coefficient"
+    # Why centred 22 is proportional at k0^6: K^c_2^[2] = -deltaK1^[2] (polarisation of the linear
+    # kernel), and the overlap of K^c_2^[4] with it equals that of -2 deltaK1^[4] = -(D/2) deltaK1^[4].
+    Kv = h.p + h.q
+    PK = Kv * Kv.T - h.identity * Kv.dot(Kv) / 3
+    tau2, lam = (o**2 - e**2) / 6, o - t
+    lK2 = tau2 * h.nn(PK)
+    lK4 = -h.time_integral(Kv.dot(Kv) * t**3 * h.nn(PK) / 30 + t * lam**2 * Kv.dot(n) ** 2 * h.nn(PK) / 6)
+    lK2, lK4 = s.expand(lK2 - h.sky(lK2)), s.expand(lK4 - h.sky(lK4))
+    pol2, pol4 = s.expand(-(lK2 - lp2 - lq2)), s.expand(-(lK4 - lp4 - lq4))
+    assert s.expand(lead_c - pol2) == 0, "leading centred kernel is minus the linear polarisation"
+
+    def overlap(A, B):
+        return s.expand(2 * pi * h.shell_integral(h.sky(A * B)) / 5).subs(sub)
+
+    assert s.simplify(c22_6 - 2 * overlap(pol2, pol4)) == 0, "centred 22 at k0^6 = twice the polarisation overlap"
+    print("[ok] k0^6 centred 22 = 2 <deltaK1^[2] deltaK1^[4]>: fixed by the linear transfer alone")
     C11_6 = 2 * norm * J12 * J14
     assert s.simplify(c22_6 - s.Rational(28, 3) * C11_6) == 0, "centred 22 at k0^6 is 28/3 C11[k0^6]"
     assert s.simplify(dilation - 18 * C11_6) == 0

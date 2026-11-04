@@ -1344,9 +1344,17 @@ does not continue. A numerical fit of the $k_0^8$ coefficients, using the valida
 (\path{solution/numerics/centred22_ratio.py}, not evidence), gives the ratio $52.66$ at
 $(\bar t_\star,\bar t_o)=(1.2,3)$ and $52.29$ at $(0.8,3.5)$. These values are stable to $\le0.015$ under a
 change of the fit points, so the ratio depends on time at $k_0^8$. The fit reproduces $\frac53$ and
-$\frac{28}3$ to $3\times10^{-6}$. The simplest explanation also fails: the centred kernel is
-$\mathcal K^c_2=-[\mathcal K_1(k+q)-\mathcal K_1(k)-\mathcal K_1(q)]$ at leading order, but not beyond it
-(the mismatch grows like $k_0^2$). The
+$\frac{28}3$ to $3\times10^{-6}$. \emph{Why the $k_0^6$ ratio is exact.} Write
+$\delta\mathcal K_1=\mathcal K_1(k+q)-\mathcal K_1(k)-\mathcal K_1(q)$ for the polarisation of the linear kernel.
+At leading order $\mathcal K^c_2=-\delta\mathcal K_1$. Beyond it this fails pointwise (the mismatch grows
+like $k_0^2$), but its projection onto the leading structure survives. Exactly, the overlap of
+$\mathcal K^c_2|_{k_0^4}$ with $\delta\mathcal K_1|_{k_0^2}$ equals that of $-2\,\delta\mathcal K_1|_{k_0^4}$, so
+$C^{c,22}_2|_{k_0^6}=2\ens{\delta\mathcal K_1|_{k_0^2}\,\delta\mathcal K_1|_{k_0^4}}$. This is fixed by the linear
+transfer alone, hence the proportionality. In this projection $\mathcal K^c_2$ acts as
+$-\frac12\mathfrak D\,\delta\mathcal K_1$. At $k_0^8$ the full $|\mathcal K^c_2|_{k_0^4}|^2$ enters, not only its
+projection, and the proportionality is lost. The identity is checked in
+\path{solution/check_observer_dilation_k6.py}; why the projection obeys $-\frac12\mathfrak D$ is not
+derived. The
   observer-local $\iota^4$ dependence sits only in the centred $13$ part and the cross term. The four
   pieces sum to the known complete coefficient
   $-2\pi\delta(38856e^4-64640e^3o+48480e^2o^2-18601o^4-4095\iota^4)/1913625$, with $e=\bar t_\star$,
