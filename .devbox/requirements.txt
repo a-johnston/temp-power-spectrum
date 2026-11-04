@@ -1,5 +1,0 @@
-# Pin both the exact-algebra package and its transitive dependency.
-# The exact checks do not use numerical quadrature or solvers; numpy serves solution/numerics/ only.
-sympy==1.14.0
-mpmath==1.3.0
-numpy==2.5.4
