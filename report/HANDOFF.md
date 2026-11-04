@@ -166,7 +166,10 @@ or numerically by projecting the forward K^c₂ onto δK₁.
   unevaluated".
 - The finite-wavelength validation is its own appendix (`report/validation_appendix.tex`,
   label `app:validation`), with a one-sentence pointer left in §stationary.
-- The PDF is 74 pages, including about 2 pages of new summary.
+- The abstract is rewritten as one paper-style paragraph. The old bullet abstract's details all
+  live in their sections, linked from "Results at a glance".
+- The opening of §stationary is rewritten as a roadmap, which drops an outdated status list.
+- The PDF is 72 pages.
 
 **Still to do:** items 2–4 below. In particular, trim the per-subsection "established / not
 established" status text in §stationary and §spectrum into one sentence each, move fixture and

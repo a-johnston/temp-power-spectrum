@@ -35,89 +35,23 @@ in a radiation-only universe: analytical representation and evaluated limits}
 \maketitle
 
 \begin{abstract}
-We construct an analytical integral representation of the observed temperature anisotropy
-through third order and of its angular power spectrum through fourth order in the primordial
-amplitude~$\eps$. The general finite-wavelength fourth-order spectrum is \emph{not evaluated
-in closed form}. Evaluated results include the linear transfer, second-order field kernels,
-and specified long-wavelength coefficients. The setting is a flat radiation-only universe in
-general relativity, with Planck test photons emitted on $T_{\rm phys}=T_\star$ and an observer
-on a fluid worldline.
-
-The calculation uses the fluid's velocity potential and comoving labels as coordinates
-(\emph{temperature frame}). In these coordinates the observed temperature is an exact line
-integral of the shear of a conformally rescaled metric, and the observer's own temperature
-cancels exactly in the normalised map. Further results:
-\begin{itemize}
-\item The spatial Einstein equations take a compact mixed trace-free form, which yields a
-  triangular solution scheme with elementary Green functions at every order.
-\item This scheme satisfies all ten field equations at every order (proved).
-\item All second-order field kernels are given in closed form for general momenta, in the
-  entire functions $\Si$, $\Cin$ and $\Ephi_m$. This makes every resonance surface manifestly
-  regular.
-\item Third-order kernels are explicit nested integrals. On the monochromatic shell the
-  contracted cubic field sources reduce to nine second-order angular moments and the forced
-  homogeneous lapse. Their relative-angle integrals are evaluated in entire functions; a
-  lapse normal form and momentum adjoint remove derivatives of second-order responses.
-  The direct three-first-order-field longitudinal momentum source cancels exactly.
-\item The complete map $\Theta^{(1,2,3)}$ is constructed. It retains photon propagation,
-  emission surface, observer clock, tetrad and normalisation terms. An adjoint eliminates the
-  second-order ray response from the cubic products linear in second-order fields and removes
-  their metric time derivatives from the bulk, with explicit boundaries. The shell emission
-  part reduces to the same nine moments; mixed-time phases still obstruct that finite closure
-  for the remaining propagation terms.
-\item A polarised stationary (adjoint) identity expresses the complete cubic response through
-  first-order states and first adjoints only, with all emission, clock, frame, normalisation and
-  initial-data terms (\S\ref{sec:stationary}). Its quadrupole needs at most three time integrals
-  per term, and its sky integrals close on entire phase moments. Through four gradients it agrees
-  with an independent curvature calculation for arbitrary momentum triples. For one finite and two
-  zero momenta the cubic transfer is exactly $(k\partial_k)^2T_\ell$. The Einstein constraints
-  remove every hyperbolic scalar Green function from physical pair responses
-  (\S\ref{sec:constraint-rows}). Combining the background blocks gives a representation in
-  which only the direct first-field measurement needs three time integrals
-  (Prop.~\ref{prop:combined}).
-\item The linear transfer function $T_\ell$ is given in closed form for every $\ell$, as a
-  short sum of the same entire functions $J_m$ used at second order. The coefficients are
-  Laurent coefficients of two explicit rational functions, with no logarithms or $\mathrm{Ci}$.
-\item $C_\ell^{(22)}$ and $C_\ell^{(13)}$ are reduced to exact finite-dimensional integrals,
-  with every sky integral done in closed form. On the monochromatic shell the answer is
-  organised as $C_\ell=4\pi vT_\ell^2+v^2[Q_\ell+4\pi T_\ell\operatorname{Re}R_\ell]$, with
-  $v=\eps^2\sigma^2$. Two exact symmetry reductions simplify it. The second-order metric
-  reduces to two amplitudes, one scalar and one tensor polarisation, with no vector part. The
-  angle-averaged cubic metric response is a single scalar.
-\item The fourth-order spectrum splits exactly into three parts. They are defined by the centred
-  log-temperature map $L$, which is the log of $T_{\rm obs}$ minus its sky mean. The three
-  parts are the fourth-order spectrum of $L$, a lognormal normalisation term given by an
-  explicit $3j$ series in $C^{(11)}$ alone, and a collapsed bispectrum of $L$. On the monochromatic shell, all first-order
-  quantities are local in the primordial field. The resonant integrals over angle and
-  Green-function times are confined to the second- and third-order metric response.
-\item The finite-time map admits a compact centred-exponent form, and the spectrum is the
-  sum of a corrected linear-response norm and a quadratic-response norm. These are exact
-  reorganisations through the required order, not evaluations of the remaining integrals.
-\item In the superhorizon limit the observable is a local trace-free-curvature quadrupole,
-  \emph{exact in~$\zeta$}. Its leading-gradient Gaussian spectrum factorises into an
-  observer dilation and a curvature norm:
-  \[
-  C_{2,\mathrm{lead}}=\tfrac{4\pi}{225}\eps^2\sigma^2\,\ens{\Xi_{\rm phys}^2}
-  \big(1+\tfrac53\eps^2\sigma^2\big),\qquad
-  \ens{\Xi_{\rm phys}^2}=\ens{e^{-4\zeta_o}}\Xi^2=e^{8\eps^2\sigma^2}\Xi^2,\qquad
-  \Xi\equiv x_o^2-x_\star^2 .
-  \]
-  Through fourth order this gives the factor $1+\frac{29}{3}\eps^2\sigma^2$, with
-  $\frac{29}{3}=8+\frac53$. The $8$ is the Gaussian average of the observer's own random
-  local dilation; it is part of the answer for the specified ensemble. The $\frac53$ is the
-  gradient-squared curvature. For any nonnegative spectrum, the leading-gradient coefficients lie in
-  $[8,\frac{29}3]\,m_0$ for the quadrupole and $[18,46]\,m_0$ for the octupole. The
-  monochromatic shell attains both upper bounds.
-\item The leading octupole is a local curvature-gradient octupole,
-  $\Theta_{3,\rm lead}=\beta_3\nabla_{\langle a}R_{bc\rangle}n^an^bn^c$. Its spectrum also
-  resums. Through fourth order it gives $C_{3}=\eps^2C_3^{(11)}(1+46\eps^2\sigma^2)$ at
-  $O(k_0^6)$.
-\item These statements concern the leading-gradient expressions, not the finite-wavelength
-  solution.
-\end{itemize}
-Analytical proofs and exact computer-algebra checks (no numerical evidence) are distinguished
-in the verification ledger. We state explicitly which integrals remain unevaluated and which
-limits remain open.
+We compute the observed temperature anisotropy through third order, and its angular power
+spectrum through fourth order, in the primordial amplitude $\eps$. The setting is a flat
+radiation-only universe in general relativity, with Planck test photons emitted on
+$T_{\rm phys}=T_\star$ and an observer on a fluid worldline. In the fluid's temperature frame the
+observed temperature is an exact line integral of the shear of a conformally rescaled metric. The
+observer's own temperature cancels exactly from the normalised map. A triangular scheme solves all
+ten Einstein equations at every order: the second-order kernels are in closed form, and the
+third-order kernels are explicit integrals. The linear transfer $T_\ell$ is given in closed form for
+every $\ell$. The fourth-order spectrum is reduced to exact finite-dimensional integrals with every
+sky integral done, and the complete cubic response is brought to a compact form. That form needs
+no third-order field, second-order ray or hyperbolic Green function, and it is validated at finite
+wavelength. In the superhorizon limit the quadrupole resums exactly in $\zeta$:
+$C_2\propto1+\frac{29}3\eps^2\sigma^2$, split into an observer dilation ($8$) and a curvature part
+($\frac53$). This decomposition is also evaluated at the next gradient order. The general
+finite-wavelength fourth-order spectrum is \emph{not} evaluated in closed form. The results at a
+glance are listed in \S1, and the open problems in \S\ref{sec:open}. Analytical proofs, exact
+computer-algebra checks and numerical validation are kept apart in the appendices.
 \end{abstract}
 
 \tableofcontents
