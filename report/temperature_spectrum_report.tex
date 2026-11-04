@@ -1325,7 +1325,15 @@ sky normalisation and the dilation subtraction are all orthogonal to $\delta\mat
 bulk pieces each carry a different time dependence: the local field shear, the ray displacement and
 the ray direction. Only their sum is $2\times$ the polarisation overlap. The exact $\frac{28}3$ is
 therefore a cancellation between field and ray propagation, and it explains why that coefficient is
-independent of $\bar t_I$. The
+independent of $\bar t_I$. More precisely, the bulk overlap splits by time structure. The local
+four-gradient shear goes as $D=o^4-e^4$; the field's phase expansion, the ray position and the ray
+direction all go as $A=\int_e^ot(o-t)^2\dd t$, in ratio $7:1:14$. These are exactly the two time
+structures of the linear transfer at $O(k_0^4)$, the local $t^3$ correction and the free-streaming
+phase. Each bulk part equals $2\times$ the matching part of $\delta\mathcal K_1|_{k_0^4}$, which is
+$-\frac12\mathfrak D$ with $\mathfrak D=4$. The relation is thus two independent factor-two identities, one for the
+local field and one for the ray kinematics. At the next order new time structures appear that
+have no counterpart in $\delta\mathcal K_1$, consistent with its failure there
+(\path{solution/check_centred22_mechanism.py}). The
   observer-local $\iota^4$ dependence sits only in the centred $13$ part and the cross term. The four
   pieces sum to the known complete coefficient
   $-2\pi\delta(38856e^4-64640e^3o+48480e^2o^2-18601o^4-4095\iota^4)/1913625$, with $e=\bar t_\star$,
