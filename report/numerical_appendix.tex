@@ -117,14 +117,13 @@ are at 9.46677 and 11.96208 ($\ell=2$, fixed ratio), at 8.52178, 10.89081 and 13
   $\frac14C_2^{(22)}$ stays $O(1)\sigma^4$ while $C_2^{(11)}$ is smaller and passes through
   nodes of $T_2$. With $r_{22}=C_2^{(22)}/(4\sigma^2C_2^{(11)})$, the quadratic contribution is
   smaller than the linear one only if $\eps^2\sigma^2\,r_{22}\ll1$, and $r_{22}\gg1$ for
-  $x_o\gtrsim2$. Away from nodes the $13$ term also enters the total correction. At a node, the
-  first nonzero prediction is
-  the fourth-order one (Prop.~\ref{prop:nodes}). This is a statement about which order
+  $x_o\gtrsim2$. At a node, the first nonzero prediction is the fourth-order one (Prop.~\ref{prop:nodes}). This is a statement about which order
   dominates a given multipole. It does not establish breakdown of the expansion, which would
   need the next order. Away from nodes, the $13$ term must also be included; its evaluation below changes the
   fourth-order correction materially.
 \item \emph{Measurement nonlinearity.} $\mathcal N_2+\mathcal M_2$ is below about $5\%$ of
-  $\frac14C_2[L_2,L_2]$ for $x_o\le3$, and 25--45\% at $x_o=4$--8.
+  $\frac14C_2[L_2,L_2]$ for $x_o\le3$. On the fixed-ratio trajectory it is $25\%$, $17\%$ and $43\%$ at
+  $x_o=4,6,8$; at fixed emission it is $23\%$ and $57\%$ at $x_o=4,8$.
 \item \emph{Large cancelling pieces.} At small $x_o$ almost all of $\frac14C_2[L_2,L_2]$
   comes from the $A_2$ part. At larger $x_o$ the local part, the $A_2$ part and their
   interference are each large and strongly anticorrelated: at $x_o=12$ (fixed ratio) they
@@ -226,8 +225,8 @@ The rounded-table column is $(C^{(4)}_2-\frac14C^{(22)}_2)/C^{(11)}_2$ computed 
 printed entries above. Allowing half a last printed digit in each input gives ratio intervals
 $[2.8745,2.9076]$, $[-6.1651,-6.0986]$ and $[-67.8745,-67.1974]$, respectively.
 The recomputed values lie within these rounding intervals; this is compatibility with the
-older rounded table, not agreement to every displayed digit or a numerical error bound.
-The newer $x_o=3$ result has not been separately refined in its $\mu$ quadrature.
+rounded table, not agreement to every displayed digit or a numerical error bound.
+The recomputed $x_o=3$ value has not been separately refined in its $\mu$ quadrature.
 Its linear quadrupole reproduces $C^{(11)}_2=\frac{4\pi}{25}\mathcal K_1^2$ ($0.0258$ and $0.116$).
 The last column is
 $\ens{\mathcal K^c_3}/\mathcal K_1$ from Prop.~\ref{prop:obs-dilation}; the rest is the dilation part. It grows
@@ -343,12 +342,4 @@ cancel, as at $x_o=3$, so the observer-centred split relocates the cancellation 
 than removing it. Its value is the exact superhorizon structure, not a simplification at
 finite $k_0$.
 
-The cubic term was evaluated by contraction, as follows. Only the
-$q$-contracted third-order field is needed, $\bar A_3(k,t)=\int_qP(q)A_3(k,q,-q;t)$. The
-third-order operator depends only on the total momentum $k$, and after the contraction $k$ is
-the only remaining direction. Hence
-$\bar A_{3,ij}=\bar h_3(k,t)(\hat k_i\hat k_j-\frac13\delta_{ij})$: the loop-averaged vector and
-TT responses vanish. The new third-order work is therefore a scalar problem (lapse plus
-scalar spatial part) with $q$-averaged sources. These sources, and the lower-order products in
-$L_3$, still contain the second-order vectors and tensors, which are kept.
-
+The cubic term above uses the $q$-contracted scalar response of Prop.~\ref{prop:contracted}; the second-order vectors and tensors inside its sources and in $L_3$ are kept.

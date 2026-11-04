@@ -1,7 +1,8 @@
 % Included within Section 5.3, after the general cubic construction.
 \subsubsection{Nine-moment reduction of the contracted cubic fields}\label{sec:cubic-moments}
-The general observable is constructed before making the following shell specialisation.
-For its $13$ contraction, the intermediate field equations admit a stronger reduction than
+These field-level shell reductions are used only in the monochromatic spectrum of
+\S\ref{sec:mono}, after the complete observable of \S\ref{sec:obs}; nothing in that general
+construction relies on them. For the $13$ contraction, the intermediate field equations admit a stronger reduction than
 constructing the component kernel $A_3$ and subsequently averaging it. Put
 \[
  k=k_0,\quad c=k/\sqrt3,\quad x=ct,\qquad
@@ -15,7 +16,7 @@ $H_p=\mathsf b(\hat p\hat p-\delta/3)$, and exactly
  L_k\mathsf a=0,\qquad L_k=3\partial_t^2+k^2-6/t^2,\qquad
  \mathsf b'=6(\mathsf a'-\mathsf a/t).
 \end{equation}
-Write $n_2(t,\mu)=\nu_2(k,q)$, $S_2=F_S$, $T_2=F_T$, and
+Write $n_2(t,\mu)=\nu_2(k,q)$, with $F_S,F_T$ the amplitudes of \eqref{eq:shell-two}, and
 $n_h(t)=\nu_2(q,-q)$ for the exact homogeneous lapse. Define
 \[
  \langle f\rangle_\mu=\tfrac12\int_{-1}^1f(\mu)\dd\mu,\qquad
@@ -23,8 +24,8 @@ $n_h(t)=\nu_2(q,-q)$ for the exact homogeneous lapse. Define
 \]
 \[
  N_r=\langle\mu^r n_2\rangle_\mu,\qquad
- S_r=\langle\mu^r S_2\rangle_\mu,\qquad
- T_r=\langle\mu^r T_2\rangle_\mu,\qquad r=0,1,2.
+ S_r=\langle\mu^r F_S\rangle_\mu,\qquad
+ T_r=\langle\mu^r F_T\rangle_\mu,\qquad r=0,1,2.
 \]
 The moment subscripts here are angular powers, not perturbative orders.
 
@@ -35,13 +36,13 @@ second-order tensor cancels from both angle-averaged cubic scalar sources; $n_h$
 Those sources require only the nine moments above, their first time derivatives and $n_h$:
 \begin{align}
  \bar c_N={}&B_0+\frac{12\mathsf a}{t^2}n_h
- +2\left\langle D_0n_2+\mathsf a k^2\left(\frac{3+\mu}{6}S_2-q_TT_2\right)
- +\frac{\mathsf b'}2(q_SS_2'+q_TT_2')\right\rangle_\mu,\label{eq:cubic-source-N}\end{align}
+ +2\left\langle D_0n_2+\mathsf a k^2\left(\frac{3+\mu}{6}F_S-q_TF_T\right)
+ +\frac{\mathsf b'}2(q_SF_S'+q_TF_T')\right\rangle_\mu,\label{eq:cubic-source-N}\end{align}
 \begin{equation}\label{eq:cubic-source-M}
  \bar m\equiv\overline{ik\cdot c_M}
  =-2\mathsf a k^2 n_h'
- +2k^2\left\langle\alpha_SS_2'+\alpha_TT_2'+2\mu\mathsf a n_2'
- +\beta_SS_2+\beta_TT_2+\beta_n n_2\right\rangle_\mu,
+ +2k^2\left\langle\alpha_SF_S'+\alpha_TF_T'+2\mu\mathsf a n_2'
+ +\beta_SF_S+\beta_TF_T+\beta_n n_2\right\rangle_\mu,
 \end{equation}
 where
 \[
@@ -79,15 +80,15 @@ Christoffel-based field engine at arbitrary finite time. It uses no time expansi
 \paragraph{Derivative-free lapse normal form.}
 Set
 \begin{equation}\label{eq:cubic-normal-form}
- \Upsilon=\mathsf a\langle q_SS_2+q_TT_2\rangle_\mu,\qquad
+ \Upsilon=\mathsf a\langle q_SF_S+q_TF_T\rangle_\mu,\qquad
  \eta_3=\bar\nu_3+\Upsilon,\qquad L_k\eta_3=-\bar r_N.
 \end{equation}
 Then
 \begin{equation}\label{eq:cubic-reduced-source}
 \begin{split}
  \bar r_N={}&B_R+\frac{12\mathsf a}{t^2}n_h\\
- &+2\left\langle D_R n_2+\frac{\mathsf a k^2}{6}(2-3\mu-3\mu^2)S_2
- +\frac{\mathsf a k^2}{2}(2+\mu-3\mu^2)T_2\right\rangle_\mu,\\
+ &+2\left\langle D_R n_2+\frac{\mathsf a k^2}{6}(2-3\mu-3\mu^2)F_S
+ +\frac{\mathsf a k^2}{2}(2+\mu-3\mu^2)F_T\right\rangle_\mu,\\
  D_R={}&12\mathsf a/t^2-k^2(1+\mu)[5+2\mathsf a-6\mathsf a\mu+\mathsf b(\mu-1/3)],\\
  B_R={}&k^2(8\mathsf a-8\mathsf a^2-\tfrac83\mathsf a^2\mathsf b+\tfrac49\mathsf a\mathsf b^2)
  +4\mathsf a\mathsf a'\mathsf b'-24\mathsf a^3/t^2.
@@ -98,8 +99,8 @@ Since $\Upsilon=O(t^4)$, the constrained regular $t^2$ coefficient is unchanged.
 The second-order equations used to obtain this normal form are
 \begin{equation}\label{eq:moment-pair-equations}
  L_Kn_2=-C_N,\quad
- S_2''+2S_2'/t-K^2S_2/3=-4K^2n_2+J_S,\quad
- T_2''+2T_2'/t+K^2T_2=J_T,
+ F_S''+2F_S'/t-K^2F_S/3=-4K^2n_2+J_S,\quad
+ F_T''+2F_T'/t+K^2F_T=J_T,
 \end{equation}
 with $K^2=2k^2(1+\mu)$ and the complete elementary sources
 \begin{align}

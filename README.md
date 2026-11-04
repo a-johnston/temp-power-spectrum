@@ -13,13 +13,12 @@ exact integral**, which the problem permits; it is not a closed-form evaluated s
 Analytical proofs and exact SymPy checks in `solution/` have different scopes. In particular,
 finite Taylor tests are not arbitrary-time substitutions of the complete cubic observable.
 Supporting derivations and working notes are in `report/` (see the layout table below).
-The PDF is rebuilt from the current sources. Start with **Results at a glance** on pages 1–2;
+The PDF is rebuilt from the current sources. Start with **Results at a glance** on page 2;
 for the nonlinear physics follow **Limits → Next-gradient quadrupole and general spectra**, then
 **Reduced representation of the complete cubic response**. Detailed adjoints, alternative moment
 representations, verification scopes and numerical observations are in the appendices.
 
-The final-review findings are in [`report/FINAL_REVIEW.md`](report/FINAL_REVIEW.md), with the
-revision status and research follow-ups in [`report/HANDOFF.md`](report/HANDOFF.md). The report's
+Revision status and research follow-ups are in [`report/HANDOFF.md`](report/HANDOFF.md). The report's
 explicit convention `J = <w Θ> = ∫W Θ dΩ`, `W = w/(4π)`, supersedes implicit weight switches in
 older working notes.
 
@@ -263,7 +262,7 @@ and an independent CAS (Maxima).
 | Path | Contents |
 |---|---|
 | `problem_statement.tex` | the task |
-| `report/` | report sources and rebuilt PDF; technical/numerical appendix inputs; supporting derivations and working notes; `HANDOFF.md` and `FINAL_REVIEW.md` |
+| `report/` | report sources and rebuilt PDF; technical/numerical appendix inputs; supporting derivations and working notes; `HANDOFF.md` |
 | `solution/` | exact checks for the field solution, observable, spectrum and limits |
 | `solution/foundations/` | exact checks of the framework: lemmas, generic-jet field equations, first order in two gauges, normalisation and Gaussian algebra (`gr.py` holds the shared tensor utilities) |
 | `solution/results/` | exact expanded sources and kernels referenced by the report |

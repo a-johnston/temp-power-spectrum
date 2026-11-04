@@ -1,8 +1,6 @@
 % Included at the end of Section 6, after the complete observable construction.
 \subsection{Adjoint reduction of the second-order-field propagation products}\label{sec:prop-adjoint}
-The next cancellation target is the combination of \eqref{eq:adjoint-nine-moment} with the
-lower-order products in the cubic map. A first exact step is possible without solving the
-second-order ray. This subsection isolates \emph{all terms linear in the second-order fields}
+The part of the second-order ray driven by $H_2$ can be eliminated exactly. This subsection isolates \emph{all terms linear in the second-order fields}
 $H_2$ and $\nu_2$, excluding the top-order fields $H_3,\nu_3$ and the remaining products made
 only of first-order fields. It is a decomposition of the already complete map, not an omission
 or a new initial-state assumption. The adjoint below holds at general momenta and finite times.
@@ -32,7 +30,7 @@ with no extra factor three.
 \begin{proposition}[Propagation adjoint]\label{prop:propagation-adjoint}
 Define first-order-only functions
 \begin{gather*}
- r=\tfrac12\nabla h'_{nn},\qquad s=-Ph'n,\qquad W=v+\tfrac12P\boldsymbol K,\\
+ r=\tfrac12\nabla h'_{nn},\qquad s=-Ph'n,\qquad \boldsymbol Y=v+\tfrac12P\boldsymbol K,\\
  \boldsymbol R(t)=\int_e^t r(u)\dd u,\qquad
  \boldsymbol K(t)=\int_e^t[s(u)-\boldsymbol R(u)]\dd u.
 \end{gather*}
@@ -46,12 +44,12 @@ A further integration by parts removes all partial time derivatives of $j$ from 
 \begin{equation}\label{eq:prop-adjoint-bulk}
 \boxed{\begin{aligned}
  \mathfrak B[h,j]={}&
- [\tfrac12X\cdot\nabla j_{nn}-W\cdot jn]_e^o\\
+ [\tfrac12X\cdot\nabla j_{nn}-\boldsymbol Y\cdot jn]_e^o\\
  &+\int_e^o\left\{
  \tfrac12X\cdot\nabla(n\cdot\partial)j_{nn}
  -\tfrac12(X'+P\boldsymbol K)\cdot\nabla j_{nn}\right.\\
  &\hspace{19mm}\left.-v\cdot(n\cdot\partial)(jn)
- +(W'-\tfrac12\boldsymbol R)\cdot jn\right\}\dd t.
+ +(\boldsymbol Y'-\tfrac12\boldsymbol R)\cdot jn\right\}\dd t.
 \end{aligned}}
 \end{equation}
 Only first-order ray and adjoint functions and the second-order metric remain. In particular,
@@ -67,7 +65,7 @@ This proves \eqref{eq:prop-adjoint-first}. In the remaining $j'$ terms use
 $\partial_tj=\dd j/\dd t+(n\cdot\partial)j$ on the background ray. The longitudinal
 $\boldsymbol K$ pieces cancel between the two spatial-derivative terms, leaving
 \eqref{eq:prop-adjoint-bulk}. The resulting metric boundary is \emph{not} zero:
-at $o$, $X=v=0$ but $W=P\boldsymbol K/2$ need not vanish.
+at $o$, $X=v=0$ but $\boldsymbol Y=P\boldsymbol K/2$ need not vanish.
 \end{proof}
 
 \paragraph{Emission, physical clock and normalisation.}
@@ -98,7 +96,7 @@ map order; it does not add a $j$-dependent term here.
 
 \paragraph{An evaluated shell emission contraction.}
 The emission part of this sector already fits the nine-moment construction. Let
-$\mathcal C_S(t)=\langle q_SS_2+q_TT_2\rangle_\mu$ (so $\Upsilon=\mathsf a\mathcal C_S$),
+$\mathcal C_S(t)=\langle q_SF_S+q_TF_T\rangle_\mu$ (so $\Upsilon=\mathsf a\mathcal C_S$),
 $Q_k=\hat k\hat k-\delta/3$. After polarising the full cubic expression and averaging over
 $\hat q$, the emission-exponent kernel is exactly
 \begin{equation}\label{eq:prop-emission-moments}
@@ -110,7 +108,7 @@ $\hat q$, the emission-exponent kernel is exactly
 Indeed the two mixed partitions share one emission time, so their phases combine to the
 external phase. The azimuthal averages are
 $\overline{Q_q}=P_2(\mu)Q_k$ and
-$\overline{H_2(k,q)}=\tfrac32(q_SS_2+q_TT_2)Q_k$.
+$\overline{H_2(k,q)}=\tfrac32(q_SF_S+q_TF_T)Q_k$.
 The homogeneous tensor averages to zero and the homogeneous lapse remains.
 For $\ell\ge2$, its temperature-transfer contribution is
 \[
@@ -135,6 +133,6 @@ $13$ response. In a mixed-time product, for example,
 The second phase is present unless $u=t$. Consequently the finite nine polynomial moments
 proved for the top-order fields and shared-time emission terms cannot simply be assumed to
 close the remaining propagation integrals. No cancellation of the full cubic response or
-late-time limit is proved. The new target is the combination of
+late-time limit is proved. The unevaluated remainder is the combination of
 \eqref{eq:adjoint-nine-moment}, \eqref{eq:prop-adjoint-bulk}, the clock terms and the remaining
 first-order-only products, with the displayed physical boundaries retained.

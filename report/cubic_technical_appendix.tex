@@ -215,10 +215,12 @@ spatial inverse of $\partial_t^2+\frac2t\partial_t+\mathfrak B_q$ is the quadrat
  +\frac{3\mathsf T_5(z,d)+\mathsf T_5(-\frac z3,d)}4\mathfrak B_q^2\Big],\qquad d=t-s,
 \end{equation}
 which is the closed form of the series in Prop.~\ref{prop:cartesian}. With $a=z/3$,
-$G_N^+=\frac13[\mathsf T_1(a,d)+(d\mathsf T_2-\mathsf T_3)(a,d)/(ts)]$, and the previously nested
+$G_N^+=\frac13[\mathsf T_1(a,d)+(d\mathsf T_2-\mathsf T_3)(a,d)/(ts)]$, and the nested
 lapse-to-spatial convolution is evaluated:
-$\int_s^t\frac ut\mathsf T_1(-a,t-u)G_N^+(u,s)\dd u=[s\mathcal A+\mathcal B+\mathcal D/s]/(3t)$ with
-$\mathcal A=\frac12[\mathsf T_3(a)+\mathsf T_3(-a)]$, $\mathcal B=\frac12[d\mathsf T_3(a)+\mathsf T_4(-a)-\mathsf T_4(a)]$,
+\[
+\int_s^t\frac ut\mathsf T_1(-a,t-u)G_N^+(u,s)\dd u=\frac{s\mathcal A+\mathcal B+\mathcal D/s}{3t},
+\]
+with $\mathcal A=\frac12[\mathsf T_3(a)+\mathsf T_3(-a)]$, $\mathcal B=\frac12[d\mathsf T_3(a)+\mathsf T_4(-a)-\mathsf T_4(a)]$,
 $\mathcal D=\frac12[d\mathsf T_4(a)-2\mathsf T_5(a)+\mathsf T_5(-a)]$ (all at $d$). The complete proper-clock
 pairing is evaluated too. For a physical first input, set $a=p^2/3$ in the clock formulas:
 $D_p=\frac{p^2}{9o}W_c$, with
@@ -277,11 +279,11 @@ first spatial adjoint is evaluated in closed form, with observer trace
 $p^2(o^4+3\iota^4)\mathsf C/(72o)$ and emission jump $-p^2e^3\mathsf C/18$; its integral has no
 logarithms,
 \[
- \overline\Lambda_{H,a}^{[2]}=\frac L3U+\tau^4V-\frac D{120}\rho_{p,q}
+ \overline\Lambda_{H,a}^{[2]}=\frac L3U+\tau^4V-\frac E{120}\rho_{p,q}
  +\frac{p^2(3o^4+5\iota^4-8e^4)}{360}\mathsf C,\qquad
- \Lambda^{[2]}_{c,a}=\frac{3o^4+5\iota^4-8e^4}{20}\mathsf C:Q_p+\frac D5(p+q)^T\mathsf Cq,
+ \Lambda^{[2]}_{c,a}=\frac{3o^4+5\iota^4-8e^4}{20}\mathsf C:Q_p+\frac E5(p+q)^T\mathsf Cq,
 \]
-with $\tau^2=(o^2-e^2)/6$, $D=o^4-e^4$, $L=\int_e^ot(o-t)^2\dd t$, and $U,V,\rho_{p,q}$ explicit
+with $\tau^2=(o^2-e^2)/6$, $E=o^4-e^4$, $L=\int_e^ot(o-t)^2\dd t$, and $U,V,\rho_{p,q}$ explicit
 quadratic tensors in $p,q,\mathsf C$ (note \path{quadrupole_adjoint_gradient_expansion.md}). Both
 initial-data pairings enter at four gradients, below the bulk lapse terms.
 These coefficients use the averaged objective $J=\sky{w\Theta}$ and its

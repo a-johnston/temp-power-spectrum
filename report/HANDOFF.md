@@ -3,15 +3,40 @@
 ## Current delivery state
 
 The final-review corrections and structural revision have been applied. The report is
-`report/temperature_spectrum_report.pdf`, rebuilt from the current TeX: **73 pages**.
+`report/temperature_spectrum_report.pdf`, rebuilt from the current TeX: **74 pages**.
 The abstract/problem are on page 1, the linked results summary and reading paths on page 2,
-and the contents follow. The main text ends with “What remains unevaluated” on page 46;
-the appendices begin on page 47. Length was not reduced by deleting exploratory mathematics:
+and the contents follow. “What remains unevaluated” starts on page 46 and ends at the top of
+page 47, where the appendices begin. Length was not reduced by deleting exploratory mathematics:
 most of the reduction in the main text comes from moving detailed machinery and verification.
 
-`report/FINAL_REVIEW.md` records the findings against the pre-revision source; its old line/page
-numbers are historical. This handoff describes the revised state. The earlier session history
-and handoff are available in git (the preceding tip was `de9ac7d`).
+### Pre-presentation review (2026-11-03)
+
+No mathematical error was found in the printed results. The 17 exact checks below were rerun
+after the edits and pass. Printed formulas were also retyped from the TeX and tested separately
+from the repository code: a multilinear Wick calculation from the three-tensor map (all `k0^6`
+polynomials, the general-moment formulas, `28/3`, the four-piece split, and the linear relation
+between the stationary, centred and cross formulas); `t^2`/`t^4` data for the pair sources and
+averaged cubic sources against the exact-in-zeta curvature tensors; the acoustic `F_S` and
+Kohri–Terada `F_T`; `T_l` table values and node positions; and the curvature identities on a
+generic seed. These are now in `solution/check_printed_formulas.py`, also called by `run_all.sh`.
+Eq. (1.8) of Mirbabayi–Zaldarriaga matches the quoted `phi_2`.
+
+Edits: amplitudes renamed `S_2,T_2 -> F_S,F_T` (they collided with the moments and the transfer
+function), propagation-adjoint vector `W -> Y`, the Hankel sign `sigma -> varsigma` in the `T_l`
+proposition (shear and variance keep the standard `sigma`), and `D -> E = o^4-e^4` in the technical appendix.
+Corrected a stale `n = ln N`, the false claim that §5.3.1 follows the observable, the Cotton
+attribution, the ledger's undefined “L1–L5” and a wrong numerical percentage range. Added the
+explicit `R_l`–`J_abc` link, a short derivation of the three-tensor coefficients, the named
+verification rows in the requirements table, and two entries in the results list.
+
+The saved kernels `solution/results/superhorizon_kernels_*.pkl` are now tracked, so
+`curvature_kernels.py --compare` works from a fresh clone without the 13-hour regeneration.
+
+Not verified in this review: arbitrary-time cubic kernels beyond the existing scope, the numerical
+runs (retained results, apart from `C11` and node values), and rendered page appearance.
+
+This handoff describes the revised state. The earlier session history and handoff are in git
+(the preceding tip was `de9ac7d`).
 
 ### Corrections applied
 
@@ -198,12 +223,12 @@ Use these as numerical comparisons after deriving an expression, not substitutes
 
 ### External coefficient discrepancy
 
-An earlier external calculation reported a 2.2% difference in the observer-local degree-six
-13 coefficient. The reference remains the exact expression in the limits section and in
-`check_stationary_quadrupole_four_gradients.py`, including both gradient orderings. Compare the
-`iota^4` term, the physical initial event, clock composition, normalization and dilation
-conventions term by term. The initial-event remark now makes the held-fixed labels explicit;
-it should not be used as an all-orders equality of the Fermi–Walker and symmetric maps.
+A comparison of an early copy of this report by another group's agent reported a 2.2% difference
+in the observer-local degree-six 13 coefficient. The problem author already knows. The cause is
+unknown because the other report has not been compared term by term. Three symbolic routes and
+`check_printed_formulas.py` all reproduce the printed coefficient. If it is ever compared, look at
+the `iota^4` term, both gradient orderings, the physical initial event, clock composition,
+normalization and dilation conventions.
 
 ## Reproduction
 

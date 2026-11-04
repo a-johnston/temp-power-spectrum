@@ -29,7 +29,7 @@
 \title{The observed temperature power spectrum through fourth order\\
 in a radiation-only universe: analytical representation and evaluated limits}
 \author{Opus 5.5, Astra 6, Sol 6.1, Qwen 3.8 27B, Meatbag Operator}
-\date{2026-10-31}
+\date{2026-11-03}
 
 \begin{document}
 \maketitle
@@ -76,7 +76,8 @@ normalisations fixed. A monochromatic specialisation is to be made only at the e
 \subsection*{Results at a glance}
 \begin{enumerate}
 \item \emph{A complete finite-time spectrum.} The linear transfer $T_\ell$ is in closed form
-  for every $\ell$ (Prop.~\ref{prop:Tl}); the fourth-order answer is an exact integral
+  for every $\ell$ (Prop.~\ref{prop:Tl}), and inside the horizon it reduces to the Sachs--Wolfe
+  plus Doppler form (Prop.~\ref{prop:subhorizon}); the fourth-order answer is an exact integral
   representation with all sky integrals evaluated (\S\ref{sec:spec}). On a monochromatic
   shell, holding $\ens{g^2}=\sigma^2$ fixed and putting $v=\eps^2\sigma^2$, it is
   \[
@@ -109,7 +110,9 @@ normalisations fixed. A monochromatic specialisation is to be made only at the e
   decompositions (\S\S\ref{sec:logmap}--\ref{sec:obs-dilation}). The combined cubic response
   needs no independent third-order field solve, second ray or first field adjoint;
   the constraints remove hyperbolic Green kernels (\S\ref{sec:stationary}). The surviving
-  terms have at most three independent time integrations.
+  terms have at most three independent time integrations. On the shell the second-order
+  metric is two amplitudes, and its tensor is the known radiation-era induced-wave kernel plus
+  an elementary gauge correction (Prop.~\ref{prop:shell-two}, \eqref{eq:FT-KT}).
 \end{enumerate}
 
 \paragraph{Scope.}
@@ -270,7 +273,7 @@ longitudinal generators are not solved.
 \end{remark}
 
 \begin{proposition}[Unified field equations]\label{prop:fe}
-With $n=\ln N$, Einstein's equations are equivalent to
+With $N=a_1te^{\nu}$ (Lemma~\ref{lem:redshift}), Einstein's equations are equivalent to
 \begin{align}
 &(N)\quad 3\nu''-\Delta_\gamma\nu-2|D\nu|^2+\operatorname{tr}S^2+\tfrac{3}{t^2}(e^{-2\nu}-1)=0,\\
 &(T)\quad \TF\big[S'+2(t^{-1}+\nu')S+R^k{}_j[\gamma]-2D^kD_j\nu+2D^k\nu D_j\nu\big]=0,\\
@@ -998,7 +1001,8 @@ C^{(11)}_\ell&=\tfrac{1}{2\ell+1}\textstyle\sum_m\int_kP|A^{(1)}_{\ell m}|^2,\qq
 C^{(22)}_\ell=\tfrac{2}{2\ell+1}\sum_m\int_k\int_qP(k)P(q)|A^{(2)}_{\ell m}(k,q)|^2,\\
 C^{(13)}_\ell&=\tfrac{3}{2\ell+1}\textstyle\sum_m\int_k\int_qP(k)P(q)A^{(1)}_{\ell m}(k)A^{(3)}_{\ell m}(k,q,-q)^* .
 \end{align*}
-The disconnected part of 22 is proportional to $\delta_{\ell0}$. In 13 all three pairings
+We write $C^{(4)}_\ell\equiv\frac14C^{(22)}_\ell+\frac13\operatorname{Re}C^{(13)}_\ell$ for the
+$\eps^4$ coefficient. The disconnected part of 22 is proportional to $\delta_{\ell0}$. In 13 all three pairings
 survive; the internal $(q,-q)$ pairing is a pairing of the fourth moment and is not removed by
 normal ordering. Odd orders vanish.
 
@@ -1057,7 +1061,7 @@ V_\ell(y)&=e^{-iy}\Big(\frac13+\partial_y^2\Big)h^{(1)}_\ell(y),
 \end{aligned}
 \end{equation}
 and put $V^{+}_\ell=V_\ell$, $V^{-}_\ell=\overline{V_\ell}$ (conjugate coefficients),
-$\omega_\sigma=1-\sigma\sqrt3$ and $\Delta=x_o-x_\star$. Both $S$ and $V_\ell$ are Laurent
+$\omega_\varsigma=1-\varsigma\sqrt3$ and $\Delta=x_o-x_\star$. Both $S$ and $V_\ell$ are Laurent
 polynomials; for example
 \[
 \begin{aligned}
@@ -1074,26 +1078,26 @@ J_m(\omega,t)=\int_0^ts^{-m}\Big[e^{i\omega s}-\sum_{j<m}\frac{(i\omega s)^j}{j!
 each of which is $t^{1-m}$ times an entire function of $\omega t$. Then
 \begin{equation}\label{eq:Tl-entire}
 \boxed{\begin{aligned}
-T_\ell=-\frac32\operatorname{Re}\sum_{\sigma=\pm1}\Big\{&
-e^{i\sigma\sqrt3x_o}\sum_{m=1}^{2}a^\sigma_m\big[J_m(\omega_\sigma,x_o)-J_m(\omega_\sigma,x_\star)\big]\\
-&+e^{ix_o}\sum_{m=1}^{\ell+3}b^\sigma_m\,J_m(-\omega_\sigma,\Delta)\Big\},
+T_\ell=-\frac32\operatorname{Re}\sum_{\varsigma=\pm1}\Big\{&
+e^{i\varsigma\sqrt3x_o}\sum_{m=1}^{2}a^\varsigma_m\big[J_m(\omega_\varsigma,x_o)-J_m(\omega_\varsigma,x_\star)\big]\\
+&+e^{ix_o}\sum_{m=1}^{\ell+3}b^\varsigma_m\,J_m(-\omega_\varsigma,\Delta)\Big\},
 \end{aligned}}
 \end{equation}
 where the coefficients depend on $x_o$ only:
 \[
-a^\sigma_2=2iV^\sigma_\ell(\sqrt3x_o),\quad
-a^\sigma_1=2V^\sigma_\ell(\sqrt3x_o)-2\sqrt3\,i\,V^{\sigma\prime}_\ell(\sqrt3x_o),\quad
-b^\sigma_m=\big[u^{-m}\big]\,S(x_o-u)\,V^\sigma_\ell(\sqrt3u),
+a^\varsigma_2=2iV^\varsigma_\ell(\sqrt3x_o),\quad
+a^\varsigma_1=2V^\varsigma_\ell(\sqrt3x_o)-2\sqrt3\,i\,V^{\varsigma\prime}_\ell(\sqrt3x_o),\quad
+b^\varsigma_m=\big[u^{-m}\big]\,S(x_o-u)\,V^\varsigma_\ell(\sqrt3u),
 \]
 with $[u^{-m}]$ denoting the Laurent coefficient at $u=0$.
 \end{proposition}
 \begin{proof}
-By \eqref{eq:hankel-split}, $-3s'w_\ell=-\frac32\operatorname{Re}\sum_\sigma
-e^{i\sigma\sqrt3x_o}e^{i\omega_\sigma x}R_\sigma(x)$, where
-$R_\sigma(x)=S(x)V^\sigma_\ell(\sqrt3(x_o-x))$ is rational and vanishes at infinity. Its only
+By \eqref{eq:hankel-split}, $-3s'w_\ell=-\frac32\operatorname{Re}\sum_\varsigma
+e^{i\varsigma\sqrt3x_o}e^{i\omega_\varsigma x}R_\varsigma(x)$, where
+$R_\varsigma(x)=S(x)V^\varsigma_\ell(\sqrt3(x_o-x))$ is rational and vanishes at infinity. Its only
 poles are at $x=0$ (order two, from $S$) and $x=x_o$ (order $\ell+3$, from $V_\ell$), so
-$R_\sigma$ is the sum of its two principal parts. These are $a^\sigma_2/x^2+a^\sigma_1/x$ and, in
-$u=x_o-x$, $\sum_mb^\sigma_mu^{-m}$. Write each $e^{i\omega x}x^{-m}$ as the subtracted
+$R_\varsigma$ is the sum of its two principal parts. These are $a^\varsigma_2/x^2+a^\varsigma_1/x$ and, in
+$u=x_o-x$, $\sum_mb^\varsigma_mu^{-m}$. Write each $e^{i\omega x}x^{-m}$ as the subtracted
 integrand of $J_m$ plus the principal part of $e^{i\omega x}x^{-m}$. The discarded pieces add up
 to the principal part, at $x=0$ and at $x=x_o$, of the complex integrand. The real part of that
 sum is the principal part of $-3s'(x)w_\ell(\sqrt3(x_o-x))$, which is regular at both points
@@ -1282,8 +1286,8 @@ The following consequences place this result.
   \eqref{eq:sh-dilation-factorised}.
 \item \emph{Next gradient order.} Every term of \eqref{eq:obs-dilation} is evaluated at
   $O(\eps^4k_0^6)$ for $\ell=2$. In this paragraph set $\sigma=k_0=1$ and write
-  $e=\bar t_\star$, $o=\bar t_o$, $\iota=\bar t_I$, $\delta=o^2-e^2$.
-  The four-gradient map, linear transfer and \eqref{eq:centred-kappa4} give
+  $e=\bar t_\star$, $o=\bar t_o$, $\iota=\bar t_I$, $\delta=o^2-e^2$ (the $\Delta$ of
+  \S\ref{sec:next-gradient}). The four-gradient map, linear transfer and \eqref{eq:centred-kappa4} give
   \[
    \tfrac{\sigma^2}2D^2C^{(11)}_2\big|_{k_0^6}=18\,C^{(11)}_2\big|_{k_0^6},\qquad
    C^{c,22}_2\big|_{k_0^6}=\tfrac{28}3\,C^{(11)}_2\big|_{k_0^6},\qquad
@@ -1951,9 +1955,7 @@ Thm.~\ref{thm:sh} from the generator's own kernels.
 $\mathfrak a=-R[\gamma_0]/36$ and $\mathsf A_{ab}=-\frac13R_{\langle ab\rangle}[\gamma_0]$ be the
 curvature scalar and trace-free Ricci tensor of the seed metric $\gamma_0=e^{2\zeta}\delta$, so
 that $\nu=t^2\mathfrak a+t^4\mathfrak b+\cdots$ and $H=t^2\mathsf A+t^4\mathsf B+\cdots$. The field
-equations give $30\mathfrak b=\nabla^2\mathfrak a-6\mathfrak a^2-\operatorname{tr}\mathsf A^2$.
-Because the seed is conformally flat (vanishing Cotton tensor),
-$\nabla^b\mathsf A_{ab}=2\nabla_a\mathfrak a$, and
+equations give $30\mathfrak b=\nabla^2\mathfrak a-6\mathfrak a^2-\operatorname{tr}\mathsf A^2$ and
 \[
 \mathsf B=\tfrac3{20}(\nabla\nabla\mathfrak a)_{\rm TF}+\tfrac3{20}(\mathsf A^2)_{\rm TF}-\tfrac7{10}\mathfrak a\mathsf A .
 \]
@@ -1989,7 +1991,7 @@ order, the quadrupole is a combination of only three local correction tensors:
 Q=-\tfrac\Delta2\mathsf A+\beta_H(\nabla\nabla\mathfrak a)_{\rm TF}+\beta_S(\mathsf A^2)_{\rm TF}
 +\beta_a\,\mathfrak a\mathsf A+O(\partial^6),}
 \end{equation}
-with $L=\int_e^ot(o-t)^2\dd t$, $E=o^4-e^4$ and
+with
 \begin{align*}
 \beta_H&=-\tfrac{11}{14}L-\tfrac3{40}E=-\tfrac{o-e}{420}\big(59o^3+59o^2e-106oe^2+114e^3\big),\\
 \beta_S&=\tfrac{27}{14}L-\tfrac3{40}E-\tfrac1{28}\Delta^2=\tfrac{o-e}{140}\big(7o^3+7o^2e-118oe^2+62e^3\big),\\
@@ -1998,7 +2000,25 @@ with $L=\int_e^ot(o-t)^2\dd t$, $E=o^4-e^4$ and
 \end{align*}
 The line-of-sight Hessian, the direction response, the map normalisation, the emission
 surface ($-e^4$) and the observer clock ($\frac14(o^4+3\iota^4)$) are all inside these three
-coefficients. The $(\mathsf A^2)_{\rm TF}$ tensor drops out of the fourth-order spectrum after
+coefficients.
+
+\emph{Origin of the coefficients.} With $R_{ab}=-3\mathsf A_{ab}-12\mathfrak a\delta_{ab}$, the contracted
+Bianchi identity reads $\nabla^b\mathsf A_{ab}=2\nabla_a\mathfrak a$. Conformal flatness (vanishing
+Cotton tensor) makes $\nabla_c(\mathsf A_{ab}+\mathfrak a\delta_{ab})$ symmetric in $b,c$. With the
+three-dimensional Riemann tensor, the trace-free parts then obey
+\[
+\nabla^c\nabla_a\mathsf A_{cb}=2\nabla_a\nabla_b\mathfrak a-9\mathsf A^2_{ab}-18\mathfrak a\mathsf A_{ab},\qquad
+\nabla^2\mathsf A_{ab}=3\nabla_a\nabla_b\mathfrak a-9\mathsf A^2_{ab}-18\mathfrak a\mathsf A_{ab}.
+\]
+Equation (T) at $O(t^2)$ then gives $\mathsf B$. For locally constant $\mathsf A$ the canonical
+photon momentum is conserved, so $e^{-I}=[n^Te^{\Delta\mathsf A}n]^{-1/2}$, which gives both
+$\Delta^2$ terms of \eqref{eq:curvature-full-map}. The $\ell=2$ part of $T_{abcd}n^an^bn^cn^d$, for
+symmetric $T$, is $\frac67[T_{abcc}]_{\rm TF}n^an^b$. This sends
+$\mathsf A_{nn}^2\to\frac47(\mathsf A^2)_{\rm TF}$ and, after the trace of the symmetrised second
+derivative, $(\nabla_n\nabla_n\mathsf A)_{nn}\to\frac67[\frac{11}6\nabla\nabla\mathfrak a
+-\frac92\mathsf A^2-9\mathfrak a\mathsf A]_{\rm TF}$. These fix every $L$, $E$ and $\Delta^2$ coefficient above.
+
+The $(\mathsf A^2)_{\rm TF}$ tensor drops out of the fourth-order spectrum after
 the Gaussian average: its interference terms are proportional to fourth-order contractions of
 a Gaussian Hessian with a trace-free gradient square, which vanish. So two time coefficients
 determine every $k_0^6$ term:
@@ -2020,7 +2040,7 @@ $-\frac{2\pi}{1913625}\sigma^4k_0^6\Delta\big(4095\iota^4+18601o^4-48480o^2e^2+6
 The observer-dilation part $\frac12\sigma^2D^2C^{(11)}_2$ is $18\sigma^2C^{(11)}_2$ at this order
 (against $8$ at leading order), that is $\frac{8\pi}{18225}\sigma^4k_0^6\Delta\cdot108\beta_H$.
 What remains after subtracting it is $\frac{8\pi}{18225}\sigma^4k_0^6\Delta(122\beta_H-13\beta_a)$.
-The derivation is in \path{report/curvature_and_adjoint_derivations.md}.
+A longer derivation is in \path{report/curvature_and_adjoint_derivations.md}.
 Four features of these results:
 \begin{itemize}
 \item \emph{Observer clock.} The initial event $\bar t_I$ first enters at this order, through
@@ -2150,7 +2170,7 @@ $O(1)$, the subhorizon form of the cancellation in the late-time proposition. Th
 they are not included in the displayed leading law. Supplementary comparisons are in
 App.~\ref{app:numerics}.
 
-\subsection{General spectra}
+\subsection{Infrared and ultraviolet behaviour of general spectra}
 
 \begin{remark}[Short-mode generation of superhorizon power]\label{rem:k3}
 At fixed finite time, a regular short-mode input cannot generate a dimensionless spectrum
@@ -2263,7 +2283,6 @@ and no caustics. No convergence in $\eps$ is asserted. The exact Gaussian averag
 leading-gradient maps do not justify exchanging the full nonlinear solution, an infinite
 amplitude series and an ensemble average.
 
-\clearpage
 \appendix
 \input{requirements_appendix.tex}
 \input{scalar_moment_appendix.tex}
@@ -2294,7 +2313,7 @@ analytically.
 \begin{longtable}{p{6.2cm}p{8.8cm}}
 \toprule
 Check & Script and scope\\\midrule\endhead
-Lemmas L1--L5; generic field equations & \path{solution/foundations/check_exact_lemmas.py}, \path{check_fw_conformal.py}, \path{check_exact_field_equations.py}, \path{check_field_equations_generic.py} (generic 2-jets)\\
+Fluid conservation, exact redshift, null-geodesic map (Lemmas~\ref{lem:frame}, \ref{lem:redshift}); generic field equations (Prop.~\ref{prop:fe}) & \path{solution/foundations/check_exact_lemmas.py}, \path{check_fw_conformal.py}, \path{check_exact_field_equations.py}, \path{check_field_equations_generic.py} (generic 2-jets)\\
 Gradient-expansion data \eqref{eq:grad} & \path{solution/foundations/check_initial_data_gradient.py} (exact in $\zeta$)\\
 Mixed trace-free form (T) & \code{solution/check\_evolution\_form.py} (generic 2-jets)\\
 First order, two gauges, all $\ell$ & \path{solution/foundations/check_first_order.py}; \code{solution/first\_order\_engine\_check.py}\\
@@ -2339,6 +2358,7 @@ Constraint rows (Props.~\ref{prop:compat}--\ref{prop:shell-acoustic}) & \path{so
 Observer-centred cubic at $\kappa^4$ (\eqref{eq:centred-kappa4}) & \path{solution/check_observer_centred_kappa4.py}: exact; leading cancellation asserted; uses the independent four-gradient quadratic hand map. \path{solution/check_observer_dilation_k6.py}: all four terms of \eqref{eq:obs-dilation} at $O(k_0^6)$, summing to the known complete coefficient\\
 Finite-wavelength cubic quadrupole (numerical validation) & \path{solution/numerics/compare_cubic_quadrupole.py}: independent forward map (fields from (N),(T) only, Fermi--Walker triad, geodesic, roots, clock, normalisation) against \eqref{eq:combined} for noncoplanar unequal, zero-pair and near-zero-pair triples, agreement $\le3\times10^{-9}$; $J_{111}$ formula, Hessian, constraint rows and dilation channel separately; frame and clock controls. \path{observer_centred.py}, \path{shell_c13.py}: observer-centred split and shell ratios (App.~\ref{app:numerics})\\
 Final manuscript regressions & \path{solution/check_report_final_review.py}: reads the printed degree-six cross and total formulas and compares them with the hand-map reference, including sign-flip controls; generic STF sky moments fix $w$ versus $W=w/(4\pi)$ and the normalization adjoint; differentiates both fixed-label clock conventions; checks both linear Bianchi identities on arbitrary off-shell fields; checks the report input graph and all labels/references.\\
+Printed formulas, independent code & \path{solution/check_printed_formulas.py}: coefficients retyped from this report and tested with a separate multilinear algebra sharing no code with the other modules. Exact: seed-curvature identities; the degree-six quadrupole from the three-tensor map; pair and contracted cubic sources against exact-in-$\zeta$ $t^2,t^4$ data; acoustic amplitude; Green polynomial; $V_2,V_3$. Numerical validation: Kohri--Terada amplitude, $T_\ell$ table values and node positions\\
 Normalisation; Wick and Fourier measures & \path{solution/foundations/normalization_expansion.py}; \path{solution/foundations/check_algebra.py}\\
 \bottomrule
 \end{longtable}
