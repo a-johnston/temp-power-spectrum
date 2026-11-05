@@ -31,7 +31,7 @@ Results are at leading order in amplitude, $O(\eps^2)$ in the fields and $O(\eps
 
 \textbf{Spatial curvature: yes.} Short-wavelength modes alone give the specified $\R$ a nonzero white-noise coefficient, $P_\R(K)\to\eps^4A_0(t)>0$, with no $1/K^2$ enhancement and no suppression by powers of $K$. The coefficient is explicit, Eqs.~\eqref{eq:F2-limit}--\eqref{eq:A0}. Its direction-dependent part is the projection of $S_{ij}$, and it grows as $\ln(qt)$ once the short modes are inside the horizon. The answer depends on the threading in the definition of $\R$: the conserved $\zeta$ has no response at all, to all orders.
 
-\textbf{Measured temperature: yes, but not as curvature.} The complete normalised map has a nonzero $K^0$ quadrupole. By Theorem~\ref{thm:Q}, $\Q=-\frac13[W]^{o}_{\star}+\Q^{\rm em}+B$ with $B$ bounded, so $\Q=-8\ln(t_o/t_\star)+\Q^{\rm em}+O(1)$: the sky sees the time \emph{difference} of the tensor in $\R$. White noise alone is not the signal, since a finite $K\to0$ limit is generic for observer-local quantities (Prop.~\ref{prop:local}). The direct emission term has zero mean but rms growing as $qt_\star$, so it dominates the power once $qt_\star\gg\ln(t_o/t_\star)$.
+\textbf{Measured temperature: yes, but not as curvature.} The complete normalised map has a nonzero $K^0$ quadrupole. By Theorem~\ref{thm:Q}, $\Q=-\frac13[W]^{o}_{\star}+\Q^{\rm em}+B$ with $B$ bounded, so $\Q=-8\ln(t_o/t_\star)+\Q^{\rm em}+O(1)$: the sky sees the time \emph{difference} of the tensor in $\R$. White noise alone is not the signal, since a finite $K\to0$ limit is generic for observer-local quantities (Prop.~\ref{prop:local}). For a broad band that averages over acoustic phases, the direct emission term has rms of order $qt_\star$, and it can dominate the power once this exceeds the logarithm.
 
 This is the first of the three outcomes: an explicit nonzero coefficient. Not established: the exchange of $K\to0$ with $\eps\to0$, and a complete $C_\ell$, which a white-noise $P(K)$ does not determine.
 
@@ -190,7 +190,7 @@ Insert \eqref{eq:J}. In the local terms the phases cancel: the $v^2$ terms cance
 where $\mathsf P_2$ projects onto the coefficient of $P_2(\mu)$ and $\mathsf P_0$ removes the sky mean.
 \begin{itemize}
 \item \emph{Generated:} $-\frac12\nh^i\nh^j[S_{ij}]_\star^o$, with $S=W\TF(\qh\qh)$.
-\item \emph{Emission surface:} $\Q^{\rm em}=-\frac23t_\star h'(t_\star)\nu_1(t_\star)\to2x_\star\sin2x_\star$ for $x_\star\gg1$. First-order displacement of the surface times the local shear: a direct short-mode term.
+\item \emph{Emission surface:} $\Q^{\rm em}=-\frac23t_\star h'(t_\star)\nu_1(t_\star)=2x_\star\sin2x_\star-4\sin^2x_\star+8(\cos x_\star-j_0)^2$. First-order displacement of the surface times the local shear: a direct short-mode term.
 \item \emph{Normalised products:} $\Q^{\rm prod}=\mathsf P_2\mathsf P_0(J_+J_-)$, with the sky means of $J_\pm$ subtracted. By \eqref{eq:J}, $|D_s|^2$ gives $\to2(\sin^2x_o+\sin^2x_\star)$ for large separation: the squared Doppler terms at both ends.
 \item \emph{Clock:} $\Q^{\rm clk}=-D\,\mathsf P_2(\partial_{t_o}J_++\partial_{t_o}J_-)$, with $D=[-t_I^2\nu_1(t_I)-\int_{t_I}^{t_o}t\nu_1\dd t]/t_o$.
 \item \emph{Remainder:} $\Q^{\rm rem}=-\mathsf P_2R$, with the nonlocal ray terms
@@ -219,7 +219,7 @@ For $\Q^{\rm rem}$ we need one lemma. For a polynomial $p$, $K_p(\tau)=\int_{-1}
 
 For \eqref{eq:late}, $W(x)=24\ln x+O(1)$ for $x\ge1$.
 \end{proof}
-The visible oscillation in the $O(1)$ is $4\sin^2x_o$: $2\sin^2x_o$ from the $\cos^2x$ in $W$ and $2\sin^2x_o$ from $\Q^{\rm prod}$, the second-order boost of the observer.
+The asymptotic statement concerns the perturbative coefficient: a nonzero response is obtained at large but finite $t_o$, choosing $\eps$ and $K$ small enough that $\eps q_{\max}t_o\ll1$ and $Kt_o\ll1$. The theorem fixes the logarithm, not every bounded oscillation. The generated and normalisation terms contribute $4\sin^2x_o$: $2\sin^2x_o$ from the $\cos^2x$ in $W$ and $2\sin^2x_o$ from $\Q^{\rm prod}$, the second-order boost of the observer. The numerics support this as the leading visible oscillation (Appendix~\ref{app:numerics}).
 
 \paragraph{Outside the horizon.} For $qt\ll1$ everything is local, and
 \begin{equation}
@@ -233,7 +233,7 @@ P_{Q_{ij}Q_{ij}}(K\to0)=\frac{3\eps^4}{8\pi^2}\int q^2\dd q\,P_{\zeta_1}^2(q)\,\
 \end{equation}
 The inequality holds for every nontrivial band, including subhorizon ones: by Prop.~\ref{prop:local}, $\Q$ is real analytic in $q$, the small-$q$ form above shows that it is not identically zero, and so it cannot vanish on an interval. This is white noise in the observer-label field of the measured quadrupole, not an angular spectrum; $C_2$ receives this region only with phase-space weight $\propto\int K^2\dd K$.
 
-The power depends on $\Q^2$, so the zero mean of the emission term gives no protection. By Theorem~\ref{thm:Q}, with $r=x_o/x_\star$ and $x_I^2\lesssim x_o$, the band average has $(8\ln r)^2$ from the generated term and $\langle(2x_\star\sin2x_\star)^2\rangle\simeq2x_\star^2$ from emission, up to bounded corrections. So the generated term dominates for $x_\star\ll\ln r$ and the emission term for $x_\star\gg\ln r$. Analyticity shows white noise in the total quadrupole; only the theorem identifies its generated part.
+The power depends on $\Q^2$, so an oscillating emission term still contributes. For a broad, smoothly weighted band that averages over acoustic phases, with $r=x_o/x_\star$ and $x_I^2\lesssim x_o$, the generated term contributes $(8\ln r)^2$ and emission $\simeq2x_\star^2$, up to cross terms and subleading corrections. So the generated term dominates for $x_\star\ll\ln r$, and the emission term can dominate for $x_\star\gg\ln r$. This is a phase-averaged estimate, not a statement for every band: a narrow band can sit near a zero of $\Q^{\rm em}$. Analyticity shows white noise in the total quadrupole for every band; only the theorem identifies its generated part.
 
 \paragraph{What is and is not curvature here.} A constant-in-time long $S_{ij}$ is a coordinate rescaling, invisible in $\Theta$, which sees only $\Delta S$. Removing that part does not make the connected spectrum vanish, because the stress makes $S_{ij}$ time dependent. The adiabatic expectation $\Theta_2\sim K^2t^2\R$ fails because this $\R$ arrives with an order-$K^0$ shear. $\R$ and $\Theta$ read the same tensor, via $\Kh\Kh$ and $\nh\nh$.
 
@@ -341,18 +341,18 @@ File & Purpose\\
 \path{plane_reduction.py}, \path{k0_fields.py} & reduced equations from the Ricci formula; closed-form proofs\\
 \path{check_chart_R.py} & off-shell scalar-curvature invariance of \eqref{eq:R2}\\
 \path{check_followup.py}, \path{check_k0_odes.py} & negative controls, tensor limit, stress, helicity, omission tests; the $K=0$ source equations\\
-\path{check_temperature_theorem.py} & identities \eqref{eq:ids}, $W=a+\frac12h^2$, printed $R$ against the map\\
+\path{check_temperature_theorem.py} & identities \eqref{eq:ids}, $W=a+\frac12h^2$, closed $\Q^{\rm em}$, printed $R$ against the map\\
 \path{map_k0.py} & complete $\Q$ and pieces, Table~\ref{tab:Q}\\
 \path{forward_plane.py}, \path{forward_log.py} & exact PDE and exact rays against $\Q$, including the logarithmic regime\\
 \path{forward_K.py}, \path{k_series.py} & the same at $K\ne0$; exact $t$-series of the $K$-channel initial data\\
 \path{finite_K.py} & finite-$K$ limit and $P_{22}(K)/A_0$\\
-\path{late_time.py}, \path{late_log_bound.py} & regression for \eqref{eq:late}; bound on a further logarithm\\
+\path{late_time.py}, \path{late_log_bound.py} & finite-range fits of the logarithm and the late-time oscillation\\
 \path{power_split.py}, \path{nonuniform.py} & Table~\ref{tab:power}; amplitude nonuniformity\\
 \bottomrule
 \end{tabular}
 \end{center}
 
-The forward solver takes $f'$ at nonzero wavenumber from the momentum constraint: evolving (T) directly excites the $-K^2/3$ scalar instability excluded by the constraints. At small $K$ the initial data must also be accurate in the $K$ channel, because (N) has the constraint-violating homogeneous solution $\nu\propto t^2$. With gradient data alone, an $O(x_s^4)$ error at the start time $x_s$ grew into a spurious $K\to0$ offset of about $-0.44$ at $(3,10)$. The series through $t^8$ removes it.
+The forward solver takes $f'$ at nonzero wavenumber from the momentum constraint: evolving (T) directly excites the $-K^2/3$ scalar instability excluded by the constraints.
 
 A stand-alone check of the decisive fields (\path{minimal_check.py}), which needs only SymPy and prints zero residuals:
 {\footnotesize

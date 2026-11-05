@@ -48,7 +48,14 @@ def part1():
     W = 24 * C + 6 * cc**2 - 54 + 48 * jj**2
     hh = 6 * (1 + cc - 2 * jj)
     assert sp.simplify(sp.expand(sp.expand_trig(W - a - hh**2 / 2))) == 0
-    print("PASS three total-derivative identities and W = a + h^2/2 (exact)")
+    # Q_em = -(2/3) t h'(t) nu_1(t) = 2x sin 2x - 4 sin^2 x + 8 (cos x - j0)^2
+    x_ = sp.Symbol("x", positive=True)
+    j_ = sp.sin(x_) / x_
+    h_ = 6 * (1 + sp.cos(x_) - 2 * j_)
+    em = -sp.Rational(2, 3) * x_ * sp.diff(h_, x_) * (sp.cos(x_) - j_)
+    em_printed = 2 * x_ * sp.sin(2 * x_) - 4 * sp.sin(x_) ** 2 + 8 * (sp.cos(x_) - j_) ** 2
+    assert sp.simplify(sp.expand(sp.expand_trig(em - em_printed))) == 0
+    print("PASS three total-derivative identities, W = a + h^2/2 and the closed Q_em (exact)")
 
 
 def phi_fields(t):
