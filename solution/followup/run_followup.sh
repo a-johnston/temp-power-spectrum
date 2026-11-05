@@ -6,6 +6,8 @@ PY="${PYTHON:-../../.venv/bin/python}"
 $PY -B minimal_check.py      # stand-alone closed-form substitution
 $PY -B k0_fields.py          # first-order and pair residuals, printed I(x), W(x), R1
 $PY -B k_series.py           # K-channel t-series against closed K=0 forms and gradient data
+$PY -B check_k0_odes.py      # K=0 source equations for n2 and a
+$PY -B check_temperature_theorem.py  # exact ray identities and the printed remainder against the map
 $PY -B check_followup.py     # negative controls, Kohri-Terada limit, stress, helicity, omission controls
 $PY -B check_chart_R.py      # off-shell chart invariance of R at generic momenta (~3 min)
 $PY -B forward_plane.py      # exact PDE and rays against the second-order kernel
