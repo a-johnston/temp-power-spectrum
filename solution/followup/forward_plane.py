@@ -25,9 +25,7 @@ class Evol:
         self.eps, self.N = eps, N
         self.y = 2 * np.pi * np.arange(N) / N
         self.kk = np.fft.rfftfreq(N, 1 / N)
-        self.zeta = 2 * eps * np.cos(self.y)
-        self.zy = -2 * eps * np.sin(self.y)
-        self.zyy = -2 * eps * np.cos(self.y)
+        self.seed()
         n = int(round((tend - tstart) / dt))
         self.dt = (tend - tstart) / n
         self.ts = tstart + self.dt * np.arange(n + 1)
@@ -40,6 +38,14 @@ class Evol:
             s = self.rk4(s, self.ts[i], self.dt)
             coef[i + 1] = self.coefs(s, self.ts[i + 1])
         self.c = coef
+
+    def seed(self):
+        self.zeta = 2 * self.eps * np.cos(self.y)
+        self.zy = -2 * self.eps * np.sin(self.y)
+        self.zyy = -2 * self.eps * np.cos(self.y)
+
+    def zeta_at(self, y):
+        return 2 * self.eps * np.cos(y), -2 * self.eps * np.sin(y)
 
     def dy(self, u):
         return np.fft.irfft(1j * self.kk * np.fft.rfft(u), self.N)
@@ -130,7 +136,7 @@ def geo_rhs(ev, t, st):
     vals, dv = ev.eval_fields(t, y)
     f, fp, nu, nup = vals.T
     fy, ny = dv[:, 0], dv[:, 2]
-    z, zy = 2 * ev.eps * np.cos(y), -2 * ev.eps * np.sin(y)
+    z, zy = ev.zeta_at(y)
     A, B = z + f / 3, z - f / 6
     At, Bt = fp / 3, -fp / 6
     Ay, By = zy + fy / 3, zy - fy / 6
@@ -189,7 +195,7 @@ def observe(ev, y0s, mus, tbar_e, tbar_I, tbar_o, step=0.04):
         w = np.sqrt(1 - mu**2)
         vals, _ = ev.eval_fields(to, y)
         f = vals[:, 0]
-        z = 2 * ev.eps * np.cos(y)
+        z = ev.zeta_at(y)[0]
         ey, ep = -np.exp(-(z + f / 3)) * mu, -np.exp(-(z - f / 6)) * w
         st = np.array([y, ey, ep, np.zeros(n_rays)])
         t = to

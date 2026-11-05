@@ -56,7 +56,8 @@ def _directions(mus, t, dt, to, h, hp):
 
     ray_integrand = 1j * (-1) * a["Xy"] * b["sig_nn"] + 1j * (+1) * b["Xy"] * a["sig_nn"] - H1p_nv(b, a) - H1p_nv(a, b)
     Iray = cum_from_right(ray_integrand, dt)[:, 0]
-    return a["I"], b["I"], Iray, a["sig_nn"][:, 0] * b["ph"][:, 0], b["sig_nn"][:, 0] * a["ph"][:, 0]
+    # copies: a [:, 0] view would keep the whole (chunk, nt+1) array alive until the chunks are concatenated
+    return a["I"].copy(), b["I"].copy(), Iray.copy(), a["sig_nn"][:, 0] * b["ph"][:, 0], b["sig_nn"][:, 0] * a["ph"][:, 0]
 
 
 def theta_pair(te, to, tI, nmu=None, nt=None, chunk=8):
