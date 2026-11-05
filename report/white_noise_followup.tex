@@ -24,25 +24,27 @@
 
 \section*{Verdict}
 
-\textbf{Spatial curvature.} Yes. Short-wavelength modes alone generate a finite white-noise term in the comoving curvature perturbation: $P_\R(K)\to\eps^4A_0(t)>0$. There is no $1/K^2$ enhancement and no suppression by powers of $K$. The coefficient is explicit, Eqs.~\eqref{eq:F2-limit}--\eqref{eq:A0}. Its direction-dependent part is a projection of the shear driven by the short modes' effective anisotropic stress, and it grows as $\ln(qt)$ once they are inside the horizon. The statement depends on the threading in the definition of $\R$: the conserved volume variable $\zeta$ has no response at all, to all orders.
+Two short sound waves of nearly equal wavelength beat against each other. Their stress is quadratic, so it has a slow component at the beat wavenumber $K$, however long that beat may be. This report asks what the slow component does. The answer is largely the story of one trace-free tensor built up by that stress, $S_{ij}\to W(x)\TF(\qh\qh)$. The volume variable $\zeta$ cannot see it, the curvature $\R$ reads it along $\Kh$, and the sky reads its change in time along $\nh$.
 
-\textbf{Measured temperature.} Yes, it survives, but not as curvature, and the white noise alone is not the signal. The full normalised map has a nonzero $K^0$ quadrupole, Eq.~\eqref{eq:Q2}. An exact nonlinear calculation agrees to better than $10^{-4}$ out to $(x_\star,x_o)=(5,160)$ at $K=0$, and converges to the same limit at $K\ne0$. A finite $K\to0$ limit is generic for any observer-local quantity (Prop.~\ref{prop:local}), so what distinguishes this result is the generated part: $-\tfrac12\nh^i\nh^j\Delta S_{ij}$, the time \emph{difference} of the tensor whose $\Kh\Kh$ projection appears in $\R$, growing as $-8\ln(t_o/t_\star)$. Direct short-mode terms of the same order (emission surface, observer boost, ray) add no logarithm within about $\pm0.1$; this is numerical, not proved. They still matter for the power: the generated term dominates $\Q^2$ for $qt_\star\lesssim10$, but above that the emission term, which has zero mean and rms growing as $qt_\star$, takes over (Table~\ref{tab:power}).
+\textbf{Spatial curvature: yes.} Short-wavelength modes alone give the comoving curvature perturbation a finite white-noise term, $P_\R(K)\to\eps^4A_0(t)>0$, with no $1/K^2$ enhancement and no suppression by powers of $K$. The coefficient is explicit, Eqs.~\eqref{eq:F2-limit}--\eqref{eq:A0}. Its direction-dependent part is the projection of $S_{ij}$, and it grows as $\ln(qt)$ once the short modes are inside the horizon. The answer depends on the threading in the definition of $\R$: the conserved $\zeta$ has no response at all, to all orders.
 
-This is outcome~1 of the question: an explicit nonzero coefficient. A white-noise $P(K)$ does not imply a flat $C_\ell$, and no $C_\ell$ is computed here.
+\textbf{Measured temperature: yes, but not as curvature, and the white noise alone is not the signal.} The full normalised map has a nonzero $K^0$ quadrupole, Eq.~\eqref{eq:Q2}. Yet a finite $K\to0$ limit is generic for any observer-local quantity (Prop.~\ref{prop:local}), so what distinguishes this result is the generated part: $-\tfrac12\nh^i\nh^j\Delta S_{ij}$, the time \emph{difference} of the tensor that appears in $\R$, growing as $-8\ln(t_o/t_\star)$. Direct short-mode terms of the same order (emission surface, observer boost, ray) add no logarithm within about $\pm0.1$; this is numerical, not proved. They still matter for the power: the generated term dominates $\Q^2$ for $qt_\star\lesssim10$, but above that the emission term, which has zero mean and rms growing as $qt_\star$, takes over (Table~\ref{tab:power}). An exact nonlinear calculation agrees with the map to better than $10^{-4}$ out to $(x_\star,x_o)=(5,160)$ at $K=0$, and converges to the same limit at $K\ne0$.
+
+Of the three possible outcomes, this is the first: an explicit nonzero coefficient. A white-noise $P(K)$ does not imply a flat $C_\ell$, and no $C_\ell$ is computed here.
 
 \section{Setup and the definition of \texorpdfstring{$\R$}{R}}
 
-I use the main report's conventions. For an irrotational radiation fluid, $Tu_\mu=-\mathcal T\partial_\mu t$ defines a potential $t$. In coordinates $(t,X^i)$, with $X^i$ comoving material labels,
+We use the main report's conventions, in which the fluid supplies its own coordinates. For an irrotational radiation fluid, $Tu_\mu=-\mathcal T\partial_\mu t$ defines a potential $t$, and the $X^i$ are comoving material labels. In these coordinates
 \begin{equation}
 g=N^2(-\dd t^2+\gamma_{ij}\dd X^i\dd X^j),\qquad N=a_1te^{\nu}=\mathcal T/T,\qquad\gamma=e^{2\zeta}e^{H},\quad\operatorname{tr}H=0 .
 \end{equation}
-The primordial state is the regular solution with $\zeta=\eps\zeta_1(X)$ exactly and $\zeta_1$ Gaussian, with $\gamma\to e^{2\zeta}\delta$ and $\nu,H\to0$ as $t\to0$. The spectrum is smooth with support in $q_{\min}<q<q_{\max}$.
+So $\zeta$ carries the volume of $\gamma$, $H$ its shape, and $\nu$ the local clock. The primordial state is the regular solution with $\zeta=\eps\zeta_1(X)$ exactly and $\zeta_1$ Gaussian, with $\gamma\to e^{2\zeta}\delta$ and $\nu,H\to0$ as $t\to0$. The spectrum is smooth with support in $q_{\min}<q<q_{\max}$.
 
-\paragraph{Definition.} \emph{Slicing:} level sets of $t$, the hypersurfaces orthogonal to $u$. \emph{Threading:} on each slice, the chart $x$ in which the induced metric takes the form
+\paragraph{What we mean by $\R$.} A curvature perturbation needs two choices. \emph{Slicing:} level sets of $t$, the hypersurfaces orthogonal to $u$. \emph{Threading:} on each slice, the chart $x$ in which the induced metric takes the form
 \begin{equation}\label{eq:defR}
 h_{ij}=a^2e^{2\R}(e^{\chi})_{ij},\qquad\operatorname{tr}\chi=0,\quad\partial_j\chi_{ij}=0,\qquad a=a_1t .
 \end{equation}
-\emph{Geometric meaning:} $\R$ is the conformal factor of the comoving slice in the chart where the unimodular part is transverse, so $\chi$ does not enter the scalar curvature linearly, and $a^2\,{}^{(3)}\!R=-4\nabla^2\R+8\R\nabla^2\R-2(\partial\R)^2+\dots$. It is a nonlocal functional of the 3-geometry; the chart exists perturbatively and is unique at nonzero wavenumber. With $X=x+\xi(x,t)$ and $J=\det\partial X/\partial x$, the determinant gives the exact relation
+\emph{Geometrically,} $\R$ is the conformal factor of the comoving slice in the chart where the unimodular part is transverse. That is what makes it a curvature: $\chi$ does not enter the scalar curvature linearly, and $a^2\,{}^{(3)}\!R=-4\nabla^2\R+8\R\nabla^2\R-2(\partial\R)^2+\dots$. The price is that $\R$ is a nonlocal functional of the 3-geometry; the chart exists perturbatively and is unique at nonzero wavenumber. With $X=x+\xi(x,t)$ and $J=\det\partial X/\partial x$, taking the determinant gives the exact relation
 \begin{equation}\label{eq:R-exact}
 \R(x,t)=\zeta(X)+\nu(X,t)+\tfrac13\ln J .
 \end{equation}
@@ -51,44 +53,44 @@ As $t\to0$, $\R=\zeta$ exactly. Through second order, with $\xi_1=\partial\beta_
 \R_2=\psi_2+\xi_1\!\cdot\!\partial\psi_1-\tfrac16\operatorname{tr}m^2-\tfrac14\Kh_i\Kh_jS_{ij},\qquad
 S=H_2+\xi_1\!\cdot\!\partial H_1-\TF m^2 .
 \end{equation}
-This form is verified off shell, for generic momenta and an arbitrary trace-free $H_2$, by matching the scalar curvature in the two charts (\texttt{check\_chart\_R.py}).
+Here our tensor makes its first appearance. This form is verified off shell, for generic momenta and an arbitrary trace-free $H_2$, by matching the scalar curvature in the two charts (\texttt{check\_chart\_R.py}).
 
 At first order, $x=qt/\sqrt3$, $\nu_1=\cos x-j_0(x)$, $j_0=\sin x/x$, and $H_1=h(x)\TF(\qh\qh)\zeta_1$ with $h=6(1+\cos x-2j_0)$. This gives $\R_1=j_0(x)\zeta_1$, which starts at $1$ and decays inside the horizon.
 
 \section{First route: the decisive calculation}
 
-For the seed $\zeta_1=A\cos(q\cdot x)+B\cos[(q-K)\cdot x]$, the output at $K$ is $(AB/2)\cos(K\cdot x)\,K_2$, where $K_2=2F_2$ is the coefficient of $z_1z_2$ for the pair $(q,K-q)$ with $z_1z_2=AB/4$.
+Take the seed $\zeta_1=A\cos(q\cdot x)+B\cos[(q-K)\cdot x]$. The output at $K$ is $(AB/2)\cos(K\cdot x)\,K_2$, where $K_2=2F_2$ is the coefficient of $z_1z_2$ for the pair $(q,K-q)$ with $z_1z_2=AB/4$.
 
-\paragraph{Why the limit is finite and direction dependent.} The trace-free equation has an entire Green function in the Cartesian components of $K$ (main report, ``Projector-free Cartesian solution''), so $H_2$ and $\nu_2$ are continuous at $K=0$. Hence $H_2\to a(x)\TF(\qh\qh)$ and $\nu_2\to n_2(x)$. But the projector in \eqref{eq:R2} remains: $\Kh\Kh\cdot\TF(\qh\qh)=\mu^2-\frac13$, with $\mu=\Kh\cdot\qh$. The direction is not averaged away, and the limit is not analytic in $K$.
+\paragraph{Why the limit is finite and direction dependent.} One observation does most of the work. The trace-free equation has an entire Green function in the Cartesian components of $K$ (main report, ``Projector-free Cartesian solution''), so $H_2$ and $\nu_2$ are continuous at $K=0$: $H_2\to a(x)\TF(\qh\qh)$ and $\nu_2\to n_2(x)$. No pole can arise from them. But the projector in \eqref{eq:R2} remains, and $\Kh\Kh\cdot\TF(\qh\qh)=\mu^2-\frac13$, with $\mu=\Kh\cdot\qh$. So the direction is not averaged away, and the limit is not analytic in $K$. A constant survives, and it remembers the angle between the beat and the waves.
 
-\paragraph{The $K=0$ pair fields in closed form.} With $\zeta$ along one axis the exact equations reduce to $1{+}1$ dimensions. The pair sources integrate by hand; all $\mathrm{Si}$ terms cancel:
+\paragraph{The $K=0$ pair fields in closed form.} All that remains is to evaluate two functions of time, and the limit makes this easy: with $\zeta$ along one axis the exact equations reduce to $1{+}1$ dimensions. The pair sources integrate by hand, and all $\mathrm{Si}$ terms cancel:
 \begin{align}
 n_2&=-\cos2x-6\cos x+6j_0+3\frac{\sin2x}{x}-5j_0^2,\\
 a&=-78-36\cos x-6\cos2x+72j_0+36\frac{\sin2x}{x}-24j_0^2+24\Cin(2x).
 \end{align}
-Substitution into (T), (N), (M) and (Ham) gives exact zeros, and mutated coefficients fail. Also $a=2x^2+O(x^4)$, $n_2=\frac53x^2+O(x^4)$, which match the exact gradient data. Assembling \eqref{eq:R2}, the terms linear in $\cos x$ cancel and
+Substitution into (T), (N), (M) and (Ham) gives exact zeros, and mutated coefficients fail. Also $a=2x^2+O(x^4)$, $n_2=\frac53x^2+O(x^4)$, which match the exact gradient data. Assembling \eqref{eq:R2}, the terms linear in $\cos x$ cancel and we arrive at the main result for the curvature:
 \begin{equation}\label{eq:F2-limit}
 \boxed{F_2^{\R}(q,K-q)\xrightarrow{K\to0}\tfrac12I(x)-\tfrac18\Big(\mu^2-\tfrac13\Big)W(x),\quad
 \begin{aligned}I&=4+\cos^2x-5j_0^2,\\ W&=24\Cin(2x)+6\cos^2x-54+48j_0^2.\end{aligned}}
 \end{equation}
-So the result is $K^0$: no pole and no vanishing constant. Writing $F_2\to\alpha+\beta P_2(\mu)$ with $\alpha=I/2$ and $\beta=-W/12$,
+So the response is $K^0$: no pole and no vanishing constant. Writing $F_2\to\alpha+\beta P_2(\mu)$ with $\alpha=I/2$ and $\beta=-W/12$,
 \begin{equation}
 \alpha=\frac{x^2}{3},\ \ \beta=-\frac{x^2}{6}\quad(x\ll1);\qquad
 \alpha\to2+\tfrac12\cos^2x,\ \ \beta\to-2\big[\ln2x+\gamma_E-\tfrac94+\tfrac14\cos^2x\big]\quad(x\gg1).
 \end{equation}
 This is valid for $K\ll q$ and $Kt\ll1$ at fixed $t$, including $qt\gg1$.
 
-\paragraph{The power spectrum.} The angular average of $P_2$ over $\qh$ vanishes, but that of $|F_2|^2$ does not. With $\langle P_2^2\rangle=\frac15$,
+\paragraph{The power spectrum.} One might fear that the $P_2$ part dies under the integral, since its average over $\qh$ vanishes. But power involves $|F_2|^2$, whose average does not. With $\langle P_2^2\rangle=\frac15$,
 \begin{equation}\label{eq:A0}
 \boxed{P_{22}(K\to0)=A_0(t)=\frac1{\pi^2}\int_0^\infty\!q^2\dd q\,P_{\zeta_1}^2(q)\Big[\alpha^2+\frac{\beta^2}5\Big]>0.}
 \end{equation}
-Early on, $A_0\to\frac{7t^4}{540\pi^2}\int q^6P^2\dd q$. Late, the bracket is dominated by $\frac45\ln^2(qt)$. The quantity $A_0$ is dimensional power: the dimensionless spectrum is $K^3A_0/2\pi^2$. Although the kernel is non-analytic in $\Kh$, the spectrum is isotropic, so $P_{22}$ is constant as $K\to0$. The exact kernels at finite $K$ converge to \eqref{eq:F2-limit} at all tested angles, including $|q_1|\ne|q_2|$. A direct quadrature for a smooth compact bump centred at $q_0$ with half-width $0.3q_0$ gives $P_{22}(K)/A_0=0.8589,\,0.9565,\,0.9867$ at $K/q_0=0.2,\,0.1,\,0.05$ for $q_0t/\sqrt3=1$, and $0.7685,\,0.9327,\,0.9782$ for $q_0t/\sqrt3=4$. These approach $1$; the deficit shrinks by a factor of about $3.3$ per halving of $K$, and I do not claim the exact power of the correction.
+Early on, $A_0\to\frac{7t^4}{540\pi^2}\int q^6P^2\dd q$. Late, the bracket is dominated by $\frac45\ln^2(qt)$. The quantity $A_0$ is dimensional power: the dimensionless spectrum is $K^3A_0/2\pi^2$. Although the kernel is non-analytic in $\Kh$, the spectrum is isotropic, so $P_{22}$ is constant as $K\to0$. The exact kernels at finite $K$ converge to \eqref{eq:F2-limit} at all tested angles, including $|q_1|\ne|q_2|$. A direct quadrature for a smooth compact bump centred at $q_0$ with half-width $0.3q_0$ gives $P_{22}(K)/A_0=0.8589,\,0.9565,\,0.9867$ at $K/q_0=0.2,\,0.1,\,0.05$ for $q_0t/\sqrt3=1$, and $0.7685,\,0.9327,\,0.9782$ for $q_0t/\sqrt3=4$. These approach $1$; the deficit shrinks by a factor of about $3.3$ per halving of $K$, and we do not claim the exact power of the correction.
 
-\paragraph{Why $P_{13}$ is absent.} $P_{13}(K)=2\operatorname{Re}\langle X_1(K)X_3^*(K)\rangle$, and $X_1(K)\propto\zeta_1(K)=0$ for $K<q_{\min}$, so it vanishes identically, as does $P_{12}$. This does not carry over to $C_\ell$: $a_{\ell m}^{(1)}$ projects band modes onto $\ell$ through Bessel functions at finite distance, so $C_\ell^{(13)}\ne0$ (main report).
+\paragraph{Why $P_{13}$ is absent.} This one is simple. $P_{13}(K)=2\operatorname{Re}\langle X_1(K)X_3^*(K)\rangle$, and $X_1(K)\propto\zeta_1(K)=0$ for $K<q_{\min}$, so it vanishes identically, as does $P_{12}$. This does not carry over to $C_\ell$: $a_{\ell m}^{(1)}$ projects band modes onto $\ell$ through Bessel functions at finite distance, so $C_\ell^{(13)}\ne0$ (main report).
 
-\paragraph{Mechanism.} The logarithm is the memory of the short modes' effective stress (derived in Section~\ref{sec:route2}). In the usual language $\dot\R\sim K^2\Pi_S$, the scalar stress potential obeys $\Pi_S\sim\Kh\Kh\Pi/K^2$, so the suppression factor $K^2$ cancels. A single fixed tensor has helicity power $1:2:2$ (scalar:vector:tensor) over directions $\Kh$. The scalar white noise is therefore the same phenomenon as the known $K^3$ tail of induced gravitational waves \cite{KohriTerada,CaiPiSasaki}. As an independent check, on the shell the $K\to0$ limit of the Kohri--Terada form in the main report satisfies $F_T\to a/2$, agreeing to $3\times10^{-11}$ for $x$ up to 15.
+\paragraph{Why the usual suppression fails.} The logarithm is the memory of the short modes' effective stress (derived in Section~\ref{sec:route2}). In the usual language $\dot\R\sim K^2\Pi_S$, which looks suppressed. But the scalar stress potential obeys $\Pi_S\sim\Kh\Kh\Pi/K^2$, so the factor $K^2$ cancels. Nor is this scalar piece on its own: a single fixed tensor has helicity power $1:2:2$ (scalar:vector:tensor) over directions $\Kh$. The scalar white noise is therefore the same phenomenon as the known $K^3$ tail of induced gravitational waves \cite{KohriTerada,CaiPiSasaki}. As an independent check, on the shell the $K\to0$ limit of the Kohri--Terada form in the main report satisfies $F_T\to a/2$, agreeing to $3\times10^{-11}$ for $x$ up to 15.
 
-\paragraph{Separation of contributions.}
+\paragraph{Where each contribution comes from.}
 \begin{center}
 \begin{tabular}{p{0.28\linewidth}p{0.63\linewidth}}
 \toprule
@@ -100,9 +102,11 @@ Evolution & $n_2$ (bounded, zero-mean oscillation at late times) and $-\frac14(\
 \end{tabular}
 \end{center}
 
-\paragraph{Threading sensitivity.} In material threading, the volume variable $\zeta+\nu$ has only $n_2$ at $K\to0$: isotropic, local, with no logarithm. The isotropic part $\alpha$ of \eqref{eq:F2-limit} can be removed by a local field redefinition. The $\Kh$-dependent part $\beta$ cannot, since it is non-analytic in $K$, but it does vanish under a change of threading. So $\R$ alone does not establish a physical signal; the shear in the next sections does.
+\paragraph{A caution about threading.} In material threading, the volume variable $\zeta+\nu$ has only $n_2$ at $K\to0$: isotropic, local, with no logarithm. The isotropic part $\alpha$ of \eqref{eq:F2-limit} can be removed by a local field redefinition. The $\Kh$-dependent part $\beta$ cannot, since it is non-analytic in $K$, but it does vanish under a change of threading. So $\R$ alone does not establish a physical signal. For that we need the shear, and the sky.
 
-\section{Second route: exact identities}\label{sec:route2}
+\section{Second route: what can be said exactly}\label{sec:route2}
+
+Before turning to the sky, we ask how much of this survives without expanding in $\eps$.
 
 \begin{proposition}[All orders, for smooth irrotational flow]\label{prop:exact}\
 \begin{enumerate}
@@ -121,19 +125,19 @@ The right side has a nonzero long-wavelength component made from short modes: th
 \end{enumerate}
 \end{proposition}
 
-\paragraph{What this proves.} Only (a) is a genuinely all-orders constraint on the response, and it concerns $\zeta$: it is a complete, stronger-than-any-power vanishing for the volume variable. Parts (c)--(e) locate the response without fixing it: (c) is algebra on the chart definition and (d) is equation (T), so the constant cannot be obtained from them alone. What they give is this. If $\mathcal S$ and $\mathcal C$ have bounded spectra at small $K$, \eqref{eq:all-orders} excludes a singular enhancement. It does \emph{not} exclude a constant; it identifies the constant as the spectrum of $\mathcal C$ plus the $\Kh\Kh$ projection of $\mathcal S$. Stronger suppression is false, because the $O(\eps^2)$ value of that constant is the nonzero \eqref{eq:F2-limit}, with $\mathcal S_2=W\TF(\qh\qh)$, the same $W$. The boundedness hypothesis is checked only for the leading $O(\eps^4)$ spectrum. It is not checked beyond that: (c) makes $\xi_K\sim1/K$ at second order, and this re-enters $\mathcal S$ at higher order. I expect the resulting convolutions to be finite but have not computed them. Parts (a), (b), (d), (e) are exact for any smooth solution; (c) also needs the transverse chart to exist. No gradient expansion of the short modes and no soft input is used.
+\paragraph{What this proves, and what it does not.} Only (a) is a genuinely all-orders constraint on the response, and it concerns $\zeta$: a complete vanishing, stronger than any power of $K$. The other parts locate the response without fixing it. Part (c) is algebra on the chart definition and (d) is equation (T), so the constant cannot be obtained from them alone. What they do give is this. If $\mathcal S$ and $\mathcal C$ have bounded spectra at small $K$, \eqref{eq:all-orders} excludes a singular enhancement. It does \emph{not} exclude a constant; it identifies the constant as the spectrum of $\mathcal C$ plus the $\Kh\Kh$ projection of $\mathcal S$. Stronger suppression is false, because the $O(\eps^2)$ value of that constant is the nonzero \eqref{eq:F2-limit}, with $\mathcal S_2=W\TF(\qh\qh)$, the same $W$. The boundedness hypothesis is checked only for the leading $O(\eps^4)$ spectrum. Beyond that, (c) makes $\xi_K\sim1/K$ at second order, and this re-enters $\mathcal S$ at higher order. We expect the resulting convolutions to be finite but have not computed them. Parts (a), (b), (d), (e) are exact for any smooth solution; (c) also needs the transverse chart to exist. No gradient expansion of the short modes and no soft input is used.
 
-\paragraph{An independent value for the logarithm.} The $K\to0$ mode of (d) needs only first-order fields as input. At $O(\eps^2)$ it reads $a''+2a'/t=-S_T$ (primes in $t$, $q=1$), with
+\paragraph{An independent value for the logarithm.} This route does earn one number on its own, and it is the most physical one. The $K\to0$ mode of (d) needs only first-order fields as input. At $O(\eps^2)$ it reads $a''+2a'/t=-S_T$ (primes in $t$, $q=1$), with
 \[
 S_T=-12\cos x-8\cos2x+\frac{24\sin2x}{x}-\frac{48\sin^2x}{x^2}+\frac{16}{x^2}-\frac{16\sin2x}{x^3}+\frac{16\sin^2x}{x^4},
 \]
-whose late-time mean is $-8/x^2$. Identifying $a''+2a'/t=(6/t^2)\Pi/\bar\rho$ gives $\Pi_{ij}/\bar\rho=4\TF(\qh\qh)$. This equals the acoustic stress $\frac43\bar\rho\langle v_iv_j\rangle$ with $v=\sqrt3\sin x\,\qh\,\zeta_1$, which is computed from the first-order sound wave alone, and it yields $a\simeq24\ln x$. So this route fixes the coefficient of the logarithm in $W$, and hence the $-8$ in $\Q$, independently of the closed forms. It does not fix the bounded terms.
+whose late-time mean is $-8/x^2$. Identifying $a''+2a'/t=(6/t^2)\Pi/\bar\rho$ gives $\Pi_{ij}/\bar\rho=4\TF(\qh\qh)$. This is simply the acoustic stress $\frac43\bar\rho\langle v_iv_j\rangle$ with $v=\sqrt3\sin x\,\qh\,\zeta_1$, computed from the first-order sound wave alone, and it yields $a\simeq24\ln x$: a factor $6$ from gravity and a factor $4$ from the sound. So the coefficient of the logarithm in $W$, and hence the $-8=-\frac13\cdot24$ in $\Q$, is fixed independently of the closed forms. The bounded terms are not.
 
 \paragraph{Order of limits and nonuniformity.} The calculation takes the $O(\eps^2)$ kernel first (so the $O(\eps^4)$ spectrum); then $K\to0$ at fixed $t$; then, optionally, $qt\to\infty$. The opposite order, $K\to0$ at fixed $\eps$ and then $\eps\to0$, would need higher-order spectra to stay bounded uniformly as $K\to0$. For $\Theta$ each order is finite (Prop.~\ref{prop:local}), though uniformity in $\eps$ is not shown. For $\R$ even that is the unchecked hypothesis above. So the exchange of $K\to0$ and $\eps\to0$ is an assumption. Two further nonuniformities matter. (i) Fixed $K$ with $t\to\infty$ leaves the regime $Kt\ll1$, and the logarithm then saturates into propagating modes, which this calculation does not treat. (ii) Fixed $\eps$ with $qt\to\infty$ fails through acoustic steepening; a simple-wave estimate gives $\eps x_s\approx\frac12$ for $\zeta=2\eps\cos qy$. Exact plane-symmetric evolution agrees: the $K=0$ average satisfies $\langle f\rangle/\eps^2-a\approx0.39$ ($\eps=0.01$, $x=10$), $3.39$ ($\eps=0.03$, $x=10$), scaling as $\eps^2$, and spectral steepening appears at $\eps x\approx0.3$--$0.4$. After a shock, (a) fails with entropy production. The results therefore need $\eps qt\ll1$.
 
 \section{The measured temperature}
 
-By Prop.~\ref{prop:exact}(e), $T_{\rm fluid}(o)$ cancels on normalisation and only shear can produce anisotropy; $\nu_2$ and $\alpha$ enter only at higher order or not at all. The observer is the fluid line at fixed label $X_o$, with fixed proper time after $T=T_I$, and $\Theta$ is the normalised map, with the dipole removed at the end. Fields are Fourier analysed in $X_o$, since the observer is a label. In the chart $x$ an extra bounded term $\xi_1\cdot\partial\Theta_1$ would appear.
+Now we ask the question in the form an observer can answer. Prop.~\ref{prop:exact}(e) simplifies matters at once: $T_{\rm fluid}(o)$ cancels on normalisation and only shear can produce anisotropy, so $\nu_2$ and $\alpha$ enter only at higher order or not at all. The observer is the fluid line at fixed label $X_o$, with fixed proper time after $T=T_I$, and $\Theta$ is the normalised map, with the dipole removed at the end. Fields are Fourier analysed in $X_o$, since the observer is a label. In the chart $x$ an extra bounded term $\xi_1\cdot\partial\Theta_1$ would appear.
 
 At $K\to0$ the second-order map becomes a function of $\nh\cdot\qh$ alone, even in $\nh$, with no dipole. For the seed,
 \begin{equation}
@@ -143,26 +147,26 @@ The quadrupole coefficient is exactly
 \begin{equation}\label{eq:Q2}
 \boxed{\Q=-\tfrac13\big[W\big]_{x_\star}^{x_o}+\Q^{\rm em}+\Q^{\rm prod}+\Q^{\rm clk}+\Q^{\rm rem},}
 \end{equation}
-where the pieces are defined as follows, with $\Q$ denoting the $P_2$ projection throughout.
+where each piece has a plain meaning, with $\Q$ denoting the $P_2$ projection throughout.
 \begin{itemize}
 \item \emph{Generated:} $-\frac12\nh^i\nh^j[S_{ij}]_\star^o$, with $S=W\TF(\qh\qh)$, the same tensor as in $\R$. This split is not unique: using $W$ rather than the evolved $a$ moves bounded threading terms out of the remainder, and $-\frac13[a]$ alone would carry a $\pm12$ oscillation. Only the coefficient of the logarithm is independent of the choice.
-\item \emph{Emission surface} (closed form): $\Q^{\rm em}=-\frac23t_\star h'(t_\star)\nu_1(t_\star)\to2x_\star\sin2x_\star$ for $x_\star\gg1$. It is the first-order displacement of the surface times the local shear, a direct short-mode term.
+\item \emph{Emission surface} (closed form): $\Q^{\rm em}=-\frac23t_\star h'(t_\star)\nu_1(t_\star)\to2x_\star\sin2x_\star$ for $x_\star\gg1$. The surface is displaced at first order and the local shear acts on that displacement, so this is a direct short-mode term.
 \item \emph{Normalised products} of first-order maps, $\mathsf P_0(J_aJ_b)$: for large separation, $\to2(\sin^2x_o+\sin^2x_\star)$, the squared Doppler terms at both ends.
 \item \emph{Clock:} $-D(\partial_oJ_a+\partial_oJ_b)$, with $D=[-t_I^2\nu_1(t_I)-\int_{t_I}^{t_o}t\nu_1\dd t]/t_o$.
 \item \emph{Remainder:} the ray deflection and direction terms $X_1\!\cdot\!\partial H_1'$, $H_1'(\nh,v_1)$, plus $\frac16[h^2]_\star^o$. These are double time integrals, given explicitly in \texttt{map\_k0.py}.
 \end{itemize}
 
-\paragraph{Leading coefficient.} For $qt\ll1$ everything is local, and
+\paragraph{Outside the horizon.} For $qt\ll1$ everything is local, and
 \begin{equation}
 \Q=-\tfrac29q^2(t_o^2-t_\star^2)+O(q^4t^4),
 \end{equation}
 which is the $z_1z_2$ part of the local quadrupole $-\frac16\Delta(t^2)\,e^{-2\zeta}\TF[\partial\partial\zeta-\partial\zeta\partial\zeta]_{nn}$. It is a nonzero $K^0$ response, not suppressed relative to $K^2$ the way a linear long adiabatic mode is.
 
-\paragraph{Short modes inside the horizon.} Table~\ref{tab:Q} gives the evaluated pieces with $t_I=t_\star/2$. The large $\cos x_o$ oscillation in $a$ is absent once the same combination $W$ is used. For $x_o\gg x_\star\gg 1$,
+\paragraph{Inside the horizon.} Table~\ref{tab:Q} gives the evaluated pieces with $t_I=t_\star/2$. The large $\cos x_o$ oscillation in $a$ is absent once the same combination $W$ is used. For $x_o\gg x_\star\gg 1$,
 \begin{equation}\label{eq:late}
 \Q\simeq-8\ln\frac{x_o}{x_\star}+4\sin^2x_o+2x_\star\sin2x_\star+O(1).
 \end{equation}
-The coefficient $-8$ of the generated term is exact. The claim that the other terms add no logarithm is numerical. Fitting $\Q+\frac13[W]-\Q^{\rm em}$ over log-spaced $x_o\in(30,1000)$ gives a logarithm coefficient of $-0.03\pm0.02$, $0.00\pm0.12$, $+0.09\pm0.11$ for $x_\star=2,5,8$ (bootstrap standard deviations of the fit), at most about $2\%$ of the generated $-8$. A regression of $\Q$ itself gives a $\cos2x_o$ coefficient near the predicted $-2$, the observer's second-order boost. This agrees with the physical argument that subhorizon potentials decay as $x^{-2}$, so ray rectification has no $1/t$ rate, and with the fact that first-order $\sigma_{nn}\propto\mu^2-\frac13$ vanishes on the sound-cone resonance $\mu^2=\frac13$. Neither is a proof.
+Three things are visible here: the stress memory, the observer's boost and the emission surface. The coefficient $-8$ of the generated term is exact. The claim that the other terms add no logarithm is numerical. Fitting $\Q+\frac13[W]-\Q^{\rm em}$ over log-spaced $x_o\in(30,1000)$ gives a logarithm coefficient of $-0.03\pm0.02$, $0.00\pm0.12$, $+0.09\pm0.11$ for $x_\star=2,5,8$ (bootstrap standard deviations of the fit), at most about $2\%$ of the generated $-8$. A regression of $\Q$ itself gives a $\cos2x_o$ coefficient near the predicted $-2$, the observer's second-order boost. We would expect this: subhorizon potentials decay as $x^{-2}$, so ray rectification has no $1/t$ rate, and first-order $\sigma_{nn}\propto\mu^2-\frac13$ vanishes on the sound-cone resonance $\mu^2=\frac13$. Neither observation is a proof.
 
 \begin{table}[t]
 \centering
@@ -183,24 +187,26 @@ $x_\star$ & $x_o$ & $\Q$ & $-\frac13[W]$ & rem & em & prod & clk\\
 \caption{The $K\to0$ quadrupole coefficient in \eqref{eq:Q2}, $t_I=t_\star/2$. Printed values are evaluated from the closed fields and the report's map, by quadrature.}\label{tab:Q}
 \end{table}
 
-\paragraph{Independent test of the observable.} I solved the exact plane-symmetric Einstein--radiation system with $\zeta=2\eps\cos qy$, integrated exact null rays with physical emission roots, the proper-time clock and the exact sky normalisation, and averaged over observer labels. This uses no perturbative map formula. Richardson extrapolation in $\eps$ reproduces $\Q$ with differences $3\times10^{-8}$ to $5\times10^{-6}$ for seven time pairs up to $(x_\star,x_o)=(5,20)$, and at most $8\times10^{-5}$ in the logarithmic regime, for $(5,40),(2,40),(5,80),(2,80),(5,160)$. Omitting any single piece of the map is detected.
+\paragraph{Testing it without the map.} A formula this intricate deserves a test that does not use it. We solved the exact plane-symmetric Einstein--radiation system with $\zeta=2\eps\cos qy$, integrated exact null rays with physical emission roots, the proper-time clock and the exact sky normalisation, and averaged over observer labels. No perturbative map formula enters. Richardson extrapolation in $\eps$ reproduces $\Q$ with differences $3\times10^{-8}$ to $5\times10^{-6}$ for seven time pairs up to $(x_\star,x_o)=(5,20)$, and at most $8\times10^{-5}$ in the logarithmic regime, for $(5,40),(2,40),(5,80),(2,80),(5,160)$. Omitting any single piece of the map is detected.
 
-The same solver also tests $K\ne0$ directly, with $\zeta=2\eps[\cos(ny)+\cos((n-1)y)]$ in units $K=1$. This is the pair of the brief with $\qh\parallel\Kh$, and $K\ne0$ is read from the observer-label harmonic $\cos y_0$. With times set by the mean $q$, the difference $\Q(K)-\Q$ falls as $K^2$ (Table~\ref{tab:K}). So the $K\to0$ limit of the $K\ne0$ channel is the $K=0$ value, as continuity requires. Other angles between $\qh$ and $\Kh$ are not tested forward. The limit does not depend on $\Kh$ because $\Theta$ has no projector, but this rests on Prop.~\ref{prop:local}.
+The same solver also tests $K\ne0$ directly, with $\zeta=2\eps[\cos(ny)+\cos((n-1)y)]$ in units $K=1$. This is our seed with $\qh\parallel\Kh$, and the $K$ channel is read from the observer-label harmonic $\cos y_0$. With times set by the mean $q$, the difference $\Q(K)-\Q$ falls as $K^2$ (Table~\ref{tab:K}). So the $K\to0$ limit of the $K\ne0$ channel is the $K=0$ value, as continuity requires. Other angles between $\qh$ and $\Kh$ are not tested forward. The limit does not depend on $\Kh$ because $\Theta$ has no projector, but this rests on Prop.~\ref{prop:local}.
 
-\paragraph{Spatial spectrum of the temperature.} Writing the $\ell=2$ part as $Q_{ij}\nh^i\nh^j$,
+\paragraph{The spatial spectrum of the temperature.} Writing the $\ell=2$ part as $Q_{ij}\nh^i\nh^j$,
 \begin{equation}
 P_{Q_{ij}Q_{ij}}(K\to0)=\frac{3\eps^4}{8\pi^2}\int q^2\dd q\,P_{\zeta_1}^2(q)\,\Q^2(qt_\star,qt_o,qt_I)>0.
 \end{equation}
-This is white noise in the observer-label field of the measured quadrupole. It is not an angular spectrum. It says that quadrupoles measured by distant observers have a $K^0$ spectrum, and $C_2$ receives this region only with phase-space weight $\propto\int K^2\dd K$.
+This is white noise in the observer-label field of the measured quadrupole, not an angular spectrum. It says that quadrupoles measured by distant observers have a $K^0$ spectrum, and $C_2$ receives this region only with phase-space weight $\propto\int K^2\dd K$.
+
+How impressed should we be by that constant? Not very, on its own, for the following reason.
 
 \begin{proposition}[Locality fixes the form, not the coefficient]\label{prop:local}
 Order by order in $\eps$, for compact spectra, the kernels of $\nu_r$, $H_r$ and $\Theta$ are entire in the Cartesian momenta, and $\Theta(\nh,X_o)$ depends only on the past light cone of the observer. Hence every $P_\Theta^{(r,s)}(K)$ is continuous at $K=0$: there is no pole, and a constant is the generic outcome.
 \end{proposition}
 \noindent\emph{Sketch.} First-order kernels are entire in $q$, since $h$ is even with $h(0)=0$. The induction of the main report's Cartesian proposition extends this to $\nu_r,H_r$. The map consists of finite time integrals of these with phases $e^{ik\cdot\nh\lambda}$, plus polynomial root, clock and normalisation terms. Wick contractions then integrate over compact sets. This does not apply to $\R$, which has the $\Kh\Kh$ projector and $\xi$.
 
-So a $K^0$ spectrum in $\Theta$ does not by itself show a generated long mode. The squared Doppler term has one too. The content is in the coefficient. Since $P_{QQ}$ depends on $\Q^2$, the zero mean of the emission term gives no protection: this is the same point as $\langle F_2\rangle$ against $\langle|F_2|^2\rangle$. The generated term dominates at moderate $x_\star$ or large $x_o/x_\star$, and the direct emission term dominates once $x_\star\gg\ln(x_o/x_\star)$. At $x_o/x_\star=4$ the emission share of $\langle\Q^2\rangle$ is $0.42$ at $x_\star=5$ and $0.96$ at $x_\star=20$, while the generated share falls from $1.06$ to $0.14$ (Table~\ref{tab:power}).
+So a $K^0$ spectrum in $\Theta$ does not by itself show a generated long mode; the squared Doppler term has one too. The content is in the coefficient. Since $P_{QQ}$ depends on $\Q^2$, the zero mean of the emission term gives no protection: this is the same point as $\langle F_2\rangle$ against $\langle|F_2|^2\rangle$. The generated term dominates at moderate $x_\star$ or large $x_o/x_\star$, and the direct emission term dominates once $x_\star\gg\ln(x_o/x_\star)$. At $x_o/x_\star=4$ the emission share of $\langle\Q^2\rangle$ is $0.42$ at $x_\star=5$ and $0.96$ at $x_\star=20$, while the generated share falls from $1.06$ to $0.14$ (Table~\ref{tab:power}).
 
-\paragraph{What is and is not curvature here.} A constant-in-time long $S_{ij}$ is a coordinate rescaling and is invisible in $\Theta$, which sees only $\Delta S$. That removal of the exactly homogeneous, time-independent part does not make the connected spectrum vanish, because the stress makes $S_{ij}$ time dependent. The adiabatic expectation $\Theta_2\sim K^2t^2\R$ fails because this $\R$ is not an adiabatic long mode: it arrives with an order-$K^0$ shear. Both $\R$ and $\Theta$ read the same tensor, via $\Kh\Kh$ and $\nh\nh$ respectively.
+\paragraph{What is and is not curvature here.} We can now close the circle. A constant-in-time long $S_{ij}$ is a coordinate rescaling and is invisible in $\Theta$, which sees only $\Delta S$. That removal of the exactly homogeneous, time-independent part does not make the connected spectrum vanish, because the stress makes $S_{ij}$ time dependent. The adiabatic expectation $\Theta_2\sim K^2t^2\R$ fails because this $\R$ is not an adiabatic long mode: it arrives with an order-$K^0$ shear. In the end $\R$ and $\Theta$ read the same tensor, via $\Kh\Kh$ and $\nh\nh$ respectively.
 
 \appendix
 \section{Supporting tables}
@@ -251,9 +257,9 @@ $\Q(K)\to\Q$ at $K\ne0$, $\qh\parallel\Kh$ & Forward test; $K^2$ convergence\\
 Finite $K\to0$ limit of $\Theta$ at each order (Prop.~\ref{prop:local}) & Proof sketch; forward check at second order\\
 Absence of further logarithms in $\Q$; form \eqref{eq:late} & Numerical bound, $\lesssim2\%$ of the coefficient; no proof\\
 Exchange of $K\to0$ and $\eps\to0$; bounded $\R$ spectrum beyond $O(\eps^4)$ & Assumed, not shown\\
-Long-time behaviour beyond $\eps qt\ll1$; shocks & Not resolved; outside the brief's smooth finite-time setup\\
+Long-time behaviour beyond $\eps qt\ll1$; shocks & Not resolved; outside the smooth finite-time setup of the question\\
 Forward test with $\qh$ at a generic angle to $\Kh$ & Not performed (needs 3+1 evolution); $\R$ kernels at generic angle are checked by the Green solution\\
-Complete $C_\ell$ from this white noise; superhorizon-to-subhorizon entry of the output & Not computed; the brief does not require them\\
+Complete $C_\ell$ from this white noise; superhorizon-to-subhorizon entry of the output & Not computed; the question does not require them\\
 \bottomrule
 \end{tabular}
 \end{center}
