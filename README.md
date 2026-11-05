@@ -18,6 +18,10 @@ for the nonlinear physics follow **Limits → Next-gradient quadrupole and gener
 **Reduced representation of the complete cubic response**. Detailed adjoints, alternative moment
 representations, verification scopes and numerical observations are in the appendices.
 
+**Follow-up: short-mode white noise.** The author's follow-up question is answered separately in
+[`report/white_noise_followup.pdf`](report/white_noise_followup.pdf), with its code in
+`solution/followup/` (`run_followup.sh`).
+
 Revision status and research follow-ups are in [`report/HANDOFF.md`](report/HANDOFF.md). The report's
 explicit convention `J = <w Θ> = ∫W Θ dΩ`, `W = w/(4π)`, supersedes implicit weight switches in
 older working notes.

@@ -45,7 +45,7 @@ extra-paths = ["solution", "solution/foundations", "solution/numerics"]
 # signature. In the symbolic modules these rules report only those false positives. The numerics
 # (solution/numerics/) keep the full rule set.
 [[tool.ty.overrides]]
-include = ["solution/*.py", "solution/foundations/*.py"]
+include = ["solution/*.py", "solution/foundations/*.py", "solution/followup/*.py"]
 
 [tool.ty.overrides.rules]
 call-non-callable = "ignore"
